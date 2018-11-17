@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="0" name="ru.servers.gameServer.Rectangle2dTest" time="0.014" errors="0" skipped="0">
+<testsuite tests="6" failures="0" name="ru.servers.gameServer.math.algebra.vectors.VectorsTest" time="0" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2018.1.4"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="E:\Programms\JDK\jre\bin"/>
     <property name="java.vm.version" value="25.171-b11"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
-    <property name="maven.multiModuleProjectDirectory" value="C:\Users\Vova\Desktop\RacingWorld\ServerSide"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\Vova\Desktop\RacingWorld\ServerSide\gameServer"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="path.separator" value=";"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -17,7 +17,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="C:\Users\Vova\Desktop\RacingWorld\ServerSide"/>
+    <property name="user.dir" value="C:\Users\Vova\Desktop\RacingWorld\ServerSide\gameServer"/>
     <property name="java.runtime.version" value="1.8.0_171-b11"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
     <property name="java.endorsed.dirs" value="E:\Programms\JDK\jre\lib\endorsed"/>
@@ -62,9 +62,10 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="ru.servers.gameServer.Rectangle2dTest" name="gettingPerimeterOfRectangle" time="0.009"/>
-  <testcase classname="ru.servers.gameServer.Rectangle2dTest" name="gettingAreaOfRectangle" time="0.001"/>
-  <testcase classname="ru.servers.gameServer.Rectangle2dTest" name="gettingWidthOfRectangle" time="0.001"/>
-  <testcase classname="ru.servers.gameServer.Rectangle2dTest" name="gettingDiagonalLengthOfRectangle" time="0.003"/>
-  <testcase classname="ru.servers.gameServer.Rectangle2dTest" name="gettingLengthOfRectangle" time="0"/>
+  <testcase classname="ru.servers.gameServer.math.algebra.vectors.VectorsTest" name="scalarMultiplicationOfVectors2d" time="0"/>
+  <testcase classname="ru.servers.gameServer.math.algebra.vectors.VectorsTest" name="scalarMultiplicationOfVectors3d" time="0"/>
+  <testcase classname="ru.servers.gameServer.math.algebra.vectors.VectorsTest" name="equalityOfVectors2d" time="0"/>
+  <testcase classname="ru.servers.gameServer.math.algebra.vectors.VectorsTest" name="equalityOfVectors3d" time="0"/>
+  <testcase classname="ru.servers.gameServer.math.algebra.vectors.VectorsTest" name="gettingAngleBetweenVectors2d" time="0"/>
+  <testcase classname="ru.servers.gameServer.math.algebra.vectors.VectorsTest" name="gettingAngleBetweenVectors3d" time="0"/>
 </testsuite>

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: ru.servers.gameServer.Rectangle2dTest
+Test set: ru.servers.gameServer.logic.components.HealthTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.222 sec
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.122 sec

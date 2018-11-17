@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.servers.gameServer;
+package ru.servers.gameServer.network;
 
 import java.io.IOException;
 

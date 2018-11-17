@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: ru.servers.gameServer.Rectangle2dTest
+Test set: ru.servers.gameServer.math.algebra.vectors.Vector2dTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.222 sec
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec

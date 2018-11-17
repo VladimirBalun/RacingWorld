@@ -1,7 +1,6 @@
 package ru.servers.gameServer.network;
 
 import lombok.extern.log4j.Log4j;
-import ru.servers.gameServer.Server;
 
 import java.io.IOException;
 import java.io.InputStream;

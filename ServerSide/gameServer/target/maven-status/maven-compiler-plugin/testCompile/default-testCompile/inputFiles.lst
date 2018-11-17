@@ -1,2 +1,7 @@
-C:\Users\Vova\Desktop\RacingWorld\ServerSide\gameServer\src\test\java\ru\servers\gameServer\Vector2dTest.java
-C:\Users\Vova\Desktop\RacingWorld\ServerSide\gameServer\src\test\java\ru\servers\gameServer\Rectangle2dTest.java
+C:\Users\Vova\Desktop\RacingWorld\ServerSide\gameServer\src\test\java\ru\servers\gameServer\math\algebra\vectors\VectorsTest.java
+C:\Users\Vova\Desktop\RacingWorld\ServerSide\gameServer\src\test\java\ru\servers\gameServer\math\geometry\Rectangle2dTest.java
+C:\Users\Vova\Desktop\RacingWorld\ServerSide\gameServer\src\test\java\ru\servers\gameServer\math\algebra\vectors\Vector3dTest.java
+C:\Users\Vova\Desktop\RacingWorld\ServerSide\gameServer\src\test\java\ru\servers\gameServer\math\algebra\matrices\Matrix4x4dTest.java
+C:\Users\Vova\Desktop\RacingWorld\ServerSide\gameServer\src\test\java\ru\servers\gameServer\physic\MassTest.java
+C:\Users\Vova\Desktop\RacingWorld\ServerSide\gameServer\src\test\java\ru\servers\gameServer\math\algebra\vectors\Vector2dTest.java
+C:\Users\Vova\Desktop\RacingWorld\ServerSide\gameServer\src\test\java\ru\servers\gameServer\logic\components\HealthTest.java

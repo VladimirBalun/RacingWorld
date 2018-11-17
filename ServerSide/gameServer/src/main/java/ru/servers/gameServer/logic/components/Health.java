@@ -16,14 +16,17 @@
 
 package ru.servers.gameServer.logic.components;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class Health implements Component {
 
-    private short hp;
+    private int hp;
 
-    private final short MIN_COUNT_HEALTH = 0;
-    private final short MAX_COUNT_HEALTH = 100;
+    public final int MIN_COUNT_HEALTH = 0;
+    public final int MAX_COUNT_HEALTH = 100;
 
-    public Health(short countHealth){
+    public Health(int countHealth){
         if (countHealth > MAX_COUNT_HEALTH) {
             this.hp = MAX_COUNT_HEALTH;
         }
@@ -32,7 +35,7 @@ public class Health implements Component {
         }
     }
 
-    public void setHP(short newCountHealth) {
+    public void setHP(int newCountHealth) {
         if (newCountHealth > MAX_COUNT_HEALTH) {
             this.hp = MAX_COUNT_HEALTH;
         }
@@ -41,7 +44,7 @@ public class Health implements Component {
         }
     }
 
-    public short getHP() {
+    public int getHP() {
         return this.hp;
     }
 
