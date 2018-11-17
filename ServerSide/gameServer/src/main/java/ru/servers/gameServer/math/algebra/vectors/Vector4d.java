@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.servers.gameServer.math.algebra;
+package ru.servers.gameServer.math.algebra.vectors;
 
 import lombok.*;
 
@@ -24,34 +24,57 @@ import lombok.*;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vector2d {
+public class Vector4d {
 
     private double x;
     private double y;
+    private double z;
+    private double w;
 
-    public void add(Vector2d anotherVector){
+    public void add(Vector4d anotherVector){
         this.x += anotherVector.x;
         this.y += anotherVector.y;
+        this.z += anotherVector.z;
+        this.w += anotherVector.w;
     }
 
-    public void sub(Vector2d anotherVector){
+    public void sub(Vector4d anotherVector){
         this.x -= anotherVector.x;
         this.y -= anotherVector.y;
+        this.z -= anotherVector.z;
+        this.w += anotherVector.w;
     }
 
-    public void mulOnScalar(double scalar){
+    public void mul(double scalar){
         this.x *= scalar;
         this.y *= scalar;
+        this.z *= scalar;
+        this.w *= scalar;
     }
 
     public double getLength(){
-        return Math.sqrt((x*x) + (y*y));
+        return Math.sqrt((x*x) + (y*y) + (z*z));
     }
 
     public void normalize(){
-        double lengthInversion = (1 / getLength());
-        this.x *= lengthInversion;
-        this.y *= lengthInversion;
+        double length =  this.getLength();
+        if (length != 0) {
+            this.x /= length;
+            this.y /= length;
+            this.z /= length;
+        }
+    }
+
+    public Vector2d toVector2d(){
+        return new Vector2d(this.x, this.y);
+    }
+
+    public Vector3d toVector3d(){
+        return new Vector3d(this.x, this.y, this.z);
+    }
+
+    public double[] toArray(){
+        return new double[] { this.x, this.y, this.z, this.w };
     }
 
 }

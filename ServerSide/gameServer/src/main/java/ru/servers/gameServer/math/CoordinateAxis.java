@@ -16,13 +16,8 @@
 
 package ru.servers.gameServer.math;
 
-public class Constants {
-
-    public final static double RADIANS_PER_DEGREE = 0.0174532925199432957692369076848;
-    public final static double DEGREES_PER_RADIAN = 57.295779513082320876798154814105;
-
-    public final static short DEGREES_PER_CIRCLE = 360;
-    public final static short DEGREES_PER_SQUARE = 360;
-    public final static short DEGREES_PER_TRIANGLE = 180;
-
+public enum CoordinateAxis {
+    X_AXIS,
+    Y_AXIS,
+    Z_AXIS
 }

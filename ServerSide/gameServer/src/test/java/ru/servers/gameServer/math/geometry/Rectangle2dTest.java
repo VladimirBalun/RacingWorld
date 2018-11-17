@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package ru.servers.gameServer;
+package ru.servers.gameServer.math.geometry;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.servers.gameServer.math.algebra.Vector2d;
-import ru.servers.gameServer.math.geometry.Rectangle2d;
+import ru.servers.gameServer.math.algebra.vectors.Vector2d;
 
 public class Rectangle2dTest {
 
@@ -30,33 +29,28 @@ public class Rectangle2dTest {
             new Vector2d(5.0, 0.0)  // (0;0)      (5;0)
     );
 
-    @Test
+    @Test  // a * b
     public void gettingAreaOfRectangle(){
-        // a*b
         Assert.assertEquals(25.0, rectangle.getArea(), 0.1);
     }
 
-    @Test
+    @Test // 2 * (a*b)
     public void gettingPerimeterOfRectangle(){
-        // 2(a*b)
         Assert.assertEquals(20.0, rectangle.getPerimeter(), 0.1);
     }
 
-    @Test
+    @Test // Sqrt(a*b + a*b)
     public void gettingDiagonalLengthOfRectangle(){
-        // Sqrt(a*b + a*b)
         Assert.assertEquals(7.0, rectangle.getDiagonalLength(), 0.9);
     }
 
-    @Test
+    @Test // Sqrt(((a-b)^2) + ((a-b)^2))
     public void gettingLengthOfRectangle(){
-        // Sqrt(((a-b)^2) + ((a-b)^2))
         Assert.assertEquals(5.0, rectangle.getLength(), 0.1);
     }
 
-    @Test
+    @Test // Sqrt(((a-b)^2) + ((a-b)^2))
     public void gettingWidthOfRectangle(){
-        // Sqrt(((a-b)^2) + ((a-b)^2))
         Assert.assertEquals(5.0, rectangle.getWidth(), 0.1);
     }
 

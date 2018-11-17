@@ -17,7 +17,7 @@
 package ru.servers.gameServer.math.geometry;
 
 import lombok.*;
-import ru.servers.gameServer.math.algebra.Vector2d;
+import ru.servers.gameServer.math.algebra.vectors.Vector2d;
 
 @Getter
 @Setter
@@ -27,10 +27,10 @@ import ru.servers.gameServer.math.algebra.Vector2d;
 @AllArgsConstructor
 public class Rectangle2d {
 
-    private Vector2d leftBottomPoint;
-    private Vector2d leftTopPoint;
-    private Vector2d rightTopPoint;
-    private Vector2d rightBottomPoint;
+    private Vector2d leftBottomVertex;
+    private Vector2d leftTopVertex;
+    private Vector2d rightTopVertex;
+    private Vector2d rightBottomVertex;
 
     public double getArea(){
         double length = getLength();
@@ -43,8 +43,8 @@ public class Rectangle2d {
     }
 
     public double getLength(){
-        double firstDifference = getLengthBetweenPoints(leftTopPoint, rightTopPoint);
-        double secondDifference = getLengthBetweenPoints(leftTopPoint, leftBottomPoint);
+        double firstDifference = getLengthBetweenPoints(leftTopVertex, rightTopVertex);
+        double secondDifference = getLengthBetweenPoints(leftTopVertex, leftBottomVertex);
         return firstDifference > secondDifference ? firstDifference : secondDifference;
     }
 
@@ -53,8 +53,8 @@ public class Rectangle2d {
     }
 
     public double getWidth(){
-        double firstDifference = getLengthBetweenPoints(leftTopPoint, rightTopPoint);
-        double secondDifference = getLengthBetweenPoints(leftTopPoint, leftBottomPoint);
+        double firstDifference = getLengthBetweenPoints(leftTopVertex, rightTopVertex);
+        double secondDifference = getLengthBetweenPoints(leftTopVertex, leftBottomVertex);
         return firstDifference < secondDifference ? firstDifference : secondDifference;
     }
 
@@ -62,6 +62,15 @@ public class Rectangle2d {
         double absDifferenceX = Math.abs(first.getX() - second.getX());
         double absDifferenceY = Math.abs(first.getY() - second.getY());
         return Math.sqrt(Math.abs(absDifferenceX*absDifferenceX - absDifferenceY*absDifferenceY));
+    }
+
+    public Vector2d[] toVectorsArray(){
+        return new Vector2d[] {
+                this.leftBottomVertex,
+                this.leftTopVertex,
+                this.rightTopVertex,
+                this.rightBottomVertex
+        };
     }
 
 }
