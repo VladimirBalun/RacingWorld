@@ -46,7 +46,7 @@ void Memory::PoolAllocator::free(void* pointer) noexcept
 void Memory::PoolAllocator::reset() noexcept
 {
     _used = _peak = 0;
-    std::size_t countBlocks = _totalSize / _blockSize;
+    const std::size_t countBlocks = _totalSize / _blockSize;
     for (std::size_t i = 0; i < countBlocks; i++) 
     {
         std::size_t address = reinterpret_cast<std::size_t>(_head_pointer) + i * _blockSize;
@@ -57,4 +57,5 @@ void Memory::PoolAllocator::reset() noexcept
 Memory::PoolAllocator::~PoolAllocator()
 {
     free(_head_pointer);
+    _head_pointer = nullptr;
 }

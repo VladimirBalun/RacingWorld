@@ -16,27 +16,24 @@
 
 #pragma once
 
-#include "Stack.hpp"
+#include "Utils.hpp"
 #include "Allocator.hpp"
 
 namespace Memory {
 
     // CRTP
-    class PoolAllocator : public Allocator<PoolAllocator> 
+    class LinearAllocator : public Allocator<LinearAllocator>
     {
-        struct FreeHeader {};
-        typedef Stack<FreeHeader>::Node Node;
     public:
-        PoolAllocator(const PoolAllocator& other) = delete;
-        explicit PoolAllocator(std::size_t totalSize, std::size_t blockSize);
-        void* allocate(std::size_t size, std::size_t alignment = 0) noexcept;
+        LinearAllocator(const LinearAllocator& other) = delete;
+        explicit LinearAllocator(std::size_t totalSize);
+        void* allocate(std::size_t size, std::size_t alignment) noexcept;
         void free(void* pointer) noexcept;
         void reset() noexcept;
-        ~PoolAllocator();
+        ~LinearAllocator();
     private:
-        std::size_t _blockSize = 0;
+        std::size_t _offset = 0;
         void* _head_pointer = nullptr;
-        Stack<FreeHeader> _stack;
     };
 
 }

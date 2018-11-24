@@ -16,6 +16,11 @@
 
 #pragma once
 
+#include <cstdlib>
+#include <cassert>
+#include <iostream>
+#include <algorithm>
+
 namespace Memory {
 
     // CRTP
@@ -25,9 +30,9 @@ namespace Memory {
     public:
         Allocator(const Allocator& other) = delete;
         explicit Allocator(std::size_t totalSize) : _totalSize(totalSize) {}
-        void* allocate(std::size_t size, std::size_t alignment);
-        void free(void* pointer);
-        void reset();
+        void* allocate(std::size_t size, std::size_t alignment) noexcept;
+        void free(void* pointer) noexcept;
+        void reset() noexcept;
     protected:
         std::size_t _used = 0;
         std::size_t _peak = 0;
@@ -35,19 +40,19 @@ namespace Memory {
     };
 
     template <class Type>
-    void* Allocator<Type>::allocate(std::size_t size, std::size_t alignment)
+    void* Allocator<Type>::allocate(std::size_t size, std::size_t alignment) noexcept
     {
         return static_cast<Type*>(this)->allocateImpl(size, alignment);
     }
 
     template <class Type>
-    void Allocator<Type>::free(void* pointer)
+    void Allocator<Type>::free(void* pointer) noexcept
     {
         static_cast<Type*>(this)->freeImpl(pointer);
     }
 
     template <class Type>
-    void Allocator<Type>::reset()
+    void Allocator<Type>::reset() noexcept
     {
         static_cast<Type*>(this)->resetImpl();
     }
