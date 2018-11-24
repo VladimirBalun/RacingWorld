@@ -16,90 +16,126 @@
 
 #include "WindowEventListener.h"
 
-LRESULT CALLBACK Platforms::WindowSystem::on_window_event(HWND window_handle, UINT window_event, WPARAM w_param, LPARAM l_param) noexcept
+Platforms::WindowSystem::WindowEventListener& Platforms::WindowSystem::WindowEventListener::getInstance()
 {
-    switch (window_event)
+    static WindowEventListener windowEventListener;
+    return windowEventListener;
+}
+
+Platforms::KeyboardState& Platforms::WindowSystem::WindowEventListener::getKeyboardState() noexcept
+{
+    return _keyboardState;
+}
+
+Platforms::MouseState& Platforms::WindowSystem::WindowEventListener::getMouseState() noexcept
+{
+    return _mouseState;
+}
+
+ LRESULT CALLBACK Platforms::WindowSystem::WindowEventListener::onWindowEvent(HWND windowHandle, UINT windowEvent, WPARAM wParam, LPARAM lParam) noexcept
+ {
+     return getInstance().handleWindowEvent(windowHandle, windowEvent, wParam, lParam);
+ }
+
+LRESULT CALLBACK Platforms::WindowSystem::WindowEventListener::handleWindowEvent(HWND windowHandle, UINT windowEvent, WPARAM wParam, LPARAM lParam) noexcept
+{
+    switch (windowEvent)
     {
     case WM_KEYDOWN:
-        on_keyboard_key_down_event(w_param);
+        onKeyboardKeyDownEvent(wParam);
         break;
     case WM_KEYUP:
-        on_keyboard_key_up_event(w_param);
+        onKeyboardKeyUpEvent(wParam);
         break;
     case WM_MOUSEMOVE:
-        on_mouse_move_event(l_param);
+        onMouseMoveEvent(lParam);
         break;
     case WM_LBUTTONDOWN:
-        on_mouse_left_btn_click_event(l_param);
+        onMouseLeftBtnDownEvent(lParam);
         break;
     case WM_RBUTTONDOWN:
-        on_mouse_right_btn_click_event(l_param);
+        onMouseRightBtnDownEvent(lParam);
+        break;
+    case WM_LBUTTONUP:
+        onMouseLeftBtnUpEvent(lParam);
+        break;
+    case WM_RBUTTONUP:
+        onMouseRightBtnUpEvent(lParam);
         break;
     case WM_CLOSE:
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
     default:
-        return DefWindowProc(window_handle, window_event, w_param, l_param);
+        return DefWindowProc(windowHandle, windowEvent, wParam, lParam);
     }
 
     return 0;
 }
 
-VOID Platforms::WindowSystem::on_keyboard_key_down_event(WPARAM w_param) noexcept
+VOID Platforms::WindowSystem::WindowEventListener::onKeyboardKeyDownEvent(WPARAM wParam) noexcept
 {
-    switch (w_param)
+    switch (wParam)
     {
     case VK_ESCAPE:
         PostQuitMessage(0);
         break;
-    case VK_SPACE:
-        break;
     case VK_W:
+        _keyboardState.pressKeyW();
         break;
     case VK_S:
+        _keyboardState.pressKeyS();
         break;
     case VK_A:
+        _keyboardState.pressKeyA();
         break;
     case VK_D:
+        _keyboardState.pressKeyD();
         break;
     }
 }
 
-VOID Platforms::WindowSystem::on_keyboard_key_up_event(WPARAM w_param) noexcept
+VOID Platforms::WindowSystem::WindowEventListener::onKeyboardKeyUpEvent(WPARAM wParam) noexcept
 {
-    switch (w_param)
+    switch (wParam)
     {
-    case VK_ESCAPE:
-        PostQuitMessage(0);
-        break;
-    case VK_SPACE:
-        break;
     case VK_W:
+        _keyboardState.releaseKeyW();
         break;
     case VK_S:
+        _keyboardState.releaseKeyS();
         break;
     case VK_A:
+        _keyboardState.releaseKeyA();
         break;
     case VK_D:
+        _keyboardState.releaseKeyD();
         break;
     }
 }
 
-VOID Platforms::WindowSystem::on_mouse_move_event(LPARAM l_param) noexcept
+VOID Platforms::WindowSystem::WindowEventListener::onMouseMoveEvent(LPARAM lParam) noexcept
 {
-    INT x_pos = LOWORD(l_param);
-    INT y_pos = HIWORD(l_param);
+    const INT x_pos = LOWORD(lParam);
+    const INT y_pos = HIWORD(lParam);
 }
 
-VOID Platforms::WindowSystem::on_mouse_left_btn_click_event(LPARAM l_param) noexcept
+VOID Platforms::WindowSystem::WindowEventListener::onMouseLeftBtnDownEvent(LPARAM lParam) noexcept
 {
-    INT x_pos = LOWORD(l_param);
-    INT y_pos = HIWORD(l_param);
+    _mouseState.pressLeftButton();
 }
 
-VOID Platforms::WindowSystem::on_mouse_right_btn_click_event(LPARAM l_param) noexcept
+VOID Platforms::WindowSystem::WindowEventListener::onMouseRightBtnDownEvent(LPARAM lParam) noexcept
 {
-    INT x_pos = LOWORD(l_param);
-    INT y_pos = HIWORD(l_param);
+    _mouseState.pressRightButton();
+}
+
+VOID Platforms::WindowSystem::WindowEventListener::onMouseLeftBtnUpEvent(LPARAM lParam) noexcept
+{
+    _mouseState.releaseLeftButton();
+}
+
+VOID Platforms::WindowSystem::WindowEventListener::onMouseRightBtnUpEvent(LPARAM lParam) noexcept
+{
+    _mouseState.releaseRightButton();
 }

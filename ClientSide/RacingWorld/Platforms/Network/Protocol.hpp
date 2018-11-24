@@ -18,35 +18,54 @@
 
 #include <cstdint>
 
+#include "../MouseState.h"
+#include "../KeyboardState.h"
+
 namespace Platforms { namespace Network {
 
-enum PacketType 
-{
-    PLAYER_LOCATION_PACKET
-};
+    enum PacketType 
+    {
+        PLAYER_STATE_PACKET,
+        PLAYER_LOCATION_PACKET
+    };
 
-#pragma pack(0)
-struct NetworkPacket 
-{
-    std::int8_t type;
-    std::int32_t number;
+    #pragma pack(1)
+    struct NetworkPacket 
+    {
+        const std::int8_t type;
+        const std::int32_t number;
+        static constexpr std::uint8_t SIZE_BASE_PACKET = sizeof(type) + sizeof(number);
 
-    NetworkPacket() = default;
-    NetworkPacket(std::int32_t number, std::int8_t type)
-        : number(number), type(type) {}
-};
+        NetworkPacket() = default;
+        NetworkPacket(std::int32_t number, std::int8_t type)
+            : number(number), type(type) {}
+    };
 
-#pragma pack(0)
-struct PlayerLocationPacket : public NetworkPacket 
-{
-    double x_pos, y_pos, z_pos; // position
-    double x_dir, y_dir, z_dir; // direction
-    static constexpr int SIZE_PACKET = sizeof(type) + sizeof(number) +
-        sizeof(x_pos) + sizeof(y_pos) + sizeof(z_pos) + sizeof(x_dir) + sizeof(y_dir) + sizeof(z_dir);
+    #pragma pack(1)
+    struct PlayerStatePacket : public NetworkPacket
+    {
+        const MouseState mouseState;
+        const KeyboardState keyboardState;
+        static constexpr std::uint8_t SIZE_PLAYER_STATE_PACKET = SIZE_BASE_PACKET 
+            + sizeof(mouseState) + sizeof(keyboardState);
 
-    PlayerLocationPacket() = default;
-    PlayerLocationPacket(std::int32_t number, double x_pos, double y_pos, double z_pos, double x_dir, double y_dir, double z_dir)
-        : NetworkPacket(number, PLAYER_LOCATION_PACKET), x_pos(x_pos), y_pos(y_pos), z_pos(z_pos), x_dir(x_dir), y_dir(y_dir), z_dir(z_dir) {}
-};
+        PlayerStatePacket() = default;
+        PlayerStatePacket(std::int32_t number, const MouseState& mouseState, const KeyboardState& keyboardState)
+            : NetworkPacket(number, PLAYER_LOCATION_PACKET), mouseState(mouseState), keyboardState(keyboardState) {}
+    };
+
+
+    #pragma pack(1)
+    struct PlayerLocationPacket : public NetworkPacket 
+    {
+        const float direction;
+        const float x_pos, y_pos, z_pos;
+        static constexpr std::uint8_t SIZE_PLAYER_LOCATION_PACKET = SIZE_BASE_PACKET +
+            sizeof(x_pos) + sizeof(y_pos) + sizeof(z_pos) + sizeof(direction);
+
+        PlayerLocationPacket() = default;
+        PlayerLocationPacket(std::int32_t number, float x_pos, float y_pos, float z_pos, float direction)
+            : NetworkPacket(number, PLAYER_LOCATION_PACKET), x_pos(x_pos), y_pos(y_pos), z_pos(z_pos), direction(direction) {}
+    };
 
 } }

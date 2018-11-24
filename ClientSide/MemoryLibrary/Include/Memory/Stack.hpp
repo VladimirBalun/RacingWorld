@@ -24,7 +24,7 @@ namespace Memory {
     public:
         struct Node
         {
-            Type  data;
+            Type data;
             Node* next;
         };
 

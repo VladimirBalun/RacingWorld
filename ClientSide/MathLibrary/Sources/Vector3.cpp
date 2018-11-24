@@ -25,7 +25,7 @@ size_t Math::Vector3<Type>::getLength() const noexcept
 template <class Type>
 void Math::Vector3<Type>::normalize() noexcept
 {
-    size_t length = getLength();
+    const size_t length = getLength();
     if (length != 0)
     {
         x /= length;

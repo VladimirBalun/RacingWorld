@@ -16,7 +16,10 @@
 
 #pragma once
 
+#include <string>
+
 #include "GameWorld.h"
+#include "../Utils/Ping.hpp"
 
 namespace Graphics {
 
@@ -24,11 +27,12 @@ namespace Graphics {
     {
     public:
         explicit Scene(HDC& windowContext, GLint sceneWidth, GLint sceneHeight)
-            : _windowContext(windowContext), _sceneWidth(sceneWidth), _sceneHeight(sceneHeight) {}
+            : _ping(Ping::getInstance()), _windowContext(windowContext), _sceneWidth(sceneWidth), _sceneHeight(sceneHeight) {}
         GLvoid initScene();
         GLvoid renderScene();
         GLvoid updateScene();
     private:
+        Ping& _ping;
         HDC& _windowContext;
         GLint _sceneWidth;
         GLint _sceneHeight;

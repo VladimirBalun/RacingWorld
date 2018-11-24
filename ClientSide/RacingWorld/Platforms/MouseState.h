@@ -16,16 +16,20 @@
 
 #pragma once
 
-#include <Windows.h>
-#include <gl/GL.h>
-#include <gl/GLU.h>
+namespace Platforms {
 
-namespace Graphics {
-
-    struct IDrawable 
+    class MouseState 
     {
-        virtual GLvoid draw() const noexcept = 0;
-        virtual ~IDrawable() = default;
+    public:
+        void pressLeftButton() noexcept;
+        void releaseLeftButton() noexcept;
+        void pressRightButton() noexcept;
+        void releaseRightButton() noexcept;
+        bool isPressedLeftButton() const noexcept;
+        bool isPressedRightButton() const noexcept;
+    private:
+        bool _isPressedLeftButton;
+        bool _isPressedRightButton;
     };
 
 }

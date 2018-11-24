@@ -20,8 +20,8 @@ Graphics::ShaderProgram::ShaderProgram(const std::string& vShaderFileName, const
 {
     const char* vShaderSourceCode = read_file(vShaderFileName).c_str();
     const char* fShaderSourceCode = read_file(fShaderFileName).c_str();
-    GLuint vertexShader = compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
-    GLuint fragmantShader = compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
+    const GLuint vertexShader = compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
+    const GLuint fragmantShader = compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
     linkShaders(vertexShader, fragmantShader);
     glDeleteShader(vertexShader);
     glDeleteShader(fragmantShader);
@@ -30,7 +30,7 @@ Graphics::ShaderProgram::ShaderProgram(const std::string& vShaderFileName, const
 GLuint Graphics::ShaderProgram::compileShader(const char* shaderSourceCode, GLint shaderType)
 {
     GLint isCompiledShader;
-    GLuint shader = glCreateShader(shaderType);
+    const GLuint shader = glCreateShader(shaderType);
     glShaderSource(shader, 1, &shaderSourceCode, NULL);
     glCompileShader(shader);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiledShader);

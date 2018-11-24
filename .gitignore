@@ -1,5 +1,5 @@
-./ServerSide/.idea/*
+ServerSide/.idea/*
 
-./ClientSide/Build/*
-./ClientSide/Bin/*
-./ClientSide/Libs/*
+ClientSide/Build/*
+ClientSide/Bin/*
+ClientSide/Libs/*

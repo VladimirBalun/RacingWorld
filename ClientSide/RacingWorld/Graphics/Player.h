@@ -14,44 +14,23 @@
  * limitations under the License.
  */
 
-#include "Camera.h"
+#pragma once
 
-void Graphics::Camera::moveForward(GLfloat length)
-{
+#include <Math/Vector3.h>
 
-}
+#include "OpenGL4.h"
+#include "../Platforms/KeyboardState.h"
 
-void Graphics::Camera::moveBack(GLfloat length)
-{
+namespace Graphics {
 
-}
-
-void Graphics::Camera::moveLeft(GLfloat length)
-{
-
-}
-
-void Graphics::Camera::moveRight(GLfloat length)
-{
-
-}
-
-void Graphics::Camera::turnUp(GLfloat angle)
-{
-
-}
-
-void Graphics::Camera::turnDown(GLfloat angle)
-{
-
-}
-
-void Graphics::Camera::turnLeft(GLfloat angle)
-{
-
-}
-
-void Graphics::Camera::turnRight(GLfloat angle)
-{
+    struct Player 
+    {
+        GLfloat direction;
+        Math::Vector3<GLfloat> position;
+    
+        Player() = default;
+        Player(Math::Vector3<GLfloat>&& position, GLfloat direction)
+            : position(position), direction(direction) {}
+    };
 
 }

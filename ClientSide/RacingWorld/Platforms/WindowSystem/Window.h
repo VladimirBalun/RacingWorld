@@ -16,8 +16,8 @@
 
 #pragma once
 
-#include "../../Graphics/OpenGL4.h"
 #include "WindowEventListener.h"
+#include "../../Graphics/OpenGL4.h"
 #include "../../Graphics/Scene.h"
 #include "../../Utils/Logger.hpp"
 
@@ -39,7 +39,7 @@ namespace Platforms { namespace WindowSystem {
         HGLRC _openGLContext;
         HINSTANCE& _appInstance;
         WNDCLASSEX _windowClass;
-        LPCSTR _windowClassName = "RacingWorld";
+        LPCSTR _windowClassName;
     };
 
 } }

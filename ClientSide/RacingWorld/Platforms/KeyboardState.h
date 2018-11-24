@@ -16,29 +16,28 @@
 
 #pragma once
 
-#include <Windows.h>
-#include <gl/GL.h>
-#include <gl/GLU.h>
+namespace Platforms {
 
-namespace Graphics {
-
-    // Singleton
-    class Camera
+    class KeyboardState
     {
     public:
-        explicit Camera() = default;
-
-        GLvoid moveForward(GLfloat length);
-        GLvoid moveBack(GLfloat length);
-        GLvoid moveLeft(GLfloat length);
-        GLvoid moveRight(GLfloat length);
-
-        GLvoid turnUp(GLfloat angle);
-        GLvoid turnDown(GLfloat angle);
-        GLvoid turnLeft(GLfloat angle);
-        GLvoid turnRight(GLfloat angle);
+        void pressKeyW() noexcept;
+        void releaseKeyW() noexcept;
+        void pressKeyS() noexcept;
+        void releaseKeyS() noexcept;
+        void pressKeyA() noexcept;
+        void releaseKeyA() noexcept;
+        void pressKeyD() noexcept;
+        void releaseKeyD() noexcept;
+        bool isPressedKeyW() const noexcept;
+        bool isPressedKeyS() const noexcept;
+        bool isPressedKeyA() const noexcept;
+        bool isPressedKeyD() const noexcept;
     private:
-        static Camera* camera;
+        bool _isPressedKeyW;
+        bool _isPressedKeyS;
+        bool _isPressedKeyA;
+        bool _isPressedKeyD;
     };
 
 }

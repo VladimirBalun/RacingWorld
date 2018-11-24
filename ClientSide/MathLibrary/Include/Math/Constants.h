@@ -18,7 +18,7 @@
 
 #include <cstdint>
 
-namespace Engine { namespace Math {
+namespace Math {
 
     const double RADIANS_PER_DEGREE = 0.0174532925199432957692369076848;
     const double DEGREES_PER_RADIAN = 57.295779513082320876798154814105;
@@ -27,4 +27,4 @@ namespace Engine { namespace Math {
     const std::uint8_t DEGREES_PER_SQUARE = 360;
     const std::uint8_t DEGREES_PER_TRIANGLE = 180;
 
-} }
+}

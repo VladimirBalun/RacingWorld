@@ -17,14 +17,13 @@
 #pragma once
 
 #include "Sky.h"
-#include "IDrawable.h"
 
 namespace Graphics {
 
-    class GameWorld : public IDrawable
+    class GameWorld 
     {
     public:
-        GLvoid draw() const noexcept override;
+        GLvoid draw() const noexcept;
     private:
         Sky sky;
     };

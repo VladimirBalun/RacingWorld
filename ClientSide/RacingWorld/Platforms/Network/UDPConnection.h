@@ -19,22 +19,26 @@
 #include <array>
 #include <string>
 #include <Winsock2.h>
+#include <WS2tcpip.h>
 
+#include "Protocol.hpp"
 #include "NetworkException.h"
+#include "../../Utils/Ping.hpp"
 #include "../../Utils/Logger.hpp"
 
 namespace Platforms { namespace Network {
 
-class UDPConnection 
-{
-public:
-    explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port);
-    VOID sendBuffer(const std::array<CHAR, 512>& buffer) noexcept;
-    VOID receiveBuffer(std::array<CHAR, 512>& buffer) noexcept;
-    ~UDPConnection();
-private:
-    INT _socketHandle;
-    struct sockaddr_in _socketAddress;
-};
+    class UDPConnection 
+    {
+    public:
+        explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port);
+        VOID sendBuffer(const std::array<CHAR, 512>& buffer) noexcept;
+        VOID receiveBuffer(std::array<CHAR, 512>& buffer) noexcept;
+        ~UDPConnection();
+    private:
+        Ping& _ping;
+        INT _socketHandle;
+        struct sockaddr_in _socketAddress;
+    };
 
 } }

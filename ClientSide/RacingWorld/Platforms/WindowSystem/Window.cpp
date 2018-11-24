@@ -17,13 +17,13 @@
 #include "Window.h"
 
 Platforms::WindowSystem::Window::Window(HINSTANCE& instance, INT cmdShow) 
-    : _appInstance(instance), _cmdShow(cmdShow)
+    : _appInstance(instance), _cmdShow(cmdShow), _windowClassName("RacingWorld")
 {
     memset(&_windowEvent, 0, sizeof(_windowEvent));
     _windowClass.lpszClassName = _windowClassName;
     _windowClass.cbSize = sizeof(WNDCLASSEX);
     _windowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    _windowClass.lpfnWndProc = on_window_event;
+    _windowClass.lpfnWndProc = &WindowEventListener::onWindowEvent;
     _windowClass.hInstance = _appInstance;
     _windowClass.hIcon = NULL;
     _windowClass.hIconSm = NULL;
