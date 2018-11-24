@@ -16,18 +16,3 @@
 
 #pragma once
 
-#include <string>
-
-namespace Exceptions {
-
-    class NetworkException 
-    {
-    public:
-        explicit NetworkException() = default;
-        explicit NetworkException(std::string message) : _message(std::move(message)) {}
-        virtual std::string getMessage() { return _message; }
-    private:
-        std::string _message;
-    };
-
-}

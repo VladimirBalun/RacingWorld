@@ -16,14 +16,14 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-project (MathLibrary)
+project (MemoryLibrary)
 
 file (GLOB_RECURSE SOURCES "./Sources/*.cpp")
 file (GLOB_RECURSE HEADERS "./Include/*.h" "./Include/*.hpp") # temp
 
 set (CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 add_library (${PROJECT_NAME} SHARED ${SOURCES} ${HEADERS}) # headers here is temp
-target_include_directories (${PROJECT_NAME} PRIVATE ./Include/Math)
+target_include_directories (${PROJECT_NAME} PRIVATE ./Include/Memory)
 set_target_properties (${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ../../Bin)
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ../../Bin)

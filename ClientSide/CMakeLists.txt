@@ -26,4 +26,5 @@ set (MATH_LIBRARY_DIR ./MathLibrary)
 set (RACING_WORLD_DIR ./RacingWorld)
 
 add_subdirectory (MathLibrary)
+add_subdirectory (MemoryLibrary)
 add_subdirectory (RacingWorld)
