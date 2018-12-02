@@ -34,7 +34,7 @@ GLuint Graphics::ShaderProgram::compileShader(const char* shaderSourceCode, GLin
     glShaderSource(shader, 1, &shaderSourceCode, NULL);
     glCompileShader(shader);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiledShader);
-    
+
     if (!isCompiledShader)
     {
         GLchar errorLog[512];

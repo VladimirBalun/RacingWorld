@@ -18,11 +18,14 @@ cmake_minimum_required (VERSION 3.8)
 
 project (MathLibrary)
 
-file (GLOB_RECURSE SOURCES "./Sources/*.cpp")
-file (GLOB_RECURSE HEADERS "./Include/*.h" "./Include/*.hpp") # temp
+file (GLOB_RECURSE SOURCES "Sources/*.cpp")
+file (GLOB_RECURSE HEADERS "Include/*.h" "Include/*.hpp") 
+
+source_group ("Headers" FILES ${HEADERS})
+source_group ("Sources" FILES ${SOURCES})
 
 set (CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-add_library (${PROJECT_NAME} SHARED ${SOURCES} ${HEADERS}) # headers here is temp
+add_library (${PROJECT_NAME} SHARED ${SOURCES})
 target_include_directories (${PROJECT_NAME} PRIVATE ./Include/Math)
 set_target_properties (${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ../../Bin)
@@ -31,3 +34,4 @@ set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEA
 set_target_properties (${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ../../Libs)
 set_target_properties (${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG ../../Libs)
 set_target_properties (${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE ../../Libs)
+set_target_properties (${PROJECT_NAME} PROPERTIES FOLDER "Libraries")

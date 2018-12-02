@@ -37,3 +37,5 @@ target_include_directories (${PROJECT_NAME} PRIVATE ../MathLibrary/Include ../Me
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ../../Bin)
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ../../Bin)
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE ../../Bin)
+set_target_properties (${PROJECT_NAME} PROPERTIES FOLDER "Game")
+add_dependencies (${PROJECT_NAME} MathLibrary MemoryLibrary)
