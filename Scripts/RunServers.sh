@@ -1,35 +1,31 @@
+# Copyright 2018 Vladimir Balun
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 #!/bin/bash
+ 
+readonly CURRENT_PATH=$(pwd)
+readonly SERVER_SIDE_PATH=$CURRENT_PATH\..\ServerSide
 
-readonly GAME_SERVER_JAR_FILE=.."/ServerSide/GameServer/target/gameServer-0.0.1-SNAPSHOT"
-readonly AUTHORIZATION_SERVER_JAR_FILE=.."/ServerSide/AuthorizationServer/target/authorizationServer-0.0.1-SNAPSHOT"
+readonly AUTHORIZATION_SERVER_PATH=$SERVER_SIDE_PATH\authorizationServer
+readonly GAME_SERVER_PATH=$SERVER_SIDE_PATH\gameServer
 
-isExistJava() {
-	if type -p java; then
-		return 1
-	else
-		return 0
-	fi	
-}
+readonly AUTHORIZATION_SERVER_JAR=$AUTHORIZATION_SERVER_PATH\target\authorizationServer-0.0.1-SNAPSHOT.jar
+readonly GAME_SERVER_JAR=$GAME_SERVER_PATH\target\gameServer-0.0.1-SNAPSHOT.jar
 
-isValidJavaVersion() {
-    version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
-	echo "Java version : $version"
-	if [[ "$version" > "1.7" ]]; then
-        return 1
-	else
-		return 0
-    fi
-}
+echo $GAME_SERVER_JAR
+echo $AUTHORIZATION_SERVER_JAR
 
-if isExistJava; then
-	echo "Error! Java does not exist on your PC..."
-	exit -1
-fi	
-
-if isValidJavaVersion; then
-	echo "Error! Java version is less than 1.8..."
-	exit -2
-fi	
-
-java -jar GAME_SERVER_JAR_FILE
-java -jar AUTHORIZATION_SERVER_JAR_FILE
+echo "Copyright 2018 Vladimir Balun - Script to run all the servers on Windows." 
+bash java -jar $AUTHORIZATION_SERVER_JAR
+bash java -jar $GAME_SERVER_JAR
