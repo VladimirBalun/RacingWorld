@@ -49,8 +49,8 @@ VOID Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, INT windowW
     UpdateWindow(_windowHandle);
 
     initWindowContext();
-    Graphics::Scene scene(_windowContext, windowWidth, windowHeight);
-    scene.initScene();
+    Graphics::SceneGraph scene(_windowContext, windowWidth, windowHeight);
+    scene.initSceneGraph();
 
     // Game loop
     while (_windowEvent.message != WM_QUIT)
@@ -61,8 +61,8 @@ VOID Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, INT windowW
             DispatchMessage(&_windowEvent);
         }
 
-        scene.updateScene();
-        scene.renderScene();
+        scene.updateSceneGraph();
+        scene.renderSceneGraph();
     }
 }
 

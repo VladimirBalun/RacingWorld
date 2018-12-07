@@ -16,27 +16,16 @@
 
 #pragma once
 
-#include <string>
+#include "Vector3.h"
 
-#include "GameWorld.h"
-#include "../Utils/Ping.hpp"
+namespace Math {
 
-namespace Graphics {
-
-    class Scene 
+    template <class Type>
+    class Quaternion 
     {
-    public:
-        explicit Scene(HDC& windowContext, GLint sceneWidth, GLint sceneHeight)
-            : _ping(Ping::getInstance()), _windowContext(windowContext), _sceneWidth(sceneWidth), _sceneHeight(sceneHeight) {}
-        GLvoid initScene();
-        GLvoid renderScene();
-        GLvoid updateScene();
-    private:
-        Ping& _ping;
-        HDC& _windowContext;
-        GLint _sceneWidth;
-        GLint _sceneHeight;
-        GameWorld _gameWorld;
+        Type w;
+        Vector3<Type> vector;
     };
+
 
 }

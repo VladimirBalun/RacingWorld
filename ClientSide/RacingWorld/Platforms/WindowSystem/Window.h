@@ -18,7 +18,7 @@
 
 #include "WindowEventListener.h"
 #include "../../Graphics/OpenGL4.h"
-#include "../../Graphics/Scene.h"
+#include "../../Graphics/SceneGraph.h"
 #include "../../Utils/Logger.hpp"
 
 namespace Platforms { namespace WindowSystem {

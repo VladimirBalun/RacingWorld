@@ -14,9 +14,22 @@
  * limitations under the License.
  */
 
-#include "GameWorld.h"
+#include "SceneGraph.h"
 
-GLvoid Graphics::GameWorld::draw() const noexcept
+GLvoid Graphics::SceneGraph::initSceneGraph()
 {
-    sky.draw();
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glViewport(0, 0, _sceneWidth, _sceneHeight);
+    gluOrtho2D(0.0, _sceneWidth, 0.0, _sceneHeight);
+}
+
+GLvoid Graphics::SceneGraph::renderSceneGraph()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SwapBuffers(_windowContext);
+}
+
+GLvoid Graphics::SceneGraph::updateSceneGraph()
+{
+
 }

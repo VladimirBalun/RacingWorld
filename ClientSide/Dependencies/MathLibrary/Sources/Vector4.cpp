@@ -17,9 +17,75 @@
 #include "Vector4.h"
 
 template <class Type>
-size_t Math::Vector4<Type>::getLength() const noexcept
+Type& Math::Vector4<Type>::getX() noexcept
 {
-    return sqrt(x*x + y * y + z * z + w * w);
+    return x;
+}
+
+template <class Type>
+Type& Math::Vector4<Type>::getY() noexcept
+{
+    return y;
+}
+
+template <class Type>
+Type& Math::Vector4<Type>::getZ() noexcept
+{
+    return z;
+}
+
+template <class Type>
+Type& Math::Vector4<Type>::getW() noexcept
+{
+    return w;
+}
+
+template <class Type>
+Type Math::Vector4<Type>::getX() const noexcept
+{
+    return x;
+}
+
+template <class Type>
+Type Math::Vector4<Type>::getY() const noexcept
+{
+    return y;
+}
+
+template <class Type>
+Type Math::Vector4<Type>::getZ() const noexcept
+{
+    return z;
+}
+
+template <class Type>
+Type Math::Vector4<Type>::getW() const noexcept
+{
+    return w;
+}
+
+template <class Type>
+void Math::Vector4<Type>::setX(Type x) noexcept
+{
+    this.x = x;
+}
+
+template <class Type>
+void Math::Vector4<Type>::setY(Type y) noexcept
+{
+    this.y = y;
+}
+
+template <class Type>
+void Math::Vector4<Type>::setZ(Type z) noexcept
+{
+    this.z = z;
+}
+
+template <class Type>
+void Math::Vector4<Type>::setW(Type w) noexcept
+{
+    this.w = w;
 }
 
 template <class Type>
@@ -33,6 +99,18 @@ void Math::Vector4<Type>::normalize() noexcept
         z /= length;
         w /= length;
     }
+}
+
+template <class Type>
+size_t Math::Vector4<Type>::getLength() const noexcept
+{
+    return sqrt(x*x + y * y + z * z + w * w);
+}
+
+template <class Type>
+Type Math::Vector4<Type>::dot(const Vector4& other) noexcept
+{
+    return x*other.x + y*other.y + z*other.z + w*other.w;
 }
 
 template <class Type>

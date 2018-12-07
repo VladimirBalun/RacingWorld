@@ -21,6 +21,9 @@
 
 struct Configuration 
 {
+    static std::uint16_t getGameServerPort() noexcept;
+    static std::string getGameServerAddress() noexcept;
+
     static std::string getCurrentDirectory() noexcept;
     static std::string getShadersDirectory() noexcept;
 };

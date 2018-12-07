@@ -21,20 +21,35 @@
 namespace Math {
 
     template <class Type>
-    struct Vector2
+    class Vector3
     {
-        Type x = 0.0;
-        Type y = 0.0;
+    public:
+        Vector3() = default;
+        Vector3(Type x, Type y, Type z)
+            : x(x), y(y), z(z) {}
 
-        Vector2() = default;
-        Vector2(Type x, Type y)
-            : x(x), y(y) {}
+        Type& getX() noexcept;
+        Type& getY() noexcept;
+        Type& getZ() noexcept;
 
-        size_t getLength() const noexcept;
+        Type getX() const noexcept;
+        Type getY() const noexcept;
+        Type getZ() const noexcept;
+
+        void setX(Type x) noexcept;
+        void setY(Type y) noexcept;
+        void setZ(Type z) noexcept;
+
         void normalize() noexcept;
-        void add(const Vector2& other) noexcept;
-        void sub(const Vector2& other) noexcept;
+        std::size_t getLength() const noexcept;
+        Type dot(const Vector3& other) noexcept;
+        void add(const Vector3& other) noexcept;
+        void sub(const Vector3& other) noexcept;
         void mul(Type scalar) noexcept;
+    private:
+        Type x = 0;
+        Type y = 0;
+        Type z = 0;
     };
 
-}
+} 

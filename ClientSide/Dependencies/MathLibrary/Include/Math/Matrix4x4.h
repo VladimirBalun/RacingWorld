@@ -23,12 +23,11 @@
 namespace Math {
 
     template <class Type>
-    struct Matrix4x4 
+    class Matrix4x4 
     { 
+    public:
         static const std::uint8_t ROW_SIZE = 4;
         static constexpr std::uint8_t MATRIX_SIZE = ROW_SIZE * ROW_SIZE;
-
-        Type elements[MATRIX_SIZE] = { 0 };
 
         Matrix4x4() = default;
         Matrix4x4(const Matrix4x4& other);
@@ -38,8 +37,10 @@ namespace Math {
         void transpose() noexcept;
         void sub(const Matrix4x4& other) noexcept;
         void add(const Matrix4x4& other) noexcept;
-        void mul(Vector4<Type>& vector) noexcept;
+        Vector4<Type> mul(const Vector4<Type>& vector) noexcept;
         void mul(const Matrix4x4& other) noexcept;
+    private:
+        Type elements[MATRIX_SIZE] = { 0 };
     };
 
 }

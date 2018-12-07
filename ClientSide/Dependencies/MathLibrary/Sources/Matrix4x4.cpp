@@ -68,14 +68,14 @@ void Math::Matrix4x4<Type>::add(const Matrix4x4& other) noexcept
 }
 
 template <class Type>
-void Math::Matrix4x4<Type>::mul(Vector4<Type>& vector) noexcept
+Math::Vector4<Type> Math::Matrix4x4<Type>::mul(const Vector4<Type>& vector) noexcept
 {
     Vector4<Type> tmpVector = vector;
     tmpVector.x = elements[ROW_SIZE]*vector.x + elements[ROW_SIZE + 1]*vector.y + elements[ROW_SIZE + 2]*vector.z + elements[ROW_SIZE + 3]*vector.w;
     tmpVector.x = elements[ROW_SIZE * 2]*vector.x + elements[ROW_SIZE * 2 + 1]*vector.y + elements[ROW_SIZE * 2 + 2]*vector.z + elements[ROW_SIZE * 2 + 3]*vector.w;
     tmpVector.x = elements[ROW_SIZE * 3]*vector.x + elements[ROW_SIZE * 3 + 1]*vector.y + elements[ROW_SIZE * 3 + 2]*vector.z + elements[ROW_SIZE * 3 + 3]*vector.w;
     tmpVector.x = elements[ROW_SIZE * 4]*vector.x + elements[ROW_SIZE * 4 + 1]*vector.y + elements[ROW_SIZE * 4 + 2]*vector.z + elements[ROW_SIZE * 4 + 3]*vector.w;
-    vector = std::move(tmpVector);
+    return tmpVector;
 }
 
 template <class Type>

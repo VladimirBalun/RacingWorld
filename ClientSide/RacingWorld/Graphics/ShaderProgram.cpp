@@ -39,7 +39,7 @@ GLuint Graphics::ShaderProgram::compileShader(const char* shaderSourceCode, GLin
     {
         GLchar errorLog[512];
         glGetShaderInfoLog(shader, 512, NULL, errorLog);
-        LOG_WARNING << "Shader was not compiled. Cause: " << errorLog << std::endl;
+        LOG_WARNING("Shader was not compiled. Cause: " + std::string(errorLog));
     }
 
     return shader;
@@ -58,7 +58,7 @@ GLvoid Graphics::ShaderProgram::linkShaders(GLuint vertexShader, GLuint fragment
     {
         GLchar errorLog[512];
         glGetProgramInfoLog(_program, 512, NULL, errorLog);
-        LOG_WARNING << "Shaders were not linked. Cause: " << errorLog << std::endl;
+        LOG_WARNING(std::string("Shaders were not linked. Cause: ") + std::string(errorLog));
     }
 }
 

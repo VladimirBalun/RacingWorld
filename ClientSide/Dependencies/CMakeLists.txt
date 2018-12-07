@@ -16,15 +16,5 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-set (CMAKE_CXX_STANDARD 17)
-set_property (GLOBAL PROPERTY USE_FOLDERS ON)
-
-set (BIN_DIRECTORY ./Bin)
-set (INCLUDE_DIRECTORY ./Include)
-set (LIBS_DIRECTORY ./Libs)
-
-set (MATH_LIBRARY_DIR ./Dependencies/MathLibrary)
-set (RACING_WORLD_DIR ./Dependencies/RacingWorld)
-
-add_subdirectory (Dependencies)
-add_subdirectory (RacingWorld)
+add_subdirectory (MathLibrary)
+add_subdirectory (MemoryLibrary)

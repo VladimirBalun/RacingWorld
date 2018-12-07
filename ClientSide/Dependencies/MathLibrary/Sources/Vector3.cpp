@@ -17,9 +17,57 @@
 #include "Vector3.h"
 
 template <class Type>
-size_t Math::Vector3<Type>::getLength() const noexcept
+Type& Math::Vector3<Type>::getX() noexcept
 {
-    return sqrt(x*x + y * y + z * z);
+    return x;
+}
+
+template <class Type>
+Type& Math::Vector3<Type>::getY() noexcept
+{
+    return y;
+}
+
+template <class Type>
+Type& Math::Vector3<Type>::getZ() noexcept
+{
+    return z;
+}
+
+template <class Type>
+Type Math::Vector3<Type>::getX() const noexcept
+{
+    return x;
+}
+
+template <class Type>
+Type Math::Vector3<Type>::getY() const noexcept
+{
+    return y;
+}
+
+template <class Type>
+Type Math::Vector3<Type>::getZ() const noexcept
+{
+    return z;
+}
+
+template <class Type>
+void Math::Vector3<Type>::setX(Type x) noexcept
+{
+    this.x = x;
+}
+
+template <class Type>
+void Math::Vector3<Type>::setY(Type y) noexcept
+{
+    this.y = y;
+}
+
+template <class Type>
+void Math::Vector3<Type>::setZ(Type z) noexcept
+{
+    this.z = z;
 }
 
 template <class Type>
@@ -32,6 +80,18 @@ void Math::Vector3<Type>::normalize() noexcept
         y /= length;
         z /= length;
     }
+}
+
+template <class Type>
+size_t Math::Vector3<Type>::getLength() const noexcept
+{
+    return sqrt(x*x + y * y + z * z);
+}
+
+template <class Type>
+Type Math::Vector3<Type>::dot(const Vector3& other) noexcept
+{
+    return x*other.x + y*other.y + z*other.z;
 }
 
 template <class Type>

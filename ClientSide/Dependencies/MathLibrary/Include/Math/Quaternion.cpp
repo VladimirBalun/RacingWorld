@@ -14,16 +14,4 @@
  * limitations under the License.
  */
 
-#pragma once
-
-#include "OpenGL4.h"
-
-namespace Graphics {
-
-    class Sky 
-    {
-    public:
-        GLvoid draw() const noexcept;
-    };
-
-}
+#include "Quaternion.h"

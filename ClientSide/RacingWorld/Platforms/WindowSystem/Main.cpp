@@ -36,12 +36,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, IN
     }
     catch (const std::exception& e) 
     {
-        LOG_ERROR << e.what() << std::endl;
+        LOG_ERROR(e.what());
         return EXIT_FAILURE;
     }
     catch (...) 
     {
-        LOG_ERROR << "Unknown error." << std::endl;
+        LOG_ERROR("Unknown error.");
         return EXIT_FAILURE;
     }
 }

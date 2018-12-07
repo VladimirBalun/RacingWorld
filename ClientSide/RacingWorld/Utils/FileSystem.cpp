@@ -28,8 +28,7 @@ std::string read_file(const std::string& file_name)
     }
     catch (const std::ifstream::failure& e)
     {
-        LOG_WARNING << "File: \"" << file_name << "\" was not read. "
-            "Cause:" << e.what() << std::endl;
+        LOG_WARNING("File: \"" + file_name + "\" was not read. Cause:" + e.what());
         return "";
     }
 }

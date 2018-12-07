@@ -22,13 +22,13 @@ Platforms::Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t
     WSADATA socketData;
     if (WSAStartup(MAKEWORD(2, 2), &socketData) != 0)
     {
-        LOG_ERROR << "Socket was not initialized. Cause: " << WSAGetLastError() << std::endl;
+        LOG_ERROR("Socket was not initialized. Cause: " + WSAGetLastError());
         throw Exceptions::NetworkException("Socket was not initialized");
     }
 
     if ((_socketHandle = (INT) socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == SOCKET_ERROR)
     {
-        LOG_ERROR << "Socket was not created. Cause: " << WSAGetLastError() << std::endl;
+        LOG_ERROR("Socket was not created. Cause: " + WSAGetLastError());
         throw Exceptions::NetworkException("Socket was not created");
     }
 

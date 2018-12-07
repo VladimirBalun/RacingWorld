@@ -17,9 +17,39 @@
 #include "Vector2.h"
 
 template <class Type>
-size_t Math::Vector2<Type>::getLength() const noexcept
+Type& Math::Vector2<Type>::getX() noexcept
 {
-    return sqrt(x*x + y*y);
+    return x;
+}
+
+template <class Type>
+Type& Math::Vector2<Type>::getY() noexcept
+{
+    return y;
+}
+
+template <class Type>
+Type Math::Vector2<Type>::getX() const noexcept 
+{
+    return x;
+}
+
+template <class Type>
+Type Math::Vector2<Type>::getY() const noexcept
+{
+    return y;
+}
+
+template <class Type>
+void Math::Vector2<Type>::setX(Type x) noexcept
+{
+    this.x = x;
+}
+
+template <class Type>
+void Math::Vector2<Type>::setY(Type y) noexcept
+{
+    this.y = y;
 }
 
 template <class Type>
@@ -31,6 +61,18 @@ void Math::Vector2<Type>::normalize() noexcept
         x /= length;
         y /= length;
     }
+}
+
+template <class Type>
+size_t Math::Vector2<Type>::getLength() const noexcept
+{
+    return sqrt(x*x + y * y);
+}
+
+template <class Type>
+Type Math::Vector2<Type>::dot(const Vector2& other) noexcept
+{
+    return x*other.x + y*other.y;
 }
 
 template <class Type>

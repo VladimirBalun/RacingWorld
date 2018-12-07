@@ -16,44 +16,37 @@
 
 #pragma once
 
+#include <string>
 #include <iostream>
 
 #ifdef _DEBUG
 
     #include <thread>
 
-    #define LOG_DEBUG \
-        std::cout << "[DEBUG] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " 
+    #define LOG_DEBUG(text) \
+        std::cout << "[DEBUG] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
 
-    #define LOG_WARNING \
-        std::cerr << "[WARNING] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " 
+    #define LOG_WARNING(text) \
+        std::cerr << "[WARNING] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
 
-    #define LOG_INFO \
-        std::cout << "[INFO] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " 
+    #define LOG_INFO(text) \
+        std::cout << "[INFO] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
 
-    #define LOG_ERROR \
-        std::cerr << "[ERROR] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " 
+    #define LOG_ERROR(text) \
+        std::cerr << "[ERROR] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
 
-#else
+#else // _DEBUG
 
-    struct NullBuffer : public std::streambuf
-    {
-        int overflow(int count) { return count; }
-    };
+    #define LOG_DEBUG(text) \
+        ( (void)0 )
 
-    static NullBuffer nullBuffer;
-    static std::ostream nullStream(&nullBuffer);
+    #define LOG_WARNING(text) \
+        ( (void)0 )
 
-    #define LOG_DEBUG \
-        nullStream
+    #define LOG_INFO(text) \
+        std::cout << "[INFO] [" << __TIMESTAMP__ << "] - " << (text) << std::endl;
 
-    #define LOG_WARNING \
-        nullStream
+    #define LOG_ERROR(text) \
+        std::cerr << "[ERROR] [" << __TIMESTAMP__ << "] - " << (text) << std::endl;
 
-    #define LOG_INFO \
-        std::cout << "[INFO] [" << __TIMESTAMP__ << "] - " 
-
-    #define LOG_ERROR \
-        std::cerr << "[ERROR] [" << __TIMESTAMP__ << "] - " 
-
-#endif // _DEBUG
+#endif 

@@ -14,23 +14,28 @@
  * limitations under the License.
  */
 
-#include "Scene.h"
+#pragma once
 
-GLvoid Graphics::Scene::initScene()
-{
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glViewport(0, 0, _sceneWidth, _sceneHeight);
-    gluOrtho2D(0.0, _sceneWidth, 0.0, _sceneHeight);
-}
+#include <string>
 
-GLvoid Graphics::Scene::renderScene()
-{
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    _gameWorld.draw();
-    SwapBuffers(_windowContext);
-}
+#include "OpenGL4.h"
+#include "../Utils/Ping.hpp"
 
-GLvoid Graphics::Scene::updateScene()
-{
+namespace Graphics {
+
+    class SceneGraph 
+    {
+    public:
+        explicit SceneGraph(HDC& windowContext, GLint sceneWidth, GLint sceneHeight)
+            : _ping(Ping::getInstance()), _windowContext(windowContext), _sceneWidth(sceneWidth), _sceneHeight(sceneHeight) {}
+        GLvoid initSceneGraph();
+        GLvoid renderSceneGraph();
+        GLvoid updateSceneGraph();
+    private:
+        Ping& _ping;
+        HDC& _windowContext;
+        GLint _sceneWidth;
+        GLint _sceneHeight;
+    };
 
 }

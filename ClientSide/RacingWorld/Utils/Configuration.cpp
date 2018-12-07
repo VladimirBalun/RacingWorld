@@ -16,6 +16,16 @@
 
 #include "Configuration.h"
 
+static std::uint16_t getGameServerPort() noexcept 
+{
+    return 32123; // TODO: Need to create configuration file
+}
+
+static std::string getGameServerAddress() noexcept 
+{
+    return "127.0.0.1"; // TODO: Need to create configuration file
+}
+
 std::string Configuration::getCurrentDirectory() noexcept
 {
     return std::filesystem::current_path().string();
