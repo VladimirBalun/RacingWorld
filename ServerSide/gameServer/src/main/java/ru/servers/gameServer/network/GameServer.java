@@ -34,7 +34,7 @@ public class GameServer implements Server {
                     Socket clientSocket = serverSocket.accept();
                     InputStream inputStream = clientSocket.getInputStream();
                     OutputStream outputStream = clientSocket.getOutputStream();
-                    // TODO handling of request
+                    // TODO: handling of request
                 } catch (IOException | InterruptedException e) {
                     log.error("Error during working with request. Cause:" + e.getMessage());
                 } finally {

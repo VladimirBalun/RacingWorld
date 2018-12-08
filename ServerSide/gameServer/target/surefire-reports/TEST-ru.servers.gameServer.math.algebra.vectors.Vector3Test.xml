@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="4" failures="0" name="ru.servers.gameServer.math.algebra.vectors.Vector3Test" time="0.001" errors="0" skipped="0">
+  <properties>
+    <property name="idea.version" value="2018.1.4"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="E:\Programms\JDK\jre\bin"/>
+    <property name="java.vm.version" value="25.171-b11"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\Vova\Desktop\RacingWorld\ServerSide"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=";"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="RU"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="C:\Users\Vova\Desktop\RacingWorld\ServerSide"/>
+    <property name="java.runtime.version" value="1.8.0_171-b11"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="java.endorsed.dirs" value="E:\Programms\JDK\jre\lib\endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\Vova\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="classworlds.conf" value="E:\Programms\IntelliJ IDEA 2018.1.4\plugins\maven\lib\maven3\bin\m2.conf"/>
+    <property name="sun.jnu.encoding" value="Cp1251"/>
+    <property name="java.library.path" value="E:\Programms\JDK\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\VulkanSDK\1.1.82.0\Bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;E:\Programms\NodeJS\;E:\Programms\CMake\bin;C:\Program Files\dotnet\;E:\Programms\Python;E:\Programms\LLVM\bin;E:\CMDPrograms\nc;E:\Programms\MinGW\bin;E:\JavaTools\apache-maven-3.5.0\bin;E:\Programms\JDK\bin;E:\JavaTools\apache-tomcat-9.0.6\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;E:\Programms\VisualStrudio\VC\Tools\MSVC\14.14.26428\bin\Hostx64\x64;E:\Programms\Git\cmd;E:\Programms\VisualStudio\VC\Tools\MSVC\14.15.26726\bin\Hostx64\x64;C:\Program Files\TortoiseGit\bin;C:\Users\Vova\AppData\Local\Microsoft\WindowsApps;C:\Users\Vova\AppData\Roaming\npm;."/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="52.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="10.0"/>
+    <property name="user.home" value="C:\Users\Vova"/>
+    <property name="user.timezone" value="Europe/Moscow"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="user.name" value="Vova"/>
+    <property name="java.class.path" value="E:\Programms\IntelliJ IDEA 2018.1.4\plugins\maven\lib\maven3\boot\plexus-classworlds-2.5.2.jar;E:\Programms\IntelliJ IDEA 2018.1.4\lib\idea_rt.jar"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="E:\Programms\JDK\jre"/>
+    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2018.1.4 install -f pom.xml"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="ru"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.8.0_171"/>
+    <property name="java.ext.dirs" value="E:\Programms\JDK\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext"/>
+    <property name="sun.boot.class.path" value="E:\Programms\JDK\jre\lib\resources.jar;E:\Programms\JDK\jre\lib\rt.jar;E:\Programms\JDK\jre\lib\sunrsasign.jar;E:\Programms\JDK\jre\lib\jsse.jar;E:\Programms\JDK\jre\lib\jce.jar;E:\Programms\JDK\jre\lib\charsets.jar;E:\Programms\JDK\jre\lib\jfr.jar;E:\Programms\JDK\jre\classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="E:\Programms\IntelliJ IDEA 2018.1.4\plugins\maven\lib\maven3"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase classname="ru.servers.gameServer.math.algebra.vectors.Vector3Test" name="normalizationOfVector" time="0"/>
+  <testcase classname="ru.servers.gameServer.math.algebra.vectors.Vector3Test" name="additionOfVectors" time="0"/>
+  <testcase classname="ru.servers.gameServer.math.algebra.vectors.Vector3Test" name="subtractionOfVectors9" time="0.001"/>
+  <testcase classname="ru.servers.gameServer.math.algebra.vectors.Vector3Test" name="multiplicationOfVectorsByScalar" time="0"/>
+</testsuite>

@@ -20,39 +20,28 @@ import ru.servers.gameServer.math.Constants;
 
 public class Vectors {
 
-    public static double scalar(Vector2d vector, Vector2d anotherVector){
+    public static double dot(Vector2 vector, Vector2 anotherVector){
         return vector.getX() * anotherVector.getX() +
                vector.getY() * anotherVector.getY();
     }
 
-    public static double scalar(Vector3d vector, Vector3d anotherVector){
+    public static double dot(Vector3 vector, Vector3 anotherVector){
         return vector.getX() * anotherVector.getX() +
                vector.getY() * anotherVector.getY() +
                vector.getZ() * anotherVector.getZ();
     }
 
-    public static double getAngleBetweenVectors(Vector2d vector, Vector2d anotherVector){
-        double scalar = scalar(vector, anotherVector);
+    public static double getAngleBetweenVectors(Vector2 vector, Vector2 anotherVector){
+        double scalar = dot(vector, anotherVector);
         double determinant = vector.getX()*anotherVector.getY() - vector.getY()*anotherVector.getX();
-        return Math.atan2(determinant, scalar) * Constants.DEGREES_PER_RADIAN;
+        return Math.atan2(determinant, scalar) * Constants.RADIANS_TO_DEGREES;
     }
 
-    public static double getAngleBetweenVectors(Vector3d vector, Vector3d anotherVector){
-        double scalar = scalar(vector, anotherVector);
+    public static double getAngleBetweenVectors(Vector3 vector, Vector3 anotherVector){
+        double scalar = dot(vector, anotherVector);
         double lenVectorWithoutSqrt = vector.getX() + vector.getY() + vector.getZ();
         double lenAnotherVectorWithoutSqrt = anotherVector.getX() + anotherVector.getY() + anotherVector.getZ();
-        return Math.acos(scalar / Math.sqrt(lenVectorWithoutSqrt*lenAnotherVectorWithoutSqrt)) * Constants.DEGREES_PER_RADIAN;
-    }
-
-    public static boolean isEquals(Vector2d vector, Vector2d anotherVector) {
-        return vector.getX() == anotherVector.getX() &&
-               vector.getY() == anotherVector.getY();
-    }
-
-    public static boolean isEquals(Vector3d vector, Vector3d anotherVector) {
-        return vector.getX() == anotherVector.getX() &&
-               vector.getY() == anotherVector.getY() &&
-               vector.getZ() == anotherVector.getZ();
+        return Math.acos(scalar / Math.sqrt(lenVectorWithoutSqrt*lenAnotherVectorWithoutSqrt)) * Constants.RADIANS_TO_DEGREES;
     }
 
 }

@@ -17,12 +17,12 @@
 package ru.servers.gameServer.math.algebra.matrices;
 
 import ru.servers.gameServer.math.CoordinateAxis;
-import ru.servers.gameServer.math.algebra.vectors.Vector3d;
+import ru.servers.gameServer.math.algebra.vectors.Vector3;
 
 public class Matrices {
 
-    public static Matrix4x4d getIdentity(){
-        return new Matrix4x4d(new double[] {
+    public static Matrix4x4 getIdentity(){
+        return new Matrix4x4(new double[] {
                 1.0, 0.0, 0.0, 0.0,
                 0.0, 1.0, 0.0, 0.0,
                 0.0, 0.0, 1.0, 0.0,
@@ -30,8 +30,8 @@ public class Matrices {
         });
     }
 
-    public static Matrix4x4d getOrtho(double left, double right, double bottom, double top, double near, double far){
-        return new Matrix4x4d(new double[] {
+    public static Matrix4x4 getOrtho(double left, double right, double bottom, double top, double near, double far){
+        return new Matrix4x4(new double[] {
                 2 / (right-left), 0.0, 0.0, - (right+left) / (right-left),
                 0.0, 2 / (top-bottom), 0.0, (top+bottom) / (top-bottom),
                 0.0, 0.0, 2 / (far-near), - (far+near) / (far-near),
@@ -39,8 +39,8 @@ public class Matrices {
         });
     }
 
-    public static Matrix4x4d getTranslation(Vector3d vector){
-        return new Matrix4x4d(new double[] {
+    public static Matrix4x4 getTranslation(Vector3 vector){
+        return new Matrix4x4(new double[] {
                 1.0, 0.0, 0.0, vector.getX(),
                 0.0, 1.0, 0.0, vector.getY(),
                 0.0, 0.0, 1.0, vector.getZ(),
@@ -48,8 +48,8 @@ public class Matrices {
         });
     }
 
-    public static Matrix4x4d getScale(Vector3d vector){
-        return new Matrix4x4d(new double[] {
+    public static Matrix4x4 getScale(Vector3 vector){
+        return new Matrix4x4(new double[] {
                 vector.getX(), 0.0, 0.0, 0.0,
                 0.0, vector.getY(), 0.0, 0.0,
                 0.0, 0.0, vector.getZ(), 0.0,
@@ -57,24 +57,24 @@ public class Matrices {
         });
     }
 
-    public static Matrix4x4d getRotation(double angle, CoordinateAxis axis) throws IllegalArgumentException{
+    public static Matrix4x4 getRotation(double angle, CoordinateAxis axis) throws IllegalArgumentException{
         switch (axis){
             case X_AXIS:
-                return new Matrix4x4d(new double[] {
+                return new Matrix4x4(new double[] {
                         1.0, 0.0, 0.0, 0.0,
                         0.0, Math.cos(angle), -Math.sin(angle), 0.0,
                         0.0, Math.sin(angle), Math.cos(angle), 0.0,
                         0.0, 0.0, 0.0, 1.0
                 });
             case Y_AXIS:
-                return new Matrix4x4d(new double[] {
+                return new Matrix4x4(new double[] {
                         Math.cos(angle), 0.0, -Math.sin(angle), 0.0,
                         0.0, 1.0, 0.0, 0.0,
                         Math.sin(angle), 0.0, Math.cos(angle), 0.0,
                         0.0, 0.0, 0.0, 1.0
                 });
             case Z_AXIS:
-                return new Matrix4x4d(new double[] {
+                return new Matrix4x4(new double[] {
                         Math.cos(angle), -Math.sin(angle), 0.0, 0.0,
                         Math.sin(angle), 1.0, Math.cos(angle), 0.0,
                         0.0, 0.0, 1.0, 0.0,

@@ -16,8 +16,12 @@
 
 package ru.servers.gameServer.logic.components;
 
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 public class Health implements Component {
 
@@ -28,24 +32,24 @@ public class Health implements Component {
 
     public Health(int countHealth){
         if (countHealth > MAX_COUNT_HEALTH) {
-            this.hp = MAX_COUNT_HEALTH;
+            hp = MAX_COUNT_HEALTH;
         }
         if (countHealth < MIN_COUNT_HEALTH) {
-            this.hp = MIN_COUNT_HEALTH;
+            hp = MIN_COUNT_HEALTH;
         }
     }
 
     public void setHP(int newCountHealth) {
         if (newCountHealth > MAX_COUNT_HEALTH) {
-            this.hp = MAX_COUNT_HEALTH;
+            hp = MAX_COUNT_HEALTH;
         }
         if (newCountHealth < MIN_COUNT_HEALTH) {
-            this.hp = MIN_COUNT_HEALTH;
+            hp = MIN_COUNT_HEALTH;
         }
     }
 
     public int getHP() {
-        return this.hp;
+        return hp;
     }
 
 }

@@ -22,38 +22,38 @@ import org.junit.Test;
 public class VectorsTest {
 
     @Test // x*x + y*y
-    public void scalarMultiplicationOfVectors2d(){
-        double scalar = Vectors.scalar(new Vector2d(5.0, 5.0), new Vector2d(1.0, 1.0));
+    public void dotProductOfVectors2d(){
+        double scalar = Vectors.dot(new Vector2(5.0, 5.0), new Vector2(1.0, 1.0));
         Assert.assertEquals(10.0, scalar, 0.1);
     }
 
     @Test // x*x + y*y + z*z
-    public void scalarMultiplicationOfVectors3d(){
-        double scalar = Vectors.scalar(new Vector3d(5.0, 5.0, 5.0), new Vector3d(1.0, 1.0, 1.0));
+    public void dotProductOfVectors3d(){
+        double scalar = Vectors.dot(new Vector3(5.0, 5.0, 5.0), new Vector3(1.0, 1.0, 1.0));
         Assert.assertEquals(15.0, scalar, 0.1);
     }
 
     @Test // atan(v1 * v2, det(v1 && v2)) * 57.29
     public void gettingAngleBetweenVectors2d(){
-        double angle = Vectors.getAngleBetweenVectors(new Vector2d(1.0, 1.0), new Vector2d(0.0, 1.0));
+        double angle = Vectors.getAngleBetweenVectors(new Vector2(1.0, 1.0), new Vector2(0.0, 1.0));
         Assert.assertEquals(45.0, angle, 0.1);
     }
 
     @Test // acos(v1 * v2 / (|v1| * |v2|)) * 57.29
     public void gettingAngleBetweenVectors3d(){
-        double angle = Vectors.getAngleBetweenVectors(new Vector3d(1.0, 1.0, 1.0), new Vector3d(0.5, 0.5, 0.5));
+        double angle = Vectors.getAngleBetweenVectors(new Vector3(1.0, 1.0, 1.0), new Vector3(0.5, 0.5, 0.5));
         Assert.assertEquals(45.0, angle, 0.1);
     }
 
     @Test // (v1(x) == v2(x), v1(y) == v2(y))
     public void equalityOfVectors2d(){
-        boolean result = Vectors.isEquals(new Vector2d(5.0, 5.0), new Vector2d(5.0, 5.0));
+        boolean result = new Vector2(5.0, 5.0).equals(new Vector2(5.0, 5.0));
         Assert.assertTrue(result);
     }
 
     @Test // (v1(x) == v2(x), v1(y) == v2(y), v1(z) == v2(z))
     public void equalityOfVectors3d(){
-        boolean result = Vectors.isEquals(new Vector3d(5.0, 5.0, 5.0), new Vector3d(5.0, 5.0, 5.0));
+        boolean result = new Vector3(5.0, 5.0, 5.0).equals(new Vector3(5.0, 5.0, 5.0));
         Assert.assertTrue(result);
     }
 

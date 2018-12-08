@@ -16,8 +16,12 @@
 
 package ru.servers.gameServer.logic.entities;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.servers.gameServer.logic.components.Health;
 
+@ToString
+@EqualsAndHashCode
 public class Car implements Entity{
 
     private Health health;

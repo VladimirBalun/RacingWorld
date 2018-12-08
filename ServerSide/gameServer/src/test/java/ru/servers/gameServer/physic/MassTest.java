@@ -18,21 +18,21 @@ package ru.servers.gameServer.physic;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.servers.gameServer.math.algebra.vectors.Vector2d;
-import ru.servers.gameServer.math.geometry.Rectangle2d;
+import ru.servers.gameServer.math.Point2;
+import ru.servers.gameServer.math.geometry.Rectangle;
 
 public class MassTest {
 
     @Test // (x+x[1]+x[2]+x[3]+x[4]) / 4, (y + ...) / 4
     public void gettingCenterOfMassOfRectangle(){
-        Rectangle2d rectangle2d = new Rectangle2d(
-                new Vector2d(2.0, 2.0), // (2;4)      (4;4)
-                new Vector2d(2.0, 4.0), //
-                new Vector2d(4.0, 4.0), //
-                new Vector2d(4.0, 2.0)  // (2;2)      (4;2)
+        Rectangle rectangle = new Rectangle(
+                new Point2(2.0, 2.0), // (2;4)      (4;4)
+                new Point2(2.0, 4.0), //
+                new Point2(4.0, 4.0), //
+                new Point2(4.0, 2.0)  // (2;2)      (4;2)
         );
-        Vector2d massCenter = Mass.getMassCenter(rectangle2d.toVectorsArray());
-        Assert.assertEquals(new Vector2d(3.0, 3.0), massCenter);
+        Point2 massCenter = Mass.getMassCenter(rectangle.toPointArray());
+        Assert.assertEquals(new Point2(3.0, 3.0), massCenter);
     }
 
     @Test (expected = IllegalArgumentException.class)
