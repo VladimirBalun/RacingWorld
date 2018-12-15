@@ -14,22 +14,34 @@
  * limitations under the License.
  */
 
-#include "SceneGraph.h"
+#include "MouseState.hpp"
 
-GLvoid Graphics::SceneGraph::initSceneGraph()
+void Platforms::MouseState::pressLeftButton() noexcept 
 {
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glViewport(0, 0, _sceneWidth, _sceneHeight);
-    gluOrtho2D(0.0, _sceneWidth, 0.0, _sceneHeight);
+    _isPressedLeftButton = true;
 }
 
-GLvoid Graphics::SceneGraph::renderSceneGraph()
+void Platforms::MouseState::releaseLeftButton() noexcept
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SwapBuffers(_windowContext);
+    _isPressedLeftButton = false;
 }
 
-GLvoid Graphics::SceneGraph::updateSceneGraph()
+void Platforms::MouseState::pressRightButton() noexcept
 {
+    _isPressedRightButton = true;
+}
 
+void Platforms::MouseState::releaseRightButton() noexcept
+{
+    _isPressedRightButton = false;
+}
+
+bool Platforms::MouseState::isPressedLeftButton() const noexcept
+{
+    return _isPressedLeftButton;
+}
+
+bool Platforms::MouseState::isPressedRightButton() const noexcept
+{
+    return _isPressedRightButton;
 }

@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "FileSystem.hpp"
 
-#include "Vector3.h"
-
-namespace Math {
-
-    template <class Type>
-    class Quaternion 
+std::string read_file(const std::string& file_name)
+{
+    std::stringstream buffer;
+    std::ifstream input_stream(file_name, std::ifstream::badbit);
+    try
     {
-        Type w;
-        Vector3<Type> vector;
-    };
-
-
+        buffer << input_stream.rdbuf();
+        input_stream.close();
+        return buffer.str();
+    }
+    catch (const std::ifstream::failure& e)
+    {
+        LOG_WARNING("File: \"" + file_name + "\" was not read. Cause:" + e.what());
+        return "";
+    }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Matrix4x4.h"
+#include "Matrix4x4.hpp"
 
 template <class Type>
 Math::Matrix4x4<Type>::Matrix4x4(const Matrix4x4& other)

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "LinearAllocator.h"
+#include "LinearAllocator.hpp"
 
 Memory::LinearAllocator::LinearAllocator(std::size_t totalSize) 
     : Allocator<LinearAllocator>(totalSize)

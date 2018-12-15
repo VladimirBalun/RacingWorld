@@ -14,6 +14,18 @@
  * limitations under the License.
  */
 
-#include "Stack.h"
+#pragma once
+
+#include "Vector3.hpp"
+
+namespace Math {
+
+    template <class Type>
+    class Quaternion 
+    {
+        Type w;
+        Vector3<Type> vector;
+    };
 
 
+}

@@ -16,30 +16,29 @@
 
 #pragma once
 
-#include "WindowEventListener.h"
-#include "../../Graphics/OpenGL4.h"
-#include "../../Graphics/SceneGraph.h"
+#include <array>
+#include <string>
+#include <Winsock2.h>
+#include <WS2tcpip.h>
+
+#include "Protocol.hpp"
+#include "NetworkException.hpp"
+#include "../../Utils/Ping.hpp"
 #include "../../Utils/Logger.hpp"
 
-namespace Platforms { namespace WindowSystem {
+namespace Platforms { namespace Network {
 
-    class Window
+    class UDPConnection 
     {
     public:
-        explicit Window(HINSTANCE& appInstance, INT cmdShow);
-        VOID showWindow(LPCSTR windowTitle, INT windowWidth, INT windowHeight);
-        ~Window();
+        explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port);
+        VOID sendBuffer(const std::array<CHAR, 512>& buffer) noexcept;
+        VOID receiveBuffer(std::array<CHAR, 512>& buffer) noexcept;
+        ~UDPConnection();
     private:
-        VOID initWindowContext();
-    private:
-        INT _cmdShow;
-        MSG _windowEvent;
-        HWND _windowHandle;
-        HDC _windowContext;
-        HGLRC _openGLContext;
-        HINSTANCE& _appInstance;
-        WNDCLASSEX _windowClass;
-        LPCSTR _windowClassName;
+        Ping& _ping;
+        INT _socketHandle;
+        struct sockaddr_in _socketAddress;
     };
 
 } }

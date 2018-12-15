@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Vector3.h"
+#include "Vector3.hpp"
 
 template <class Type>
 Type& Math::Vector3<Type>::getX() noexcept

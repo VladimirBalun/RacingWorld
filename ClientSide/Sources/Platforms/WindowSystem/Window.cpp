@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Window.h"
+#include "Window.hpp"
 
 Platforms::WindowSystem::Window::Window(HINSTANCE& instance, INT cmdShow) 
     : _appInstance(instance), _cmdShow(cmdShow), _windowClassName("RacingWorld")

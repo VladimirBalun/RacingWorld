@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-#include "FileSystem.h"
+#include "Configuration.hpp"
 
-std::string read_file(const std::string& file_name)
+std::uint16_t Configuration::getGameServerPort() noexcept
 {
-    std::stringstream buffer;
-    std::ifstream input_stream(file_name, std::ifstream::badbit);
-    try
-    {
-        buffer << input_stream.rdbuf();
-        input_stream.close();
-        return buffer.str();
-    }
-    catch (const std::ifstream::failure& e)
-    {
-        LOG_WARNING("File: \"" + file_name + "\" was not read. Cause:" + e.what());
-        return "";
-    }
+    return 32123; // TODO: Need to create configuration file
+}
+
+std::string Configuration::getGameServerAddress() noexcept
+{
+    return "127.0.0.1"; // TODO: Need to create configuration file
+}
+
+std::string Configuration::getCurrentDirectory() noexcept
+{
+    return std::filesystem::current_path().string();
+}
+
+std::string Configuration::getShadersDirectory() noexcept
+{
+    std::filesystem::path path = std::filesystem::current_path();
+    return path.parent_path().string() + "Shaders";
 }

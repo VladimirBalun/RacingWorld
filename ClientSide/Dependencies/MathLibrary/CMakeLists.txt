@@ -16,22 +16,24 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-project (MathLibrary)
+include (${PROJECT_CMAKE_DIR}/ProjectConfiguration.cmake)
+
+project (${MATH_LIBRARY_NAME})
 
 file (GLOB_RECURSE SOURCES "Sources/*.cpp")
-file (GLOB_RECURSE HEADERS "Include/*.h" "Include/*.hpp") 
+file (GLOB_RECURSE HEADERS "Include/*.hpp") 
 
 source_group ("Headers" FILES ${HEADERS})
 source_group ("Sources" FILES ${SOURCES})
 
 set (CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 add_library (${PROJECT_NAME} SHARED ${SOURCES} ${HEADERS})
-target_include_directories (${PROJECT_NAME} PRIVATE ./Include/Math)
+target_include_directories (${PROJECT_NAME} PRIVATE ./include/Math) 
 set_target_properties (${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
-set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ../../../Bin)
-set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ../../../Bin)
-set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE ../../../Bin)
-set_target_properties (${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ../../../Libs)
-set_target_properties (${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG ../../../Libs)
-set_target_properties (${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE ../../../Libs)
+set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BIN_DIR})
+set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_BIN_DIR})
+set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_BIN_DIR})
+set_target_properties (${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_LIBS_DIR})
+set_target_properties (${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${PROJECT_LIBS_DIR})
+set_target_properties (${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_LIBS_DIR})
 set_target_properties (${PROJECT_NAME} PROPERTIES FOLDER "Libraries")

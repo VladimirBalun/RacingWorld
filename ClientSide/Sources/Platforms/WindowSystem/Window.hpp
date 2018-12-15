@@ -16,25 +16,30 @@
 
 #pragma once
 
-#include <string>
-#include <sstream>
-#include <iostream>
+#include "WindowEventListener.hpp"
+#include "../../Graphics/OpenGL4.hpp"
+#include "../../Graphics/SceneGraph.hpp"
+#include "../../Utils/Logger.hpp"
 
-#include "OpenGL4.h"
-#include "../Utils/FileSystem.h"
+namespace Platforms { namespace WindowSystem {
 
-namespace Graphics {
-
-    class ShaderProgram 
+    class Window
     {
     public:
-        explicit ShaderProgram(const std::string& vShaderFileName, const std::string& fShaderFileName);
-        GLvoid useShaderProgram();
+        explicit Window(HINSTANCE& appInstance, INT cmdShow);
+        VOID showWindow(LPCSTR windowTitle, INT windowWidth, INT windowHeight);
+        ~Window();
     private:
-        GLuint compileShader(const char* shaderSourcCode, GLint shaderType);
-        GLvoid linkShaders(GLuint vertexShader, GLuint fragmentShader);
+        VOID initWindowContext();
     private:
-        GLuint _program;
+        INT _cmdShow;
+        MSG _windowEvent;
+        HWND _windowHandle;
+        HDC _windowContext;
+        HGLRC _openGLContext;
+        HINSTANCE& _appInstance;
+        WNDCLASSEX _windowClass;
+        LPCSTR _windowClassName;
     };
 
-}
+} }

@@ -18,9 +18,9 @@
 
 #include <Windows.h>
 
-#include "../MouseState.h"
-#include "../KeyboardState.h"
-#include "../EWinKeyboardCode.h"
+#include "../MouseState.hpp"
+#include "../KeyboardState.hpp"
+#include "../EWinKeyboardCode.hpp"
 
 namespace Platforms { namespace WindowSystem {
 

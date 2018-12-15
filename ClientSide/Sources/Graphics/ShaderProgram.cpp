@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "ShaderProgram.h"
+#include "ShaderProgram.hpp"
 
 Graphics::ShaderProgram::ShaderProgram(const std::string& vShaderFileName, const std::string& fShaderFileName) 
 {

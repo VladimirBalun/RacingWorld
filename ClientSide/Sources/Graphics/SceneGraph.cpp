@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "SceneGraph.hpp"
 
-#include <Math/Vector3.h>
+GLvoid Graphics::SceneGraph::initSceneGraph()
+{
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glViewport(0, 0, _sceneWidth, _sceneHeight);
+    gluOrtho2D(0.0, _sceneWidth, 0.0, _sceneHeight);
+}
 
-#include "OpenGL4.h"
-#include "../Platforms/KeyboardState.h"
+GLvoid Graphics::SceneGraph::renderSceneGraph()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SwapBuffers(_windowContext);
+}
 
-namespace Graphics {
-
-    struct Player 
-    {
-        GLfloat direction;
-        Math::Vector3<GLfloat> position;
-    
-        Player() = default;
-        Player(Math::Vector3<GLfloat>&& position, GLfloat direction)
-            : position(position), direction(direction) {}
-    };
+GLvoid Graphics::SceneGraph::updateSceneGraph()
+{
 
 }

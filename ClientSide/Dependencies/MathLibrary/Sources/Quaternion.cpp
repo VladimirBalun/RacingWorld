@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-#include "Quaternion.h"
+#include "Quaternion.hpp"

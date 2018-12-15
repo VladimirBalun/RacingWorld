@@ -14,25 +14,28 @@
  * limitations under the License.
  */
 
-#include "Configuration.h"
+#pragma once
 
-static std::uint16_t getGameServerPort() noexcept 
-{
-    return 32123; // TODO: Need to create configuration file
-}
+#include <string>
 
-static std::string getGameServerAddress() noexcept 
-{
-    return "127.0.0.1"; // TODO: Need to create configuration file
-}
+#include "OpenGL4.hpp"
+#include "../Utils/Ping.hpp"
 
-std::string Configuration::getCurrentDirectory() noexcept
-{
-    return std::filesystem::current_path().string();
-}
+namespace Graphics {
 
-std::string Configuration::getShadersDirectory() noexcept
-{
-    std::filesystem::path path = std::filesystem::current_path();
-    return path.parent_path().string() + "Shaders";
+    class SceneGraph 
+    {
+    public:
+        explicit SceneGraph(HDC& windowContext, GLint sceneWidth, GLint sceneHeight)
+            : _ping(Ping::getInstance()), _windowContext(windowContext), _sceneWidth(sceneWidth), _sceneHeight(sceneHeight) {}
+        GLvoid initSceneGraph();
+        GLvoid renderSceneGraph();
+        GLvoid updateSceneGraph();
+    private:
+        Ping& _ping;
+        HDC& _windowContext;
+        GLint _sceneWidth;
+        GLint _sceneHeight;
+    };
+
 }

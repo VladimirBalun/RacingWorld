@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "WindowEventListener.h"
+#include "WindowEventListener.hpp"
 
 Platforms::WindowSystem::WindowEventListener& Platforms::WindowSystem::WindowEventListener::getInstance()
 {

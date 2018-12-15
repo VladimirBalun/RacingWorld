@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Matrices4x4.h"
+#include "Matrices4x4.hpp"
 
 template <class Type>
 Math::Matrix4x4<Type> Math::get_identity_matrix4x4() noexcept

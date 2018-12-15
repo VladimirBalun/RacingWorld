@@ -21,7 +21,7 @@
 #include <cstdint>
 
 // Thread-safe Singleton
-class Ping 
+class Ping
 {
     Ping() = default;
     ~Ping() = default;
@@ -49,7 +49,7 @@ inline void Ping::onSend(std::chrono::time_point<std::chrono::system_clock>&& ti
 {
     std::unique_lock<std::mutex> lock(_mutexOnEvent);
     _lastSendTime = time;
-    _ping = std::chrono::duration_cast<std::chrono::milliseconds>(_lastReceiveTime - _lastReceiveTime).count();
+    _ping = static_cast<std::uint16_t>(std::chrono::duration_cast<std::chrono::milliseconds>(_lastReceiveTime - _lastReceiveTime).count());
 }
 
 inline void Ping::onReceive(std::chrono::time_point<std::chrono::system_clock>&& time) noexcept

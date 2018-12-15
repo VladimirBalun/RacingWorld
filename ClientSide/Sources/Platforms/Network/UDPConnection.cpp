@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "UDPConnection.h"
+#include "UDPConnection.hpp"
 
 Platforms::Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t port)
     : _ping(Ping::getInstance())

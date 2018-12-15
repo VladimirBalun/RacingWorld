@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Vector4.h"
+#include "Vector4.hpp"
 
 template <class Type>
 Type& Math::Vector4<Type>::getX() noexcept

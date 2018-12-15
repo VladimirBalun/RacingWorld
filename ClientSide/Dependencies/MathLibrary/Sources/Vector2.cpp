@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Vector2.h"
+#include "Vector2.hpp"
 
 template <class Type>
 Type& Math::Vector2<Type>::getX() noexcept

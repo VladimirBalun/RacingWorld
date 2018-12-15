@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "Window.h"
+#include "Window.hpp"
 
 #define WINDOW_WIDTH 960
 #define WINDOW_HEIGHT 540

@@ -17,25 +17,24 @@
 #pragma once
 
 #include <string>
+#include <sstream>
+#include <iostream>
 
-#include "OpenGL4.h"
-#include "../Utils/Ping.hpp"
+#include "OpenGL4.hpp"
+#include "../Utils/FileSystem.hpp"
 
 namespace Graphics {
 
-    class SceneGraph 
+    class ShaderProgram 
     {
     public:
-        explicit SceneGraph(HDC& windowContext, GLint sceneWidth, GLint sceneHeight)
-            : _ping(Ping::getInstance()), _windowContext(windowContext), _sceneWidth(sceneWidth), _sceneHeight(sceneHeight) {}
-        GLvoid initSceneGraph();
-        GLvoid renderSceneGraph();
-        GLvoid updateSceneGraph();
+        explicit ShaderProgram(const std::string& vShaderFileName, const std::string& fShaderFileName);
+        GLvoid useShaderProgram();
     private:
-        Ping& _ping;
-        HDC& _windowContext;
-        GLint _sceneWidth;
-        GLint _sceneHeight;
+        GLuint compileShader(const char* shaderSourcCode, GLint shaderType);
+        GLvoid linkShaders(GLuint vertexShader, GLuint fragmentShader);
+    private:
+        GLuint _program;
     };
 
 }

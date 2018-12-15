@@ -16,29 +16,21 @@
 
 #pragma once
 
-#include <array>
-#include <string>
-#include <Winsock2.h>
-#include <WS2tcpip.h>
+#include <Math/Vector3.h>
 
-#include "Protocol.hpp"
-#include "NetworkException.h"
-#include "../../Utils/Ping.hpp"
-#include "../../Utils/Logger.hpp"
+#include "OpenGL4.hpp"
+#include "../Platforms/KeyboardState.hpp"
 
-namespace Platforms { namespace Network {
+namespace Graphics {
 
-    class UDPConnection 
+    struct Player 
     {
-    public:
-        explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port);
-        VOID sendBuffer(const std::array<CHAR, 512>& buffer) noexcept;
-        VOID receiveBuffer(std::array<CHAR, 512>& buffer) noexcept;
-        ~UDPConnection();
-    private:
-        Ping& _ping;
-        INT _socketHandle;
-        struct sockaddr_in _socketAddress;
+        GLfloat direction;
+        Math::Vector3<GLfloat> position;
+    
+        Player() = default;
+        Player(Math::Vector3<GLfloat>&& position, GLfloat direction)
+            : position(position), direction(direction) {}
     };
 
-} }
+}

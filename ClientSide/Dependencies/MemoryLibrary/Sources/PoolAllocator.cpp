@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "PoolAllocator.h"
+#include "PoolAllocator.hpp"
 
 Memory::PoolAllocator::PoolAllocator(std::size_t totalSize, std::size_t blockSize)
     : Allocator<PoolAllocator>(totalSize), _blockSize(blockSize)

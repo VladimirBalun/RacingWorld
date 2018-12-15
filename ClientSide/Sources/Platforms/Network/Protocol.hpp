@@ -18,8 +18,8 @@
 
 #include <cstdint>
 
-#include "../MouseState.h"
-#include "../KeyboardState.h"
+#include "../MouseState.hpp"
+#include "../KeyboardState.hpp"
 
 namespace Platforms { namespace Network {
 
