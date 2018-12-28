@@ -14,9 +14,22 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#include "Scene.hpp"
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+GLvoid Graphics::SceneGraph::Scene::initScene()
+{
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glViewport(0, 0, mSceneWidth, mSceneHeight);
+    gluOrtho2D(0.0, mSceneWidth, 0.0, mSceneHeight);
+}
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+GLvoid Graphics::SceneGraph::Scene::renderScene()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SwapBuffers(mWindowContext);
+}
+
+GLvoid Graphics::SceneGraph::Scene::updateScene()
+{
+
+}

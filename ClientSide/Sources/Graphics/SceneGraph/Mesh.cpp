@@ -14,9 +14,19 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#include "Mesh.hpp"
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+std::vector<Math::Vector3<GLfloat>>& Graphics::SceneGraph::Mesh::getNormals() noexcept 
+{
+    return mNormals;
+}
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+std::vector<Math::Vector4<GLfloat>>& Graphics::SceneGraph::Mesh::getVertexes() noexcept 
+{
+    return mVertexes;
+}
+
+std::vector<Math::Vector2<GLfloat>>& Graphics::SceneGraph::Mesh::getTextureCoordinates() noexcept 
+{
+    return mTextureCoordinates;
+}

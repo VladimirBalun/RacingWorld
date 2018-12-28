@@ -14,9 +14,21 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#pragma once
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+#include "Allocator.hpp"
+#include "IAllocatable.hpp"
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+namespace Memory {
+
+    class LinearAllocator : public Allocator<LinearAllocator>
+    {
+    public:
+        explicit LinearAllocator(size_t memorySize);
+        IAllocatable* allocate(std::size_t size, std::size_t alignment) noexcept;
+        void free(IAllocatable* pointer) noexcept;
+        void reset() noexcept;
+        ~LinearAllocator();
+    };
+
+}

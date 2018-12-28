@@ -14,9 +14,22 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#pragma once
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+namespace Platforms {
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+    class MouseState 
+    {
+    public:
+        void pressLeftButton() noexcept;
+        void releaseLeftButton() noexcept;
+        void pressRightButton() noexcept;
+        void releaseRightButton() noexcept;
+        bool isPressedLeftButton() const noexcept;
+        bool isPressedRightButton() const noexcept;
+    private:
+        bool mIsPressedLeftButton;
+        bool mIsPressedRightButton;
+    };
+
+}

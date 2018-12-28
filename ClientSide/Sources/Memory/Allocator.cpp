@@ -14,9 +14,22 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#include "Allocator.hpp"
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+template<class AllocatorType>
+Memory::IAllocatable* Memory::Allocator<AllocatorType>::allocate(std::size_t size, std::size_t alignment) noexcept
+{
+    return static_cast<AllocatorType*>(this)->allocate(size, alignment);
+}
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+template<class AllocatorType>
+void Memory::Allocator<AllocatorType>::free(IAllocatable* pointer) noexcept
+{
+    static_cast<AllocatorType*>(this)->free(pointer);
+}
+
+template<class AllocatorType>
+void Memory::Allocator<AllocatorType>::reset() noexcept
+{
+    static_cast<AllocatorType*>(this)->reset();
+}

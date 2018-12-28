@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#pragma once
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+namespace Memory {
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+    struct INonCopyable 
+    {
+        INonCopyable() = default;
+        ~INonCopyable() = default;
+        INonCopyable(const INonCopyable& object) = delete;
+        INonCopyable& operator=(const INonCopyable& object) = delete;
+    };
+
+}

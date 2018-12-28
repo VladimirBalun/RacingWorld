@@ -16,27 +16,25 @@
 
 #pragma once
 
-#include <string>
-#include <filesystem>
+#include <forward_list>
 
-struct Configuration 
-{
-    struct Game
+#include "Mesh.hpp"
+#include "../../Math/Matrix4x4.hpp"
+
+namespace Graphics { namespace SceneGraph {
+
+    class Node
     {
-        static const std::uint8_t MAX_COUNT_PLAYERS = 10;
-        static const std::uint8_t MAX_SIZE_EMAIL = 254;
-        static const std::uint8_t MAX_SIZE_PASSWORD = 32;
+    public:
+        Node(const Mesh& mesh) : mMesh(mesh) {}
+        GLvoid removeChildren() noexcept;
+        GLvoid addChild(const Node& child) noexcept;
+        const Math::Matrix4x4<GLfloat>& getTransformation() noexcept;
+        GLvoid setTransformation(const Math::Matrix4x4<GLfloat>& transformation) noexcept;
+    private:
+        Mesh mMesh;
+        std::forward_list<Node> mChildren;
+        Math::Matrix4x4<GLfloat> mTransformation;
     };
 
-    struct Player 
-    {
-        static const wchar_t* PLAYER_EMAIL;
-        static const wchar_t* PLAYER_PASSWORD;
-    };
-
-    struct Network 
-    {
-        static const char* SERVER_ADDRESS;
-        static const std::uint16_t SERVER_PORT = 32123;
-    };
-};
+}}

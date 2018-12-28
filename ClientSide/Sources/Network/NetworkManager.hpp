@@ -14,9 +14,27 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#pragma once
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+#include "../Math/Vector3.hpp"
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+//#include "Protocol.hpp"
+#include "UDPConnection.hpp"
+#include "../Utils/Configuration.hpp"
+
+namespace Platforms { namespace Network {
+
+    class NetworkManager 
+    {
+    public:
+        explicit NetworkManager()
+            : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
+        bool login();
+        bool initializePosition(const Math::Vector3<float>& position, const Math::Vector3<float>& direction);
+    private:
+        UDPConnection mConnection;
+        std::int32_t mPacketNumber;
+    };
+
+
+}}

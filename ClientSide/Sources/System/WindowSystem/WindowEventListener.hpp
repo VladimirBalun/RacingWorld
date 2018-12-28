@@ -1,0 +1,54 @@
+/*
+ * Copyright 2018 Vladimir Balun
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#pragma once
+
+#include <cstdlib>
+#include <Windows.h>
+
+#include "../MouseState.hpp"
+#include "../KeyboardState.hpp"
+#include "../EWinKeyboardCode.hpp"
+
+namespace Platforms { namespace WindowSystem {
+
+    // Singleton
+    class WindowEventListener 
+    {
+        WindowEventListener() = default;
+        ~WindowEventListener() = default;
+        WindowEventListener(const WindowEventListener& other) = delete; 
+        WindowEventListener& operator = (const WindowEventListener& other) = delete;
+    public:
+        static WindowEventListener& getInstance();
+        static LRESULT CALLBACK onWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept;
+        KeyboardState& getKeyboardState() noexcept;
+        MouseState& getMouseState() noexcept;
+    private:
+        LRESULT CALLBACK handleWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept;
+        void onKeyboardKeyDownEvent(WPARAM w_param) noexcept;
+        void onKeyboardKeyUpEvent(WPARAM w_param) noexcept;
+        void onMouseMoveEvent(LPARAM l_param) noexcept;
+        void onMouseLeftBtnUpEvent(LPARAM l_param) noexcept;
+        void onMouseRightBtnUpEvent(LPARAM l_param) noexcept;
+        void onMouseLeftBtnDownEvent(LPARAM l_param) noexcept;
+        void onMouseRightBtnDownEvent(LPARAM l_param) noexcept;
+    private:
+        MouseState mMouseState;
+        KeyboardState mKeyboardState;
+    };
+
+} }

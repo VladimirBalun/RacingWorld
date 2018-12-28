@@ -14,9 +14,27 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#pragma once
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+#include <string>
+#include <sstream>
+#include <iostream>
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+#include "../OpenGL4.hpp"
+#include "../../Utils/FileSystem.hpp"
+
+namespace Graphics { namespace Utils {
+
+    class ShaderProgram 
+    {
+    public:
+        explicit ShaderProgram(const std::string& vShaderFileName, const std::string& fShaderFileName);
+        GLvoid useShaderProgram();
+    private:
+        GLuint compileShader(const char* shaderSourcCode, GLint shaderType);
+        GLvoid linkShaders(GLuint vertexShader, GLuint fragmentShader);
+    private:
+        GLuint mProgram;
+    };
+
+}}

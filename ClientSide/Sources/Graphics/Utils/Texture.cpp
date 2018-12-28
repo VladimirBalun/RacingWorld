@@ -14,9 +14,29 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#include "Texture.hpp"
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+GLvoid Graphics::Utils::Texture::setID(GLuint id) noexcept 
+{
+    mID = id;
+}
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+GLuint Graphics::Utils::Texture::getID() const noexcept
+{
+    return mID;
+}
+
+GLuint Graphics::Utils::Texture::getWidth() const noexcept
+{
+    return mWidth;
+}
+
+GLuint Graphics::Utils::Texture::getHeight() const noexcept
+{
+    return mHeight;
+}
+
+const std::vector<GLubyte>& Graphics::Utils::Texture::getImageData() const noexcept
+{
+    return mImageData;
+}

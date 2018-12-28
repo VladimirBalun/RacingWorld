@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#pragma once
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+#include <cstdlib>
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+namespace Memory {
+
+    struct IAllocatable
+    {
+        void* operator new (std::size_t size) = delete;
+        void operator delete (void* pointer) = delete;
+    };
+
+}

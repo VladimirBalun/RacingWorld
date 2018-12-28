@@ -14,9 +14,24 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#include "Node.hpp"
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+GLvoid Graphics::SceneGraph::Node::removeChildren() noexcept
+{
+    mChildren.clear();
+}
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+GLvoid Graphics::SceneGraph::Node::addChild(const Node& child) noexcept
+{
+    mChildren.push_front(child);
+}
+
+const Math::Matrix4x4<GLfloat>& Graphics::SceneGraph::Node::getTransformation() noexcept 
+{
+    return mTransformation;
+}
+
+GLvoid Graphics::SceneGraph::Node::setTransformation(const Math::Matrix4x4<GLfloat>& transformation) noexcept
+{
+    mTransformation = transformation;
+}

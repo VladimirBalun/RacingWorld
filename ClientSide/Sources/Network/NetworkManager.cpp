@@ -14,9 +14,20 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#include "NetworkManager.hpp"
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+bool Platforms::Network::NetworkManager::login() 
+{
+    const wchar_t* email = Configuration::Player::PLAYER_EMAIL;
+    const wchar_t* password = Configuration::Player::PLAYER_PASSWORD;
+    
+    //Login* loginPacket(mPacketNumber, email, password);
+    //void* buffer = reinterpret_cast<void*>(loginPacket);
+    //mConnection.sendBuffer(buffer);
+    return true;
+}
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+bool Platforms::Network::NetworkManager::initializePosition(const Math::Vector3<float>& position, const Math::Vector3<float>& direction)
+{
+    return true;
+}

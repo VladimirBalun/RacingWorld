@@ -14,9 +14,29 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#pragma once
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+#include <array>
+#include <string>
+#include <Winsock2.h>
+#include <WS2tcpip.h>
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+#include "Protocol.hpp"
+#include "NetworkException.hpp"
+#include "../Utils/Logger.hpp"
+
+namespace Platforms { namespace Network {
+
+    class UDPConnection 
+    {
+    public:
+        explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port);
+        void sendBuffer(void* buffer) noexcept;
+        void receiveBuffer(void* buffer) noexcept;
+        ~UDPConnection();
+    private:
+        int mSocketHandle;
+        struct sockaddr_in mSocketAddress;
+    };
+
+}}

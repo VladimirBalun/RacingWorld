@@ -14,9 +14,27 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#pragma once
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+#include <string>
 
-const wchar_t* Configuration::Player::PLAYER_EMAIL = L"player@gmail.com";
-const wchar_t* Configuration::Player::PLAYER_PASSWORD = L"difficult_password";
+#include "Node.hpp"
+#include "../OpenGL4.hpp"
+
+namespace Graphics { namespace SceneGraph {
+
+    class Scene
+    {
+    public:
+        explicit Scene(HDC& windowContext, GLint sceneWidth, GLint sceneHeight)
+            : mWindowContext(windowContext), mSceneWidth(sceneWidth), mSceneHeight(sceneHeight) {}
+        GLvoid initScene();
+        GLvoid renderScene();
+        GLvoid updateScene();
+    private:
+        HDC& mWindowContext;
+        GLint mSceneWidth;
+        GLint mSceneHeight;
+    };
+
+}}
