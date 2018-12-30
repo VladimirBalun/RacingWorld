@@ -19,7 +19,7 @@ package ru.servers.gameServer.math.algebra.matrices;
 import ru.servers.gameServer.math.CoordinateAxis;
 import ru.servers.gameServer.math.algebra.vectors.Vector3;
 
-public class Matrices {
+public class Matrices4x4 {
 
     public static Matrix4x4 getIdentity(){
         return new Matrix4x4(new double[] {

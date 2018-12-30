@@ -30,18 +30,18 @@ public class Quaternion {
     private double w;
     private Vector3 vector;
 
-    public void add(Quaternion quaternion){
-        w += quaternion.w;
-        vector.setX(vector.getX() + quaternion.vector.getX());
-        vector.setY(vector.getY() + quaternion.vector.getY());
-        vector.setZ(vector.getZ() + quaternion.vector.getZ());
+    public void add(Quaternion another){
+        w += another.w;
+        vector.setX(vector.getX() + another.vector.getX());
+        vector.setY(vector.getY() + another.vector.getY());
+        vector.setZ(vector.getZ() + another.vector.getZ());
     }
 
-    public void sub(Quaternion quaternion){
-        w -= quaternion.w;
-        vector.setX(vector.getX() - quaternion.vector.getX());
-        vector.setY(vector.getY() - quaternion.vector.getY());
-        vector.setZ(vector.getZ() - quaternion.vector.getZ());
+    public void sub(Quaternion another){
+        w -= another.w;
+        vector.setX(vector.getX() - another.vector.getX());
+        vector.setY(vector.getY() - another.vector.getY());
+        vector.setZ(vector.getZ() - another.vector.getZ());
     }
 
     public void mul(double scalar){
@@ -49,6 +49,14 @@ public class Quaternion {
         vector.setX(vector.getX() * scalar);
         vector.setY(vector.getY() * scalar);
         vector.setZ(vector.getZ() * scalar);
+    }
+
+    public void mul(Quaternion another){
+        Vector3 anotherVector = another.vector;
+        w = w*another.getW() - vector.getX()*anotherVector.getX() - vector.getY()*anotherVector.getY() - vector.getZ()*anotherVector.getZ();
+        vector.setX(w*another.w + another.w*vector.getX() + vector.getY()*anotherVector.getZ() - anotherVector.getY()*vector.getZ());
+        vector.setY(w*anotherVector.getY() + another.w*vector.getY() + vector.getZ()*anotherVector.getX() - anotherVector.getZ()*vector.getX());
+        vector.setZ(w*anotherVector.getZ() + another.w*vector.getZ() + vector.getX()*anotherVector.getY() - anotherVector.getX()*vector.getY());
     }
 
 }

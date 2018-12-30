@@ -20,28 +20,32 @@ import ru.servers.gameServer.math.Constants;
 
 public class Vectors {
 
-    public static double dot(Vector2 vector, Vector2 anotherVector){
-        return vector.getX() * anotherVector.getX() +
-               vector.getY() * anotherVector.getY();
-    }
-
-    public static double dot(Vector3 vector, Vector3 anotherVector){
-        return vector.getX() * anotherVector.getX() +
-               vector.getY() * anotherVector.getY() +
-               vector.getZ() * anotherVector.getZ();
-    }
-
     public static double getAngleBetweenVectors(Vector2 vector, Vector2 anotherVector){
-        double scalar = dot(vector, anotherVector);
+        double scalar = vector.dot(anotherVector);
         double determinant = vector.getX()*anotherVector.getY() - vector.getY()*anotherVector.getX();
         return Math.atan2(determinant, scalar) * Constants.RADIANS_TO_DEGREES;
     }
 
     public static double getAngleBetweenVectors(Vector3 vector, Vector3 anotherVector){
-        double scalar = dot(vector, anotherVector);
+        double scalar = vector.dot(anotherVector);
         double lenVectorWithoutSqrt = vector.getX() + vector.getY() + vector.getZ();
         double lenAnotherVectorWithoutSqrt = anotherVector.getX() + anotherVector.getY() + anotherVector.getZ();
         return Math.acos(scalar / Math.sqrt(lenVectorWithoutSqrt*lenAnotherVectorWithoutSqrt)) * Constants.RADIANS_TO_DEGREES;
+    }
+
+    public static double getLengthBetweenTwoVectors(Vector2 vector, Vector2 anotherVector){
+        double absDifferenceX = vector.getX() - anotherVector.getX();
+        double absDifferenceY = vector.getY() - anotherVector.getY();
+        return Math.sqrt(absDifferenceX*absDifferenceX + absDifferenceY*absDifferenceY);
+    }
+
+    public static double getLengthBetweenTwoVectors(Vector3 point, Vector3 anotherVector){
+        double absDifferenceX = point.getX() - anotherVector.getX();
+        double absDifferenceY = point.getY() - anotherVector.getY();
+        double absDifferenceZ = point.getZ() - anotherVector.getZ();
+        return Math.sqrt(absDifferenceX*absDifferenceX +
+                absDifferenceY*absDifferenceY +
+                absDifferenceZ*absDifferenceZ);
     }
 
 }

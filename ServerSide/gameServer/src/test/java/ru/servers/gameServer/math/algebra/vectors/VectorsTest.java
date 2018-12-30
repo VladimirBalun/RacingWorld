@@ -21,39 +21,33 @@ import org.junit.Test;
 
 public class VectorsTest {
 
-    @Test // x*x + y*y
-    public void dotProductOfVectors2d(){
-        double scalar = Vectors.dot(new Vector2(5.0, 5.0), new Vector2(1.0, 1.0));
-        Assert.assertEquals(10.0, scalar, 0.1);
-    }
-
-    @Test // x*x + y*y + z*z
-    public void dotProductOfVectors3d(){
-        double scalar = Vectors.dot(new Vector3(5.0, 5.0, 5.0), new Vector3(1.0, 1.0, 1.0));
-        Assert.assertEquals(15.0, scalar, 0.1);
-    }
-
-    @Test // atan(v1 * v2, det(v1 && v2)) * 57.29
+    @Test // angle = atan(v1 * v2, det(v1 && v2)) * 57.29
     public void gettingAngleBetweenVectors2d(){
         double angle = Vectors.getAngleBetweenVectors(new Vector2(1.0, 1.0), new Vector2(0.0, 1.0));
         Assert.assertEquals(45.0, angle, 0.1);
     }
 
-    @Test // acos(v1 * v2 / (|v1| * |v2|)) * 57.29
+    @Test // angle = acos(v1 * v2 / (|v1| * |v2|)) * 57.29
     public void gettingAngleBetweenVectors3d(){
         double angle = Vectors.getAngleBetweenVectors(new Vector3(1.0, 1.0, 1.0), new Vector3(0.5, 0.5, 0.5));
         Assert.assertEquals(45.0, angle, 0.1);
     }
 
-    @Test // (v1(x) == v2(x), v1(y) == v2(y))
+    @Test // ( x1 == x2; y1 == y2 )
     public void equalityOfVectors2d(){
         boolean result = new Vector2(5.0, 5.0).equals(new Vector2(5.0, 5.0));
         Assert.assertTrue(result);
     }
 
-    @Test // (v1(x) == v2(x), v1(y) == v2(y), v1(z) == v2(z))
+    @Test // ( x1 == x2; y1 == y2; z1 == z2 )
     public void equalityOfVectors3d(){
         boolean result = new Vector3(5.0, 5.0, 5.0).equals(new Vector3(5.0, 5.0, 5.0));
+        Assert.assertTrue(result);
+    }
+
+    @Test // ( x1 == x2; y1 == y2; z1 == z2, w1 == w2 )
+    public void equalityOfVectors4d(){
+        boolean result = new Vector4(5.0, 5.0, 5.0, 1.0).equals(new Vector4(5.0, 5.0, 5.0, 1.0));
         Assert.assertTrue(result);
     }
 

@@ -17,8 +17,6 @@
 package ru.servers.gameServer.math.algebra.vectors;
 
 import lombok.*;
-import ru.servers.gameServer.math.Point2;
-import ru.servers.gameServer.math.Point3;
 
 @Getter
 @Setter
@@ -33,25 +31,35 @@ public class Vector4 {
     private double z;
     private double w;
 
-    public void add(Vector4 anotherVector){
-        x += anotherVector.x;
-        y += anotherVector.y;
-        z += anotherVector.z;
-        w += anotherVector.w;
+    public void add(Vector4 another){
+        x += another.x;
+        y += another.y;
+        z += another.z;
     }
 
-    public void sub(Vector4 anotherVector){
-        x -= anotherVector.x;
-        y -= anotherVector.y;
-        z -= anotherVector.z;
-        w += anotherVector.w;
+    public void sub(Vector4 another){
+        x -= another.x;
+        y -= another.y;
+        z -= another.z;
     }
 
     public void mul(double scalar){
         x *= scalar;
         y *= scalar;
         z *= scalar;
-        w *= scalar;
+    }
+
+    public double dot(Vector4 another){
+        return x*another.getX() + y*another.getY() + z*another.getZ();
+    }
+
+    public void cross(Vector4 another){
+        double tmpX = y*another.z - z*another.y;
+        double tmpY = -(x*another.z - z*another.x);
+        double tmpZ = x*another.y - y*another.x;
+        x = tmpX;
+        y = tmpY;
+        z = tmpZ;
     }
 
     public double getLength(){
@@ -73,14 +81,6 @@ public class Vector4 {
 
     public Vector3 toVector3(){
         return new Vector3(x, y, z);
-    }
-
-    public Point2 toPoint2(){
-        return new Point2(x, y);
-    }
-
-    public Point3 toPoint3(){
-        return new Point3(x, y, z);
     }
 
     public double[] toArray(){

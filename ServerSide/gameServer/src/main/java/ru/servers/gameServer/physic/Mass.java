@@ -16,18 +16,18 @@
 
 package ru.servers.gameServer.physic;
 
-import ru.servers.gameServer.math.Point2;
+import ru.servers.gameServer.math.algebra.vectors.Vector2;
 
 public class Mass {
 
-    public static Point2 getMassCenter(Point2... points) throws IllegalArgumentException {
+    public static Vector2 getMassCenter(Vector2... points) throws IllegalArgumentException {
         int count_vertexes = points.length;
         if (count_vertexes == 0) {
             throw new IllegalArgumentException("Count points is null.");
         }
 
-        Point2 massCenter = new Point2();
-        for (Point2 point : points) {
+        Vector2 massCenter = new Vector2();
+        for (Vector2 point : points) {
             massCenter.setX(massCenter.getX() + point.getX());
             massCenter.setY(massCenter.getY() + point.getY());
         }

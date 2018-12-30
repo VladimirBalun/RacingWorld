@@ -16,17 +16,16 @@
 
 package ru.servers.gameServer.math.geometry;
 
-import lombok.ToString;
 import org.junit.Assert;
 import org.junit.Test;
-import ru.servers.gameServer.math.Point2;
+import ru.servers.gameServer.math.algebra.vectors.Vector2;
 
 public class TriangleTest {
 
     private Triangle triangle = new Triangle(
-            new Point2(0.0, 0.0), //       (5;5)
-            new Point2(5.0, 5.0), //
-            new Point2(10.0, 0.0)  // (0;0)     (10;0)
+            new Vector2(0.0, 0.0), //       (5;5)
+            new Vector2(5.0, 5.0), //
+            new Vector2(10.0, 0.0)  // (0;0)     (10;0)
     );
 
     @Test  // Sqrt(p(p-a) * (p-b) * (p-c))

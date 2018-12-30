@@ -16,5 +16,68 @@
 
 package ru.servers.gameServer.math.algebra.matrices;
 
+import org.junit.Assert;
+import org.junit.Test;
+import ru.servers.gameServer.math.algebra.vectors.Vector2;
+
 public class Matrix2x2Test {
+
+    private double[] firstMatrix = {
+            1.0, 2.0,
+            1.0, 2.0
+    };
+
+    private double[] secondMatrix = {
+            5.0, 5.0,
+            5.0, 5.0
+    };
+
+    @Test // matrix = [ m1[0][0] + m2[0][0], ..., m1[1][1] + m2[1][1] ]
+    public void additionMatrices(){
+        Matrix2x2 matrix = new Matrix2x2(firstMatrix);
+        matrix.add(new Matrix2x2(secondMatrix));
+        Assert.assertArrayEquals(new double[]{
+                6.0, 7.0,
+                6.0, 7.0
+        }, matrix.toArray(), 0.1);
+    }
+
+    @Test // matrix = [ m1[0][0] - m2[0][0], ..., m1[1][1] - m2[1][1] ]
+    public void subtractionMatrices(){
+        Matrix2x2 matrix = new Matrix2x2(secondMatrix);
+        matrix.sub(new Matrix2x2(firstMatrix));
+        Assert.assertArrayEquals(new double[]{
+                4.0, 3.0,
+                4.0, 3.0
+        }, matrix.toArray(), 0.1);
+    }
+
+    @Test // matrix = [ m[0][0] * scalar, ..., m[1][1] * scalar ]
+    public void multiplicationMatrixByScalar(){
+        Matrix2x2 matrix = new Matrix2x2(secondMatrix);
+        matrix.mul(2.0);
+        Assert.assertArrayEquals(new double[]{
+                10.0, 10.0,
+                10.0, 10.0
+        }, matrix.toArray(), 0.1);
+    }
+
+    @Test // vector = ( m[0][0]*vec.x + m[0][1]*vec.y; m[1][0]*vec.x + m[1][1]*vec.y )
+    public void multiplicationMatrixByVector(){
+        Vector2 vector = new Vector2(1.0, 2.0);
+        Matrix2x2 matrix = new Matrix2x2(firstMatrix);
+        Vector2 newVector = matrix.mul(vector);
+        Assert.assertEquals(new Vector2(5.0, 5.0), newVector);
+    }
+
+    @Test // matrix = [ m[0][0] = m[0][0], m[0][1] = m[1][0] ..., m[1][1] = m[1][1] ]
+    public void transpositionMatrix(){
+        Matrix2x2 matrix = new Matrix2x2(firstMatrix);
+        matrix.transpose();
+        Assert.assertArrayEquals(new double[]{
+                1.0, 1.0,
+                2.0, 2.0
+        }, matrix.toArray(), 0.1);
+    }
+
 }

@@ -18,6 +18,7 @@ package ru.servers.gameServer.math.algebra.matrices;
 
 import org.junit.Assert;
 import org.junit.Test;
+import ru.servers.gameServer.math.algebra.vectors.Vector4;
 
 public class Matrix4x4Test {
 
@@ -35,7 +36,7 @@ public class Matrix4x4Test {
             5.0, 5.0, 5.0, 5.0
     };
 
-    @Test // m[0] + n[0], ..., m[15] + n[15]
+    @Test // matrix = [ m1[0][0] + m2[0][0], ..., m1[3][3] + m2[3][3] ]
     public void additionMatrices(){
         Matrix4x4 matrix = new Matrix4x4(firstMatrix);
         matrix.add(new Matrix4x4(secondMatrix));
@@ -47,7 +48,7 @@ public class Matrix4x4Test {
         }, matrix.toArray(), 0.1);
     }
 
-    @Test // m[0] - n[0], ..., m[15] - n[15]
+    @Test // matrix = [ m1[0][0] - m2[0][0], ..., m1[3][3] - m2[3][3] ]
     public void subtractionMatrices(){
         Matrix4x4 matrix = new Matrix4x4(secondMatrix);
         matrix.sub(new Matrix4x4(firstMatrix));
@@ -59,10 +60,10 @@ public class Matrix4x4Test {
         }, matrix.toArray(), 0.1);
     }
 
-    @Test // m[0] * dot, ..., m[15] * dot
+    @Test // matrix = [ m[0][0] * scalar, ..., m[3][3] * scalar
     public void multiplicationMatrixByScalar(){
         Matrix4x4 matrix = new Matrix4x4(secondMatrix);
-        matrix.mul(2);
+        matrix.mul(2.0);
         Assert.assertArrayEquals(new double[]{
                 10.0, 10.0, 10.0, 10.0,
                 10.0, 10.0, 10.0, 10.0,
@@ -71,8 +72,16 @@ public class Matrix4x4Test {
         }, matrix.toArray(), 0.1);
     }
 
-    @Test // m[0] = m[0], m[1] = m[4] ..., m[15] = m[15]
-    public void transpositionMatrices(){
+    @Test // vector = ( m[0][0]*vec.x + m[0][1]*vec.y + m[0][2]*vec.z; ... ; ... )
+    public void multiplicationMatrixByVector(){
+        Vector4 vector = new Vector4(1.0, 2.0, 3.0, 1.0);
+        Matrix4x4 matrix = new Matrix4x4(firstMatrix);
+        Vector4 newVector = matrix.mul(vector);
+        Assert.assertEquals(new Vector4(14.0, 14.0, 14.0, 1.0), newVector);
+    }
+
+    @Test // matrix = [ m[0][0] = m[0][0], m[0][1] = m[1][0] ..., m[3][3] = m[3][3] ]
+    public void transpositionMatrix(){
         Matrix4x4 matrix = new Matrix4x4(firstMatrix);
         matrix.transpose();
         Assert.assertArrayEquals(new double[]{

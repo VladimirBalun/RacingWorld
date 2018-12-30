@@ -25,23 +25,22 @@ public class QuaternionTest {
     // Q = 5.0 + 1.0i + 2.0j + 3.0k
     private Quaternion quaternion = new Quaternion(5.0, new Vector3(1.0, 2.0, 3.0));
 
-    @Test // w + w; xi + xi; yj + yj; zk + zk
+    @Test // quaternion = [ w + w; xi + xi; yj + yj; zk + zk ]
     public void additionOfQuaternions(){
         quaternion.add(new Quaternion(5.0, new Vector3(2.0, 1.0, 0.0)));
         Assert.assertEquals(new Quaternion(10.0, new Vector3(3.0, 3.0, 3.0)), quaternion);
     }
 
-    @Test // w - w; xi - xi; yj - yj; zk - zk
+    @Test // quaternion = [ w - w; xi - xi; yj - yj; zk - zk ]
     public void subtractionOfQuaternions(){
         quaternion.sub(new Quaternion(5.0, new Vector3(1.0, 2.0, 3.0)));
         Assert.assertEquals(new Quaternion(0.0, new Vector3(0.0, 0.0, 0.0)), quaternion);
     }
 
-    @Test // w * scalar; xi * scalar; yj * scalar; zk * scalar
+    @Test // quaternion = [ w * scalar; xi * scalar; yj * scalar; zk * scalar ]
     public void multiplicationOfQuaternionsByScalar(){
         quaternion.mul(2.0);
         Assert.assertEquals(new Quaternion(10.0, new Vector3(2.0, 4.0, 6.0)), quaternion);
     }
-
 
 }

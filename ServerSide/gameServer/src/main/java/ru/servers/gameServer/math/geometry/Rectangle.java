@@ -17,8 +17,8 @@
 package ru.servers.gameServer.math.geometry;
 
 import lombok.*;
-import ru.servers.gameServer.math.Points;
-import ru.servers.gameServer.math.Point2;
+import ru.servers.gameServer.math.algebra.vectors.Vector2;
+import ru.servers.gameServer.math.algebra.vectors.Vectors;
 
 @Getter
 @Setter
@@ -28,10 +28,10 @@ import ru.servers.gameServer.math.Point2;
 @AllArgsConstructor
 public class Rectangle {
 
-    private Point2 leftBottomPoint;
-    private Point2 leftTopPoint;
-    private Point2 rightTopPoint;
-    private Point2 rightBottomPoint;
+    private Vector2 leftBottomPoint;
+    private Vector2 leftTopPoint;
+    private Vector2 rightTopPoint;
+    private Vector2 rightBottomPoint;
 
     public double getArea(){
         double length = getLength();
@@ -44,8 +44,8 @@ public class Rectangle {
     }
 
     public double getLength(){
-        double firstDifference = Points.getLengthBetweenTwoPoints(leftTopPoint, rightTopPoint);
-        double secondDifference = Points.getLengthBetweenTwoPoints(leftTopPoint, leftBottomPoint);
+        double firstDifference = Vectors.getLengthBetweenTwoVectors(leftTopPoint, rightTopPoint);
+        double secondDifference = Vectors.getLengthBetweenTwoVectors(leftTopPoint, leftBottomPoint);
         return firstDifference > secondDifference ? firstDifference : secondDifference;
     }
 
@@ -54,19 +54,19 @@ public class Rectangle {
     }
 
     public double getWidth(){
-        double firstDifference = Points.getLengthBetweenTwoPoints(leftTopPoint, rightTopPoint);
-        double secondDifference = Points.getLengthBetweenTwoPoints(leftTopPoint, leftBottomPoint);
+        double firstDifference = Vectors.getLengthBetweenTwoVectors(leftTopPoint, rightTopPoint);
+        double secondDifference = Vectors.getLengthBetweenTwoVectors(leftTopPoint, leftBottomPoint);
         return firstDifference < secondDifference ? firstDifference : secondDifference;
     }
 
-    public boolean isInside(Point2 point) {
+    public boolean isInside(Vector2 point) {
 
         return (leftBottomPoint.getX() < point.getX() && point.getX() < rightBottomPoint.getX()) &&
                (leftBottomPoint.getY() < point.getY() && point.getY() < leftTopPoint.getY());
     }
 
-    public Point2[] toPointArray(){
-        return new Point2[] {
+    public Vector2[] toVectorArray(){
+        return new Vector2[] {
                 this.leftBottomPoint,
                 this.leftTopPoint,
                 this.rightTopPoint,

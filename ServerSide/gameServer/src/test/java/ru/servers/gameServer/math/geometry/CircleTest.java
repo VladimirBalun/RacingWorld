@@ -18,7 +18,7 @@ package ru.servers.gameServer.math.geometry;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.servers.gameServer.math.Point2;
+import ru.servers.gameServer.math.algebra.vectors.Vector2;
 
 public class CircleTest {
 
@@ -27,7 +27,7 @@ public class CircleTest {
     // | (5;5) |
     //  \_____/
     private final double radius = 5.0;
-    private final Point2 centerPoint = new Point2(5.0, 5.0);
+    private final Vector2 centerPoint = new Vector2(5.0, 5.0);
     private Circle circle = new Circle(radius, centerPoint);
 
     @Test // PI * r^2
@@ -50,7 +50,7 @@ public class CircleTest {
 
     @Test
     public void checkingIfPointIsInsideRectangle(){
-        Assert.assertTrue(circle.isInside(new Point2(2.5, 2.5)));
+        Assert.assertTrue(circle.isInside(new Vector2(2.5, 2.5)));
     }
 
 }

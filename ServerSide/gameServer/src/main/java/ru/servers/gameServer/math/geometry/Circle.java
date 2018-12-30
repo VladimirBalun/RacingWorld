@@ -17,8 +17,8 @@
 package ru.servers.gameServer.math.geometry;
 
 import lombok.*;
-import ru.servers.gameServer.math.Point2;
-import ru.servers.gameServer.math.Points;
+import ru.servers.gameServer.math.algebra.vectors.Vector2;
+import ru.servers.gameServer.math.algebra.vectors.Vectors;
 
 @Getter
 @Setter
@@ -29,7 +29,7 @@ import ru.servers.gameServer.math.Points;
 public class Circle {
 
     private double radius;
-    private Point2 centerPoint;
+    private Vector2 centerPoint;
 
     public double getDiameter(){
         return radius * 2;
@@ -43,8 +43,8 @@ public class Circle {
         return Math.PI * radius;
     }
 
-    public boolean isInside(Point2 point){
-        double lengthBetweenPointAndCircleCenter = Points.getLengthBetweenTwoPoints(point, centerPoint);
+    public boolean isInside(Vector2 point){
+        double lengthBetweenPointAndCircleCenter = Vectors.getLengthBetweenTwoVectors(point, centerPoint);
         return lengthBetweenPointAndCircleCenter < radius;
     }
 

@@ -18,15 +18,15 @@ package ru.servers.gameServer.math.geometry;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.servers.gameServer.math.Point2;
+import ru.servers.gameServer.math.algebra.vectors.Vector2;
 
 public class RectangleTest {
 
     private Rectangle rectangle = new Rectangle(
-            new Point2(0.0, 0.0), // (0;5)      (5;5)
-            new Point2(0.0, 5.0), //
-            new Point2(5.0, 5.0), //
-            new Point2(5.0, 0.0)  // (0;0)      (5;0)
+            new Vector2(0.0, 0.0), // (0;5)      (5;5)
+            new Vector2(0.0, 5.0), //
+            new Vector2(5.0, 5.0), //
+            new Vector2(5.0, 0.0)  // (0;0)      (5;0)
     );
 
     @Test  // a * b
@@ -56,7 +56,7 @@ public class RectangleTest {
 
     @Test
     public void checkingIfPointIsInsideRectangle(){
-        Assert.assertTrue(rectangle.isInside(new Point2(2.5, 2.5)));
+        Assert.assertTrue(rectangle.isInside(new Vector2(2.5, 2.5)));
     }
 
 }
