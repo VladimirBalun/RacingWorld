@@ -14,9 +14,10 @@
 # limitations under the License.
 #
 
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.10)
 
 project (RacingWorld)
+set (CMAKE_CXX_STANDARD 17)
 
 file (GLOB_RECURSE GRAPHICS_SRC "Graphics/*.hpp" "Graphics/*.cpp")
 file (GLOB_RECURSE GR_SRC "Graphics/SceneGraph/*.hpp" "Graphics/SceneGraph/*.cpp")
