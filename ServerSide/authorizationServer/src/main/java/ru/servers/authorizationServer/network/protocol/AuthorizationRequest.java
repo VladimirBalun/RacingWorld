@@ -22,7 +22,7 @@ public class AuthorizationRequest {
 
     // Byte protocol from client
     // [0...253] - email address
-    // [254..286] - username
+    // [254...286] - username
     // [287...319] - password
 
     private byte[] bufferFromRequest;

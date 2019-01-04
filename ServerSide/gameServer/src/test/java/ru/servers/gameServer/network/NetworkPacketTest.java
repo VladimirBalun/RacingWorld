@@ -13,7 +13,7 @@ public class NetworkPacketTest {
 
     private NetworkPacket networkPacket = new NetworkPacket(new byte[] {
             PacketType.LOGIN_PACKET, // Packet type
-            0x00, 0x00, 0x00, 0x55 // Packet number
+            0x00, 0x00, 0x00, 0x55 // Packet number(85 in dec system)
     });
 
     @Test
@@ -28,7 +28,7 @@ public class NetworkPacketTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void settingIncorrectBufferForNetworkPacket(){
-        NetworkPacket incorrectPacket = new NetworkPacket(new byte[] {});
+        new NetworkPacket(new byte[] {});
     }
 
 }

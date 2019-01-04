@@ -17,6 +17,7 @@
 package ru.servers.gameServer.network;
 
 import lombok.extern.log4j.Log4j;
+import ru.servers.gameServer.network.protocol.fromServer.PacketFromServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,6 +42,7 @@ public class GameServer implements Server {
     public void startServer(int maxCountConnections){
         ExecutorService threadPool = Executors.newFixedThreadPool(maxCountConnections);
         Semaphore semaphore = new Semaphore(maxCountConnections);
+        log.info("Game server started successfully.");
         isListening = true;
 
         while (isListening) {
@@ -48,9 +50,8 @@ public class GameServer implements Server {
                 try {
                     semaphore.acquire();
                     Socket clientSocket = serverSocket.accept();
-                    InputStream inputStream = clientSocket.getInputStream();
-                    OutputStream outputStream = clientSocket.getOutputStream();
-                    // TODO: handling of request
+                    handleRequest(clientSocket);
+                    log.debug("Request was handled successfully.");
                 } catch (IOException | InterruptedException e) {
                     log.error("Error during working with request. Cause:" + e.getMessage());
                 } finally {
@@ -58,6 +59,18 @@ public class GameServer implements Server {
                 }
             });
         }
+    }
+
+    private void handleRequest(Socket clientSocket) throws IOException {
+        InputStream inputStream = clientSocket.getInputStream();
+        byte[] buffer = new byte[1024]; // TODO: Change on const
+        inputStream.read(buffer, 0, buffer.length);
+
+        NetworkManager networkManager = new NetworkManager();
+        PacketFromServer packet = networkManager.onReceive(buffer);
+        OutputStream outputStream = clientSocket.getOutputStream();
+        outputStream.write(packet.getBuffer());
+        outputStream.flush();
     }
 
     @Override

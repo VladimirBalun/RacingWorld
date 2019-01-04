@@ -16,6 +16,8 @@
 
 package ru.servers.gameServer.network.protocol;
 
+import ru.servers.gameServer.common.Primitives;
+
 import java.nio.ByteBuffer;
 
 public class NetworkPacket {
@@ -27,12 +29,14 @@ public class NetworkPacket {
     protected byte[] buffer;
 
     private final static byte POSITION_PACKET_TYPE = 0; // index
-    private final static byte SIZE_PACKET_TYPE = 1; // bytes
+    private final static byte SIZE_PACKET_TYPE = Primitives.BYTE_SIZE; // bytes
 
     private final static byte POSITION_PACKET_NUMBER = 1; // index
-    private final static byte SIZE_PACKET_NUMBER = 4; // bytes
+    private final static byte SIZE_PACKET_NUMBER = Primitives.INT_SIZE; // bytes
 
-    protected final static byte SIZE_NETWORK_PACKET = SIZE_PACKET_TYPE + SIZE_PACKET_NUMBER;
+    private final static byte SIZE_OF_THE_END_SYMBOL = Primitives.BYTE_SIZE;
+
+    protected final static byte SIZE_NETWORK_PACKET = SIZE_PACKET_TYPE + SIZE_PACKET_NUMBER + SIZE_OF_THE_END_SYMBOL;
 
     public NetworkPacket(byte[] bufferFromRequest){
         if (bufferFromRequest.length >= SIZE_PACKET_NUMBER){
@@ -43,13 +47,19 @@ public class NetworkPacket {
     }
 
     public byte getPacketType(){
-        // [0] - protocol type
         return buffer[POSITION_PACKET_TYPE];
     }
 
+    public void setPacketType(byte packetType){
+        buffer[POSITION_PACKET_TYPE] = packetType;
+    }
+
     public int getPacketNumber(){
-        // [1...4] - packet number
         return ByteBuffer.wrap(buffer, POSITION_PACKET_NUMBER, SIZE_PACKET_NUMBER).getInt();
+    }
+
+    public void setPacketNumber(int packetNumber){
+        ByteBuffer.wrap(buffer).putInt(POSITION_PACKET_NUMBER,packetNumber);
     }
 
 }

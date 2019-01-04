@@ -17,7 +17,6 @@
 package ru.servers.authorizationServer.network;
 
 import lombok.extern.log4j.Log4j;
-import org.springframework.stereotype.Component;
 import ru.servers.authorizationServer.network.protocol.AuthorizationAnswer;
 import ru.servers.authorizationServer.network.protocol.AuthorizationRequest;
 
@@ -31,7 +30,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
 @Log4j
-@Component
 public final class AuthorizationServer implements Server {
 
     private boolean isListening;

@@ -18,6 +18,7 @@ package ru.servers.gameServer.network.protocol;
 
 public class PacketType {
 
+    public static final byte ERROR_PACKET = 0;
     public static final byte LOGIN_PACKET = 1;
     public static final byte LOGIN_ANSWER_PACKET = 2;
     public static final byte LOGOUT_PACKET = 3;
