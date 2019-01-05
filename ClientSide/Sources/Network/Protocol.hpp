@@ -38,11 +38,12 @@ namespace Platforms { namespace Network {
         WORLD_ACTION_PACKET = 8
     };
 
-    #pragma pack(1)
+    #pragma pack(push, 1)
+
     struct NetworkPacket 
     {
-        const std::int8_t mType;
-        const std::int32_t mNumber;
+        std::int8_t mType = 0;
+        std::int32_t mNumber = 0;
 
         NetworkPacket() = default;
         NetworkPacket(std::int32_t number, std::int8_t type)
@@ -53,22 +54,27 @@ namespace Platforms { namespace Network {
     struct Login : public NetworkPacket
     {
         std::array<wchar_t, Configuration::Game::MAX_SIZE_EMAIL> mEmail;
+        std::int8_t mEmailSize;
         std::array<wchar_t, Configuration::Game::MAX_SIZE_PASSWORD> mPassword;
-        static constexpr std::uint16_t SIZE_PACKET = sizeof(mType) + sizeof(mNumber) + sizeof(mEmail) + sizeof(mPassword);
+        std::int8_t mPasswordSize;
+        static constexpr std::uint16_t SIZE_PACKET = sizeof(mType) + sizeof(mNumber) + 
+            sizeof(mEmail) + sizeof(mEmailSize) + sizeof(mPassword) + sizeof(mPasswordSize);
 
         Login() = default;
         Login(std::int32_t number, 
             const std::array<wchar_t, Configuration::Game::MAX_SIZE_EMAIL>& email,
-            const std::array<wchar_t, Configuration::Game::MAX_SIZE_PASSWORD>& password)
-            : NetworkPacket(number, LOGIN_PACKET), mEmail(email), mPassword(password) {}
+            std::int8_t emailSize,
+            const std::array<wchar_t, Configuration::Game::MAX_SIZE_PASSWORD>& password,
+            std::int8_t passwordSize)
+            : NetworkPacket(number, LOGIN_PACKET), mEmail(email), mEmailSize(emailSize), mPassword(password), mPasswordSize(passwordSize) {}
     };
 
     // Packet from server
     struct LoginAnswer : public NetworkPacket
     {
-        const std::int32_t mToken;
-        const bool mIsSuccess;
-        static constexpr std::uint16_t SIZE_PACKET = sizeof(mType) + sizeof(mNumber) + sizeof(mToken) + sizeof(mIsSuccess);
+        std::int32_t mToken;
+        bool mResultLogin;
+        static constexpr std::uint16_t SIZE_PACKET = sizeof(mType) + sizeof(mNumber) + sizeof(mToken) + sizeof(mResultLogin);
     };
 
     // Packet to server
@@ -87,8 +93,8 @@ namespace Platforms { namespace Network {
     // Packet from server
     struct InitializePositionAnswer : public NetworkPacket 
     {
-        const bool mIsSuccess;
-        static constexpr std::uint8_t SIZE_PACKET = sizeof(mType) + sizeof(mNumber) + sizeof(mIsSuccess);
+        bool mResultInitialization;
+        static constexpr std::uint8_t SIZE_PACKET = sizeof(mType) + sizeof(mNumber) + sizeof(mResultInitialization);
     };
 
     // Packet to server
@@ -107,7 +113,7 @@ namespace Platforms { namespace Network {
     // Packet from server
     struct WorldAction : public NetworkPacket
     {
-        const std::int32_t mToken;
+        std::int32_t mToken;
         const Math::Vector3<float> mPositions[Configuration::Game::MAX_COUNT_PLAYERS];
         const Math::Vector3<float> mDirections[Configuration::Game::MAX_COUNT_PLAYERS];
         static constexpr std::uint16_t SIZE_PACKET = sizeof(mType) + sizeof(mNumber) + sizeof(mToken) + sizeof(mPositions) + sizeof(mDirections);

@@ -27,13 +27,13 @@
         std::cout << "[DEBUG] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
 
     #define LOG_WARNING(text) \
-        std::cerr << "[WARNING] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
+        std::cout << "[WARNING] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
 
     #define LOG_INFO(text) \
         std::cout << "[INFO] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
 
     #define LOG_ERROR(text) \
-        std::cerr << "[ERROR] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
+        std::cout << "[ERROR] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
 
 #else // _DEBUG
 

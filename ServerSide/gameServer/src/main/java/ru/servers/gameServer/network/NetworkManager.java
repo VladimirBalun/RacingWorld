@@ -16,6 +16,7 @@
 
 package ru.servers.gameServer.network;
 
+import lombok.extern.log4j.Log4j;
 import ru.servers.gameServer.network.protocol.*;
 import ru.servers.gameServer.network.protocol.fromServer.InitializePositionAnswerPacket;
 import ru.servers.gameServer.network.protocol.fromServer.LoginAnswerPacket;
@@ -27,6 +28,7 @@ import ru.servers.gameServer.network.protocol.toServer.PacketToServer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@Log4j
 public class NetworkManager {
 
     private Timer timer = new Timer();
@@ -36,7 +38,9 @@ public class NetworkManager {
         byte[] bufferFromServer;
         switch (buffer[0]){
             case PacketType.LOGIN_PACKET:
+                log.debug("Login packet was received.");
                 packet = new LoginPacket(buffer);
+
                 // TODO: add handling of request
                 bufferFromServer = new byte[LoginAnswerPacket.SIZE_PACKET];
                 LoginAnswerPacket loginAnswerPacket = new LoginAnswerPacket(bufferFromServer);
@@ -46,6 +50,7 @@ public class NetworkManager {
                 loginAnswerPacket.setResultLogin(true);
                 return loginAnswerPacket;
             case PacketType.INITIALIZE_POSITION_PACKET:
+                log.debug("Initialize position packet was received.");
                 packet = new InitializePositionPacket(buffer);
                 // TODO: add handling of request
                 bufferFromServer = new byte[InitializePositionAnswerPacket.SIZE_PACKET];
@@ -56,6 +61,7 @@ public class NetworkManager {
                 initializePositionAnswerPacket.setResultInitialization(true);
                 return initializePositionAnswerPacket;
             default:
+                log.debug("Error packet was received.");
                 return new ErrorPacket();
         }
     }

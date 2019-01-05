@@ -30,7 +30,7 @@ public class Main {
             log.info("Copyright 2018 Vladimir Balun - Game server.");
             log.info("Initialization of the game server...");
             Server server = new GameServer(17012);
-            server.startServer(4);
+            server.startServer(Runtime.getRuntime().availableProcessors());
         } catch (IOException | InterruptedException  e) {
             log.fatal("Error during starting or working of the server. Cause: " + e.getMessage());
         }

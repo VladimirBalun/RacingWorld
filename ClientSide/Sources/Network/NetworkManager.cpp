@@ -18,16 +18,35 @@
 
 bool Platforms::Network::NetworkManager::login() 
 {
-    const wchar_t* email = Configuration::Player::PLAYER_EMAIL;
-    const wchar_t* password = Configuration::Player::PLAYER_PASSWORD;
-    
-    //Login* loginPacket(mPacketNumber, email, password);
-    //void* buffer = reinterpret_cast<void*>(loginPacket);
-    //mConnection.sendBuffer(buffer);
-    return true;
+    std::array<wchar_t, Configuration::Game::MAX_SIZE_EMAIL> email;
+    std::array<wchar_t, Configuration::Game::MAX_SIZE_PASSWORD> password;
+    std::copy(Configuration::Player::PLAYER_EMAIL.begin(), Configuration::Player::PLAYER_EMAIL.end(), email.begin());
+    std::copy(Configuration::Player::PLAYER_PASSWORD.begin(), Configuration::Player::PLAYER_PASSWORD.end(), password.begin());
+    std::cout << (std::int8_t) email.size() << std::endl;
+
+    // TODO: need to change on custom allocators
+    std::unique_ptr<Login> packetToServer = std::make_unique<Login>(mPacketNumber++, email, (std::int8_t) email.size(), password, (std::int8_t) password.size());
+    void* buffer = reinterpret_cast<void*>(packetToServer.get());
+    mConnection.sendBuffer(buffer);
+
+    // TODO: need to change on custom allocators
+    std::unique_ptr<LoginAnswer> packetFromServer = std::make_unique<LoginAnswer>();
+    mConnection.receiveBuffer(reinterpret_cast<void*>(packetFromServer.get()));
+    mCurrentToken = packetFromServer->mToken;
+    return packetFromServer->mResultLogin;
 }
 
-bool Platforms::Network::NetworkManager::initializePosition(const Math::Vector3<float>& position, const Math::Vector3<float>& direction)
+bool Platforms::Network::NetworkManager::initializePosition()
 {
-    return true;
+    const Math::Vector3<float>& startPosition = Configuration::Player::PLAYER_START_POSITION;
+    const Math::Vector3<float>& startDirection = Configuration::Player::PLAYER_START_DIRECTION;
+
+    // TODO: need to change on custom allocators
+    std::unique_ptr<InitializePosition> packetToServer = std::make_unique<InitializePosition>(mPacketNumber++, mCurrentToken, startPosition, startDirection);
+    void* buffer = reinterpret_cast<void*>(packetToServer.get());
+    mConnection.sendBuffer(buffer);
+
+    // TODO: need to change on custom allocators
+    std::unique_ptr<InitializePositionAnswer> packetFromServer = std::make_unique<InitializePositionAnswer>();
+    return packetFromServer->mResultInitialization;
 }

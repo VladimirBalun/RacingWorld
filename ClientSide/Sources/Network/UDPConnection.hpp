@@ -37,6 +37,7 @@ namespace Platforms { namespace Network {
     private:
         int mSocketHandle;
         struct sockaddr_in mSocketAddress;
+        static const std::uint16_t MAX_PACKET_SIZE = 1024;
     };
 
 }}

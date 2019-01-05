@@ -20,10 +20,9 @@ import lombok.extern.log4j.Log4j;
 import ru.servers.gameServer.network.protocol.fromServer.PacketFromServer;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.InetAddress;
+import java.net.DatagramSocket;
+import java.net.DatagramPacket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -32,10 +31,10 @@ import java.util.concurrent.Semaphore;
 public class GameServer implements Server {
 
     private boolean isListening;
-    private ServerSocket serverSocket;
+    private DatagramSocket serverSocket;
 
     public GameServer(int port) throws IOException {
-        serverSocket = new ServerSocket(port);
+        serverSocket = new DatagramSocket(port);
     }
 
     @Override
@@ -46,14 +45,16 @@ public class GameServer implements Server {
         isListening = true;
 
         while (isListening) {
-            threadPool.execute(() -> {
+           threadPool.execute(() -> {
                 try {
                     semaphore.acquire();
-                    Socket clientSocket = serverSocket.accept();
-                    handleRequest(clientSocket);
+                    byte[] buffer = new byte[1024];
+                    DatagramPacket packetFromClient = new DatagramPacket(buffer, buffer.length);
+                    serverSocket.receive(packetFromClient);
+                    handleRequest(packetFromClient);
                     log.debug("Request was handled successfully.");
                 } catch (IOException | InterruptedException e) {
-                    log.error("Error during working with request. Cause:" + e.getMessage());
+                    log.error("Error during handling of request. Cause:" + e.getMessage());
                 } finally {
                     semaphore.release();
                 }
@@ -61,20 +62,17 @@ public class GameServer implements Server {
         }
     }
 
-    private void handleRequest(Socket clientSocket) throws IOException {
-        InputStream inputStream = clientSocket.getInputStream();
-        byte[] buffer = new byte[1024]; // TODO: Change on const
-        inputStream.read(buffer, 0, buffer.length);
-
+    private void handleRequest(DatagramPacket packetFromClient) throws IOException {
+        InetAddress clientAddress = packetFromClient.getAddress();
+        int clientPort = packetFromClient.getPort();
         NetworkManager networkManager = new NetworkManager();
-        PacketFromServer packet = networkManager.onReceive(buffer);
-        OutputStream outputStream = clientSocket.getOutputStream();
-        outputStream.write(packet.getBuffer());
-        outputStream.flush();
+        PacketFromServer packet = networkManager.onReceive(packetFromClient.getData());
+        DatagramPacket packetToClient = new DatagramPacket(packet.getBuffer(), packet.getBuffer().length, clientAddress, clientPort);
+        serverSocket.send(packetToClient);
     }
 
     @Override
-    public void stopServer() throws IOException {
+    public void stopServer() {
         isListening = false;
         serverSocket.close();
     }

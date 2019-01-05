@@ -16,9 +16,9 @@
 
 #pragma once
 
-#include "../Math/Vector3.hpp"
+#include <memory>
 
-//#include "Protocol.hpp"
+#include "Protocol.hpp"
 #include "UDPConnection.hpp"
 #include "../Utils/Configuration.hpp"
 
@@ -30,11 +30,11 @@ namespace Platforms { namespace Network {
         explicit NetworkManager()
             : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
         bool login();
-        bool initializePosition(const Math::Vector3<float>& position, const Math::Vector3<float>& direction);
+        bool initializePosition();
     private:
         UDPConnection mConnection;
-        std::int32_t mPacketNumber;
+        std::int32_t mCurrentToken = 0;
+        std::int32_t mPacketNumber = 0;
     };
-
 
 }}

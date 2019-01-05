@@ -47,8 +47,14 @@ void Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowW
  
     ShowWindow(mWindowHandle, mCmdShow);
     UpdateWindow(mWindowHandle);
-
     initWindowContext();
+
+    Network::NetworkManager networkManager;
+    if (!networkManager.login())
+        throw std::runtime_error("Login is failure.");
+    if (!networkManager.initializePosition())
+        throw std::runtime_error("Initialization of position is failure.");
+
     Graphics::SceneGraph::Scene scene(mWindowContext, windowWidth, windowHeight);
     scene.initScene();
 
@@ -81,8 +87,8 @@ void Platforms::WindowSystem::Window::initWindowContext()
     const int format = ChoosePixelFormat(mWindowContext, &pixelFormat);
     if (format != 0) {
         SetPixelFormat(mWindowContext, format, &pixelFormat);
-        const HGLRC gl_boostrap = wglCreateContext(mWindowContext);
-        wglMakeCurrent(mWindowContext, gl_boostrap);
+        const HGLRC glBoostrap = wglCreateContext(mWindowContext);
+        wglMakeCurrent(mWindowContext, glBoostrap);
 
         static const int context_attributes[] = {
             WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
@@ -94,7 +100,7 @@ void Platforms::WindowSystem::Window::initWindowContext()
             (wglGetProcAddress("wglCreateContextAttribsARB"))
             (mWindowContext, NULL, context_attributes);
         wglMakeCurrent(mWindowContext, mOpenGLContext);
-        wglDeleteContext(gl_boostrap);
+        wglDeleteContext(glBoostrap);
     }
 }
 

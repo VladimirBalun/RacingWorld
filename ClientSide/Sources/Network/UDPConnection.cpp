@@ -39,13 +39,13 @@ Platforms::Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t
 
 void Platforms::Network::UDPConnection::sendBuffer(void* buffer) noexcept
 {
-    sendto(mSocketHandle, reinterpret_cast<char*>(buffer), 512, 0, (struct sockaddr*) &mSocketAddress, 512);
+    sendto(mSocketHandle, reinterpret_cast<char*>(buffer), MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, MAX_PACKET_SIZE);
 }
 
 void Platforms::Network::UDPConnection::receiveBuffer(void* buffer) noexcept
 {
     int sizeStub = 0;
-    recvfrom(mSocketHandle, reinterpret_cast<char*>(buffer), 512, 0, (struct sockaddr*) &mSocketAddress, &sizeStub);
+    recvfrom(mSocketHandle, reinterpret_cast<char*>(buffer), MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, &sizeStub);
 }
 
 Platforms::Network::UDPConnection::~UDPConnection()

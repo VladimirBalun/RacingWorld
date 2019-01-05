@@ -19,6 +19,8 @@
 #include <string>
 #include <filesystem>
 
+#include "../Math/Vector3.hpp"
+
 struct Configuration 
 {
     struct Game
@@ -30,13 +32,15 @@ struct Configuration
 
     struct Player 
     {
-        static const wchar_t* PLAYER_EMAIL;
-        static const wchar_t* PLAYER_PASSWORD;
+        static const std::wstring PLAYER_EMAIL;
+        static const std::wstring PLAYER_PASSWORD;
+        static const Math::Vector3<float> PLAYER_START_POSITION;
+        static const Math::Vector3<float> PLAYER_START_DIRECTION;
     };
 
     struct Network 
     {
         static const char* SERVER_ADDRESS;
-        static const std::uint16_t SERVER_PORT = 32123;
+        static const std::uint16_t SERVER_PORT = 17012;
     };
 };

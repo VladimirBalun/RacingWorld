@@ -16,10 +16,12 @@
 
 #pragma once
 
+#include <WinSock2.h>
+
 #include "WindowEventListener.hpp"
-#include "../../Graphics/OpenGL4.hpp"
-#include "../../Graphics/SceneGraph/Scene.hpp"
 #include "../../Utils/Logger.hpp"
+#include "../../Network/NetworkManager.hpp"
+#include "../../Graphics/SceneGraph/Scene.hpp"
 
 namespace Platforms { namespace WindowSystem {
 
