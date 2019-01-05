@@ -20,8 +20,8 @@ set SERVER_SIDE_PATH=%CURRENT_PATH%\..\ServerSide
 set AUTHORIZATION_SERVER_PATH=%SERVER_SIDE_PATH%\authorizationServer
 set GAME_SERVER_PATH=%SERVER_SIDE_PATH%\gameServer
 
-set AUTHORIZATION_SERVER_JAR=%AUTHORIZATION_SERVER_PATH%\target\authorizationServer-0.0.1-SNAPSHOT.jar
-set GAME_SERVER_JAR=%GAME_SERVER_PATH%\target\gameServer-0.0.1-SNAPSHOT.jar
+set AUTHORIZATION_SERVER_JAR=%AUTHORIZATION_SERVER_PATH%\target\authorizationServer-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+set GAME_SERVER_JAR=%GAME_SERVER_PATH%\target\gameServer-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 echo Copyright 2018 Vladimir Balun - Script to run all the servers on Windows. 
 start java -jar %AUTHORIZATION_SERVER_JAR%

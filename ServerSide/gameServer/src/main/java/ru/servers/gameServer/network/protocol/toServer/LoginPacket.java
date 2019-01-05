@@ -29,7 +29,7 @@ public final class LoginPacket extends NetworkPacket implements PacketToServer {
     // [0] - protocol type
     // [1...4] - packet number
     // [5...513] - email(254 symbols in UTF-8)
-    // [514] - email length
+    // [514] - email length TODO: need to change size of email on two bytes
     // [515...578] - password(32 symbols in UTF-8)
     // [579] - password length
 

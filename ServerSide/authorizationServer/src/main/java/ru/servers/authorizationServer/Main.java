@@ -29,7 +29,7 @@ public class Main {
 	    try {
 	        log.info("Copyright 2018 Vladimir Balun - Authorization server.");
 	        log.info("Initialization of the authorization server...");
-            Server server = new AuthorizationServer(17012);
+            Server server = new AuthorizationServer(Runtime.getRuntime().availableProcessors());
             server.startServer(4);
         } catch (IOException | InterruptedException  e) {
             log.fatal("Error during starting or working of the server. Cause: " + e.getMessage());

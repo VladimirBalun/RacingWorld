@@ -1,0 +1,12 @@
+ru\servers\authorizationServer\network\Server.class
+ru\servers\authorizationServer\network\AuthorizationHandler.class
+ru\servers\authorizationServer\data\service\UsersService.class
+ru\servers\authorizationServer\configuration\DataConfiguration.class
+ru\servers\authorizationServer\data\dao\UsersRepository.class
+ru\servers\authorizationServer\network\protocol\AuthorizationRequest.class
+ru\servers\authorizationServer\Main.class
+ru\servers\authorizationServer\network\AuthorizationServer.class
+ru\servers\authorizationServer\network\NetworkHandler.class
+ru\servers\authorizationServer\data\entity\User.class
+ru\servers\authorizationServer\network\protocol\AuthorizationAnswer.class
+ru\servers\authorizationServer\data\service\UsersServiceImpl.class

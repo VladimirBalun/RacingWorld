@@ -20,8 +20,8 @@ readonly SERVER_SIDE_PATH=$CURRENT_PATH\..\ServerSide
 readonly AUTHORIZATION_SERVER_PATH=$SERVER_SIDE_PATH\authorizationServer
 readonly GAME_SERVER_PATH=$SERVER_SIDE_PATH\gameServer
 
-readonly AUTHORIZATION_SERVER_JAR=$AUTHORIZATION_SERVER_PATH\target\authorizationServer-0.0.1-SNAPSHOT.jar
-readonly GAME_SERVER_JAR=$GAME_SERVER_PATH\target\gameServer-0.0.1-SNAPSHOT.jar
+readonly AUTHORIZATION_SERVER_JAR=$AUTHORIZATION_SERVER_PATH\target\authorizationServer-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+readonly GAME_SERVER_JAR=$GAME_SERVER_PATH\target\gameServer-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 echo $GAME_SERVER_JAR
 echo $AUTHORIZATION_SERVER_JAR
