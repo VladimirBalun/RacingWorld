@@ -17,6 +17,7 @@
 package ru.servers.gameServer.network;
 
 import lombok.extern.log4j.Log4j;
+import ru.servers.gameServer.network.protocol.ErrorPacket;
 import ru.servers.gameServer.network.protocol.fromServer.PacketFromServer;
 
 import java.io.IOException;
@@ -45,30 +46,44 @@ public class GameServer implements Server {
         isListening = true;
 
         while (isListening) {
-           threadPool.execute(() -> {
-                try {
-                    semaphore.acquire();
-                    byte[] buffer = new byte[1024];
-                    DatagramPacket packetFromClient = new DatagramPacket(buffer, buffer.length);
-                    serverSocket.receive(packetFromClient);
+            try {
+                semaphore.acquire();
+                byte[] buffer = new byte[1024];
+                DatagramPacket packetFromClient = new DatagramPacket(buffer, buffer.length);
+                serverSocket.receive(packetFromClient);
+                threadPool.execute(() -> {
                     handleRequest(packetFromClient);
-                    log.debug("Request was handled successfully.");
-                } catch (IOException | InterruptedException e) {
-                    log.error("Error during handling of request. Cause:" + e.getMessage());
-                } finally {
-                    semaphore.release();
-                }
-            });
+                });
+            } catch (IOException | InterruptedException e) {
+                log.warn("Error during of handling client request. Cause: " + e.getMessage());
+            } finally {
+                semaphore.release();
+            }
         }
+
+        threadPool.shutdown();
     }
 
-    private void handleRequest(DatagramPacket packetFromClient) throws IOException {
+    private void handleRequest(DatagramPacket packetFromClient) {
         InetAddress clientAddress = packetFromClient.getAddress();
         int clientPort = packetFromClient.getPort();
         NetworkManager networkManager = new NetworkManager();
-        PacketFromServer packet = networkManager.onReceive(packetFromClient.getData());
-        DatagramPacket packetToClient = new DatagramPacket(packet.getBuffer(), packet.getBuffer().length, clientAddress, clientPort);
-        serverSocket.send(packetToClient);
+
+        try {
+            PacketFromServer packet = networkManager.onReceive(packetFromClient.getData());
+            DatagramPacket packetToClient = new DatagramPacket(packet.getBuffer(), packet.getBuffer().length, clientAddress, clientPort);
+            serverSocket.send(packetToClient);
+            log.debug("Response was sent to client. Packet: " + packet.toString());
+        } catch (IOException e){
+            try {
+                PacketFromServer errorPacket = new ErrorPacket();
+                DatagramPacket packetToClient = new DatagramPacket(errorPacket.getBuffer(), errorPacket.getBuffer().length, clientAddress, clientPort);
+                serverSocket.send(packetToClient);
+                log.debug("Error packet was sent to client. Packet: " + errorPacket.toString());
+            } catch (IOException innerException) {
+                log.warn("Response was not sent to client. Cause: " + innerException.getMessage());
+            }
+        }
     }
 
     @Override

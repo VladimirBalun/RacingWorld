@@ -16,10 +16,14 @@
 
 package ru.servers.gameServer.network.protocol;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.servers.gameServer.common.Primitives;
 
 import java.nio.ByteBuffer;
 
+@ToString
+@EqualsAndHashCode
 public class NetworkPacket {
 
     // Byte protocol:

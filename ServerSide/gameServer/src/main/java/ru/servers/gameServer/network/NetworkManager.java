@@ -38,8 +38,8 @@ public class NetworkManager {
         byte[] bufferFromServer;
         switch (buffer[0]){
             case PacketType.LOGIN_PACKET:
-                log.debug("Login packet was received.");
                 packet = new LoginPacket(buffer);
+                log.debug("Login packet was received. Packet: " + packet.toString());
 
                 // TODO: add handling of request
                 bufferFromServer = new byte[LoginAnswerPacket.SIZE_PACKET];
@@ -50,8 +50,9 @@ public class NetworkManager {
                 loginAnswerPacket.setResultLogin(true);
                 return loginAnswerPacket;
             case PacketType.INITIALIZE_POSITION_PACKET:
-                log.debug("Initialize position packet was received.");
                 packet = new InitializePositionPacket(buffer);
+                log.debug("Initialize position packet was received. Packet: " + packet.toString());
+
                 // TODO: add handling of request
                 bufferFromServer = new byte[InitializePositionAnswerPacket.SIZE_PACKET];
                 InitializePositionAnswerPacket initializePositionAnswerPacket = new InitializePositionAnswerPacket(bufferFromServer);
