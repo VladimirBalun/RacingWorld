@@ -23,7 +23,7 @@ Platforms::WindowSystem::Window::Window(HINSTANCE& instance, int cmdShow)
     mWindowClass.lpszClassName = mWindowClassName;
     mWindowClass.cbSize = sizeof(WNDCLASSEX);
     mWindowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    mWindowClass.lpfnWndProc = &WindowEventListener::onWindowEvent;
+    mWindowClass.lpfnWndProc = (WNDPROC)WindowEventListener::onWindowEvent;
     mWindowClass.hInstance = mAppInstance;
     mWindowClass.hIcon = NULL;
     mWindowClass.hIconSm = NULL;
@@ -37,24 +37,43 @@ Platforms::WindowSystem::Window::Window(HINSTANCE& instance, int cmdShow)
         throw std::runtime_error("Window class was not registered.");
 }
 
-void Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowWidth, int windowHeight)
+void Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowWidth, int windowHeight, bool fullscreen)
 {
-    mWindowHandle = CreateWindowEx(NULL, mWindowClassName, windowTitle, WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-        0, 0, windowWidth, windowHeight, NULL, NULL, mAppInstance, NULL);
+	if (fullscreen)												
+	{
+		this->_initFullscreen(windowWidth, windowHeight, 32);
+
+		// Windows Style
+		dwExStyle = WS_EX_APPWINDOW;								
+		dwStyle = WS_POPUP;										
+		ShowCursor(FALSE);										
+	}
+	else
+	{
+		// Windows Style
+		dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;			
+		dwStyle = WS_OVERLAPPEDWINDOW;
+		ShowCursor(TRUE);
+	}
+
+    mWindowHandle = CreateWindowEx(dwExStyle, mWindowClassName, windowTitle, dwStyle | WS_CLIPSIBLINGS |WS_CLIPCHILDREN, 
+									0, 0, windowWidth, windowHeight, NULL, NULL, mAppInstance, NULL);
 
     if (!mWindowHandle)
         throw std::runtime_error("Window was not created.");
- 
-    ShowWindow(mWindowHandle, mCmdShow);
-    UpdateWindow(mWindowHandle);
-    initWindowContext();
 
+	this->_initOpenGLContext();
+    ShowWindow(mWindowHandle, mCmdShow);
+	SetForegroundWindow(mWindowHandle);
+	SetFocus(mWindowHandle);
+	UpdateWindow(mWindowHandle);
+ 
     Network::NetworkManager networkManager;
     if (!networkManager.login())
         throw std::runtime_error("Login is failure.");
     if (!networkManager.initializePosition())
         throw std::runtime_error("Initialization of position is failure.");
-
+	
     Graphics::SceneGraph::Scene scene(mWindowContext, windowWidth, windowHeight);
     scene.initScene();
 
@@ -72,7 +91,22 @@ void Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowW
     }
 }
 
-void Platforms::WindowSystem::Window::initWindowContext() 
+void Platforms::WindowSystem::Window::_initFullscreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP)
+{
+	// Create Device Mode
+	DEVMODE dmScreenSettings;
+	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
+	dmScreenSettings.dmSize = sizeof(dmScreenSettings);
+	dmScreenSettings.dmPelsWidth = windowWidth;
+	dmScreenSettings.dmPelsHeight = windowHeight;
+	dmScreenSettings.dmBitsPerPel = windowBPP;
+	dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+
+	if (ChangeDisplaySettings(&dmScreenSettings, 0) != DISP_CHANGE_SUCCESSFUL)
+		throw std::runtime_error("Fullscreen Mode Is Not Supported.");
+}
+
+void Platforms::WindowSystem::Window::_initOpenGLContext() 
 {
     PIXELFORMATDESCRIPTOR pixelFormat;
     memset(&pixelFormat, 0, sizeof(PIXELFORMATDESCRIPTOR));
@@ -80,8 +114,10 @@ void Platforms::WindowSystem::Window::initWindowContext()
     pixelFormat.nVersion = 1;
     pixelFormat.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
     pixelFormat.iPixelType = PFD_TYPE_RGBA;
-    pixelFormat.cColorBits = 16;
-    pixelFormat.cDepthBits = 16;
+    pixelFormat.cColorBits = 32;
+	pixelFormat.cDepthBits = 32; //24?
+	pixelFormat.cStencilBits = 8; // 16?
+	pixelFormat.iLayerType = PFD_MAIN_PLANE;;
 
     mWindowContext = GetDC(mWindowHandle);
     const int format = ChoosePixelFormat(mWindowContext, &pixelFormat);
@@ -94,6 +130,7 @@ void Platforms::WindowSystem::Window::initWindowContext()
             WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
             WGL_CONTEXT_MINOR_VERSION_ARB, 0,
             WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+		    //WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
             0
         };
         mOpenGLContext = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>
@@ -106,6 +143,9 @@ void Platforms::WindowSystem::Window::initWindowContext()
 
 Platforms::WindowSystem::Window::~Window()
 {
+	ChangeDisplaySettings(NULL, 0);
+	ShowCursor(TRUE);
+	
     if (!mOpenGLContext)
     {
         wglMakeCurrent(NULL, NULL);

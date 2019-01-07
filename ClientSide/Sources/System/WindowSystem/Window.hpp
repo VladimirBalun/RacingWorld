@@ -29,12 +29,15 @@ namespace Platforms { namespace WindowSystem {
     {
     public:
         explicit Window(HINSTANCE& appInstance, int cmdShow);
-        void showWindow(LPCSTR windowTitle, int windowWidth, int windowHeight);
+        void showWindow(LPCSTR windowTitle, int windowWidth, int windowHeight, bool fullscreen = false);
         ~Window();
     private:
-        void initWindowContext();
+        void _initOpenGLContext();
+		void _initFullscreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP);
     private:
         int mCmdShow;
+		DWORD dwStyle;
+		DWORD dwExStyle;				
         MSG mWindowEvent;
         HWND mWindowHandle;
         HDC mWindowContext;
