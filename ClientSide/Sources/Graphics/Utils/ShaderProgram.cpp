@@ -18,16 +18,32 @@
 
 Graphics::Utils::ShaderProgram::ShaderProgram(const char* vShaderFileName, const char* fShaderFileName)
 {
-    const char* vShaderSourceCode = readFile(vShaderFileName).c_str();
-    const char* fShaderSourceCode = readFile(fShaderFileName).c_str();
-    const GLuint vertexShader = compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
-    const GLuint fragmantShader = compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
-    linkShaders(vertexShader, fragmantShader);
+   const char* vShaderSourceCode = readFile(vShaderFileName).c_str();
+   const char* fShaderSourceCode = readFile(fShaderFileName).c_str();
+
+    /*
+    const char* vShaderSourceCode = "#version 330 core\n"
+        "layout (location = 0) in vec3 position;\n"
+        "void main()\n"
+        "{\n"
+        "gl_Position = vec4(position, 1.0);\n"
+        "}\0";
+    const char* fShaderSourceCode = "#version 330 core\n"
+        "out vec4 color;\n"
+        "void main()\n"
+        "{\n"
+        "color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+        "}\0";
+        */
+
+    const GLuint vertexShader = _compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
+    const GLuint fragmantShader = _compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
+    _linkShaders(vertexShader, fragmantShader);
     glDeleteShader(vertexShader);
     glDeleteShader(fragmantShader);
 }
 
-GLuint Graphics::Utils::ShaderProgram::compileShader(const char* shaderSourceCode, GLint shaderType)
+GLuint Graphics::Utils::ShaderProgram::_compileShader(const char* shaderSourceCode, GLint shaderType)
 {
     GLint isCompiledShader;
     const GLuint shader = glCreateShader(shaderType);
@@ -45,7 +61,7 @@ GLuint Graphics::Utils::ShaderProgram::compileShader(const char* shaderSourceCod
     return shader;
 }
 
-GLvoid Graphics::Utils::ShaderProgram::linkShaders(GLuint vertexShader, GLuint fragmentShader)
+GLvoid Graphics::Utils::ShaderProgram::_linkShaders(GLuint vertexShader, GLuint fragmentShader)
 {
     GLint isLinkedShaders;
     mProgram = glCreateProgram();
@@ -62,7 +78,22 @@ GLvoid Graphics::Utils::ShaderProgram::linkShaders(GLuint vertexShader, GLuint f
     }
 }
 
-void Graphics::Utils::ShaderProgram::useShaderProgram()
+void Graphics::Utils::ShaderProgram::setProgram()
 {
     glUseProgram(mProgram);
+}
+
+void Graphics::Utils::ShaderProgram::unsetProgram()
+{
+    glUseProgram(NULL);
+}
+
+GLuint Graphics::Utils::ShaderProgram::getProgram()
+{
+    return mProgram;
+}
+
+Graphics::Utils::ShaderProgram::~ShaderProgram()
+{
+    glDeleteProgram(mProgram);
 }

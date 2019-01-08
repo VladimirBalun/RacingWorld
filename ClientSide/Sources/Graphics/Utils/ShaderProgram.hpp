@@ -29,10 +29,13 @@ namespace Graphics { namespace Utils {
     {
     public:
         explicit ShaderProgram(const char* vShaderFileName, const char* fShaderFileName);
-        GLvoid useShaderProgram();
+        GLvoid setProgram();
+        GLvoid unsetProgram();
+        GLuint getProgram();
+        ~ShaderProgram();
     private:
-        GLuint compileShader(const char* shaderSourcCode, GLint shaderType);
-        GLvoid linkShaders(GLuint vertexShader, GLuint fragmentShader);
+        GLuint _compileShader(const char* shaderSourcCode, GLint shaderType);
+        GLvoid _linkShaders(GLuint vertexShader, GLuint fragmentShader);
     private:
         GLuint mProgram;
     };
