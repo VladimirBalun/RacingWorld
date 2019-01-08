@@ -28,7 +28,7 @@ namespace Graphics { namespace Utils {
     class ShaderProgram 
     {
     public:
-        explicit ShaderProgram(const std::string& vShaderFileName, const std::string& fShaderFileName);
+        explicit ShaderProgram(const char* vShaderFileName, const char* fShaderFileName);
         GLvoid useShaderProgram();
     private:
         GLuint compileShader(const char* shaderSourcCode, GLint shaderType);

@@ -16,19 +16,17 @@
 
 #include "FileSystem.hpp"
 
-std::string read_file(const std::string& file_name)
+std::string readFile(const char* fileName)
 {
-    std::stringstream buffer;
-    std::ifstream input_stream(file_name, std::ifstream::badbit);
-    try
+    std::ifstream inputStream(fileName);
+    if (inputStream.is_open()) 
     {
-        buffer << input_stream.rdbuf();
-        input_stream.close();
-        return buffer.str();
+        std::string content(std::istreambuf_iterator<char>(inputStream.rdbuf()), std::istreambuf_iterator<char>());
+        return content;
     }
-    catch (const std::ifstream::failure& e)
+    else 
     {
-        LOG_WARNING("File: \"" + file_name + "\" was not read. Cause:" + e.what());
+        LOG_WARNING("File was not opened. Unknown cause.");
         return "";
     }
 }

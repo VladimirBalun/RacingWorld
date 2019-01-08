@@ -16,10 +16,10 @@
 
 #include "ShaderProgram.hpp"
 
-Graphics::Utils::ShaderProgram::ShaderProgram(const std::string& vShaderFileName, const std::string& fShaderFileName)
+Graphics::Utils::ShaderProgram::ShaderProgram(const char* vShaderFileName, const char* fShaderFileName)
 {
-    const char* vShaderSourceCode = read_file(vShaderFileName).c_str();
-    const char* fShaderSourceCode = read_file(fShaderFileName).c_str();
+    const char* vShaderSourceCode = readFile(vShaderFileName).c_str();
+    const char* fShaderSourceCode = readFile(fShaderFileName).c_str();
     const GLuint vertexShader = compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
     const GLuint fragmantShader = compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
     linkShaders(vertexShader, fragmantShader);
