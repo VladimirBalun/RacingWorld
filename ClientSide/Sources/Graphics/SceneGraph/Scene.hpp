@@ -20,6 +20,7 @@
 
 #include "Node.hpp"
 #include "../OpenGL.hpp"
+#include "../Utils/ShaderProgram.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
@@ -35,6 +36,10 @@ namespace Graphics { namespace SceneGraph {
         HDC& mWindowContext;
         GLint mSceneWidth;
         GLint mSceneHeight;
+
+        GLuint  mProgram;
+        GLuint VBO, VAO;
+        Graphics::Utils::ShaderProgram* prog;
     };
 
 }}
