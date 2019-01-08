@@ -20,7 +20,7 @@
 #include <sstream>
 #include <iostream>
 
-#include "../OpenGL4.hpp"
+#include "../OpenGL.hpp"
 #include "../../Utils/FileSystem.hpp"
 
 namespace Graphics { namespace Utils {

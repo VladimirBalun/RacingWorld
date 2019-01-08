@@ -18,6 +18,7 @@
 
 GLvoid Graphics::SceneGraph::Scene::initScene()
 {
+    initOpenGL();
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glViewport(0, 0, mSceneWidth, mSceneHeight);
     gluOrtho2D(0.0, mSceneWidth, 0.0, mSceneHeight);

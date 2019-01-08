@@ -19,7 +19,7 @@
 #include <string>
 
 #include "Node.hpp"
-#include "../OpenGL4.hpp"
+#include "../OpenGL.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
