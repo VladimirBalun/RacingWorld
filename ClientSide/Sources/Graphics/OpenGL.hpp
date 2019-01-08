@@ -88,7 +88,7 @@ extern PFNGLCOPYTEXSUBIMAGE3DPROC __glCopyTexSubImage3D;
 #define glLoadTransposeMatrixd __glLoadTransposeMatrixd
 #define glMultTransposeMatrixf __glMultTransposeMatrixf
 #define glMultTransposeMatrixd __glMultTransposeMatrixd
-//...
+
 extern PFNGLACTIVETEXTUREPROC __glActiveTexture;
 extern PFNGLSAMPLECOVERAGEPROC __glSampleCoverage;
 extern PFNGLCOMPRESSEDTEXIMAGE3DPROC __glCompressedTexImage3D;
@@ -135,6 +135,7 @@ extern PFNGLLOADTRANSPOSEMATRIXFPROC __glLoadTransposeMatrixf;
 extern PFNGLLOADTRANSPOSEMATRIXDPROC __glLoadTransposeMatrixd;
 extern PFNGLMULTTRANSPOSEMATRIXFPROC __glMultTransposeMatrixf;
 extern PFNGLMULTTRANSPOSEMATRIXDPROC __glMultTransposeMatrixd;
+
 
 // GL_VERSION_1_4
 #define glBlendFuncSeparate __glBlendFuncSeparate
@@ -184,7 +185,7 @@ extern PFNGLMULTTRANSPOSEMATRIXDPROC __glMultTransposeMatrixd;
 #define glWindowPos3sv __glWindowPos3sv
 #define glBlendColor __glBlendColor
 #define glBlendEquation __glBlendEquation
-//...
+
 extern PFNGLBLENDFUNCSEPARATEPROC __glBlendFuncSeparate;
 extern PFNGLMULTIDRAWARRAYSPROC __glMultiDrawArrays;
 extern PFNGLMULTIDRAWELEMENTSPROC __glMultiDrawElements;
@@ -254,7 +255,7 @@ extern PFNGLBLENDEQUATIONPROC __glBlendEquation;
 #define glUnmapBuffer __glUnmapBuffer
 #define glGetBufferParameteriv __glGetBufferParameteriv
 #define glGetBufferPointerv __glGetBufferPointerv
-//...
+
 extern PFNGLGENQUERIESPROC __glGenQueries;
 extern PFNGLDELETEQUERIESPROC __glDeleteQueries;
 extern PFNGLISQUERYPROC __glIsQuery;
@@ -275,6 +276,7 @@ extern PFNGLUNMAPBUFFERPROC __glUnmapBuffer;
 extern PFNGLGETBUFFERPARAMETERIVPROC __glGetBufferParameteriv;
 extern PFNGLGETBUFFERPOINTERVPROC __glGetBufferPointerv;
 
+
 // GL_VERSION_2_0
 #define glBlendEquationSeparate __glBlendEquationSeparate
 #define glDrawBuffers __glDrawBuffers
@@ -286,7 +288,6 @@ extern PFNGLGETBUFFERPOINTERVPROC __glGetBufferPointerv;
 #define glCompileShader __glCompileShader
 #define glCreateProgram __glCreateProgram
 #define glCreateShader __glCreateShader
-
 #define glDeleteProgram __glDeleteProgram
 #define glDeleteShader __glDeleteShader
 #define glDetachShader __glDetachShader
@@ -370,7 +371,7 @@ extern PFNGLGETBUFFERPOINTERVPROC __glGetBufferPointerv;
 #define glVertexAttrib4uiv __glVertexAttrib4uiv
 #define glVertexAttrib4usv __glVertexAttrib4usv
 #define glVertexAttribPointer __glVertexAttribPointer
-// ...
+
 extern PFNGLBLENDEQUATIONSEPARATEPROC __glBlendEquationSeparate;
 extern PFNGLDRAWBUFFERSPROC __glDrawBuffers;
 extern PFNGLSTENCILOPSEPARATEPROC __glStencilOpSeparate;
@@ -465,6 +466,7 @@ extern PFNGLVERTEXATTRIB4UIVPROC __glVertexAttrib4uiv;
 extern PFNGLVERTEXATTRIB4USVPROC __glVertexAttrib4usv;
 extern PFNGLVERTEXATTRIBPOINTERPROC __glVertexAttribPointer;
 
+
 // GL_VERSION_2_1
 #define glUniformMatrix2x3fv __glUniformMatrix2x3fv
 #define glUniformMatrix3x2fv __glUniformMatrix3x2fv
@@ -472,13 +474,14 @@ extern PFNGLVERTEXATTRIBPOINTERPROC __glVertexAttribPointer;
 #define glUniformMatrix4x2fv __glUniformMatrix4x2fv
 #define glUniformMatrix3x4fv __glUniformMatrix3x4fv
 #define glUniformMatrix4x3fv __glUniformMatrix4x3fv
-//...
+
 extern PFNGLUNIFORMMATRIX2X3FVPROC __glUniformMatrix2x3fv;
 extern PFNGLUNIFORMMATRIX3X2FVPROC __glUniformMatrix3x2fv;
 extern PFNGLUNIFORMMATRIX2X4FVPROC __glUniformMatrix2x4fv;
 extern PFNGLUNIFORMMATRIX4X2FVPROC __glUniformMatrix4x2fv;
 extern PFNGLUNIFORMMATRIX3X4FVPROC __glUniformMatrix3x4fv;
 extern PFNGLUNIFORMMATRIX4X3FVPROC __glUniformMatrix4x3fv;
+
 
 //  GL_VERSION_3_0
 #define glColorMaski __glColorMaski
@@ -565,7 +568,7 @@ extern PFNGLUNIFORMMATRIX4X3FVPROC __glUniformMatrix4x3fv;
 #define glDeleteVertexArrays __glDeleteVertexArrays
 #define glGenVertexArrays __glGenVertexArrays
 #define glIsVertexArray __glIsVertexArray
-//...
+
 extern PFNGLCOLORMASKIPROC __glColorMaski;
 extern PFNGLGETBOOLEANI_VPROC __glGetBooleani_v;
 extern PFNGLGETINTEGERI_VPROC __glGetIntegeri_v;
@@ -651,6 +654,7 @@ extern PFNGLDELETEVERTEXARRAYSPROC __glDeleteVertexArrays;
 extern PFNGLGENVERTEXARRAYSPROC __glGenVertexArrays;
 extern PFNGLISVERTEXARRAYPROC __glIsVertexArray;
 
+
 // GL_VERSION_3_1
 #define glDrawArraysInstanced __glDrawArraysInstanced
 #define glDrawElementsInstanced __glDrawElementsInstanced
@@ -664,7 +668,7 @@ extern PFNGLISVERTEXARRAYPROC __glIsVertexArray;
 #define glGetActiveUniformBlockiv __glGetActiveUniformBlockiv
 #define glGetActiveUniformBlockName __glGetActiveUniformBlockName
 #define glUniformBlockBinding __glUniformBlockBinding
-//...
+
 extern PFNGLDRAWARRAYSINSTANCEDPROC __glDrawArraysInstanced;
 extern PFNGLDRAWELEMENTSINSTANCEDPROC __glDrawElementsInstanced;
 extern PFNGLTEXBUFFERPROC __glTexBuffer;
@@ -699,7 +703,7 @@ extern PFNGLUNIFORMBLOCKBINDINGPROC __glUniformBlockBinding;
 #define glTexImage3DMultisample __glTexImage3DMultisample
 #define glGetMultisamplefv __glGetMultisamplefv
 #define glSampleMaski __glSampleMaski
-//...
+
 extern PFNGLDRAWELEMENTSBASEVERTEXPROC __glDrawElementsBaseVertex;
 extern PFNGLDRAWRANGEELEMENTSBASEVERTEXPROC __glDrawRangeElementsBaseVertex;
 extern PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXPROC __glDrawElementsInstancedBaseVertex;
@@ -719,6 +723,7 @@ extern PFNGLTEXIMAGE2DMULTISAMPLEPROC __glTexImage2DMultisample;
 extern PFNGLTEXIMAGE3DMULTISAMPLEPROC __glTexImage3DMultisample;
 extern PFNGLGETMULTISAMPLEFVPROC __glGetMultisamplefv;
 extern PFNGLSAMPLEMASKIPROC __glSampleMaski;
+
 
 // GL_VERSION_3_3
 #define glBindFragDataLocationIndexed __glBindFragDataLocationIndexed
@@ -779,7 +784,7 @@ extern PFNGLSAMPLEMASKIPROC __glSampleMaski;
 #define glColorP4uiv __glColorP4uiv
 #define glSecondaryColorP3ui __glSecondaryColorP3ui
 #define glSecondaryColorP3uiv __glSecondaryColorP3uiv
-//...
+
 extern PFNGLBINDFRAGDATALOCATIONINDEXEDPROC __glBindFragDataLocationIndexed;
 extern PFNGLGETFRAGDATAINDEXPROC __glGetFragDataIndex;
 extern PFNGLGENSAMPLERSPROC __glGenSamplers;
@@ -839,7 +844,8 @@ extern PFNGLCOLORP4UIVPROC __glColorP4uiv;
 extern PFNGLSECONDARYCOLORP3UIPROC __glSecondaryColorP3ui;
 extern PFNGLSECONDARYCOLORP3UIVPROC __glSecondaryColorP3uiv;
 
-//  GL_VERSION_4_0
+
+// GL_VERSION_4_0
 #define glMinSampleShading __glMinSampleShading
 #define glBlendEquationi __glBlendEquationi
 #define glBlendEquationSeparatei __glBlendEquationSeparatei
@@ -886,7 +892,7 @@ extern PFNGLSECONDARYCOLORP3UIVPROC __glSecondaryColorP3uiv;
 #define glBeginQueryIndexed __glBeginQueryIndexed
 #define glEndQueryIndexed __glEndQueryIndexed
 #define glGetQueryIndexediv __glGetQueryIndexediv
-//...
+
 extern PFNGLMINSAMPLESHADINGPROC __glMinSampleShading;
 extern PFNGLBLENDEQUATIONIPROC __glBlendEquationi;
 extern PFNGLBLENDEQUATIONSEPARATEIPROC __glBlendEquationSeparatei;
@@ -935,7 +941,7 @@ extern PFNGLENDQUERYINDEXEDPROC __glEndQueryIndexed;
 extern PFNGLGETQUERYINDEXEDIVPROC __glGetQueryIndexediv;
 
 
-//  GL_VERSION_4_1
+// GL_VERSION_4_1
 #define glReleaseShaderCompiler __glReleaseShaderCompiler
 #define glShaderBinary __glShaderBinary
 #define glGetShaderPrecisionFormat __glGetShaderPrecisionFormat
@@ -1024,7 +1030,7 @@ extern PFNGLGETQUERYINDEXEDIVPROC __glGetQueryIndexediv;
 #define glDepthRangeIndexed __glDepthRangeIndexed
 #define glGetFloati_v __glGetFloati_v
 #define glGetDoublei_v __glGetDoublei_v
-//...
+
 extern PFNGLRELEASESHADERCOMPILERPROC __glReleaseShaderCompiler;
 extern PFNGLSHADERBINARYPROC __glShaderBinary;
 extern PFNGLGETSHADERPRECISIONFORMATPROC __glGetShaderPrecisionFormat;
@@ -1115,7 +1121,7 @@ extern PFNGLGETFLOATI_VPROC __glGetFloati_v;
 extern PFNGLGETDOUBLEI_VPROC __glGetDoublei_v;
 
 
-//  GL_VERSION_4_2
+// GL_VERSION_4_2
 #define glDrawArraysInstancedBaseInstance __glDrawArraysInstancedBaseInstance
 #define glDrawElementsInstancedBaseInstance __glDrawElementsInstancedBaseInstance
 #define glDrawElementsInstancedBaseVertexBaseInstance __glDrawElementsInstancedBaseVertexBaseInstance
@@ -1128,7 +1134,7 @@ extern PFNGLGETDOUBLEI_VPROC __glGetDoublei_v;
 #define glTexStorage3D __glTexStorage3D
 #define glDrawTransformFeedbackInstanced __glDrawTransformFeedbackInstanced
 #define glDrawTransformFeedbackStreamInstanced __glDrawTransformFeedbackStreamInstanced
-//...
+
 extern PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC __glDrawArraysInstancedBaseInstance;
 extern PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC __glDrawElementsInstancedBaseInstance;
 extern PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXBASEINSTANCEPROC __glDrawElementsInstancedBaseVertexBaseInstance;
@@ -1143,7 +1149,7 @@ extern PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC __glDrawTransformFeedbackInstance
 extern PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC __glDrawTransformFeedbackStreamInstanced;
 
 
-//  GL_VERSION_4_3
+// GL_VERSION_4_3
 #define glClearBufferData __glClearBufferData
 #define glClearBufferSubData __glClearBufferSubData
 #define glDispatchCompute __glDispatchCompute
@@ -1187,7 +1193,7 @@ extern PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC __glDrawTransformFeedbackSt
 #define glGetObjectLabel __glGetObjectLabel
 #define glObjectPtrLabel __glObjectPtrLabel
 #define glGetObjectPtrLabel __glGetObjectPtrLabel
-//...
+
 extern PFNGLCLEARBUFFERDATAPROC __glClearBufferData;
 extern PFNGLCLEARBUFFERSUBDATAPROC __glClearBufferSubData;
 extern PFNGLDISPATCHCOMPUTEPROC __glDispatchCompute;
@@ -1232,7 +1238,8 @@ extern PFNGLGETOBJECTLABELPROC __glGetObjectLabel;
 extern PFNGLOBJECTPTRLABELPROC __glObjectPtrLabel;
 extern PFNGLGETOBJECTPTRLABELPROC __glGetObjectPtrLabel;
 
-//  GL_VERSION_4_4
+
+// GL_VERSION_4_4
 #define glBufferStorage __glBufferStorage
 #define glClearTexImage __glClearTexImage
 #define glClearTexSubImage __glClearTexSubImage
@@ -1242,7 +1249,7 @@ extern PFNGLGETOBJECTPTRLABELPROC __glGetObjectPtrLabel;
 #define glBindSamplers __glBindSamplers
 #define glBindImageTextures __glBindImageTextures
 #define glBindVertexBuffers __glBindVertexBuffers
-//...
+
 extern PFNGLBUFFERSTORAGEPROC __glBufferStorage;
 extern PFNGLCLEARTEXIMAGEPROC __glClearTexImage;
 extern PFNGLCLEARTEXSUBIMAGEPROC __glClearTexSubImage;
@@ -1253,7 +1260,8 @@ extern PFNGLBINDSAMPLERSPROC __glBindSamplers;
 extern PFNGLBINDIMAGETEXTURESPROC __glBindImageTextures;
 extern PFNGLBINDVERTEXBUFFERSPROC __glBindVertexBuffers;
 
-//  GL_VERSION_4_5
+
+// GL_VERSION_4_5
 #define glClipControl __glClipControl
 #define glCreateTransformFeedbacks __glCreateTransformFeedbacks
 #define glTransformFeedbackBufferBase __glTransformFeedbackBufferBase
@@ -1376,7 +1384,7 @@ extern PFNGLBINDVERTEXBUFFERSPROC __glBindVertexBuffers;
 #define glGetnHistogram __glGetnHistogram
 #define glGetnMinmax __glGetnMinmax
 #define glTextureBarrier __glTextureBarrier
-//...
+
 extern PFNGLCLIPCONTROLPROC __glClipControl;
 extern PFNGLCREATETRANSFORMFEEDBACKSPROC __glCreateTransformFeedbacks;
 extern PFNGLTRANSFORMFEEDBACKBUFFERBASEPROC __glTransformFeedbackBufferBase;
@@ -1500,12 +1508,13 @@ extern PFNGLGETNHISTOGRAMPROC __glGetnHistogram;
 extern PFNGLGETNMINMAXPROC __glGetnMinmax;
 extern PFNGLTEXTUREBARRIERPROC __glTextureBarrier;
 
+
 //  GL_VERSION_4_6
 #define glSpecializeShader __glSpecializeShader
 #define glMultiDrawArraysIndirectCount __glMultiDrawArraysIndirectCount
 #define glMultiDrawElementsIndirectCount __glMultiDrawElementsIndirectCount
 #define glPolygonOffsetClamp __glPolygonOffsetClamp
-//...
+
 extern PFNGLSPECIALIZESHADERPROC __glSpecializeShader;
 extern PFNGLMULTIDRAWARRAYSINDIRECTCOUNTPROC __glMultiDrawArraysIndirectCount;
 extern PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTPROC __glMultiDrawElementsIndirectCount;

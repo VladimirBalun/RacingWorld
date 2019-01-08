@@ -1570,7 +1570,7 @@ GLvoid initOpenGL()
     if (!initOpenGL_1_5())
         std::cout << "Opengl version of 1.5 was not initialized.";
     if (!initOpenGL_2_0())
-        std::cout << "Opengl version of 2þ0 was not initialized.";
+        std::cout << "Opengl version of 2.0 was not initialized.";
     if (!initOpenGL_2_1())
         std::cout << "Opengl version of 2.1 was not initialized.";
     if (!initOpenGL_3_0())
