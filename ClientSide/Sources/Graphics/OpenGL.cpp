@@ -77,6 +77,7 @@ PFNGLLOADTRANSPOSEMATRIXFPROC __glLoadTransposeMatrixf = nullptr;
 PFNGLLOADTRANSPOSEMATRIXDPROC __glLoadTransposeMatrixd = nullptr;
 PFNGLMULTTRANSPOSEMATRIXFPROC __glMultTransposeMatrixf = nullptr;
 PFNGLMULTTRANSPOSEMATRIXDPROC __glMultTransposeMatrixd = nullptr;
+
 static GLboolean initOpenGL_1_3()
 {
     GLboolean result = GL_TRUE;
@@ -176,6 +177,7 @@ PFNGLWINDOWPOS3SPROC __glWindowPos3s = nullptr;
 PFNGLWINDOWPOS3SVPROC __glWindowPos3sv = nullptr;
 PFNGLBLENDCOLORPROC __glBlendColor = nullptr;
 PFNGLBLENDEQUATIONPROC __glBlendEquation = nullptr;
+
 static GLboolean initOpenGL_1_4()
 {
     GLboolean result = GL_TRUE;
@@ -248,6 +250,7 @@ PFNGLMAPBUFFERPROC __glMapBuffer = nullptr;
 PFNGLUNMAPBUFFERPROC __glUnmapBuffer = nullptr;
 PFNGLGETBUFFERPARAMETERIVPROC __glGetBufferParameteriv = nullptr;
 PFNGLGETBUFFERPOINTERVPROC __glGetBufferPointerv = nullptr;
+
 static GLboolean initOpenGL_1_5()
 {
     GLboolean result = GL_TRUE;
@@ -404,9 +407,7 @@ static GLboolean initOpenGL_2_0()
     result = ((glIsProgram = reinterpret_cast<PFNGLISPROGRAMPROC>(wglGetProcAddress("glIsProgram"))) != nullptr) & result;
     result = ((glIsShader = reinterpret_cast<PFNGLISSHADERPROC>(wglGetProcAddress("glIsShader"))) != nullptr) & result;
     result = ((glLinkProgram = reinterpret_cast<PFNGLLINKPROGRAMPROC>(wglGetProcAddress("glLinkProgram"))) != nullptr) & result;
-
     result = ((glShaderSource = reinterpret_cast<PFNGLSHADERSOURCEPROC>(wglGetProcAddress("glShaderSource"))) != nullptr) & result;
-
     result = ((glUseProgram = reinterpret_cast<PFNGLUSEPROGRAMPROC>(wglGetProcAddress("glUseProgram"))) != nullptr) & result;
     result = ((glUniform1f = reinterpret_cast<PFNGLUNIFORM1FPROC>(wglGetProcAddress("glUniform1f"))) != nullptr) & result;
     result = ((glUniform2f = reinterpret_cast<PFNGLUNIFORM2FPROC>(wglGetProcAddress("glUniform2f"))) != nullptr) & result;
@@ -858,7 +859,6 @@ static GLboolean initOpenGL_3_3()
     result = ((glColorP4uiv = reinterpret_cast<PFNGLCOLORP4UIVPROC>(wglGetProcAddress("glColorP4uiv"))) != nullptr) & result;
     result = ((glSecondaryColorP3ui = reinterpret_cast<PFNGLSECONDARYCOLORP3UIPROC>(wglGetProcAddress("glSecondaryColorP3ui"))) != nullptr) & result;
     result = ((glSecondaryColorP3uiv = reinterpret_cast<PFNGLSECONDARYCOLORP3UIVPROC>(wglGetProcAddress("glSecondaryColorP3uiv"))) != nullptr) & result;
-
     return result;
 }
 
@@ -1141,7 +1141,6 @@ static GLboolean initOpenGL_4_1()
     result = ((glDepthRangeIndexed = reinterpret_cast<PFNGLDEPTHRANGEINDEXEDPROC>(wglGetProcAddress("glDepthRangeIndexed"))) != nullptr) & result;
     result = ((glGetFloati_v = reinterpret_cast<PFNGLGETFLOATI_VPROC>(wglGetProcAddress("glGetFloati_v"))) != nullptr) & result;
     result = ((glGetDoublei_v = reinterpret_cast<PFNGLGETDOUBLEI_VPROC>(wglGetProcAddress("glGetDoublei_v"))) != nullptr) & result;
-
     return result;
 }
 
@@ -1173,7 +1172,6 @@ static GLboolean initOpenGL_4_2()
     result = ((glTexStorage3D = reinterpret_cast<PFNGLTEXSTORAGE3DPROC>(wglGetProcAddress("glTexStorage3D"))) != nullptr) & result;
     result = ((glDrawTransformFeedbackInstanced = reinterpret_cast<PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC>(wglGetProcAddress("glDrawTransformFeedbackInstanced"))) != nullptr) & result;
     result = ((glDrawTransformFeedbackStreamInstanced = reinterpret_cast<PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC>(wglGetProcAddress("glDrawTransformFeedbackStreamInstanced"))) != nullptr) & result;
-
     return result;
 }
 
@@ -1267,7 +1265,6 @@ static GLboolean initOpenGL_4_3()
     result = ((glGetObjectLabel = reinterpret_cast<PFNGLGETOBJECTLABELPROC>(wglGetProcAddress("glGetObjectLabel"))) != nullptr) & result;
     result = ((glObjectPtrLabel = reinterpret_cast<PFNGLOBJECTPTRLABELPROC>(wglGetProcAddress("glObjectPtrLabel"))) != nullptr) & result;
     result = ((glGetObjectPtrLabel = reinterpret_cast<PFNGLGETOBJECTPTRLABELPROC>(wglGetProcAddress("glGetObjectPtrLabel"))) != nullptr) & result;
-
     return result;
 }
 
@@ -1293,7 +1290,6 @@ static GLboolean initOpenGL_4_4()
     result = ((glBindSamplers = reinterpret_cast<PFNGLBINDSAMPLERSPROC>(wglGetProcAddress("glBindSamplers"))) != nullptr) & result;
     result = ((glBindImageTextures = reinterpret_cast<PFNGLBINDIMAGETEXTURESPROC>(wglGetProcAddress("glBindImageTextures"))) != nullptr) & result;
     result = ((glBindVertexBuffers = reinterpret_cast<PFNGLBINDVERTEXBUFFERSPROC>(wglGetProcAddress("glBindVertexBuffers"))) != nullptr) & result;
-
     return result;
 }
 
@@ -1545,7 +1541,6 @@ static GLboolean initOpenGL_4_5()
     result = ((glGetnHistogram = reinterpret_cast<PFNGLGETNHISTOGRAMPROC>(wglGetProcAddress("glGetnHistogram"))) != nullptr) & result;
     result = ((glGetnMinmax = reinterpret_cast<PFNGLGETNMINMAXPROC>(wglGetProcAddress("glGetnMinmax"))) != nullptr) & result;
     result = ((glTextureBarrier = reinterpret_cast<PFNGLTEXTUREBARRIERPROC>(wglGetProcAddress("glTextureBarrier"))) != nullptr) & result;
-
     return result;
 }
 
@@ -1561,84 +1556,43 @@ static GLboolean initOpenGL_4_6()
     result = ((glMultiDrawArraysIndirectCount = reinterpret_cast<PFNGLMULTIDRAWARRAYSINDIRECTCOUNTPROC>(wglGetProcAddress("glMultiDrawArraysIndirectCount"))) != nullptr) & result;
     result = ((glMultiDrawElementsIndirectCount = reinterpret_cast<PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTPROC>(wglGetProcAddress("glMultiDrawElementsIndirectCount"))) != nullptr) & result;
     result = ((glPolygonOffsetClamp = reinterpret_cast<PFNGLPOLYGONOFFSETCLAMPPROC>(wglGetProcAddress("glPolygonOffsetClamp"))) != nullptr) & result;
-
     return result;
 }
 
-
-// ...
-
 GLvoid initOpenGL()
 {
-    /*
-    if (!initOpenGL_1_2())
-        throw std::runtime_error("Opengl version of 1.2 was not initialized.");
-    if (!initOpenGL_1_3())
-        throw std::runtime_error("Opengl version of 1.3 was not initialized.");
-    if (!initOpenGL_1_4())
-        throw std::runtime_error("Opengl version of 1.4 was not initialized.");
-    if (!initOpenGL_1_5())
-        throw std::runtime_error("Opengl version of 1.5 was not initialized.");
-    if (!initOpenGL_2_0())
-        throw std::runtime_error("Opengl version of 2.0 was not initialized.");
-    if (!initOpenGL_2_1())
-        throw std::runtime_error("Opengl version of 2.1 was not initialized.");
-    if (!initOpenGL_3_0())
-        throw std::runtime_error("Opengl version of 3.0 was not initialized.");
-    if (!initOpenGL_3_1())
-        throw std::runtime_error("Opengl version of 3.1 was not initialized.");
-    if (!initOpenGL_3_2())
-        throw std::runtime_error("Opengl version of 3.2 was not initialized.");
-    if (!initOpenGL_3_3())
-        throw std::runtime_error("Opengl version of 3.3 was not initialized.");
-    if (!initOpenGL_4_0())
-        throw std::runtime_error("Opengl version of 4.0 was not initialized.");
-    if (!initOpenGL_4_1())
-        throw std::runtime_error("Opengl version of 4.1 was not initialized.");
-    if (!initOpenGL_4_2())
-        throw std::runtime_error("Opengl version of 4.2 was not initialized.");
-    if (!initOpenGL_4_3())
-        throw std::runtime_error("Opengl version of 4.3 was not initialized.");
-    if (!initOpenGL_4_4())
-        throw std::runtime_error("Opengl version of 4.4 was not initialized.");
-    if (!initOpenGL_4_5())
-        throw std::runtime_error("Opengl version of 4.5 was not initialized.");
-    if (!initOpenGL_4_6())
-        throw std::runtime_error("Opengl version of 4.6 was not initialized.");
-        */
-
     if (!initOpenGL_1_2())
         std::cout << "Opengl version of 1.2 was not initialized.";
     if (!initOpenGL_1_3())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 1.3 was not initialized.";
     if (!initOpenGL_1_4())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 1.4 was not initialized.";
     if (!initOpenGL_1_5())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 1.5 was not initialized.";
     if (!initOpenGL_2_0())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 2þ0 was not initialized.";
     if (!initOpenGL_2_1())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 2.1 was not initialized.";
     if (!initOpenGL_3_0())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 3.0 was not initialized.";
     if (!initOpenGL_3_1())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 3.1 was not initialized.";
     if (!initOpenGL_3_2())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 3.2 was not initialized.";
     if (!initOpenGL_3_3())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 3.3 was not initialized.";
     if (!initOpenGL_4_0())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 4.0 was not initialized.";
     if (!initOpenGL_4_1())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 4.1 was not initialized.";
     if (!initOpenGL_4_2())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 4.2 was not initialized.";
     if (!initOpenGL_4_3())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 4.3 was not initialized.";
     if (!initOpenGL_4_4())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 4.4 was not initialized.";
     if (!initOpenGL_4_5())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 4.5 was not initialized.";
     if (!initOpenGL_4_6())
-        std::cout << "Opengl version of 1.2 was not initialized.";
+        std::cout << "Opengl version of 4.6 was not initialized.";
 }

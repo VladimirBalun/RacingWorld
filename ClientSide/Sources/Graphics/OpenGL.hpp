@@ -25,14 +25,16 @@
 #include <GL/glext.h>
 #include <GL/wglext.h>
 
+
 GLvoid initOpenGL();
+
 
 // GL_VERSION_1_2
 #define glDrawRangeElements __glDrawRangeElements
 #define glTexImage3D __glTexImage3D
 #define glTexSubImage3D __glTexSubImage3D
 #define glCopyTexSubImage3D __glCopyTexSubImage3D
-//...
+
 extern PFNGLDRAWRANGEELEMENTSPROC __glDrawRangeElements;
 extern PFNGLTEXIMAGE3DPROC __glTexImage3D;
 extern PFNGLTEXSUBIMAGE3DPROC __glTexSubImage3D;
