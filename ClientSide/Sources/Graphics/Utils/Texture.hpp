@@ -18,7 +18,7 @@
 
 #include <vector>
 
-#include "../OpenGL4.hpp"
+#include "../OpenGL.hpp"
 
 namespace Graphics { namespace Utils {
 

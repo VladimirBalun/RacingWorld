@@ -20,13 +20,14 @@
 
 namespace Math {
 
-    template <typename Type>
+    template<class Type>
     class Vector4
     {
     public:
         Vector4() = default;
+        Vector4(const Vector4& anotherVector);
         Vector4(Type x, Type y, Type z, Type w)
-            : x(x), y(y), z(z), w(w) {}
+            : mX(x), mY(y), mZ(z), mW(w) {}
 
         Type getX() const noexcept;
         Type getY() const noexcept;
@@ -40,115 +41,207 @@ namespace Math {
 
         void normalize() noexcept;
         std::size_t getLength() const noexcept;
-        Type dot(const Vector4& other) noexcept;
-        void add(const Vector4& other) noexcept;
-        void sub(const Vector4& other) noexcept;
+        Type dot(const Vector4& anotherVector) noexcept;
+        void cross(const Vector4& anotherVector) noexcept;
+        void add(const Vector4& anotherVector) noexcept;
+        void sub(const Vector4& anotherVector) noexcept;
         void mul(Type scalar) noexcept;
+
+        Vector4& operator = (const Vector4& anotherVector) noexcept;
+        Vector4& operator += (const Vector4& anotherVector) noexcept;
+        Vector4& operator -= (const Vector4& anotherVector) noexcept;
+        Vector4& operator *= (Type scalar) noexcept;
+
+        friend Vector4 operator + (const Vector4& vector, const Vector4& anotherVector) noexcept;
+        friend Vector4 operator - (const Vector4& vector, const Vector4& anotherVector) noexcept;
+        friend Vector4 operator * (const Vector4& vector, Type scalar) noexcept;
+        friend bool operator == (const Vector4& vector, const Vector4& anotherVector) noexcept;
+        friend bool operator != (const Vector4& vector, const Vector4& anotherVector) noexcept;
     private:
-        Type x = 0;
-        Type y = 0;
-        Type z = 0;
-        Type w = 0;
+        Type mX = 0;
+        Type mY = 0;
+        Type mZ = 0;
+        Type mW = 0;
     };
 
-} 
-
-template <typename Type>
-Type Math::Vector4<Type>::getX() const noexcept
-{
-    return x;
-}
-
-template <typename Type>
-Type Math::Vector4<Type>::getY() const noexcept
-{
-    return y;
-}
-
-template <typename Type>
-Type Math::Vector4<Type>::getZ() const noexcept
-{
-    return z;
-}
-
-template <typename Type>
-Type Math::Vector4<Type>::getW() const noexcept
-{
-    return w;
-}
-
-template <typename Type>
-void Math::Vector4<Type>::setX(Type x) noexcept
-{
-    this.x = x;
-}
-
-template <typename Type>
-void Math::Vector4<Type>::setY(Type y) noexcept
-{
-    this.y = y;
-}
-
-template <typename Type>
-void Math::Vector4<Type>::setZ(Type z) noexcept
-{
-    this.z = z;
-}
-
-template <typename Type>
-void Math::Vector4<Type>::setW(Type w) noexcept
-{
-    this.w = w;
-}
-
-template <typename Type>
-void Math::Vector4<Type>::normalize() noexcept
-{
-    const size_t length = getLength();
-    if (length != 0)
+    template<class Type>
+    Vector4<Type>::Vector4(const Vector4& anotherVector)
     {
-        x /= length;
-        y /= length;
-        z /= length;
-        w /= length;
+        mX = anotherVector.mX;
+        mY = anotherVector.mY;
+        mZ = anotherVector.mZ;
+        mW = anotherVector.mW;
     }
-}
 
-template <typename Type>
-size_t Math::Vector4<Type>::getLength() const noexcept
-{
-    return sqrt(x*x + y * y + z * z + w * w);
-}
+    template<class Type>
+    Type Vector4<Type>::getX() const noexcept
+    {
+        return mX;
+    }
 
-template <typename Type>
-Type Math::Vector4<Type>::dot(const Vector4& other) noexcept
-{
-    return x * other.x + y * other.y + z * other.z + w * other.w;
-}
+    template<class Type>
+    Type Vector4<Type>::getY() const noexcept
+    {
+        return mY;
+    }
 
-template <typename Type>
-void Math::Vector4<Type>::add(const Vector4& other) noexcept
-{
-    x += other.x;
-    y += other.y;
-    z += other.z;
-    w += other.w;
-}
+    template<class Type>
+    Type Vector4<Type>::getZ() const noexcept
+    {
+        return mZ;
+    }
 
-template <typename Type>
-void Math::Vector4<Type>::sub(const Vector4& other) noexcept
-{
-    x -= other.x;
-    y -= other.y;
-    z -= other.z;
-    w -= other.w;
-}
+    template<class Type>
+    Type Vector4<Type>::getW() const noexcept
+    {
+        return mW;
+    }
 
-template <typename Type>
-void Math::Vector4<Type>::mul(Type scalar) noexcept
-{
-    x *= scalar;
-    y *= scalar;
-    z *= scalar;
-    w *= scalar;
-}
+    template<class Type>
+    void Vector4<Type>::setX(Type x) noexcept
+    {
+        mX = x;
+    }
+
+    template<class Type>
+    void Vector4<Type>::setY(Type y) noexcept
+    {
+        mY = y;
+    }
+
+    template<class Type>
+    void Vector4<Type>::setZ(Type z) noexcept
+    {
+        mZ = z;
+    }
+
+    template<class Type>
+    void Vector4<Type>::setW(Type w) noexcept
+    {
+        mW = w;
+    }
+
+    template<class Type>
+    void Vector4<Type>::normalize() noexcept
+    {
+        const std::size_t length = getLength();
+        if (length != 0)
+        {
+            mX /= length;
+            mY /= length;
+            mZ /= length;
+        }
+    }
+
+    template<class Type>
+    std::size_t Vector4<Type>::getLength() const noexcept
+    {
+        return sqrt(mX*mX + mY*mY + mZ*mZ);
+    }
+
+    template<class Type>
+    Type Vector4<Type>::dot(const Vector4& anotherVector) noexcept
+    {
+        return mX*anotherVector.mX + mY*anotherVector.mY + mZ*anotherVector.mZ;
+    }
+
+    template<class Type>
+    void Vector4<Type>::cross(const Vector4& anotherVector) noexcept
+    {
+        const Type x = mY * another.mZ - mZ * another.mY;
+        const Type y = -(mX*another.mZ - mZ * another.mX);
+        const Type z = mX * another.mY - mY * another.mX;
+        mX = x;
+        mY = y;
+        mZ = z;
+    }
+
+    template<class Type>
+    void Vector4<Type>::add(const Vector4& anotherVector) noexcept
+    {
+        mX += anotherVector.mX;
+        mY += anotherVector.mY;
+        mZ += anotherVector.mZ;
+    }
+
+    template<class Type>
+    void Vector4<Type>::sub(const Vector4& anotherVector) noexcept
+    {
+        mX -= anotherVector.mX;
+        mY -= anotherVector.mY;
+        mZ -= anotherVector.mZ;
+    }
+
+    template<class Type>
+    void Vector4<Type>::mul(Type scalar) noexcept
+    {
+        mX *= scalar;
+        mY *= scalar;
+        mZ *= scalar;
+    }
+
+    template<class Type>
+    Vector4<Type>& Vector4<Type>::operator = (const Vector4& anotherVector) noexcept
+    {
+        mX = anotherVector.mX;
+        mY = anotherVector.mY;
+        mZ = anotherVector.mZ;
+        mW = anotherVector.mW;
+        return *this;
+    }
+
+    template<class Type>
+    Vector4<Type>& Vector4<Type>::operator += (const Vector4& anotherVector) noexcept
+    {
+        add(anotherVector);
+    }
+
+    template<class Type>
+    Vector4<Type>& Vector4<Type>::operator -= (const Vector4& anotherVector) noexcept
+    {
+        sub(anotherVector);
+    }
+
+    template<class Type>
+    Vector4<Type>& Vector4<Type>::operator *= (Type scalar) noexcept
+    {
+        mul(scalar);
+    }
+
+    template<class Type>
+    Vector4<Type> operator + (const Vector4<Type>& vector, const Vector4<Type>& anotherVector) noexcept
+    {
+        return Vector4<Type>(vector.mX + anotherVector.mX, vector.mY + anotherVector.mY, vector.mZ + anotherVector.mZ);
+    }
+
+    template<class Type>
+    Vector4<Type> operator - (const Vector4<Type>& vector, const Vector4<Type>& anotherVector) noexcept
+    {
+        return Vector4<Type>(vector.mX - anotherVector.mX, vector.mY - anotherVector.mY, vector.mZ - anotherVector.mZ);
+    }
+
+    template<class Type>
+    Vector4<Type> operator * (const Vector4<Type>& vector, Type scalar) noexcept
+    {
+        return Vector4<Type>(vector.mX * scalar, vector.mY * scalar, vector.mZ * scalar);
+    }
+
+    template<class Type>
+    bool operator == (const Vector4<Type>& vector, const Vector4<Type>& anotherVector) noexcept
+    {
+        return ( (vector.mX == anotherVector.mX) &&
+                 (vector.mY == anotherVector.mY) &&
+                 (vector.mZ == anotherVector.mZ) &&
+                 (vector.mW == anotherVector.mW) );
+    }
+
+    template<class Type>
+    bool operator != (const Vector4<Type>& vector, const Vector4<Type>& anotherVector) noexcept
+    {
+        return ( (vector.mX != anotherVector.mX) ||
+                 (vector.mY != anotherVector.mY) ||
+                 (vector.mZ != anotherVector.mZ) || 
+                 (vector.mW != anotherVector.mW) );
+    }
+
+} 
