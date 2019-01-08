@@ -33,11 +33,11 @@ namespace Platforms { namespace WindowSystem {
         ~Window();
     private:
         void _initOpenGLContext();
-		void _initFullscreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP);
+        void _initFullscreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP);
     private:
         int mCmdShow;
-		DWORD dwStyle;
-		DWORD dwExStyle;				
+        DWORD dwStyle;
+        DWORD dwExStyle;
         MSG mWindowEvent;
         HWND mWindowHandle;
         HDC mWindowContext;
