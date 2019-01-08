@@ -19,7 +19,6 @@
 #include <iostream>
 #include <Windows.h>
 #include <GL/GL.h>
-#include <GL/GLU.h>
 
 #define WGL_WGLEXT_PROTOTYPES
 #include <GL/glext.h>

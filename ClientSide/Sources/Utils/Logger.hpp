@@ -23,6 +23,9 @@
 
     #include <thread>
 
+    #define LOG_PRINT(text) \
+        std::cout << (text) << std::endl;
+
     #define LOG_DEBUG(text) \
         std::cout << "[DEBUG] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
 
@@ -36,6 +39,9 @@
         std::cout << "[ERROR] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
 
 #else // _DEBUG
+
+    #define LOG_PRINT(text) \
+        std::cout << (text) << std::endl;
 
     #define LOG_DEBUG(text) \
         ( (void)0 )
