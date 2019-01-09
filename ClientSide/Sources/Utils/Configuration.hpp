@@ -43,4 +43,8 @@ struct Configuration
         static const char* SERVER_ADDRESS;
         static const std::uint16_t SERVER_PORT = 17012;
     };
+
+    static const std::filesystem::path& getShadersPath();
+    static const std::filesystem::path& getTexturesPath();
+    static const std::filesystem::path& getModelsPath();
 };
