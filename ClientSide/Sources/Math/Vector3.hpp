@@ -17,6 +17,7 @@
 #pragma once
 
 #include <cmath>
+#include <array>
 
 namespace Math {
 
@@ -32,6 +33,7 @@ namespace Math {
         Type getX() const noexcept;
         Type getY() const noexcept;
         Type getZ() const noexcept;
+        std::array<Type, 3> toArray() const noexcept;
 
         void setX(Type x) noexcept;
         void setY(Type y) noexcept;
@@ -85,6 +87,12 @@ namespace Math {
     Type Vector3<Type>::getZ() const noexcept
     {
         return mZ;
+    }
+
+    template<class Type>
+    std::array<Type, 3> Vector3<Type>::toArray() const noexcept
+    {
+        return std::array<Type, 3> { mX, mY, mZ };
     }
 
     template<class Type>
