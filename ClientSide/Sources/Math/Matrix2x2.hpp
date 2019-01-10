@@ -16,8 +16,9 @@
 
 #pragma once
 
-#include <utility>
+#include <array>
 #include <cstdint>
+#include <utility>
 
 #include "Vector2.hpp"
 
@@ -40,6 +41,7 @@ namespace Math {
         void mul(Type scalar) noexcept;
         void mul(const Matrix2x2& anotherMatrix) noexcept;
         Vector2<Type> mul(const Vector2<Type>& vector) noexcept;
+        void toArray(std::array<Type, MATRIX_SIZE>& array) const noexcept;
 
         Matrix2x2& operator = (const Matrix2x2& anotherMatrix) noexcept;
         Matrix2x2& operator = (Matrix2x2&& anotherMatrix) noexcept;
@@ -66,11 +68,7 @@ namespace Math {
     Matrix2x2<Type>::Matrix2x2(const Matrix2x2& anotherMatrix)
     {
         const Type* otherElements = anotherMatrix.mElements;
-        for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
-        {
-            mElements[i] = aotherElements[i];
-            mElements[i + 1] = otherElements[i + 1];
-        }
+        std::copy(std::begin(otherElements), std::end(otherElements), std::begin(mElements));
     }
 
     template<class Type>
@@ -123,6 +121,12 @@ namespace Math {
             mElements[i] *= scalar;
             mElements[i + 1] *= scalar;
         }
+    }
+
+    template<class Type>
+    void Matrix2x2<Type>::toArray(std::array<Type, MATRIX_SIZE>& array) const noexcept
+    {
+        std::copy(std::begin(mElements), std::end(mElements), array.begin());
     }
 
     template<class Type>

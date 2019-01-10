@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <array>
 #include <utility>
 #include <cstdint>
 
@@ -40,6 +41,7 @@ namespace Math {
         void mul(Type scalar) noexcept;
         void mul(const Matrix3x3& anotherMatrix) noexcept;
         Vector3<Type> mul(const Vector3<Type>& vector) noexcept;
+        void toArray(std::array<Type, MATRIX_SIZE>& array) const noexcept;
 
         Matrix3x3& operator = (const Matrix3x3& anotherMatrix) noexcept;
         Matrix3x3& operator = (Matrix3x3&& anotherMatrix) noexcept;
@@ -129,6 +131,12 @@ namespace Math {
             mElements[i + 1] *= scalar;
             mElements[i + 2] *= scalar;
         }
+    }
+
+    template<class Type>
+    void Matrix3x3<Type>::toArray(std::array<Type, MATRIX_SIZE>& array) const noexcept
+    {
+        std::copy(std::begin(mElements), std::end(mElements), array.begin());
     }
 
     template<class Type>
