@@ -18,27 +18,14 @@
 
 Graphics::Utils::ShaderProgram::ShaderProgram(const char* vShaderFileName, const char* fShaderFileName)
 {
-   const char* vShaderSourceCode = readFile(vShaderFileName).c_str();
-   const char* fShaderSourceCode = readFile(fShaderFileName).c_str();
-
-    /*
-    const char* vShaderSourceCode = "#version 330 core\n"
-        "layout (location = 0) in vec3 position;\n"
-        "void main()\n"
-        "{\n"
-        "gl_Position = vec4(position, 1.0);\n"
-        "}\0";
-    const char* fShaderSourceCode = "#version 330 core\n"
-        "out vec4 color;\n"
-        "void main()\n"
-        "{\n"
-        "color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-        "}\0";
-        */
+   const char* vShaderSourceCode = strdup(readFile(vShaderFileName).c_str());
+   const char* fShaderSourceCode = strdup(readFile(fShaderFileName).c_str());
 
     const GLuint vertexShader = _compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
     const GLuint fragmantShader = _compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
     _linkShaders(vertexShader, fragmantShader);
+    glDetachShader(mProgram, vertexShader);
+    glDetachShader(mProgram, fragmantShader);
     glDeleteShader(vertexShader);
     glDeleteShader(fragmantShader);
 }
@@ -78,6 +65,23 @@ GLvoid Graphics::Utils::ShaderProgram::_linkShaders(GLuint vertexShader, GLuint 
     }
 }
 
+//////////////////////////////////////////////////////////////////////////////
+void Graphics::Utils::ShaderProgram::destroyProgram()
+{
+    glDeleteProgram(mProgram);
+}
+
+void Graphics::Utils::ShaderProgram::destroyProgramID(unsigned int idProgram)
+{
+    glDeleteProgram(idProgram);
+}
+
+Graphics::Utils::ShaderProgram::~ShaderProgram()
+{
+    destroyProgram();
+}
+
+//////////////////////////////////////////////////////////////////////////////
 void Graphics::Utils::ShaderProgram::setProgram()
 {
     glUseProgram(mProgram);
@@ -93,7 +97,81 @@ GLuint Graphics::Utils::ShaderProgram::getProgram()
     return mProgram;
 }
 
-Graphics::Utils::ShaderProgram::~ShaderProgram()
+//////////////////////////////////////////////////////////////////////////////
+GLuint Graphics::Utils::ShaderProgram::getAttribLocation(const char* name)
 {
-    glDeleteProgram(mProgram);
+    return glGetAttribLocation(mProgram, name);
+}
+
+GLuint Graphics::Utils::ShaderProgram::getUniformLocation(const char* name) const
+{
+    return glGetUniformLocation(mProgram, name);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+void Graphics::Utils::ShaderProgram::setInt(const char * name, int value) const
+{
+    glUniform1i(getUniformLocation(name), value);
+}
+
+void Graphics::Utils::ShaderProgram::setBool(const char * name, bool value) const
+{
+    glUniform1i(getUniformLocation(name), (int)value);
+}
+
+void Graphics::Utils::ShaderProgram::setFloat(const char * name, float value) const
+{
+    glUniform1f(getUniformLocation(name), value);
+}
+
+void Graphics::Utils::ShaderProgram::setVector2(const char * name, float v0, float v1) const
+{
+    glUniform2f(getUniformLocation(name), v0, v1);
+}
+
+void Graphics::Utils::ShaderProgram::setVector3(const char * name, float v0, float v1, float v2) const
+{
+    glUniform3f(getUniformLocation(name), v0, v1, v2);
+}
+
+void Graphics::Utils::ShaderProgram::setVector4(const char * name, float v0, float v1, float v2, float v3) const
+{
+    glUniform4f(getUniformLocation(name), v0, v1, v2, v3);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+void Graphics::Utils::ShaderProgram::setVector2(const char * name, const Math::Vector2<float> &value) const
+{
+    //glUniform2fv(getUniformLocation(name), 1, value);
+    glUniform2f(getUniformLocation(name), value.getX() , value.getY());
+}
+
+void Graphics::Utils::ShaderProgram::setVector3(const char * name, const Math::Vector3<float> &value) const
+{
+    //glUniform3fv(getUniformLocation(name), 1, value);
+    glUniform3f(getUniformLocation(name), value.getX(), value.getY(), value.getZ());
+}
+
+void Graphics::Utils::ShaderProgram::setVector4(const char * name, const Math::Vector4<float> &value) const
+{
+    //glUniform4fv(getUniformLocation(name), 1, &value[0]);
+    glUniform4f(getUniformLocation(name), value.getX(), value.getY(), value.getZ(), value.getW());
+}
+
+//////////////////////////////////////////////////////////////////////////////
+void Graphics::Utils::ShaderProgram::setMatrix2(const char * name, const Math::Matrix2x2<float> &value) const
+{
+    //std::array<float, 4> array;
+    //value.toArray(array);
+    //glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, array);
+}
+
+void Graphics::Utils::ShaderProgram::setMatrix3(const char * name, const Math::Matrix3x3<float> &value) const
+{
+    //glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, value);
+}
+
+void Graphics::Utils::ShaderProgram::setMatrix4(const char * name, const Math::Matrix4x4<float> &value) const
+{
+    //glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, value);
 }
