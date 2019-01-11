@@ -99,7 +99,7 @@ GLuint Graphics::Utils::ShaderProgram::getProgram()
     return mProgram;
 }
 
-GLuint Graphics::Utils::ShaderProgram::getAttribLocation(const char* name)
+GLuint Graphics::Utils::ShaderProgram::getAttribLocation(const char* name) const
 {
     return glGetAttribLocation(mProgram, name);
 }
@@ -183,9 +183,9 @@ void Graphics::Utils::ShaderProgram::setUniformMatrix(const char* name, const Ma
     Type array[Math::Matrix4x4<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)
-        glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, array);
+        glUniformMatrix4fv(getUniformLocation(name), 1, GL_TRUE, array);
     else if constexpr (std::is_same<Type, GLdouble>::value)
-        glUniformMatrix4dv(getUniformLocation(name), 1, GL_FALSE, array);
+        glUniformMatrix4dv(getUniformLocation(name), 1, GL_TRUE, array);
 }
 
 template void Graphics::Utils::ShaderProgram::setUniform<GLfloat>(const char* name, GLfloat value) const noexcept;

@@ -42,7 +42,7 @@ namespace Graphics { namespace Utils {
         GLvoid unsetProgram();
         GLuint getProgram();
 
-        GLuint getAttribLocation(const char* name);
+        GLuint getAttribLocation(const char* name) const;
         GLuint getUniformLocation(const char* name) const;
 
         template<typename Type> void setUniform(const char* name, Type value) const noexcept;
