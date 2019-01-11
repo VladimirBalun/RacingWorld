@@ -37,7 +37,7 @@ namespace Graphics { namespace Utils {
         explicit ShaderProgram(const char* vShaderFileName, const char* fShaderFileName);
         ~ShaderProgram();
         void destroyProgram();
-        void destroyProgramID(unsigned int idProgram);
+        void destroyProgramID(GLuint idProgram);
         GLvoid setProgram();
         GLvoid unsetProgram();
         GLuint getProgram();
@@ -45,26 +45,17 @@ namespace Graphics { namespace Utils {
         GLuint getAttribLocation(const char* name);
         GLuint getUniformLocation(const char* name) const;
 
-        void setInt(const char* name, int value) const;
-        void setBool(const char* name, bool value) const;
-        void setFloat(const char* name, float value) const;
+        template<typename Type> void setUniform(const char* name, Type value) const noexcept;
+        template<typename Type> void setUniformVector(const char* name, const Math::Vector2<Type>& vector) const noexcept;
+        template<typename Type> void setUniformVector(const char* name, const Math::Vector3<Type>& vector) const noexcept;
+        template<typename Type> void setUniformVector(const char* name, const Math::Vector4<Type>& vector) const noexcept;
 
-        void setVector2(const char* name, float v0, float v1) const;
-        void setVector3(const char* name, float v0, float v1, float v2) const;
-        void setVector4(const char* name, float v0, float v1, float v2, float v3) const;
-
-        void setVector2(const char* name, const Math::Vector2<float> &value) const;
-        void setVector3(const char* name, const Math::Vector3<float> &value) const;
-        void setVector4(const char* name, const Math::Vector4<float> &value) const;
-
-        void setMatrix2(const char* name, const Math::Matrix2x2<float> &value) const;
-        void setMatrix3(const char* name, const Math::Matrix3x3<float> &value) const;
-        void setMatrix4(const char* name, const Math::Matrix4x4<float> &value) const;
-
-
+        template<typename Type> void setUniformMatrix(const char* name, const Math::Matrix2x2<Type>& matrix) const noexcept;
+        template<typename Type> void setUniformMatrix(const char* name, const Math::Matrix3x3<Type>& matrix) const noexcept;
+        template<typename Type> void setUniformMatrix(const char* name, const Math::Matrix4x4<Type>& matrix) const noexcept;
     private:
-        GLuint _compileShader(const char* shaderSourcCode, GLint shaderType);
-        GLvoid _linkShaders(GLuint vertexShader, GLuint fragmentShader);
+        GLuint compileShader(const char* shaderSourcCode, GLint shaderType);
+        GLvoid linkShaders(GLuint vertexShader, GLuint fragmentShader);
     private:
         GLuint mProgram;
     };

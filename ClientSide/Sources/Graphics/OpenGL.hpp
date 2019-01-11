@@ -24,9 +24,7 @@
 #include <GL/glext.h>
 #include <GL/wglext.h>
 
-
 GLvoid initOpenGL();
-
 
 // GL_VERSION_1_2
 #define glDrawRangeElements __glDrawRangeElements
@@ -38,7 +36,6 @@ extern PFNGLDRAWRANGEELEMENTSPROC __glDrawRangeElements;
 extern PFNGLTEXIMAGE3DPROC __glTexImage3D;
 extern PFNGLTEXSUBIMAGE3DPROC __glTexSubImage3D;
 extern PFNGLCOPYTEXSUBIMAGE3DPROC __glCopyTexSubImage3D;
-
 
 // GL_VERSION_1_3
 #define glActiveTexture __glActiveTexture
@@ -232,7 +229,6 @@ extern PFNGLWINDOWPOS3SPROC __glWindowPos3s;
 extern PFNGLWINDOWPOS3SVPROC __glWindowPos3sv;
 extern PFNGLBLENDCOLORPROC __glBlendColor;
 extern PFNGLBLENDEQUATIONPROC __glBlendEquation;
-
 
 // GL_VERSION_1_5
 #define glGenQueries __glGenQueries
@@ -680,7 +676,6 @@ extern PFNGLGETUNIFORMBLOCKINDEXPROC __glGetUniformBlockIndex;
 extern PFNGLGETACTIVEUNIFORMBLOCKIVPROC __glGetActiveUniformBlockiv;
 extern PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC __glGetActiveUniformBlockName;
 extern PFNGLUNIFORMBLOCKBINDINGPROC __glUniformBlockBinding;
-
 
 // GL_VERSION_3_2
 #define glDrawElementsBaseVertex __glDrawElementsBaseVertex
