@@ -18,14 +18,14 @@
 
 bool Platforms::Network::NetworkManager::login() 
 {
-    std::array<wchar_t, Configuration::Game::MAX_SIZE_EMAIL> email;
-    std::array<wchar_t, Configuration::Game::MAX_SIZE_PASSWORD> password;
-    std::copy(Configuration::Player::PLAYER_EMAIL.begin(), Configuration::Player::PLAYER_EMAIL.end(), email.begin());
-    std::copy(Configuration::Player::PLAYER_PASSWORD.begin(), Configuration::Player::PLAYER_PASSWORD.end(), password.begin());
-    std::cout << (std::int8_t) email.size() << std::endl;
-
     // TODO: need to change on custom allocators
-    std::unique_ptr<Login> packetToServer = std::make_unique<Login>(mPacketNumber++, email, (std::int8_t) email.size(), password, (std::int8_t) password.size());
+    std::unique_ptr<Login> packetToServer = std::make_unique<Login>();
+    packetToServer->mType = LOGIN_PACKET;
+    packetToServer->mNumber = mPacketNumber++;
+    packetToServer->mEmailSize = Configuration::Player::PLAYER_EMAIL.size();
+    packetToServer->mPasswordSize = Configuration::Player::PLAYER_PASSWORD.size();
+    std::copy(Configuration::Player::PLAYER_EMAIL.begin(), Configuration::Player::PLAYER_EMAIL.end(), std::begin(packetToServer->mEmail));
+    std::copy(Configuration::Player::PLAYER_PASSWORD.begin(), Configuration::Player::PLAYER_PASSWORD.end(), std::begin(packetToServer->mPassword));
     void* buffer = reinterpret_cast<void*>(packetToServer.get());
     mConnection.sendBuffer(buffer);
 
@@ -38,11 +38,13 @@ bool Platforms::Network::NetworkManager::login()
 
 bool Platforms::Network::NetworkManager::initializePosition()
 {
-    const Math::Vector3<float>& startPosition = Configuration::Player::PLAYER_START_POSITION;
-    const Math::Vector3<float>& startDirection = Configuration::Player::PLAYER_START_DIRECTION;
-
     // TODO: need to change on custom allocators
-    std::unique_ptr<InitializePosition> packetToServer = std::make_unique<InitializePosition>(mPacketNumber++, mCurrentToken, startPosition, startDirection);
+    std::unique_ptr<InitializePosition> packetToServer = std::make_unique<InitializePosition>();
+    packetToServer->mType = INITIALIZE_POSITION_PACKET;
+    packetToServer->mNumber = mPacketNumber++;
+    packetToServer->mToken = mCurrentToken;
+    packetToServer->mPosition = Configuration::Player::PLAYER_START_POSITION;
+    packetToServer->mDirection = Configuration::Player::PLAYER_START_DIRECTION;
     void* buffer = reinterpret_cast<void*>(packetToServer.get());
     mConnection.sendBuffer(buffer);
 
