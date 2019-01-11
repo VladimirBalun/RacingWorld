@@ -23,31 +23,33 @@
 
 namespace Math {
 
-    template<class Type>
-    Matrix2x2<Type> getIdentityMatrix2x2() noexcept
+    template<typename Type>
+    void setIdentityMatrix(Matrix2x2<Type>& matrix) noexcept
     {
-        return Matrix2x2<Type>({
-            1.0, 0.0
-            0.0, 1.0
-        });
+        static Type identity[] = {
+            1.0, 0.0, 0.0, 1.0 
+        };
+        matrix = identity;
     }
 
     template<class Type>
-    Matrix2x2<Type> getScaleMatrix2x2(const Vector2<Type>& vector) noexcept
+    void setScaleMatrix(Matrix2x2<Type>& matrix, const Vector2<Type>& vector) noexcept
     {
-        return Matrix2x2<Type>({
+        Type scale[] = {
             vector.x, 0.0,
             0.0, vector.y
-            });
+        };
+        matrix = scale;
     }
 
-    template<class Type, typename AngleType>
-    Matrix2x2<Type> getRotationMatrix2x2(AngleType angle) noexcept
+    template<class Type>
+    void setRotationMatrix(Matrix2x2<Type>& matrix, Type angle) noexcept
     {
-        return Matrix2x2<Type>({
+        Type scale[] = {
             cos(angle), -sin(angle),
             sin(angle), cos(angle)
-        });
+        };
+        matrix = scale;
     }
 
 }

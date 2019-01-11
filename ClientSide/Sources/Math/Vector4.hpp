@@ -25,8 +25,11 @@ namespace Math {
     class Vector4
     {
     public:
+        static const std::uint8_t VECTOR_SIZE = 4;
+
         Vector4() = default;
         Vector4(const Vector4& anotherVector);
+        Vector4(const Type* array);
         Vector4(Type x, Type y, Type z, Type w)
             : mX(x), mY(y), mZ(z), mW(w) {}
 
@@ -34,7 +37,8 @@ namespace Math {
         Type getY() const noexcept;
         Type getZ() const noexcept;
         Type getW() const noexcept;
-        std::array<Type, 4> toArray() const noexcept;
+        std::size_t getLength() const noexcept;
+        void toArray(Type* array) const;
 
         void setX(Type x) noexcept;
         void setY(Type y) noexcept;
@@ -42,7 +46,6 @@ namespace Math {
         void setW(Type w) noexcept;
 
         void normalize() noexcept;
-        std::size_t getLength() const noexcept;
         Type dot(const Vector4& anotherVector) noexcept;
         void cross(const Vector4& anotherVector) noexcept;
         void add(const Vector4& anotherVector) noexcept;
@@ -76,6 +79,15 @@ namespace Math {
     }
 
     template<class Type>
+    Vector4<Type>::Vector4(const Type* array)
+    {
+        mX = array[0];
+        mY = array[1];
+        mZ = array[2];
+        mW = array[3];
+    }
+
+    template<class Type>
     Type Vector4<Type>::getX() const noexcept
     {
         return mX;
@@ -100,9 +112,18 @@ namespace Math {
     }
 
     template<class Type>
-    std::array<Type, 4> Vector4<Type>::toArray() const noexcept
+    std::size_t Vector4<Type>::getLength() const noexcept
     {
-        return std::array<Type, 4> { mX, mY, mZ, mW };
+        return sqrt(mX*mX + mY*mY + mZ*mZ);
+    }
+
+    template<class Type>
+    void Vector4<Type>::toArray(Type* array) const
+    {
+        array[0] = mX;
+        array[1] = mY;
+        array[2] = mZ;
+        array[3] = mW;
     }
 
     template<class Type>
@@ -139,12 +160,6 @@ namespace Math {
             mY /= length;
             mZ /= length;
         }
-    }
-
-    template<class Type>
-    std::size_t Vector4<Type>::getLength() const noexcept
-    {
-        return sqrt(mX*mX + mY*mY + mZ*mZ);
     }
 
     template<class Type>
@@ -251,5 +266,9 @@ namespace Math {
                  (vector.mZ != anotherVector.mZ) || 
                  (vector.mW != anotherVector.mW) );
     }
+
+    using Vector4f = Vector4<float>;
+    using Vector4d = Vector4<double>;
+    using Vector4i = Vector4<int>;
 
 } 

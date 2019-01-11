@@ -24,54 +24,59 @@
 namespace Math {
 
     template<class Type>
-    Matrix3x3<Type> getIdentityMatrix3x3() noexcept
+    void setIdentityMatrix(Matrix3x3<Type>& matrix) noexcept
     {
-        return Matrix3x3<Type>({
+        static Type[] identity = {
             1.0, 0.0, 0.0,
             0.0, 1.0, 0.0,
             0.0, 0.0, 1.0
-        });
+        };
+        matrix = identity;
     }
 
     template<class Type>
-    Matrix3x3<Type> getScaleMatrix3x3(const Vector3<Type>& vector) noexcept
+    void setScaleMatrix(Matrix3x3<Type>& matrix, const Vector3<Type>& vector) noexcept
     {
-        return Matrix3x3<Type>({
+        Type[] scale = {
             vector.x, 0.0, 0.0,
             0.0, vector.y, 0.0,
             0.0, 0.0, vector.z
-        });
+        };
+        matrix = scale;
     }
 
-    template<class Type, typename AngleType>
-    Matrix3x3<Type> getRotationMatrix3x3ByX(AngleType angle) noexcept
+    template<class Type>
+    void setRotationMatrixByX(Matrix3x3<Type>& matrix, Type angle) noexcept
     {
-        return Matrix3x3<Type>({
+        Type[] rotation = {
             1.0, 0.0, 0.0,
             0.0, cos(angle), -sin(angle),
             0.0, sin(angle),  cos(angle),
             0.0, 0.0, 0.0
-        });
+        };
+        matrix = rotation;
     }
 
-    template<class Type, typename AngleType>
-    Matrix3x3<Type> getRotationMatrix3x3ByY(AngleType angle) noexcept
+    template<class Type>
+    void setRotationMatrixByY(Matrix3x3<Type>& matrix, Type angle) noexcept
     {
-        return Matrix3x3<Type>({
+        Type[] rotation = {
             cos(angle), 0.0, -sin(angle),
-            0.0, 1.0, 0.0, 
+            0.0, 1.0, 0.0,
             sin(angle), 0.0,  cos(angle)
-        });
+        };
+        matrix = rotation;
     }
 
-    template<class Type, typename AngleType>
-    Matrix3x3<Type> getRotationMatrix3x3ByZ(AngleType angle) noexcept
+    template<class Type>
+    void setRotationMatrixByZ(Matrix3x3<Type>& matrix, Type angle) noexcept
     {
-        return Matrix3x3<Type>({
+        Type[] rotation = {
             cos(angle), -sin(angle), 0.0,
             sin(angle), 1.0,  cos(angle),
             0.0, 0.0, 1.0
-        });
+        };
+        matrix = rotation;
     }
 
 }

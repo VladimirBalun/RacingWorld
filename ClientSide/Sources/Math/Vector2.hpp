@@ -17,7 +17,6 @@
 #pragma once
 
 #include <cmath>
-#include <array>
 
 namespace Math {
 
@@ -25,20 +24,23 @@ namespace Math {
     class Vector2
     {
     public:
+        static const std::uint8_t VECTOR_SIZE = 2;
+
         Vector2() = default;
         Vector2(const Vector2& anotherVector);
+        Vector2(const Type* array);
         Vector2(Type x, Type y)
             : mX(x), mY(y) {}
 
         Type getX() const noexcept;
         Type getY() const noexcept;
-        std::array<Type, 2> toArray() const noexcept;
+        std::size_t getLength() const noexcept;
+        void toArray(Type* array) const;
 
         void setX(Type x) noexcept;
         void setY(Type y) noexcept;
 
         void normalize() noexcept;
-        std::size_t getLength() const noexcept;
         Type dot(const Vector2& anotherVector) noexcept;
         void add(const Vector2& anotherVector) noexcept;
         void sub(const Vector2& anotherVector) noexcept;
@@ -67,6 +69,13 @@ namespace Math {
     }
 
     template<class Type>
+    Vector2<Type>::Vector2(const Type* array)
+    {
+        mX = array[0];
+        mY = array[1];
+    }
+
+    template<class Type>
     Type Vector2<Type>::getX() const noexcept
     {
         return mX;
@@ -79,9 +88,16 @@ namespace Math {
     }
 
     template<class Type>
-    std::array<Type, 2> Vector2<Type>::toArray() const noexcept
+    std::size_t Vector2<Type>::getLength() const noexcept
     {
-        return std::array<Type, 2> { mX, mY };
+        return sqrt(mX*mX + mY*mY);
+    }
+
+    template<class Type>
+    void Vector2<Type>::toArray(Type* array) const
+    {
+        array[0] = mX;
+        array[1] = mY;
     }
 
     template<class Type>
@@ -105,12 +121,6 @@ namespace Math {
             mX /= length;
             mY /= length;
         }
-    }
-
-    template<class Type>
-    std::size_t Vector2<Type>::getLength() const noexcept
-    {
-        return sqrt(mX*mX + mY*mY);
     }
 
     template<class Type>
@@ -197,5 +207,9 @@ namespace Math {
         return ( (vector.mX != anotherVector.mX) ||
                  (vector.mY != anotherVector.mY) );
     }
+
+    using Vector2f = Vector2<float>;
+    using Vector2d = Vector2<double>;
+    using Vector2i = Vector2<int>;
 
 }

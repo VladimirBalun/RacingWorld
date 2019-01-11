@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include <array>
 #include <utility>
 #include <cstdint>
 
@@ -32,6 +31,7 @@ namespace Math {
         static const std::uint8_t MATRIX_SIZE = ROW_SIZE * ROW_SIZE;
 
         Matrix4x4() = default;
+        Matrix4x4(const Type* array);
         Matrix4x4(const Matrix4x4& anotherMatrix);
         Matrix4x4(Matrix4x4&& anotherMatrix);
 
@@ -41,8 +41,9 @@ namespace Math {
         void mul(Type scalar) noexcept;
         void mul(const Matrix4x4& anotherMatrix) noexcept;
         Vector4<Type> mul(const Vector4<Type>& vector) noexcept;
-        void toArray(std::array<Type, MATRIX_SIZE>& array) const noexcept;
+        void toArray(Type* array) const;
 
+        Matrix4x4& operator = (const Type* array);
         Matrix4x4& operator = (const Matrix4x4& anotherMatrix) noexcept;
         Matrix4x4& operator = (Matrix4x4&& anotherMatrix) noexcept;
         Type operator [] (std::uint8_t index) const;
@@ -65,6 +66,18 @@ namespace Math {
     private:
         Type mElements[MATRIX_SIZE] = { 0 };
     };
+
+    template<class Type>
+    Matrix4x4<Type>::Matrix4x4(const Type* array)
+    {
+        for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
+        {
+            mElements[i] = array[i];
+            mElements[i + 1] = array[i + 1];
+            mElements[i + 2] = array[i + 2];
+            mElements[i + 3] = array[i + 3];
+        }
+    }
 
     template<class Type>
     Matrix4x4<Type>::Matrix4x4(const Matrix4x4& anotherMatrix)
@@ -139,9 +152,15 @@ namespace Math {
     }
 
     template<class Type>
-    void Matrix4x4<Type>::toArray(std::array<Type, MATRIX_SIZE>& array) const noexcept
+    void Matrix4x4<Type>::toArray(Type* array) const
     {
-        std::copy(std::begin(mElements), std::end(mElements), array.begin());
+        for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
+        {
+            array[i] = mElements[i];
+            array[i + 1] = mElements[i + 1];
+            array[i + 2] = mElements[i + 2];
+            array[i + 3] = mElements[i + 3];
+        }
     }
 
     template<class Type>
@@ -178,6 +197,19 @@ namespace Math {
         tmpVector.setZ(mElements[THIRD_ROW]*vector.getX() + mElements[THIRD_ROW + 1]*vector.getY() + mElements[THIRD_ROW + 2]*vector.getZ());
         tmpVector.setW(mElements[FOURTH_ROW]*vector.getX() + mElements[FOURTH_ROW + 1]*vector.getY() + mElements[FOURTH_ROW + 2]*vector.getZ());
         return tmpVector;
+    }
+
+    template<class Type>
+    Matrix4x4<Type>& Matrix4x4<Type>::operator = (const Type* array)
+    {
+        for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
+        {
+            mElements[i] = array[i];
+            mElements[i + 1] = array[i + 1];
+            mElements[i + 2] = array[i + 2];
+            mElements[i + 3] = array[i + 3];
+        }
+        return *this;
     }
 
     template<class Type>
@@ -284,5 +316,8 @@ namespace Math {
         newMatrix.mul(anotherMatrix);
         return newMatrix;
     }
+
+    using Matrix4x4f = Matrix4x4<float>;
+    using Matrix4x4d = Matrix4x4<double>;
 
 }

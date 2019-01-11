@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include <array>
 #include <cstdint>
 #include <utility>
 
@@ -32,6 +31,7 @@ namespace Math {
         static const std::uint8_t MATRIX_SIZE = ROW_SIZE * ROW_SIZE;
 
         Matrix2x2() = default;
+        Matrix2x2(const Type* array);
         Matrix2x2(const Matrix2x2& anotherMatrix);
         Matrix2x2(Matrix2x2&& anotherMatrix);
 
@@ -41,8 +41,9 @@ namespace Math {
         void mul(Type scalar) noexcept;
         void mul(const Matrix2x2& anotherMatrix) noexcept;
         Vector2<Type> mul(const Vector2<Type>& vector) noexcept;
-        void toArray(std::array<Type, MATRIX_SIZE>& array) const noexcept;
+        void toArray(Type* array) const noexcept;
 
+        Matrix2x2& operator = (const Type* array);
         Matrix2x2& operator = (const Matrix2x2& anotherMatrix) noexcept;
         Matrix2x2& operator = (Matrix2x2&& anotherMatrix) noexcept;
         Type operator [] (std::uint8_t index) const;
@@ -63,6 +64,16 @@ namespace Math {
     private:
         Type mElements[MATRIX_SIZE] = { 0 };
     };
+
+    template<class Type>
+    Matrix2x2<Type>::Matrix2x2(const Type* array)
+    {
+        for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
+        {
+            mElements[i] = array[i];
+            mElements[i + 1] = array[i + 1];
+        }
+    }
 
     template<class Type>
     Matrix2x2<Type>::Matrix2x2(const Matrix2x2& anotherMatrix)
@@ -124,9 +135,13 @@ namespace Math {
     }
 
     template<class Type>
-    void Matrix2x2<Type>::toArray(std::array<Type, MATRIX_SIZE>& array) const noexcept
+    void Matrix2x2<Type>::toArray(Type* array) const noexcept
     {
-        std::copy(std::begin(mElements), std::end(mElements), array.begin());
+        for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
+        {
+            array[i] = mElements[i];
+            array[i + 1] = mElements[i + 1];
+        }
     }
 
     template<class Type>
@@ -147,6 +162,17 @@ namespace Math {
         tmpVector.setX(mElements[FIRST_ROW] * vector.getX() + mElements[FIRST_ROW + 1] * vector.getY());
         tmpVector.setY(mElements[SECOND_ROW] * vector.getX() + mElements[SECOND_ROW + 1] * vector.getY());
         return tmpVector;
+    }
+
+    template<class Type>
+    Matrix2x2<Type>& Matrix2x2<Type>::operator = (const Type* array)
+    {
+        for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
+        {
+            mElements[i] = array[i];
+            mElements[i + 1] = array[i + 1];
+        }
+        return *this;
     }
 
     template<class Type>
@@ -251,5 +277,8 @@ namespace Math {
         newMatrix.mul(anotherMatrix);
         return newMatrix;
     }
+
+    using Matrix2x2f = Matrix2x2<float>;
+    using Matrix2x2d = Matrix2x2<double>;
 
 }

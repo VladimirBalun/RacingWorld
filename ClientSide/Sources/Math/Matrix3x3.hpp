@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include <array>
 #include <utility>
 #include <cstdint>
 
@@ -32,6 +31,7 @@ namespace Math {
         static const std::uint8_t MATRIX_SIZE = ROW_SIZE * ROW_SIZE;
 
         Matrix3x3() = default;
+        Matrix3x3(const Type* array);
         Matrix3x3(const Matrix3x3& anotherMatrix);
         Matrix3x3(Matrix3x3&& anotherMatrix);
 
@@ -41,8 +41,9 @@ namespace Math {
         void mul(Type scalar) noexcept;
         void mul(const Matrix3x3& anotherMatrix) noexcept;
         Vector3<Type> mul(const Vector3<Type>& vector) noexcept;
-        void toArray(std::array<Type, MATRIX_SIZE>& array) const noexcept;
+        void toArray(Type* array) const;
 
+        Matrix3x3& operator = (const Type* array);
         Matrix3x3& operator = (const Matrix3x3& anotherMatrix) noexcept;
         Matrix3x3& operator = (Matrix3x3&& anotherMatrix) noexcept;
         Type operator [] (std::uint8_t index) const;
@@ -65,6 +66,17 @@ namespace Math {
     private:
         Type mElements[MATRIX_SIZE] = { 0 };
     };
+
+    template<class Type>
+    Matrix3x3<Type>::Matrix3x3(const Type* array)
+    {
+        for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
+        {
+            mElements[i] = array[i];
+            mElements[i + 1] = array[i + 1];
+            mElements[i + 2] = array[i + 2];
+        }
+    }
 
     template<class Type>
     Matrix3x3<Type>::Matrix3x3(const Matrix3x3& anotherMatrix)
@@ -134,12 +146,6 @@ namespace Math {
     }
 
     template<class Type>
-    void Matrix3x3<Type>::toArray(std::array<Type, MATRIX_SIZE>& array) const noexcept
-    {
-        std::copy(std::begin(mElements), std::end(mElements), array.begin());
-    }
-
-    template<class Type>
     void Matrix3x3<Type>::mul(const Matrix3x3& anotherMatrix) noexcept
     {
         const Type* otherElements = anotherMatrix.mElements;
@@ -159,6 +165,29 @@ namespace Math {
         tmpVector.setY(mElements[SECOND_ROW]*vector.getX() + mElements[SECOND_ROW + 1]*vector.getY() + mElements[SECOND_ROW + 2]*vector.getZ());
         tmpVector.setZ(mElements[THIRD_ROW]*vector.getX() + mElements[THIRD_ROW + 1]*vector.getY() + mElements[THIRD_ROW + 2]*vector.getZ());
         return tmpVector;
+    }
+
+    template<class Type>
+    void Matrix3x3<Type>::toArray(Type* array) const
+    {
+        for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
+        {
+            array[i] = mElements[i];
+            array[i + 1] = mElements[i + 1];
+            array[i + 2] = mElements[i + 2];
+        }
+    }
+
+    template<class Type>
+    Matrix3x3<Type>& Matrix3x3<Type>::operator = (const Type* array)
+    {
+        for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
+        {
+            mElements[i] = array[i];
+            mElements[i + 1] = array[i + 1];
+            mElements[i + 2] = array[i + 2];
+        }
+        return *this;
     }
 
     template<class Type>
@@ -264,5 +293,8 @@ namespace Math {
         newMatrix.mul(anotherMatrix);
         return newMatrix;
     }
+
+    using Matrix3x3f = Matrix3x3<float>;
+    using Matrix3x3d = Matrix3x3<double>;
 
 }

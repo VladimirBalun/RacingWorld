@@ -25,94 +25,102 @@
 namespace Math {
 
     template<class Type>
-    Matrix4x4<Type> getIdentityMatrix4x4() noexcept
+    void setIdentityMatrix(Matrix4x4<Type>& matrix) noexcept
     {
-        return Matrix4x4<Type>({
+        static Type identity = {
             1.0, 0.0, 0.0, 0.0,
             0.0, 1.0, 0.0, 0.0,
             0.0, 0.0, 1.0, 0.0,
             0.0, 0.0, 0.0, 1.0
-        });
+        };
+        matrix = identity;
     }
 
-    template<class Type, typename NumberType>
-    Matrix4x4<Type> getOrthoMatrix4x4(NumberType left, NumberType right, NumberType bottom, NumberType top, NumberType near, NumberType far) noexcept
+    template<class Type>
+    void setOrthoMatrix(Matrix4x4<Type>& matrix, Type left, Type right, Type bottom, Type top, Type near, Type far) noexcept
     {
-        return Matrix4x4<Type>({
+        Type ortho = {
             2 / (right - left), 0.0, 0.0, -(right + left) / (right - left),
             0.0, 2 / (top - bottom), 0.0,  (top + bottom) / (top - bottom),
             0.0, 0.0, 2 / (far - near), -(far + near) / (far - near),
             0.0, 0.0, 0.0, 0.0
-        });
-    }
-
-    template<class Type, typename NumberType>
-    Matrix4x4<Type> getPerspectiveMatrxix4x4(NumberType fov, NumberType aspect, NumberType near, NumberType far) noexcept
-    {
-        const NumberType yScale = 1.0 / tan(RADIANS_PER_DEGREE * fov / 2);
-        const NumberType xScale = yScale / aspect;
-        const NumberType difference = near - far;
-        return Matrix4x4<Type>({
-            xScale, 0, 0, 0,
-            0, yScale, 0, 0,
-            0, 0, (far + near) / difference, -1,
-            0, 0, 2 * far*near / difference, 0
-        });
+        };
+        matrix = ortho;
     }
 
     template<class Type>
-    Matrix4x4<Type> getTranslationMatrix4x4(const Vector3<Type>& vector) noexcept
+    void setPerspectiveMatrix(Matrix4x4<Type>& matrix, Type fov, Type aspect, Type near, Type far) noexcept
     {
-        return Matrix4x4<Type>({
+        const Type yScale = 1.0 / tan(RADIANS_PER_DEGREE * fov / 2);
+        const Type xScale = yScale / aspect;
+        const Type difference = near - far;
+        Type perspective = {
+            xScale, 0, 0, 0,
+            0, yScale, 0, 0,
+            0, 0, (far + near) / difference, -1,
+            0, 0, 2 * far * near / difference, 0
+        };
+        matrix = perspective;
+    }
+
+    template<class Type>
+    void setTranslationMatrix(Matrix4x4<Type>& matrix, const Vector3<Type>& vector) noexcept
+    {
+        Type translation = {
             1.0, 0.0, 0.0, vector.x,
             0.0, 1.0, 0.0, vector.y,
             0.0, 0.0, 1.0, vector.z,
             0.0, 0.0, 0.0, 1.0
-        });
+        };
+        matrix = translation;
     }
 
     template<class Type>
-    Matrix4x4<Type> getScaleMatrix4x4(const Vector3<Type>& vector) noexcept
+    void setScaleMatrix(Matrix4x4<Type>& matrix, const Vector3<Type>& vector) noexcept
     {
-        return Matrix4x4<Type>({
+        Type scale = {
             vector.x, 0.0, 0.0, 0.0,
             0.0, vector.y, 0.0, 0.0,
             0.0, 0.0, vector.z, 0.0,
             0.0, 0.0, 0.0, 1.0
-        });
+        };
+        matrix = scale;
     }
 
-    template<class Type, typename AngleType>
-    Matrix4x4<Type> getRotationMatrix4x4ByX(AngleType angle) noexcept
+    template<class Type>
+    void setRotationMatrixByX(Matrix4x4<Type>& matrix, Type angle) noexcept
     {
-        return Matrix4x4<Type>({
+        Type rotation = {
             1.0, 0.0, 0.0, 0.0,
             0.0, cos(angle), -sin(angle), 0.0,
             0.0, sin(angle),  cos(angle), 0.0,
             0.0, 0.0, 0.0, 1.0
-        });
+        };
+        matrix = rotation;
     }
 
-    template<class Type, typename AngleType>
-    Matrix4x4<Type> getRotationMatrix4x4ByY(AngleType angle) noexcept
+    template<class Type>
+    void setRotationMatrixByY(Matrix4x4<Type>& matrix, Type angle) noexcept
     {
-        return Matrix4x4<Type>({
+        Type rotation = {
             cos(angle), 0.0, -sin(angle), 0.0,
             0.0, 1.0, 0.0, 0.0,
             sin(angle), 0.0,  cos(angle), 0.0,
             0.0, 0.0, 0.0, 1.0
-        });
+        };
+        matrix = rotation;
     }
 
-    template<class Type, typename AngleType>
-    Matrix4x4<Type> getRotationMatrix4x4ByZ(AngleType angle) noexcept
+    template<class Type>
+    void setRotationMatrixByZ(Matrix4x4<Type>& matrix, Type angle) noexcept
     {
-        return Matrix4x4<Type>({
+        Type rotation = {
             cos(angle), -sin(angle), 0.0, 0.0,
             sin(angle), 1.0,  cos(angle), 0.0,
             0.0, 0.0, 1.0, 0.0,
             0.0, 0.0, 0.0, 1.0
-        });
+        };
+        matrix = rotation;
     }
 
 } 

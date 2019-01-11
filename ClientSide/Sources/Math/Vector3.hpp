@@ -25,22 +25,25 @@ namespace Math {
     class Vector3
     {
     public:
+        static const std::uint8_t VECTOR_SIZE = 3;
+
         Vector3() = default;
         Vector3(const Vector3& anotherVector);
+        Vector3(const Type* array);
         Vector3(Type x, Type y, Type z)
             : mX(x), mY(y), mZ(z) {}
 
         Type getX() const noexcept;
         Type getY() const noexcept;
         Type getZ() const noexcept;
-        std::array<Type, 3> toArray() const noexcept;
+        std::size_t getLength() const noexcept;
+        void toArray(Type* array) const;
 
         void setX(Type x) noexcept;
         void setY(Type y) noexcept;
         void setZ(Type z) noexcept;
 
         void normalize() noexcept;
-        std::size_t getLength() const noexcept;
         Type dot(const Vector3& anotherVector) noexcept;
         void cross(const Vector3& anotherVector) noexcept;
         void add(const Vector3& anotherVector) noexcept;
@@ -72,6 +75,14 @@ namespace Math {
     }
 
     template<class Type>
+    Vector3<Type>::Vector3(const Type* array)
+    {
+        mX = array[0];
+        mY = array[1];
+        mZ = array[2];
+    }
+
+    template<class Type>
     Type Vector3<Type>::getX() const noexcept
     {
         return mX;
@@ -90,9 +101,17 @@ namespace Math {
     }
 
     template<class Type>
-    std::array<Type, 3> Vector3<Type>::toArray() const noexcept
+    std::size_t Vector3<Type>::getLength() const noexcept
     {
-        return std::array<Type, 3> { mX, mY, mZ };
+        return sqrt(mX*mX + mY*mY + mZ*mZ);
+    }
+
+    template<class Type>
+    void Vector3<Type>::toArray(Type* array) const
+    {
+        array[0] = mX;
+        array[1] = mY;
+        array[2] = mZ;
     }
 
     template<class Type>
@@ -123,12 +142,6 @@ namespace Math {
             mY /= length;
             mZ /= length;
         }
-    }
-
-    template<class Type>
-    std::size_t Vector3<Type>::getLength() const noexcept
-    {
-        return sqrt(mX*mX + mY*mY + mZ*mZ);
     }
 
     template<class Type>
@@ -232,5 +245,9 @@ namespace Math {
                  (vector.mY != anotherVector.mY) ||
                  (vector.mZ != anotherVector.mZ) );
     }
+
+    using Vector3f = Vector3<float>;
+    using Vector3d = Vector3<double>;
+    using Vector3i = Vector3<int>;
 
 } 
