@@ -27,7 +27,8 @@ namespace Math {
     void setIdentityMatrix(Matrix2x2<Type>& matrix) noexcept
     {
         static Type identity[] = {
-            1.0, 0.0, 0.0, 1.0 
+            1.0, 0.0,
+            0.0, 1.0 
         };
         matrix = identity;
     }

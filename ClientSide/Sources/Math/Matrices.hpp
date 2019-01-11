@@ -14,25 +14,8 @@
  * limitations under the License.
  */
 
-package ru.servers.gameServer.math;
+#pragma once
 
-import lombok.*;
-import ru.servers.gameServer.math.algebra.vectors.Vector3;
-
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-public class Point3 {
-
-    private double x;
-    private double y;
-    private double z;
-
-    public Vector3 toVector(){
-        return new Vector3(x, y, z);
-    }
-
-}
+#include "Matrices2x2.hpp"
+#include "Matrices3x3.hpp"
+#include "Matrices4x4.hpp"

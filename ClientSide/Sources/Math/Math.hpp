@@ -14,24 +14,11 @@
  * limitations under the License.
  */
 
-package ru.servers.gameServer.math;
+#pragma once
 
-import lombok.*;
-import ru.servers.gameServer.math.algebra.vectors.Vector2;
+#include "Vectors.hpp"
+#include "Matrices.hpp"
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-public class Point2 {
-
-    private double x;
-    private double y;
-
-    public Vector2 toVector(){
-        return new Vector2(x, y);
-    }
-
-}
+#include "Constants.hpp"
+#include "ECoordinateAxis.hpp"
+#include "Quaternion.hpp"

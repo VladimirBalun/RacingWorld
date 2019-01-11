@@ -26,7 +26,7 @@ namespace Math {
     template<class Type>
     void setIdentityMatrix(Matrix3x3<Type>& matrix) noexcept
     {
-        static Type[] identity = {
+        static Type identity[] = {
             1.0, 0.0, 0.0,
             0.0, 1.0, 0.0,
             0.0, 0.0, 1.0
@@ -37,7 +37,7 @@ namespace Math {
     template<class Type>
     void setScaleMatrix(Matrix3x3<Type>& matrix, const Vector3<Type>& vector) noexcept
     {
-        Type[] scale = {
+        Type scale[] = {
             vector.x, 0.0, 0.0,
             0.0, vector.y, 0.0,
             0.0, 0.0, vector.z
@@ -48,7 +48,7 @@ namespace Math {
     template<class Type>
     void setRotationMatrixByX(Matrix3x3<Type>& matrix, Type angle) noexcept
     {
-        Type[] rotation = {
+        Type rotation[] = {
             1.0, 0.0, 0.0,
             0.0, cos(angle), -sin(angle),
             0.0, sin(angle),  cos(angle),
@@ -60,7 +60,7 @@ namespace Math {
     template<class Type>
     void setRotationMatrixByY(Matrix3x3<Type>& matrix, Type angle) noexcept
     {
-        Type[] rotation = {
+        Type rotation[] = {
             cos(angle), 0.0, -sin(angle),
             0.0, 1.0, 0.0,
             sin(angle), 0.0,  cos(angle)
@@ -71,7 +71,7 @@ namespace Math {
     template<class Type>
     void setRotationMatrixByZ(Matrix3x3<Type>& matrix, Type angle) noexcept
     {
-        Type[] rotation = {
+        Type rotation[] = {
             cos(angle), -sin(angle), 0.0,
             sin(angle), 1.0,  cos(angle),
             0.0, 0.0, 1.0
