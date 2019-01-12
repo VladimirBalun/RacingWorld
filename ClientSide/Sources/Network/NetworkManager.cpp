@@ -18,37 +18,39 @@
 
 bool Platforms::Network::NetworkManager::login() 
 {
-    // TODO: need to change on custom allocators
-    std::unique_ptr<Login> packetToServer = std::make_unique<Login>();
-    packetToServer->mType = LOGIN_PACKET;
-    packetToServer->mNumber = mPacketNumber++;
-    packetToServer->mEmailSize = Configuration::Player::PLAYER_EMAIL.size();
-    packetToServer->mPasswordSize = Configuration::Player::PLAYER_PASSWORD.size();
-    std::copy(Configuration::Player::PLAYER_EMAIL.begin(), Configuration::Player::PLAYER_EMAIL.end(), std::begin(packetToServer->mEmail));
-    std::copy(Configuration::Player::PLAYER_PASSWORD.begin(), Configuration::Player::PLAYER_PASSWORD.end(), std::begin(packetToServer->mPassword));
-    void* buffer = reinterpret_cast<void*>(packetToServer.get());
-    mConnection.sendBuffer(buffer);
+    wchar_t email[Configuration::Game::MAX_SIZE_EMAIL];
+    wchar_t password[Configuration::Game::MAX_SIZE_PASSWORD];
+    std::copy(Configuration::Player::PLAYER_EMAIL.begin(), Configuration::Player::PLAYER_EMAIL.end(), std::begin(email));
+    std::copy(Configuration::Player::PLAYER_PASSWORD.begin(), Configuration::Player::PLAYER_PASSWORD.end(), std::begin(password));
 
     // TODO: need to change on custom allocators
-    std::unique_ptr<LoginAnswer> packetFromServer = std::make_unique<LoginAnswer>();
-    mConnection.receiveBuffer(reinterpret_cast<void*>(packetFromServer.get()));
-    mCurrentToken = packetFromServer->mToken;
-    return packetFromServer->mResultLogin;
+    std::unique_ptr<Protocol::LoginPacket> packetToServer = std::make_unique<Protocol::LoginPacket>();
+    packetToServer->setPacketNumber(mPacketNumber++);
+    packetToServer->setEmailSize((std::int16_t) Configuration::Player::PLAYER_EMAIL.size());
+    packetToServer->setPasswordSize((std::int16_t) Configuration::Player::PLAYER_PASSWORD.size());
+    packetToServer->setEmail(email);
+    packetToServer->setPassword(password);
+    mConnection.sendBuffer(packetToServer->toBuffer());
+
+    // TODO: need to change on custom allocators
+    std::unique_ptr<Protocol::LoginAnswerPacket> packetFromServer = std::make_unique<Protocol::LoginAnswerPacket>();
+    mConnection.receiveBuffer(packetFromServer->toBuffer());
+    mCurrentToken = packetFromServer->getToken();
+    return packetFromServer->getResultLogin();
 }
 
 bool Platforms::Network::NetworkManager::initializePosition()
 {
     // TODO: need to change on custom allocators
-    std::unique_ptr<InitializePosition> packetToServer = std::make_unique<InitializePosition>();
-    packetToServer->mType = INITIALIZE_POSITION_PACKET;
-    packetToServer->mNumber = mPacketNumber++;
-    packetToServer->mToken = mCurrentToken;
-    packetToServer->mPosition = Configuration::Player::PLAYER_START_POSITION;
-    packetToServer->mDirection = Configuration::Player::PLAYER_START_DIRECTION;
-    void* buffer = reinterpret_cast<void*>(packetToServer.get());
-    mConnection.sendBuffer(buffer);
+    std::unique_ptr<Protocol::InitializePositionPacket> packetToServer = std::make_unique<Protocol::InitializePositionPacket>();
+    packetToServer->setPacketNumber(mPacketNumber++);
+    packetToServer->setToken(mCurrentToken);
+    packetToServer->setPosition({10.f, 2.0f, 3.0f});//Configuration::Player::PLAYER_START_POSITION);
+    packetToServer->setDirection(Configuration::Player::PLAYER_START_DIRECTION);
+    mConnection.sendBuffer(packetToServer->toBuffer());
 
     // TODO: need to change on custom allocators
-    std::unique_ptr<InitializePositionAnswer> packetFromServer = std::make_unique<InitializePositionAnswer>();
-    return packetFromServer->mResultInitialization;
+    std::unique_ptr<Protocol::InitializePositionAnswerPacket> packetFromServer = std::make_unique<Protocol::InitializePositionAnswerPacket>();
+    mConnection.receiveBuffer(packetFromServer->toBuffer());
+    return packetFromServer->getResultInitialization();
 }

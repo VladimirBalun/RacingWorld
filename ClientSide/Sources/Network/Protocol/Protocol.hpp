@@ -16,25 +16,9 @@
 
 #pragma once
 
-#include <memory>
+#include "LoginPacket.hpp"
+#include "LoginAnswerPacket.hpp"
 
-#include "UDPConnection.hpp"
-#include "Protocol/Protocol.hpp"
-#include "../Utils/Configuration.hpp"
+#include "InitializePositionPacket.hpp"
+#include "InitializePositionAnswerPacket.hpp"
 
-namespace Platforms { namespace Network {
-
-    class NetworkManager 
-    {
-    public:
-        explicit NetworkManager()
-            : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
-        bool login();
-        bool initializePosition();
-    private:
-        UDPConnection mConnection;
-        std::int32_t mCurrentToken = 0;
-        std::int32_t mPacketNumber = 0;
-    };
-
-}}

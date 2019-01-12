@@ -21,7 +21,6 @@
 #include <Winsock2.h>
 #include <WS2tcpip.h>
 
-#include "Protocol.hpp"
 #include "NetworkException.hpp"
 #include "../Utils/Logger.hpp"
 
@@ -31,8 +30,8 @@ namespace Platforms { namespace Network {
     {
     public:
         explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port);
-        void sendBuffer(void* buffer) noexcept;
-        void receiveBuffer(void* buffer) noexcept;
+        void sendBuffer(char* buffer) noexcept;
+        void receiveBuffer(char* buffer) noexcept;
         ~UDPConnection();
     private:
         int mSocketHandle;

@@ -37,15 +37,15 @@ Platforms::Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t
     mSocketAddress.sin_addr.S_un.S_addr = inet_addr(ipAddress);
 }
 
-void Platforms::Network::UDPConnection::sendBuffer(void* buffer) noexcept
+void Platforms::Network::UDPConnection::sendBuffer(char* buffer) noexcept
 {
-    sendto(mSocketHandle, reinterpret_cast<char*>(buffer), MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, MAX_PACKET_SIZE);
+    sendto(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, MAX_PACKET_SIZE);
 }
 
-void Platforms::Network::UDPConnection::receiveBuffer(void* buffer) noexcept
+void Platforms::Network::UDPConnection::receiveBuffer(char* buffer) noexcept
 {
     int sizeStub = 0;
-    recvfrom(mSocketHandle, reinterpret_cast<char*>(buffer), MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, &sizeStub);
+    recvfrom(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, &sizeStub);
 }
 
 Platforms::Network::UDPConnection::~UDPConnection()

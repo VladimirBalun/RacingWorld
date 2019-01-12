@@ -16,25 +16,19 @@
 
 #pragma once
 
-#include <memory>
+namespace Platforms { namespace Network { namespace Protocol {
 
-#include "UDPConnection.hpp"
-#include "Protocol/Protocol.hpp"
-#include "../Utils/Configuration.hpp"
-
-namespace Platforms { namespace Network {
-
-    class NetworkManager 
+    enum PacketType
     {
-    public:
-        explicit NetworkManager()
-            : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
-        bool login();
-        bool initializePosition();
-    private:
-        UDPConnection mConnection;
-        std::int32_t mCurrentToken = 0;
-        std::int32_t mPacketNumber = 0;
+        ERROR_PACKET = 0,
+        LOGIN_PACKET = 1,
+        LOGIN_ANSWER_PACKET = 2,
+        LOGOUT_PACKET = 3,
+        LOGOUT_ANSWER_PACKET = 4,
+        INITIALIZE_POSITION_PACKET = 5,
+        INITIALIZE_POSITION_ANSWER_PACKET = 6,
+        USER_ACTION_PACKET = 7,
+        WORLD_ACTION_PACKET = 8
     };
 
-}}
+} } }

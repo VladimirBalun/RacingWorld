@@ -16,25 +16,35 @@
 
 #pragma once
 
-#include <memory>
+#include <cstdint>
 
-#include "UDPConnection.hpp"
-#include "Protocol/Protocol.hpp"
-#include "../Utils/Configuration.hpp"
+namespace Platforms { namespace Network { namespace Protocol {
 
-namespace Platforms { namespace Network {
+    // Interfaces
+    struct IPacketToServer {};
+    struct IPacketFromServer {};
 
-    class NetworkManager 
+    #pragma pack(push, 1)
+
+    // Abstract class
+    template<typename DerivedType>
+    class NetworkPacket
     {
     public:
-        explicit NetworkManager()
-            : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
-        bool login();
-        bool initializePosition();
-    private:
-        UDPConnection mConnection;
-        std::int32_t mCurrentToken = 0;
+        explicit NetworkPacket() = default;
+        explicit NetworkPacket(std::uint8_t type) : mPacketType(type) {}
+        char* toBuffer() noexcept;
+    protected:
+        std::int8_t mPacketType = 0;
         std::int32_t mPacketNumber = 0;
     };
 
-}}
+    #pragma pack(pop)
+
+    template<typename DerivedType>
+    char* NetworkPacket<DerivedType>::toBuffer() noexcept
+    {
+        return static_cast<DerivedType*>(this)->toBuffer();
+    }
+
+} } }
