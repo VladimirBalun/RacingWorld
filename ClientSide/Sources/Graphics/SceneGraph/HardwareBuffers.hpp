@@ -16,8 +16,10 @@
 
 #pragma once
 
+#include <vector>
 #include "../OpenGL.hpp"
 #include "../../Utils/Logger.hpp"
+
 
 namespace Graphics { namespace SceneGraph {
 

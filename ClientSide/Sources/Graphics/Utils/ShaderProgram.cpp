@@ -84,7 +84,7 @@ Graphics::Utils::ShaderProgram::~ShaderProgram()
     destroyProgram();
 }
 
-void Graphics::Utils::ShaderProgram::setProgram()
+void Graphics::Utils::ShaderProgram::setProgram() const noexcept
 {
     glUseProgram(mProgram);
 }
@@ -94,7 +94,7 @@ void Graphics::Utils::ShaderProgram::unsetProgram()
     glUseProgram(NULL);
 }
 
-GLuint Graphics::Utils::ShaderProgram::getProgram()
+GLuint Graphics::Utils::ShaderProgram::getProgram() 
 {
     return mProgram;
 }
@@ -112,6 +112,7 @@ GLuint Graphics::Utils::ShaderProgram::getUniformLocation(const char* name) cons
 template<typename Type>
 void Graphics::Utils::ShaderProgram::setUniform(const char* name, Type value) const noexcept
 {
+    setProgram();
     if constexpr (std::is_same<Type, GLfloat>::value)
         glUniform1f(getUniformLocation(name), value);
     else if constexpr (std::is_same<Type, GLdouble>::value)
@@ -125,6 +126,7 @@ void Graphics::Utils::ShaderProgram::setUniform(const char* name, Type value) co
 template<typename Type>
 void Graphics::Utils::ShaderProgram::setUniformVector(const char* name, const Math::Vector2<Type> &vector) const noexcept
 {
+    setProgram();
     if constexpr (std::is_same<Type, GLfloat>::value)
         glUniform2f(getUniformLocation(name), vector.getX() , vector.getY());
     else if constexpr (std::is_same<Type, GLdouble>::value)
@@ -136,6 +138,7 @@ void Graphics::Utils::ShaderProgram::setUniformVector(const char* name, const Ma
 template<typename Type>
 void Graphics::Utils::ShaderProgram::setUniformVector(const char* name, const Math::Vector3<Type>& vector) const noexcept
 {
+    setProgram();
     if constexpr (std::is_same<Type, GLfloat>::value)
         glUniform3f(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ());
     else if constexpr (std::is_same<Type, GLdouble>::value)
@@ -147,6 +150,7 @@ void Graphics::Utils::ShaderProgram::setUniformVector(const char* name, const Ma
 template<typename Type>
 void Graphics::Utils::ShaderProgram::setUniformVector(const char* name, const Math::Vector4<Type>& vector) const noexcept
 {
+    setProgram();
     if constexpr (std::is_same<Type, GLfloat>::value)
         glUniform4f(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ(), vector.getW());
     else if constexpr (std::is_same<Type, GLdouble>::value)
@@ -158,6 +162,7 @@ void Graphics::Utils::ShaderProgram::setUniformVector(const char* name, const Ma
 template<typename Type>
 void Graphics::Utils::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix2x2<Type>& matrix) const noexcept
 {
+    setProgram();
     Type array[Math::Matrix2x2<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)
@@ -169,6 +174,7 @@ void Graphics::Utils::ShaderProgram::setUniformMatrix(const char* name, const Ma
 template<typename Type>
 void Graphics::Utils::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix3x3<Type>& matrix) const noexcept
 {
+    setProgram();
     Type array[Math::Matrix3x3<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)
@@ -180,6 +186,7 @@ void Graphics::Utils::ShaderProgram::setUniformMatrix(const char* name, const Ma
 template<typename Type>
 void Graphics::Utils::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix4x4<Type>& matrix) const noexcept
 {
+    setProgram();
     Type array[Math::Matrix4x4<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)

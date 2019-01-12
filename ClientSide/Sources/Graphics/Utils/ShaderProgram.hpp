@@ -38,7 +38,7 @@ namespace Graphics { namespace Utils {
         ~ShaderProgram();
         void destroyProgram();
         void destroyProgramID(GLuint idProgram);
-        GLvoid setProgram();
+        GLvoid setProgram() const noexcept;
         GLvoid unsetProgram();
         GLuint getProgram();
 
