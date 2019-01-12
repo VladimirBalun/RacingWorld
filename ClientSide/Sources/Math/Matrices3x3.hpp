@@ -38,9 +38,20 @@ namespace Math {
     void setScaleMatrix(Matrix3x3<Type>& matrix, const Vector3<Type>& vector) noexcept
     {
         Type scale[] = {
-            vector.x, 0.0, 0.0,
-            0.0, vector.y, 0.0,
-            0.0, 0.0, vector.z
+            vector.getX(), 0.0, 0.0,
+            0.0, vector.getY(), 0.0,
+            0.0, 0.0, vector.getZ()
+        };
+        matrix = scale;
+    }
+
+    template<class Type>
+    void setScaleMatrix(Matrix3x3<Type>& matrix, Type x, Type y, Type z) noexcept
+    {
+        Type scale[] = {
+            x, 0.0, 0.0,
+            0.0, y, 0.0,
+            0.0, 0.0, z
         };
         matrix = scale;
     }

@@ -52,12 +52,6 @@ namespace Math {
         Matrix3x3& operator *= (Type scalar) noexcept;
         Matrix3x3& operator *= (const Vector3<Type>& vector) noexcept;
         Matrix3x3& operator *= (const Matrix3x3& anotherMatrix) noexcept;
-
-        friend Matrix3x3 operator + (const Matrix3x3& matrix, const Matrix3x3& anotherMatrix) noexcept;
-        friend Matrix3x3 operator - (const Matrix3x3& matrix, const Matrix3x3& anotherMatrix) noexcept;
-        friend Matrix3x3 operator * (const Matrix3x3& matrix, Type scalar) noexcept;
-        friend Matrix3x3 operator * (const Matrix3x3& matrix, const Vector3<Type>& vector) noexcept;
-        friend Matrix3x3 operator * (const Matrix3x3& matrix, const Matrix3x3& anotherMatrix) noexcept;
     private:
         static const std::uint8_t FIRST_ROW = 0;
         static const std::uint8_t SECOND_ROW = ROW_SIZE;
@@ -66,6 +60,20 @@ namespace Math {
     private:
         Type mElements[MATRIX_SIZE] = { 0 };
     };
+
+    template<class Type>
+    Matrix3x3<Type> operator + (const Matrix3x3<Type>& matrix, const Matrix3x3<Type>& anotherMatrix) noexcept;
+    template<class Type>
+    Matrix3x3<Type> operator - (const Matrix3x3<Type>& matrix, const Matrix3x3<Type>& anotherMatrix) noexcept;
+    template<class Type>
+    Matrix3x3<Type> operator * (const Matrix3x3<Type>& matrix, Type scalar) noexcept;
+    template<class Type>
+    Matrix3x3<Type> operator * (const Matrix3x3<Type>& matrix, const Vector3<Type>& vector) noexcept;
+    template<class Type>
+    Matrix3x3<Type> operator * (const Matrix3x3<Type>& matrix, const Matrix3x3<Type>& anotherMatrix) noexcept;
+
+    using Matrix3x3f = Matrix3x3<float>;
+    using Matrix3x3d = Matrix3x3<double>;
 
     template<class Type>
     Matrix3x3<Type>::Matrix3x3(const Type* array)
@@ -93,7 +101,7 @@ namespace Math {
     template<class Type>
     Matrix3x3<Type>::Matrix3x3(Matrix3x3&& anotherMatrix)
     {
-        mElements = std::move(anotherMatrix.mElements);
+        std::move(std::begin(anotherMatrix.mElements), std::end(anotherMatrix.mElements), std::begin(mElements));
     }
 
     template<class Type>
@@ -206,7 +214,7 @@ namespace Math {
     template<class Type>
     Matrix3x3<Type>& Matrix3x3<Type>::operator = (Matrix3x3&& anotherMatrix) noexcept
     {
-        mElements = std::move(anotherMatrix.mElements);
+        std::move(std::begin(anotherMatrix.mElements), std::end(anotherMatrix.mElements), std::begin(mElements));
         return *this;
     }
 
@@ -293,8 +301,5 @@ namespace Math {
         newMatrix.mul(anotherMatrix);
         return newMatrix;
     }
-
-    using Matrix3x3f = Matrix3x3<float>;
-    using Matrix3x3d = Matrix3x3<double>;
 
 }

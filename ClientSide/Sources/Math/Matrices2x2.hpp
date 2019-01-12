@@ -37,8 +37,18 @@ namespace Math {
     void setScaleMatrix(Matrix2x2<Type>& matrix, const Vector2<Type>& vector) noexcept
     {
         Type scale[] = {
-            vector.x, 0.0,
-            0.0, vector.y
+            vector.getX(), 0.0,
+            0.0, vector.getY()
+        };
+        matrix = scale;
+    }
+
+    template<class Type>
+    void setScaleMatrix(Matrix2x2<Type>& matrix, Type x, Type y) noexcept
+    {
+        Type scale[] = {
+            x, 0.0,
+            0.0, y
         };
         matrix = scale;
     }

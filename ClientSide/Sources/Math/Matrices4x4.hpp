@@ -68,9 +68,9 @@ namespace Math {
     void setTranslationMatrix(Matrix4x4<Type>& matrix, const Vector3<Type>& vector) noexcept
     {
         Type translation[] = {
-            1.0, 0.0, 0.0, vector.x,
-            0.0, 1.0, 0.0, vector.y,
-            0.0, 0.0, 1.0, vector.z,
+            1.0, 0.0, 0.0, vector.getX(),
+            0.0, 1.0, 0.0, vector.getY(),
+            0.0, 0.0, 1.0, vector.getZ(),
             0.0, 0.0, 0.0, 1.0
         };
         matrix = translation;
@@ -92,9 +92,21 @@ namespace Math {
     void setScaleMatrix(Matrix4x4<Type>& matrix, const Vector3<Type>& vector) noexcept
     {
         Type scale[] = {
-            vector.x, 0.0, 0.0, 0.0,
-            0.0, vector.y, 0.0, 0.0,
-            0.0, 0.0, vector.z, 0.0,
+            vector.getX(), 0.0, 0.0, 0.0,
+            0.0, vector.getY(), 0.0, 0.0,
+            0.0, 0.0, vector.getZ(), 0.0,
+            0.0, 0.0, 0.0, 1.0
+        };
+        matrix = scale;
+    }
+
+    template<class Type>
+    void setScaleMatrix(Matrix4x4<Type>& matrix, Type x, Type y, Type z) noexcept
+    {
+        Type scale[] = {
+            x, 0.0, 0.0, 0.0,
+            0.0, y, 0.0, 0.0,
+            0.0, 0.0, z, 0.0,
             0.0, 0.0, 0.0, 1.0
         };
         matrix = scale;

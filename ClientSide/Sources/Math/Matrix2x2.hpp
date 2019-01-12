@@ -52,18 +52,26 @@ namespace Math {
         Matrix2x2& operator *= (Type scalar) noexcept;
         Matrix2x2& operator *= (const Vector2<Type>& vector) noexcept;
         Matrix2x2& operator *= (const Matrix2x2& anotherMatrix) noexcept;
-
-        friend Matrix2x2 operator + (const Matrix2x2& matrix, const Matrix2x2& anotherMatrix) noexcept;
-        friend Matrix2x2 operator - (const Matrix2x2& matrix, const Matrix2x2& anotherMatrix) noexcept;
-        friend Matrix2x2 operator * (const Matrix2x2& matrix, Type scalar) noexcept;
-        friend Matrix2x2 operator * (const Matrix2x2& matrix, const Vector2<Type>& vector) noexcept;
-        friend Matrix2x2 operator * (const Matrix2x2& matrix, const Matrix2x2& anotherMatrix) noexcept;
     private:
         static const std::uint8_t FIRST_ROW = 0;
         static const std::uint8_t SECOND_ROW = ROW_SIZE;
     private:
         Type mElements[MATRIX_SIZE] = { 0 };
     };
+
+    template<class Type>
+    Matrix2x2<Type> operator + (const Matrix2x2<Type>& matrix, const Matrix2x2<Type>& anotherMatrix) noexcept;
+    template<class Type>
+    Matrix2x2<Type> operator - (const Matrix2x2<Type>& matrix, const Matrix2x2<Type>& anotherMatrix) noexcept;
+    template<class Type>
+    Matrix2x2<Type> operator * (const Matrix2x2<Type>& matrix, Type scalar) noexcept;
+    template<class Type>
+    Matrix2x2<Type> operator * (const Matrix2x2<Type>& matrix, const Vector2<Type>& vector) noexcept;
+    template<class Type>
+    Matrix2x2<Type> operator * (const Matrix2x2<Type>& matrix, const Matrix2x2<Type>& anotherMatrix) noexcept;
+
+    using Matrix2x2f = Matrix2x2<float>;
+    using Matrix2x2d = Matrix2x2<double>;
 
     template<class Type>
     Matrix2x2<Type>::Matrix2x2(const Type* array)
@@ -85,7 +93,7 @@ namespace Math {
     template<class Type>
     Matrix2x2<Type>::Matrix2x2(Matrix2x2&& anotherMatrix)
     {
-        mElements = std::move(anotherMatrix.mElements);
+        std::move(std::begin(anotherMatrix.mElements), std::end(anotherMatrix.mElements), std::begin(mElements));
     }
 
     template<class Type>
@@ -190,7 +198,7 @@ namespace Math {
     template<class Type>
     Matrix2x2<Type>& Matrix2x2<Type>::operator = (Matrix2x2&& anotherMatrix) noexcept
     {
-        mElements = std::move(anotherMatrix.mElements);
+        std::move(std::begin(anotherMatrix.mElements), std::end(anotherMatrix.mElements), std::begin(mElements));
         return *this;
     }
 
@@ -277,8 +285,5 @@ namespace Math {
         newMatrix.mul(anotherMatrix);
         return newMatrix;
     }
-
-    using Matrix2x2f = Matrix2x2<float>;
-    using Matrix2x2d = Matrix2x2<double>;
 
 }

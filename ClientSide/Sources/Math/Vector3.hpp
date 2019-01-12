@@ -54,17 +54,26 @@ namespace Math {
         Vector3& operator += (const Vector3& anotherVector) noexcept;
         Vector3& operator -= (const Vector3& anotherVector) noexcept;
         Vector3& operator *= (Type scalar) noexcept;
-
-        friend Vector3 operator + (const Vector3& vector, const Vector3& anotherVector) noexcept;
-        friend Vector3 operator - (const Vector3& vector, const Vector3& anotherVector) noexcept;
-        friend Vector3 operator * (const Vector3& vector, Type scalar) noexcept;
-        friend bool operator == (const Vector3& vector, const Vector3& anotherVector) noexcept;
-        friend bool operator != (const Vector3& vector, const Vector3& anotherVector) noexcept;
     private:
         Type mX = 0;
         Type mY = 0;
         Type mZ = 0;
     };
+
+    template<class Type>
+    Vector3<Type> operator + (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
+    template<class Type>
+    Vector3<Type> operator - (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
+    template<class Type>
+    Vector3<Type> operator * (const Vector3<Type>& vector, Type scalar) noexcept;
+    template<class Type>
+    bool operator == (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
+    template<class Type>
+    bool operator != (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
+
+    using Vector3f = Vector3<float>;
+    using Vector3d = Vector3<double>;
+    using Vector3i = Vector3<int>;
 
     template<class Type>
     Vector3<Type>::Vector3(const Vector3& anotherVector)
@@ -245,9 +254,5 @@ namespace Math {
                  (vector.mY != anotherVector.mY) ||
                  (vector.mZ != anotherVector.mZ) );
     }
-
-    using Vector3f = Vector3<float>;
-    using Vector3d = Vector3<double>;
-    using Vector3i = Vector3<int>;
 
 } 

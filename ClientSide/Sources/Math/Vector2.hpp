@@ -50,16 +50,25 @@ namespace Math {
         Vector2& operator += (const Vector2& anotherVector) noexcept;
         Vector2& operator -= (const Vector2& anotherVector) noexcept;
         Vector2& operator *= (Type scalar) noexcept;
-
-        friend Vector2 operator + (const Vector2& vector, const Vector2& anotherVector) noexcept;
-        friend Vector2 operator - (const Vector2& vector, const Vector2& anotherVector) noexcept;
-        friend Vector2 operator * (const Vector2& vector, Type scalar) noexcept;
-        friend bool operator == (const Vector2& vector, const Vector2& anotherVector) noexcept;
-        friend bool operator != (const Vector2& vector, const Vector2& anotherVector) noexcept;
     private:        
         Type mX = 0;
         Type mY = 0;
     };
+
+    template<class Type>
+    Vector2<Type> operator + (const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept;
+    template<class Type>
+    Vector2<Type> operator - (const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept;
+    template<class Type>
+    Vector2<Type> operator * (const Vector2<Type>& vector, Type scalar) noexcept;
+    template<class Type>
+    bool operator == (const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept;
+    template<class Type>
+    bool operator != (const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept;
+
+    using Vector2f = Vector2<float>;
+    using Vector2d = Vector2<double>;
+    using Vector2i = Vector2<int>;
 
     template<class Type>
     Vector2<Type>::Vector2(const Vector2& anotherVector)
@@ -207,9 +216,5 @@ namespace Math {
         return ( (vector.mX != anotherVector.mX) ||
                  (vector.mY != anotherVector.mY) );
     }
-
-    using Vector2f = Vector2<float>;
-    using Vector2d = Vector2<double>;
-    using Vector2i = Vector2<int>;
 
 }
