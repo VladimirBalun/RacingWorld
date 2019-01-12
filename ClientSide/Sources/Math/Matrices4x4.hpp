@@ -41,9 +41,9 @@ namespace Math {
     {
         Type ortho[] = {
             2 / (right - left), 0.0, 0.0, -(right + left) / (right - left),
-            0.0, 2 / (top - bottom), 0.0,  (top + bottom) / (top - bottom),
-            0.0, 0.0, 2 / (zfar - znear), -(zfar + znear) / (zfar - znear),
-            0.0, 0.0, 0.0, 0.0
+            0.0, 2 / (top - bottom), 0.0, -(top + bottom) / (top - bottom),
+            0.0, 0.0, -2 / (zfar - znear), -(zfar + znear) / (zfar - znear),
+            0.0, 0.0, 0.0, 1.0
         };
         matrix = ortho;
     }
@@ -57,10 +57,11 @@ namespace Math {
         Type perspective[] = {
             xScale, 0, 0, 0,
             0, yScale, 0, 0,
-            0, 0, (zfar + znear) / difference, -1,
-            0, 0, 2 * zfar * znear / difference, 0
+            0, 0, (zfar + znear) / difference, 2 * zfar * znear / difference,
+            0, 0, -1, 0
         };
         matrix = perspective;
+
     }
 
     template<class Type>
@@ -74,7 +75,19 @@ namespace Math {
         };
         matrix = translation;
     }
-
+    
+    template<class Type>
+    void setTranslationMatrix(Matrix4x4<Type>& matrix, Type x, Type y, Type z) noexcept
+    {
+        Type translation[] = {
+            1.0, 0.0, 0.0, x,
+            0.0, 1.0, 0.0, y,
+            0.0, 0.0, 1.0, z,
+            0.0, 0.0, 0.0, 1.0
+        };
+        matrix = translation;
+    }
+    
     template<class Type>
     void setScaleMatrix(Matrix4x4<Type>& matrix, const Vector3<Type>& vector) noexcept
     {
