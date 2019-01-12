@@ -22,11 +22,11 @@
 #include "../OpenGL.hpp"
 #include "../Utils/ShaderProgram.hpp"
 #include "../../Utils/Configuration.hpp"
-#include "../Models/SimpleMesh.hpp"
+#include "SimpleMesh.hpp"
 #include "../../Math/Matrix4x4.hpp"
 #include "../../Math/Matrices4x4.hpp"
 #include "../../Math/Vector3.hpp"
-#include "VertexBuffers.hpp"
+#include "HardwareBuffers.hpp"
 
 namespace Graphics { namespace SceneGraph {
 

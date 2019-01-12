@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "VertexBuffers.hpp"
+#include "HardwareBuffers.hpp"
 
 
 Graphics::SceneGraph::HardwareBuffers::HardwareBuffers()

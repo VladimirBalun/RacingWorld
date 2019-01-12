@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "../SceneGraph/VertexBuffers.hpp"
+#include "HardwareBuffers.hpp"
 #include "../Utils/ShaderProgram.hpp"
 
 namespace Graphics { namespace SimpleMesh 
