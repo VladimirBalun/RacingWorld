@@ -16,63 +16,89 @@
 
 #include "Scene.hpp"
 
+
 GLvoid Graphics::SceneGraph::Scene::initScene()
 {
     LOG_PRINT(glGetString(GL_VERSION));
-    LOG_PRINT( glGetString(GL_SHADING_LANGUAGE_VERSION));
+    LOG_PRINT(glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     glClearColor(0.3f, 0.7f, 0.9f, 1.0f);
     glViewport(0, 0, mSceneWidth, mSceneHeight);
 
+    Math::setIdentityMatrix(matRot);
+    Math::setIdentityMatrix(matpos);
+    Math::setTranslationMatrix(matpos, 0.9f, 0.0f, 0.0f);
+    //Math::setTranslationMatrix(matpos, {0.9f, 0.0f, 0.0f});
+
+   // Math::setOrthoMatrix(matPerspect, -1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+   Math::setPerspectiveMatrix(matPerspect, 45.0f, (float)mSceneWidth / (float)mSceneHeight, 0.00f, 500.0f);
+  
 //-------------------------------------------------------------------------
-    //Build and compile shader program
-    prog = new Graphics::Utils::ShaderProgram("BaseShader.vert", "BaseShader.frag");
-    mProgram = prog->getProgram();
+ 
+    prog = new Graphics::Utils::ShaderProgram("Resources\\Shaders\\BaseShader.vert", "Resources\\Shaders\\BaseShader.frag");
+    prog2 = new Graphics::Utils::ShaderProgram("Resources\\Shaders\\BaseShader2.vert", "Resources\\Shaders\\BaseShader2.frag");
+
+    obj1 = new Graphics::SceneGraph::HardwareBuffers();
+ 
+    mesh = new Graphics::SimpleMesh::SimpleMesh();
+    mesh->createCube(0.3f);
+    //mesh->createTetrahedron(0.3f);
 
 //-------------------------------------------------------------------------
-    //Creating buffers VAO and VBO
-    GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f
+  
+  GLfloat vertices[] = {
+     0.5f,  0.9f, 0.0f,
+     0.5f, -0.5f, 0.0f,
+    -0.5f, -0.9f, 0.0f,
+    -0.5f,  0.5f, 0.0f
     };
 
-    // создадим Vertex Array Object (VAO)
-    glGenVertexArrays(1, &VAO);
+    GLfloat colors[] = {
+     1.0f, 0.0f, 0.0f,
+     0.0f, 1.0f, 0.0f,
+     0.0f, 0.0f, 1.0f,
+     0.0f, 1.0f, 0.0f
+    };
 
-    // создадим Vertex Buffer Object (VBO)
-    glGenBuffers(1, &VBO);
+    GLuint indices[] = {
+    0, 1, 3,
+    1, 2, 3
+    };
 
-    // установим созданный VAO как текущий
-    glBindVertexArray(VAO);
+    GLfloat vertices2[] = {
+       0.5f,  0.9f, 0.0f,
+       0.5f, -0.5f, 0.0f,
+      -0.5f, -0.9f, 0.0f,
 
-    // устанавливаем созданный VBO как текущий
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    };
 
-    // заполним VBO данными треугольника
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+ //-------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-    //Passing parameters to shader program
-    GLint positionLocation;
+    GLint  position, color;
+    GLuint matrix, matrixPersctiv, matrix3;
 
-    // получим индекс атрибута 'position' из шейдера
-    positionLocation = glGetAttribLocation(mProgram, "position");
-    if (positionLocation != -1)
-    {
-        // разрешим использование атрибута
-        glEnableVertexAttribArray(positionLocation);
+   //position = prog->getAttribLocation("position");
+   //color = prog->getAttribLocation("color");
 
-        // укажем параметры доступа вершинного атрибута к VBO
-        glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE,
-            3 * sizeof(GLfloat), (GLvoid*)0);
+    position = prog2->getAttribLocation("position");
+    color = prog2->getAttribLocation("color");
 
-    }
+    matrix = prog2->getUniformLocation("gWorld");
+    matrixPersctiv = prog2->getUniformLocation("gWorldPerspectiv");
+    
+    LOG_PRINT(matrixPersctiv);
+    LOG_PRINT(matrix);
 
-//-----------------------------------------------------------------------------
-    // Unbind VAO and VBO
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+
+    prog2->setProgram();
+    prog2->setUniformMatrix("gWorldPerspectiv", matPerspect);
+
+    obj1->bind();
+    obj1->createBuffers3f(position, sizeof(vertices), vertices);
+    obj1->createBuffers3f(color, sizeof(colors), colors);
+    // glVertexAttrib3f(color, 1.0f, 0.0f, 0.0f);
+    obj1->createIndexBuffer(sizeof(indices), indices);
+    obj1->unbind();
 
 }
 
@@ -80,20 +106,34 @@ GLvoid Graphics::SceneGraph::Scene::renderScene()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    //Activate shader program
-    glUseProgram(mProgram);  // через GL
-    //prog->setProgram();   // через класс
+    prog2->setProgram();
 
-    //Bind VAO
-    glBindVertexArray(VAO);
+    static float Scale = 0.0f;
+    Scale += 0.001f;
+    //prog2->setUniform("gScale", sinf(Scale));
 
-    //Draw
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    Math::setTranslationMatrix(matpos, 0.0f, 0.0f, -5.0f);
+    prog2->setUniformMatrix("gWorldPos", matpos);
 
-    //Unbind 
-    glBindVertexArray(0);
-    glUseProgram(0);
+    Math::setRotationMatrixByZ(matRot, Scale);
+    prog2->setUniformMatrix("gWorldRot", matRot);
 
+    obj1->bind();
+    if (obj1->isIndexBuffer())
+    {
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    }
+    else
+    {
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+    }
+    obj1->unbind();
+
+    prog2->unsetProgram();
+
+   //mesh->drawMesh(Graphics::SimpleMesh::TR_SOLID);
+
+//----------------------------------------------
     glFinish();
     SwapBuffers(mWindowContext);
 }
