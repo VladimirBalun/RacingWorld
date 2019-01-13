@@ -18,9 +18,10 @@
 
 #include "EPacketType.hpp"
 #include "NetworkPacket.hpp"
+#include "../Endianness/BigEndian.hpp"
 #include "../../Utils/Configuration.hpp"
 
-namespace Platforms { namespace Network { namespace Protocol {
+namespace Network { namespace Protocol {
 
     #pragma pack(push, 1)
 
@@ -32,13 +33,13 @@ namespace Platforms { namespace Network { namespace Protocol {
         void setPassword(const wchar_t* password);
         void setPacketNumber(std::int32_t number) noexcept;
         void setEmailSize(std::int16_t emailSize) noexcept;
-        void setPasswordSize(std::int16_t passwordSize) noexcept;
+        void setPasswordSize(std::int8_t passwordSize) noexcept;
         char* toBuffer() noexcept;
     private:
         wchar_t mEmail[Configuration::Game::MAX_SIZE_EMAIL];
-        std::int16_t mEmailSize;
+        Endianness::int16be_t mEmailSize;
         wchar_t mPassword[Configuration::Game::MAX_SIZE_PASSWORD];
-        std::int16_t mPasswordSize;
+        Endianness::int8be_t mPasswordSize;
     };
 
     #pragma pack(pop)
@@ -65,7 +66,7 @@ namespace Platforms { namespace Network { namespace Protocol {
         mEmailSize = emailSize;
     }
 
-    inline void LoginPacket::setPasswordSize(std::int16_t passwordSize) noexcept
+    inline void LoginPacket::setPasswordSize(std::int8_t passwordSize) noexcept
     {
         mPasswordSize = passwordSize;
     }
@@ -75,4 +76,4 @@ namespace Platforms { namespace Network { namespace Protocol {
         return reinterpret_cast<char*>(this);
     }
 
-} } }
+} }

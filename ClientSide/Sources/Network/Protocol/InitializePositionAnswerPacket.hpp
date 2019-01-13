@@ -19,8 +19,7 @@
 #include "EPacketType.hpp"
 #include "NetworkPacket.hpp"
 
-
-namespace Platforms { namespace Network { namespace Protocol {
+namespace Network { namespace Protocol {
 
     #pragma pack(push, 1)
 
@@ -46,4 +45,4 @@ namespace Platforms { namespace Network { namespace Protocol {
         return reinterpret_cast<char*>(this);
     }
 
-} } }
+} }

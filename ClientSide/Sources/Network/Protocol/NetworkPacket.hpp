@@ -18,7 +18,9 @@
 
 #include <cstdint>
 
-namespace Platforms { namespace Network { namespace Protocol {
+#include "../Endianness/BigEndian.hpp"
+
+namespace Network { namespace Protocol {
 
     // Interfaces
     struct IPacketToServer {};
@@ -35,8 +37,8 @@ namespace Platforms { namespace Network { namespace Protocol {
         explicit NetworkPacket(std::uint8_t type) : mPacketType(type) {}
         char* toBuffer() noexcept;
     protected:
-        std::int8_t mPacketType = 0;
-        std::int32_t mPacketNumber = 0;
+        Endianness::int8be_t mPacketType = 0;
+        Endianness::int32be_t mPacketNumber = 0;
     };
 
     #pragma pack(pop)
@@ -47,4 +49,4 @@ namespace Platforms { namespace Network { namespace Protocol {
         return static_cast<DerivedType*>(this)->toBuffer();
     }
 
-} } }
+} }

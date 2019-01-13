@@ -24,13 +24,13 @@
 #include "NetworkException.hpp"
 #include "../Utils/Logger.hpp"
 
-namespace Platforms { namespace Network {
+namespace Network {
 
     class UDPConnection 
     {
     public:
         explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port);
-        void sendBuffer(char* buffer) noexcept;
+        void sendBuffer(char* buffer, std::size_t size) noexcept;
         void receiveBuffer(char* buffer) noexcept;
         ~UDPConnection();
     private:
@@ -39,4 +39,4 @@ namespace Platforms { namespace Network {
         static const std::uint16_t MAX_PACKET_SIZE = 1024;
     };
 
-}}
+}

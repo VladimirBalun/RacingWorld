@@ -18,10 +18,10 @@
 
 #include "EPacketType.hpp"
 #include "NetworkPacket.hpp"
-
+#include "../Endianness/BigEndian.hpp"
 #include "../../Math/Vector3.hpp"
 
-namespace Platforms { namespace Network { namespace Protocol {
+namespace Network { namespace Protocol {
 
     #pragma pack(push, 1)
 
@@ -35,7 +35,7 @@ namespace Platforms { namespace Network { namespace Protocol {
         void setDirection(const Math::Vector3f direction) noexcept;
         char* toBuffer() noexcept;
     private:
-        std::int32_t mToken;
+        Endianness::int32be_t mToken;
         Math::Vector3f mPosition;
         Math::Vector3f mDirection;
     };
@@ -67,4 +67,4 @@ namespace Platforms { namespace Network { namespace Protocol {
         return reinterpret_cast<char*>(this);
     }
 
-} } }
+} }

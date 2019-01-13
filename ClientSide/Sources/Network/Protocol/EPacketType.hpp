@@ -16,7 +16,7 @@
 
 #pragma once
 
-namespace Platforms { namespace Network { namespace Protocol {
+namespace Network { namespace Protocol {
 
     enum PacketType
     {
@@ -31,4 +31,4 @@ namespace Platforms { namespace Network { namespace Protocol {
         WORLD_ACTION_PACKET = 8
     };
 
-} } }
+} }

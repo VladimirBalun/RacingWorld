@@ -16,7 +16,7 @@
 
 #include "UDPConnection.hpp"
 
-Platforms::Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t port)
+Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t port)
 {
     WSADATA socketData;
     if (WSAStartup(MAKEWORD(2, 2), &socketData) != 0)
@@ -37,18 +37,18 @@ Platforms::Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t
     mSocketAddress.sin_addr.S_un.S_addr = inet_addr(ipAddress);
 }
 
-void Platforms::Network::UDPConnection::sendBuffer(char* buffer) noexcept
+void Network::UDPConnection::sendBuffer(char* buffer, std::size_t size) noexcept
 {
-    sendto(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, MAX_PACKET_SIZE);
+    sendto(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, size);
 }
 
-void Platforms::Network::UDPConnection::receiveBuffer(char* buffer) noexcept
+void Network::UDPConnection::receiveBuffer(char* buffer) noexcept
 {
     int sizeStub = 0;
     recvfrom(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, &sizeStub);
 }
 
-Platforms::Network::UDPConnection::~UDPConnection()
+Network::UDPConnection::~UDPConnection()
 {
     closesocket(mSocketHandle);
     WSACleanup();

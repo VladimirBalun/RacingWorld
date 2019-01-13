@@ -22,9 +22,9 @@
 #include "Protocol/Protocol.hpp"
 #include "../Utils/Configuration.hpp"
 
-namespace Platforms { namespace Network {
+namespace Network {
 
-    class NetworkManager 
+    class NetworkManager
     {
     public:
         explicit NetworkManager()
@@ -34,7 +34,7 @@ namespace Platforms { namespace Network {
     private:
         UDPConnection mConnection;
         std::int32_t mCurrentToken = 0;
-        std::int32_t mPacketNumber = 0;
+        std::int32_t mPacketNumber = 1;
     };
 
-}}
+}

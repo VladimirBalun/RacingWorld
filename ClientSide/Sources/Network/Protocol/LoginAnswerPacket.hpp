@@ -18,8 +18,9 @@
 
 #include "EPacketType.hpp"
 #include "NetworkPacket.hpp"
+#include "../Endianness/BigEndian.hpp"
 
-namespace Platforms { namespace Network { namespace Protocol {
+namespace Network { namespace Protocol {
 
     #pragma pack(push, 1)
 
@@ -32,7 +33,7 @@ namespace Platforms { namespace Network { namespace Protocol {
         bool getResultLogin() const noexcept;
         char* toBuffer() noexcept;
     private:
-        std::int32_t mToken;
+        Endianness::int32be_t mToken;
         bool mResultLogin;
     };
 
@@ -58,4 +59,4 @@ namespace Platforms { namespace Network { namespace Protocol {
         return reinterpret_cast<char*>(this);
     }
 
-} } }
+} }

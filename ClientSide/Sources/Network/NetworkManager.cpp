@@ -16,21 +16,16 @@
 
 #include "NetworkManager.hpp"
 
-bool Platforms::Network::NetworkManager::login() 
+bool Network::NetworkManager::login() 
 {
-    wchar_t email[Configuration::Game::MAX_SIZE_EMAIL];
-    wchar_t password[Configuration::Game::MAX_SIZE_PASSWORD];
-    std::copy(Configuration::Player::PLAYER_EMAIL.begin(), Configuration::Player::PLAYER_EMAIL.end(), std::begin(email));
-    std::copy(Configuration::Player::PLAYER_PASSWORD.begin(), Configuration::Player::PLAYER_PASSWORD.end(), std::begin(password));
-
     // TODO: need to change on custom allocators
     std::unique_ptr<Protocol::LoginPacket> packetToServer = std::make_unique<Protocol::LoginPacket>();
     packetToServer->setPacketNumber(mPacketNumber++);
     packetToServer->setEmailSize((std::int16_t) Configuration::Player::PLAYER_EMAIL.size());
-    packetToServer->setPasswordSize((std::int16_t) Configuration::Player::PLAYER_PASSWORD.size());
-    packetToServer->setEmail(email);
-    packetToServer->setPassword(password);
-    mConnection.sendBuffer(packetToServer->toBuffer());
+    packetToServer->setPasswordSize((std::int8_t) Configuration::Player::PLAYER_PASSWORD.size());
+    packetToServer->setEmail(Configuration::Player::PLAYER_EMAIL.data());
+    packetToServer->setPassword(Configuration::Player::PLAYER_PASSWORD.data());
+    mConnection.sendBuffer(packetToServer->toBuffer(), sizeof(Protocol::LoginPacket));
 
     // TODO: need to change on custom allocators
     std::unique_ptr<Protocol::LoginAnswerPacket> packetFromServer = std::make_unique<Protocol::LoginAnswerPacket>();
@@ -39,7 +34,7 @@ bool Platforms::Network::NetworkManager::login()
     return packetFromServer->getResultLogin();
 }
 
-bool Platforms::Network::NetworkManager::initializePosition()
+bool Network::NetworkManager::initializePosition()
 {
     // TODO: need to change on custom allocators
     std::unique_ptr<Protocol::InitializePositionPacket> packetToServer = std::make_unique<Protocol::InitializePositionPacket>();
@@ -47,7 +42,7 @@ bool Platforms::Network::NetworkManager::initializePosition()
     packetToServer->setToken(mCurrentToken);
     packetToServer->setPosition({10.f, 2.0f, 3.0f});//Configuration::Player::PLAYER_START_POSITION);
     packetToServer->setDirection(Configuration::Player::PLAYER_START_DIRECTION);
-    mConnection.sendBuffer(packetToServer->toBuffer());
+    mConnection.sendBuffer(packetToServer->toBuffer(), sizeof(Protocol::InitializePositionPacket));
 
     // TODO: need to change on custom allocators
     std::unique_ptr<Protocol::InitializePositionAnswerPacket> packetFromServer = std::make_unique<Protocol::InitializePositionAnswerPacket>();
