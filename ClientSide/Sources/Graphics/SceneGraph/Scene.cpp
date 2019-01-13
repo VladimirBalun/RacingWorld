@@ -25,14 +25,13 @@ GLvoid Graphics::SceneGraph::Scene::initScene()
     glClearColor(0.3f, 0.7f, 0.9f, 1.0f);
     glViewport(0, 0, mSceneWidth, mSceneHeight);
 
-    Math::setIdentityMatrix(matRot);
-    Math::setIdentityMatrix(matpos);
-    Math::setTranslationMatrix(matpos, 0.9f, 0.0f, 0.0f);
-    //Math::setTranslationMatrix(matpos, {0.9f, 0.0f, 0.0f});
+    //Math::setOrthoMatrix(matPerspect, -10.0f, 10.0f, -10.0f, 10.0f, 10.0f, -10.0f);
+    Math::setPerspectiveMatrix(matPerspect, 45.0f, (float)mSceneWidth / (float)mSceneHeight, 0.00f, 10.0f);
 
-   // Math::setOrthoMatrix(matPerspect, -1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
-   Math::setPerspectiveMatrix(matPerspect, 45.0f, (float)mSceneWidth / (float)mSceneHeight, 0.00f, 500.0f);
-  
+    Math::setIdentityMatrix(matRot1);
+    Math::setIdentityMatrix(matpos1);
+    Math::setScaleMatrix(matScale1, { 2.0f, 2.0f, 2.0f });
+
 //-------------------------------------------------------------------------
  
     prog = new Graphics::Tools::ShaderProgram("Resources\\Shaders\\BaseShader.vert", "Resources\\Shaders\\BaseShader.frag");
@@ -45,12 +44,11 @@ GLvoid Graphics::SceneGraph::Scene::initScene()
     //mesh->createTetrahedron(0.3f);
 
 //-------------------------------------------------------------------------
-  
   GLfloat vertices[] = {
-     0.5f,  0.9f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-    -0.5f, -0.9f, 0.0f,
-    -0.5f,  0.5f, 0.0f
+     0.5f,  0.5f, 0.0f,
+    -0.5f,  0.5f, 0.0f,
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f
     };
 
     GLfloat colors[] = {
@@ -61,63 +59,74 @@ GLvoid Graphics::SceneGraph::Scene::initScene()
     };
 
     GLuint indices[] = {
-    0, 1, 3,
-    1, 2, 3
+    0, 1, 2,
+    0, 2, 3
     };
 
     GLfloat vertices2[] = {
-       0.5f,  0.9f, 0.0f,
-       0.5f, -0.5f, 0.0f,
-      -0.5f, -0.9f, 0.0f,
-
+     0.5f,  0.5f, 0.0f,
+    -0.5f,  0.5f, 0.0f,
+    -0.5f, -0.5f, 0.0f,
     };
-
  //-------------------------------------------------------------------------
 
     GLint  position, color;
-    GLuint matrix, matrixPersctiv, matrix3;
+    position = mShaderMgr.getShader("prog2").getAttribLocation("position");
+    color = mShaderMgr.getShader("prog2").getAttribLocation("color");
 
-   //position = prog->getAttribLocation("position");
-   //color = prog->getAttribLocation("color");
-
-    position = prog2->getAttribLocation("position");
-    color = prog2->getAttribLocation("color");
-
-    matrix = prog2->getUniformLocation("gWorld");
-    matrixPersctiv = prog2->getUniformLocation("gWorldPerspectiv");
-    
-    LOG_PRINT(matrixPersctiv);
-    LOG_PRINT(matrix);
-
-
-    prog2->setProgram();
-    prog2->setUniformMatrix("gWorldPerspectiv", matPerspect);
+    LOG_PRINT(position);
+    LOG_PRINT(color);
 
     obj1->bind();
     obj1->createBuffers3f(position, sizeof(vertices), vertices);
     obj1->createBuffers3f(color, sizeof(colors), colors);
-    // glVertexAttrib3f(color, 1.0f, 0.0f, 0.0f);
     obj1->createIndexBuffer(sizeof(indices), indices);
     obj1->unbind();
 
+    position = mShaderMgr.getShader("prog1").getAttribLocation("position");
+    color = mShaderMgr.getShader("prog1").getAttribLocation("color");
+
+    LOG_PRINT(position);
+    LOG_PRINT(color);
+
+    obj2->bind();
+    obj2->createBuffers3f(position, sizeof(vertices2), vertices2);
+    glVertexAttrib3f(color, 1.0f, 0.0f, 0.0f);
+    obj2->unbind();
+
+    mShaderMgr.PrintShadersList();
+
+    //mShaderMgr.destroyProgram("prog1");
+    //mShaderMgr.destroyProgram("prog2");
+    //mShaderMgr.PrintShadersList();
 }
 
 GLvoid Graphics::SceneGraph::Scene::renderScene()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    prog2->setProgram();
-
     static float Scale = 0.0f;
     Scale += 0.001f;
-    //prog2->setUniform("gScale", sinf(Scale));
 
-    Math::setTranslationMatrix(matpos, 0.0f, 0.0f, -5.0f);
+    mShaderMgr.setShader("prog1");
+    obj2->bind();
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    obj2->unbind();
+    mShaderMgr.unsetShader();
+
+
+    mShaderMgr.setShader("prog2");
+    Math::setTranslationMatrix(matpos1, -3.0f, -1.0f, -9.0f);
+    /*
     prog2->setUniformMatrix("gWorldPos", matpos);
-
-    Math::setRotationMatrixByZ(matRot, Scale);
     prog2->setUniformMatrix("gWorldRot", matRot);
-
+    prog2->setUniformMatrix("gWorldScale", matScale);
+    prog2->setUniformMatrix("gWorldPerspectiv", matPerspect);
+    */
+    Math::setRotationMatrixByX(matRot1, (Scale));
+    MVP = matPerspect * matpos1 * matRot1 * matScale1;
+    mShaderMgr.getShader("prog2").setUniformMatrix("gWorld", MVP);
+  
     obj1->bind();
     if (obj1->isIndexBuffer())
     {
@@ -129,9 +138,7 @@ GLvoid Graphics::SceneGraph::Scene::renderScene()
     }
     obj1->unbind();
 
-    prog2->unsetProgram();
-
-   //mesh->drawMesh(Graphics::SimpleMesh::TR_SOLID);
+    mShaderMgr.unsetShader();
 
 //----------------------------------------------
     glFinish();

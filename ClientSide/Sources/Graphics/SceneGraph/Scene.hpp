@@ -28,11 +28,13 @@
 #include "../../Math/Matrices/Matrices4x4.hpp"
 #include "../../Math/Vectors/Vector3.hpp"
 
-namespace Graphics { namespace SceneGraph {
+#include "ShaderManager.hpp"
 
     struct Matrix4fz {
         float m[4][4];
     };
+
+namespace Graphics { namespace SceneGraph {
 
     class Scene
     {
@@ -47,6 +49,18 @@ namespace Graphics { namespace SceneGraph {
         GLint mSceneWidth;
         GLint mSceneHeight;
 
+        Graphics::Utils::ShaderProgram* prog;
+        Graphics::Utils::ShaderProgram* prog2;
+        Graphics::SceneGraph::HardwareBuffers* obj1;
+        Graphics::SceneGraph::HardwareBuffers* obj2;
+        Graphics::SimpleMesh::SimpleMesh* mesh;
+
+        Math::Matrix4x4f matpos, matPerspect, matRot;
+
+    };
+
+}}
+
         Tools::ShaderProgram* prog;
         Tools::ShaderProgram* prog2;
         Tools::HardwareBuffers* obj1;
@@ -54,7 +68,3 @@ namespace Graphics { namespace SceneGraph {
         Components::SimpleMesh* mesh;
 
         Math::Matrix4x4f matpos, matPerspect, matRot;
-
-    };
-
-}}
