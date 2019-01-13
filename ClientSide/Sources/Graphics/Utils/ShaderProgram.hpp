@@ -35,11 +35,13 @@ namespace Graphics { namespace Utils {
     {
     public:
         explicit ShaderProgram(const char* vShaderFileName, const char* fShaderFileName);
+        ShaderProgram();
         ~ShaderProgram();
         void destroyProgram();
-        void destroyProgramID(GLuint idProgram);
-        GLvoid setProgram() const noexcept;
-        GLvoid unsetProgram();
+        void destroyProgram(UINT idProgram);
+        void setProgram() const noexcept;
+        void setProgram(UINT idProgram);
+        void unsetProgram();
         GLuint getProgram();
 
         GLuint getAttribLocation(const char* name) const;

@@ -34,6 +34,12 @@ Graphics::Utils::ShaderProgram::ShaderProgram(const char* vShaderFileName, const
     free((void*) fShaderSourceCode);
 }
 
+Graphics::Utils::ShaderProgram::ShaderProgram()
+{
+    unsetProgram();
+    mProgram = -1;
+}
+
 GLuint Graphics::Utils::ShaderProgram::compileShader(const char* shaderSourceCode, GLint shaderType)
 {
     GLint isCompiledShader;
@@ -74,19 +80,25 @@ void Graphics::Utils::ShaderProgram::destroyProgram()
     glDeleteProgram(mProgram);
 }
 
-void Graphics::Utils::ShaderProgram::destroyProgramID(GLuint idProgram)
+void Graphics::Utils::ShaderProgram::destroyProgram(UINT idProgram)
 {
     glDeleteProgram(idProgram);
 }
 
 Graphics::Utils::ShaderProgram::~ShaderProgram()
 {
-    destroyProgram();
+    //destroyProgram();
 }
 
 void Graphics::Utils::ShaderProgram::setProgram() const noexcept
 {
     glUseProgram(mProgram);
+}
+
+void Graphics::Utils::ShaderProgram::setProgram(UINT idProgram)
+{
+    mProgram = idProgram;
+    setProgram();
 }
 
 void Graphics::Utils::ShaderProgram::unsetProgram()
