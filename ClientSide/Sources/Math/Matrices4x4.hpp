@@ -128,9 +128,9 @@ namespace Math {
     void setRotationMatrixByY(Matrix4x4<Type>& matrix, Type angle) noexcept
     {
         Type rotation[] = {
-            cos(angle), 0.0, -sin(angle), 0.0,
+            cos(angle), 0.0, sin(angle), 0.0,
             0.0, 1.0, 0.0, 0.0,
-            sin(angle), 0.0,  cos(angle), 0.0,
+            -sin(angle), 0.0, cos(angle), 0.0,
             0.0, 0.0, 0.0, 1.0
         };
         matrix = rotation;

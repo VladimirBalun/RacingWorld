@@ -63,7 +63,6 @@ namespace Math {
             1.0, 0.0, 0.0,
             0.0, cos(angle), -sin(angle),
             0.0, sin(angle),  cos(angle),
-            0.0, 0.0, 0.0
         };
         matrix = rotation;
     }
@@ -72,9 +71,9 @@ namespace Math {
     void setRotationMatrixByY(Matrix3x3<Type>& matrix, Type angle) noexcept
     {
         Type rotation[] = {
-            cos(angle), 0.0, -sin(angle),
+            cos(angle), 0.0, sin(angle),
             0.0, 1.0, 0.0,
-            sin(angle), 0.0,  cos(angle)
+            -sin(angle), 0.0,  cos(angle)
         };
         matrix = rotation;
     }
@@ -84,7 +83,7 @@ namespace Math {
     {
         Type rotation[] = {
             cos(angle), -sin(angle), 0.0,
-            sin(angle), 1.0,  cos(angle),
+            sin(angle),  cos(angle), 0.0
             0.0, 0.0, 1.0
         };
         matrix = rotation;
