@@ -19,7 +19,7 @@
 #include <string>
 #include <filesystem>
 
-#include "../Math/Vector3.hpp"
+#include "../Math/Vectors/Vector3.hpp"
 
 struct Configuration 
 {

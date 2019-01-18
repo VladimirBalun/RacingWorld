@@ -16,6 +16,6 @@
 
 #pragma once
 
-#include "Vector2.hpp"
-#include "Vector3.hpp"
-#include "Vector4.hpp"
+#include "Vectors/Vector2.hpp"
+#include "Vectors/Vector3.hpp"
+#include "Vectors/Vector4.hpp"

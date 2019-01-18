@@ -16,25 +16,26 @@
 
 #pragma once
 
-#include <forward_list>
+#include <vector>
 
-#include "../Components/Mesh.hpp"
-#include "../../Math/Matrices/Matrix4x4.hpp"
+#include "../OpenGL.hpp"
 
-namespace Graphics { namespace SceneGraph {
+namespace Graphics { namespace Components {
 
-    class Node
+    class Texture 
     {
-    public:
-        Node(const Components::Mesh& mesh) : mMesh(mesh) {}
-        GLvoid removeChildren() noexcept;
-        GLvoid addChild(const Node& child) noexcept;
-        const Math::Matrix4x4<GLfloat>& getTransformation() noexcept;
-        GLvoid setTransformation(const Math::Matrix4x4<GLfloat>& transformation) noexcept;
+        Texture(std::vector<GLubyte>&& imageData, GLuint width, GLuint height)
+            : mImageData(std::move(imageData)), mWidth(width), mHeight(height) {}
+        GLvoid setID(GLuint id) noexcept;
+        GLuint getID() const noexcept;
+        GLuint getWidth() const noexcept;
+        GLuint getHeight() const noexcept;
+        const std::vector<GLubyte>& getImageData() const noexcept;
     private:
-        Components::Mesh mMesh;
-        std::forward_list<Node> mChildren;
-        Math::Matrix4x4<GLfloat> mTransformation;
+        GLuint mID;
+        const GLuint mWidth;
+        const GLuint mHeight;
+        const std::vector<GLubyte> mImageData;
     };
 
 }}

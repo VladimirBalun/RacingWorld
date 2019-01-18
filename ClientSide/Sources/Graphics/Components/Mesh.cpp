@@ -14,29 +14,24 @@
  * limitations under the License.
  */
 
-#include "Texture.hpp"
+#include "Mesh.hpp"
 
-GLvoid Graphics::Utils::Texture::setID(GLuint id) noexcept 
+std::vector<Math::Vector3<GLfloat>>& Graphics::Components::Mesh::getNormals() noexcept
 {
-    mID = id;
+    return mNormals;
 }
 
-GLuint Graphics::Utils::Texture::getID() const noexcept
+std::vector<Math::Vector4<GLfloat>>& Graphics::Components::Mesh::getVertexes() noexcept
 {
-    return mID;
+    return mVertexes;
 }
 
-GLuint Graphics::Utils::Texture::getWidth() const noexcept
+std::vector<Math::Vector2<GLfloat>>& Graphics::Components::Mesh::getTextureCoordinates() noexcept
 {
-    return mWidth;
+    return mTextureCoordinates;
 }
 
-GLuint Graphics::Utils::Texture::getHeight() const noexcept
+std::vector<std::tuple<std::uint32_t, std::uint32_t, std::uint32_t>>& Graphics::Components::Mesh::getIndexes() noexcept
 {
-    return mHeight;
-}
-
-const std::vector<GLubyte>& Graphics::Utils::Texture::getImageData() const noexcept
-{
-    return mImageData;
+    return mIndexes;
 }

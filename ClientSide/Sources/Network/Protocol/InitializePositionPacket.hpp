@@ -19,7 +19,7 @@
 #include "EPacketType.hpp"
 #include "NetworkPacket.hpp"
 #include "../Endianness/BigEndian.hpp"
-#include "../../Math/Vector3.hpp"
+#include "../../Math/Vectors/Vector3.hpp"
 
 namespace Network { namespace Protocol {
 

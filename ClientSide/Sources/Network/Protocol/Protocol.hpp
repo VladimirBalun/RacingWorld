@@ -21,4 +21,3 @@
 
 #include "InitializePositionPacket.hpp"
 #include "InitializePositionAnswerPacket.hpp"
-

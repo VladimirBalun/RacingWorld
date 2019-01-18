@@ -67,13 +67,13 @@ void Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowW
     SetForegroundWindow(mWindowHandle);
     SetFocus(mWindowHandle);
     UpdateWindow(mWindowHandle);
-/*
-    Network::NetworkManager networkManager;
-    if (!networkManager.login())
-        throw std::runtime_error("Login is failure.");
-    if (!networkManager.initializePosition())
-        throw std::runtime_error("Initialization of position is failure.");
-*/
+ 
+    //Network::NetworkManager networkManager;
+    //if (!networkManager.login())
+    //    throw std::runtime_error("Login is failure.");
+    //if (!networkManager.initializePosition())
+    //    throw std::runtime_error("Initialization of position is failure.");
+
     Graphics::SceneGraph::Scene scene(mWindowContext, windowWidth, windowHeight);
     scene.initScene();
 

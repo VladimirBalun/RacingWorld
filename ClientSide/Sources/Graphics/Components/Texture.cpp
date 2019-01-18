@@ -14,19 +14,29 @@
  * limitations under the License.
  */
 
-#include "Mesh.hpp"
+#include "Texture.hpp"
 
-std::vector<Math::Vector3<GLfloat>>& Graphics::SceneGraph::Mesh::getNormals() noexcept 
+GLvoid Graphics::Components::Texture::setID(GLuint id) noexcept
 {
-    return mNormals;
+    mID = id;
 }
 
-std::vector<Math::Vector4<GLfloat>>& Graphics::SceneGraph::Mesh::getVertexes() noexcept 
+GLuint Graphics::Components::Texture::getID() const noexcept
 {
-    return mVertexes;
+    return mID;
 }
 
-std::vector<Math::Vector2<GLfloat>>& Graphics::SceneGraph::Mesh::getTextureCoordinates() noexcept 
+GLuint Graphics::Components::Texture::getWidth() const noexcept
 {
-    return mTextureCoordinates;
+    return mWidth;
+}
+
+GLuint Graphics::Components::Texture::getHeight() const noexcept
+{
+    return mHeight;
+}
+
+const std::vector<GLubyte>& Graphics::Components::Texture::getImageData() const noexcept
+{
+    return mImageData;
 }

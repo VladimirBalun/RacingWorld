@@ -16,10 +16,10 @@
 
 #pragma once
 
-#include "HardwareBuffers.hpp"
-#include "../Utils/ShaderProgram.hpp"
+#include "../Tools/HardwareBuffers.hpp"
+#include "../Tools/ShaderProgram.hpp"
 
-namespace Graphics { namespace SimpleMesh 
+namespace Graphics { namespace Components
 {
     enum TypeRender
     {
@@ -37,8 +37,8 @@ namespace Graphics { namespace SimpleMesh
         void drawMesh(TypeRender tr);
         ~SimpleMesh();
     private:
-        Graphics::SceneGraph::HardwareBuffers* mesh;
-        Graphics::Utils::ShaderProgram *shader;
+        Graphics::Tools::HardwareBuffers* mesh;
+        Graphics::Tools::ShaderProgram *shader;
         int positionLocation;
     };
  } }

@@ -18,9 +18,9 @@
 
 #include <cmath>
 
-#include "Vector3.hpp"
 #include "Matrix4x4.hpp"
 #include "Constants.hpp"
+#include "Vectors/Vector3.hpp"
 
 namespace Math {
 
@@ -51,7 +51,7 @@ namespace Math {
     template<class Type>
     void setPerspectiveMatrix(Matrix4x4<Type>& matrix, Type fov, Type aspect, Type znear, Type zfar) noexcept
     {
-        const Type yScale = 1.0 / tan(RADIANS_PER_DEGREE * fov / 2);
+        const Type yScale = static_cast<Type>(1.0 / tan(RADIANS_PER_DEGREE * fov / 2));
         const Type xScale = yScale / aspect;
         const Type difference = znear - zfar;
         Type perspective[] = {

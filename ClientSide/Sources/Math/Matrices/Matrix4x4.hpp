@@ -19,7 +19,7 @@
 #include <utility>
 #include <cstdint>
 
-#include "Vector4.hpp"
+#include "../Vectors/Vector4.hpp"
 
 namespace Math {
 

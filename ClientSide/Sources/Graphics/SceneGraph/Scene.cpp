@@ -35,12 +35,12 @@ GLvoid Graphics::SceneGraph::Scene::initScene()
   
 //-------------------------------------------------------------------------
  
-    prog = new Graphics::Utils::ShaderProgram("Resources\\Shaders\\BaseShader.vert", "Resources\\Shaders\\BaseShader.frag");
-    prog2 = new Graphics::Utils::ShaderProgram("Resources\\Shaders\\BaseShader2.vert", "Resources\\Shaders\\BaseShader2.frag");
+    prog = new Graphics::Tools::ShaderProgram("Resources\\Shaders\\BaseShader.vert", "Resources\\Shaders\\BaseShader.frag");
+    prog2 = new Graphics::Tools::ShaderProgram("Resources\\Shaders\\BaseShader2.vert", "Resources\\Shaders\\BaseShader2.frag");
 
-    obj1 = new Graphics::SceneGraph::HardwareBuffers();
+    obj1 = new Graphics::Tools::HardwareBuffers();
  
-    mesh = new Graphics::SimpleMesh::SimpleMesh();
+    mesh = new Graphics::Components::SimpleMesh();
     mesh->createCube(0.3f);
     //mesh->createTetrahedron(0.3f);
 

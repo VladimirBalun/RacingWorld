@@ -16,26 +16,27 @@
 
 #pragma once
 
-#include <vector>
+#include <map>
 
-#include "../OpenGL.hpp"
+#include "../Tools/ShaderProgram.hpp"
 
-namespace Graphics { namespace Utils {
-
-    class Texture 
+namespace Graphics { namespace Managers {
+    
+    class ShaderManager
     {
-        Texture(std::vector<GLubyte>&& imageData, GLuint width, GLuint height)
-            : mImageData(std::move(imageData)), mWidth(width), mHeight(height) {}
-        GLvoid setID(GLuint id) noexcept;
-        GLuint getID() const noexcept;
-        GLuint getWidth() const noexcept;
-        GLuint getHeight() const noexcept;
-        const std::vector<GLubyte>& getImageData() const noexcept;
+    public:
+        void addShader(std::string key, const char* vShaderFileName, const char* fShaderFileName);
+        void setShader(std::string key);
+        void unsetShader();
+        UINT getIdShader(std::string key);
+        void destroyProgram(std::string key);
+        Tools::ShaderProgram getShader(std::string key);
+        void PrintShadersList(); // for debugging
     private:
-        GLuint mID;
-        const GLuint mWidth;
-        const GLuint mHeight;
-        const std::vector<GLubyte> mImageData;
+        std::string currentShader;
+        std::map<std::string, UINT> shadersList;
+        Tools::ShaderProgram mProgram;
     };
 
-}}
+} }
+

@@ -16,6 +16,6 @@
 
 #pragma once
 
-#include "Matrices2x2.hpp"
-#include "Matrices3x3.hpp"
-#include "Matrices4x4.hpp"
+#include "Matrices/Matrices2x2.hpp"
+#include "Matrices/Matrices3x3.hpp"
+#include "Matrices/Matrices4x4.hpp"

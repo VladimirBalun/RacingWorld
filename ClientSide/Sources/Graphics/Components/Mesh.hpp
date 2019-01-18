@@ -16,29 +16,36 @@
 
 #pragma once
 
+#include <tuple>
 #include <vector>
 
 #include "../OpenGL.hpp"
-#include "../../Math/Vector2.hpp"
-#include "../../Math/Vector3.hpp"
-#include "../../Math/Vector4.hpp"
+#include "../../Math/Vectors.hpp"
 
-namespace Graphics { namespace SceneGraph {
+namespace Graphics { namespace Components {
 
     class Mesh
     {
+        typedef std::uint32_t VertexIndex;
+        typedef std::uint32_t TextureIndex;
+        typedef std::uint32_t NormalIndex;
     public:
+        Mesh() = default;
         Mesh(std::vector<Math::Vector3<GLfloat>>&& normals,
             std::vector<Math::Vector4<GLfloat>>&& vertexes,
-            std::vector<Math::Vector2<GLfloat>>&& textureCoordinates)
-            : mNormals(std::move(normals)), mVertexes(std::move(vertexes)), mTextureCoordinates(std::move(textureCoordinates)) {}
+            std::vector<Math::Vector2<GLfloat>>&& textureCoordinates, 
+            std::vector<std::tuple<VertexIndex, TextureIndex, NormalIndex>>&& indexes)
+            : mNormals(std::move(normals)), mVertexes(std::move(vertexes)), mTextureCoordinates(std::move(textureCoordinates)), mIndexes(indexes) {}
+
         std::vector<Math::Vector3<GLfloat>>& getNormals() noexcept;
         std::vector<Math::Vector4<GLfloat>>& getVertexes() noexcept;
         std::vector<Math::Vector2<GLfloat>>& getTextureCoordinates() noexcept;
+        std::vector<std::tuple<VertexIndex, TextureIndex, NormalIndex>>& getIndexes() noexcept;
     private:
         std::vector<Math::Vector3<GLfloat>> mNormals;
         std::vector<Math::Vector4<GLfloat>> mVertexes;
         std::vector<Math::Vector2<GLfloat>> mTextureCoordinates;
+        std::vector<std::tuple<VertexIndex, TextureIndex, NormalIndex>> mIndexes;
     };
 
 }}

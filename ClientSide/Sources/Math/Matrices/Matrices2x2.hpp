@@ -18,8 +18,8 @@
 
 #include <cmath>
 
-#include "Vector2.hpp"
 #include "Matrix2x2.hpp"
+#include "Vectors/Vector2.hpp"
 
 namespace Math {
 

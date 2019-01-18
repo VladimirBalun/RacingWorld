@@ -20,13 +20,13 @@
 
 #include "Node.hpp"
 #include "../OpenGL.hpp"
-#include "../Utils/ShaderProgram.hpp"
+#include "../Tools/HardwareBuffers.hpp"
+#include "../Tools/ShaderProgram.hpp"
+#include "../Components/SimpleMesh.hpp"
 #include "../../Utils/Configuration.hpp"
-#include "SimpleMesh.hpp"
-#include "../../Math/Matrix4x4.hpp"
-#include "../../Math/Matrices4x4.hpp"
-#include "../../Math/Vector3.hpp"
-#include "HardwareBuffers.hpp"
+#include "../../Math/Matrices/Matrix4x4.hpp"
+#include "../../Math/Matrices/Matrices4x4.hpp"
+#include "../../Math/Vectors/Vector3.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
@@ -47,11 +47,11 @@ namespace Graphics { namespace SceneGraph {
         GLint mSceneWidth;
         GLint mSceneHeight;
 
-        Graphics::Utils::ShaderProgram* prog;
-        Graphics::Utils::ShaderProgram* prog2;
-        Graphics::SceneGraph::HardwareBuffers* obj1;
-        Graphics::SceneGraph::HardwareBuffers* obj2;
-        Graphics::SimpleMesh::SimpleMesh* mesh;
+        Tools::ShaderProgram* prog;
+        Tools::ShaderProgram* prog2;
+        Tools::HardwareBuffers* obj1;
+        Tools::HardwareBuffers* obj2;
+        Components::SimpleMesh* mesh;
 
         Math::Matrix4x4f matpos, matPerspect, matRot;
 
