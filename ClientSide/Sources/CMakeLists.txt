@@ -19,32 +19,24 @@ cmake_minimum_required (VERSION 3.10)
 project (RacingWorld)
 set (CMAKE_CXX_STANDARD 17)
 
-file (GLOB_RECURSE GRAPHICS_SRC "Graphics/*.hpp" "Graphics/*.cpp")
-file (GLOB_RECURSE GR_SRC "Graphics/SceneGraph/*.hpp" "Graphics/SceneGraph/*.cpp")
-file (GLOB_RECURSE UTILS_SRC "Utils/*.hpp" "Utils/*.cpp")
-file (GLOB_RECURSE MATH_SRC "Math/*.hpp" "Math/*.cpp")
-file (GLOB_RECURSE MEMORY_SRC "Memory/*.hpp" "Memory/*.cpp")
-file (GLOB_RECURSE SYSTEM_SRC "System/*.hpp" "System/*.cpp")
-file (GLOB_RECURSE NETWORK_SRC "Network/*.hpp" "Network/*.cpp")
+file (GLOB_RECURSE SOURCES "*.cpp" "*.hpp")
 
-source_group ("" FILES Main.cpp)
-source_group (Graphics FILES ${GRAPHICS_SRC})
-source_group (Utils FILES ${UTILS_SRC})
-source_group (Math FILES ${MATH_SRC})
-source_group (Memory FILES ${MEMORY_SRC})
-source_group (System FILES ${SYSTEM_SRC})
-source_group (Network FILES ${NETWORK_SRC})
+foreach(FILE ${SOURCES}) 
+    get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
 
-add_executable (${PROJECT_NAME} WIN32 
-    Main.cpp
-    ${GRAPHICS_SRC} 
-    ${UTILS_SRC}
-    ${MATH_SRC}
-    ${MEMORY_SRC}
-    ${SYSTEM_SRC}
-    ${NETWORK_SRC}
-)
-target_link_libraries (${PROJECT_NAME} wsock32.lib opengl32.lib glu32.lib)
+    if ("${FILE}" MATCHES ".*\\.cpp")
+       set(GROUP "Sources${GROUP}")
+    elseif("${FILE}" MATCHES ".*\\.hpp")
+       set(GROUP "Sources${GROUP}")
+    endif()
+
+    source_group("${GROUP}" FILES "${FILE}")
+endforeach()
+
+add_executable (${PROJECT_NAME} WIN32 ${SOURCES})
+target_link_libraries (${PROJECT_NAME} wsock32.lib opengl32.lib)
 target_include_directories (${PROJECT_NAME} PRIVATE ${PROJECT_DEPENDENCIES_DIR}/OpenGL/Include)
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BIN_DIR})
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_BIN_DIR})
