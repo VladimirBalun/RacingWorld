@@ -26,9 +26,9 @@ namespace Graphics { namespace Components {
 
     class Mesh
     {
-        typedef std::uint32_t VertexIndex;
-        typedef std::uint32_t TextureIndex;
-        typedef std::uint32_t NormalIndex;
+        typedef GLint VertexIndex;
+        typedef GLint TextureIndex;
+        typedef GLint NormalIndex;
     public:
         Mesh() = default;
         Mesh(std::vector<Math::Vector3<GLfloat>>&& normals,

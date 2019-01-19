@@ -31,7 +31,7 @@ std::vector<Math::Vector2<GLfloat>>& Graphics::Components::Mesh::getTextureCoord
     return mTextureCoordinates;
 }
 
-std::vector<std::tuple<std::uint32_t, std::uint32_t, std::uint32_t>>& Graphics::Components::Mesh::getIndexes() noexcept
+std::vector<std::tuple<GLint, GLint, GLint>>& Graphics::Components::Mesh::getIndexes() noexcept
 {
     return mIndexes;
 }
