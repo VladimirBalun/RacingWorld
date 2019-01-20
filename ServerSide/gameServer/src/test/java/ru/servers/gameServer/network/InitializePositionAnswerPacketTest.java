@@ -9,17 +9,7 @@ public class InitializePositionAnswerPacketTest {
     // Byte protocol:
     // [0] - protocol type
     // [1...4] - packet number
-    // [5...8] - player token
-    // [9] - result initialization of position
-
-    @Test
-    public void settingToken(){
-        int token = 111;
-        byte[] buffer = new byte[InitializePositionAnswerPacket.SIZE_PACKET];
-        InitializePositionAnswerPacket packet = new InitializePositionAnswerPacket(buffer);
-        packet.setToken(token);
-        Assert.assertEquals(token, packet.getToken());
-    }
+    // [5] - result initialization of position
 
     @Test
     public void settingResultInitialization(){

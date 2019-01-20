@@ -58,7 +58,6 @@ public class NetworkManager {
                 InitializePositionAnswerPacket initializePositionAnswerPacket = new InitializePositionAnswerPacket(bufferFromServer);
                 initializePositionAnswerPacket.setPacketType(PacketType.INITIALIZE_POSITION_ANSWER_PACKET);
                 initializePositionAnswerPacket.setPacketNumber(((InitializePositionPacket) packet).getPacketNumber());
-                initializePositionAnswerPacket.setToken(111);
                 initializePositionAnswerPacket.setResultInitialization(true);
                 return initializePositionAnswerPacket;
             default:
