@@ -20,21 +20,19 @@
 
 #include "Node.hpp"
 #include "../OpenGL.hpp"
-#include "../Tools/HardwareBuffers.hpp"
 #include "../Tools/ShaderProgram.hpp"
-#include "../Components/SimpleMesh.hpp"
 #include "../../Utils/Configuration.hpp"
+#include "../Components/SimpleMesh.hpp"
 #include "../../Math/Matrices/Matrix4x4.hpp"
 #include "../../Math/Matrices/Matrices4x4.hpp"
 #include "../../Math/Vectors/Vector3.hpp"
+#include "../Tools/HardwareBuffers.hpp"
 
-#include "ShaderManager.hpp"
+namespace Graphics { namespace SceneGraph {
 
     struct Matrix4fz {
         float m[4][4];
     };
-
-namespace Graphics { namespace SceneGraph {
 
     class Scene
     {
@@ -49,22 +47,14 @@ namespace Graphics { namespace SceneGraph {
         GLint mSceneWidth;
         GLint mSceneHeight;
 
-        Graphics::Utils::ShaderProgram* prog;
-        Graphics::Utils::ShaderProgram* prog2;
-        Graphics::SceneGraph::HardwareBuffers* obj1;
-        Graphics::SceneGraph::HardwareBuffers* obj2;
-        Graphics::SimpleMesh::SimpleMesh* mesh;
+        Graphics::Tools::ShaderProgram* prog;
+        Graphics::Tools::ShaderProgram* prog2;
+        Graphics::Tools::HardwareBuffers* obj1;
+        Graphics::Tools::HardwareBuffers* obj2;
+        Graphics::Components::SimpleMesh* mesh;
 
         Math::Matrix4x4f matpos, matPerspect, matRot;
 
     };
 
 }}
-
-        Tools::ShaderProgram* prog;
-        Tools::ShaderProgram* prog2;
-        Tools::HardwareBuffers* obj1;
-        Tools::HardwareBuffers* obj2;
-        Components::SimpleMesh* mesh;
-
-        Math::Matrix4x4f matpos, matPerspect, matRot;

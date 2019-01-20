@@ -30,10 +30,10 @@ namespace Utils {
     public:
         static Graphics::Components::Mesh parse(const char* objFileName);
     private:
-        static void addVertex(std::vector<Math::Vector4<float>>& vertices, const std::string& line);
-        static void addNormal(std::vector<Math::Vector3<float>>& normals, const std::string& line);
-        static void addTextureCoordinate(std::vector<Math::Vector2<float>>& textureCoordinates, const std::string& line);
-        static void addIndex(std::vector<std::tuple<int, int, int>>& indexes, const std::string& line);
+        static void addVertex(std::vector<Math::Vector4<float>>& vertices, const std::string_view& line);
+        static void addNormal(std::vector<Math::Vector3<float>>& normals, const std::string_view& line);
+        static void addTextureCoordinate(std::vector<Math::Vector2<float>>& textureCoordinates, const std::string_view& line);
+        static void addIndex(std::vector<std::tuple<int, int, int>>& indexes, const std::string_view& line);
     };
 
 }
