@@ -38,9 +38,7 @@ public class NetworkPacket {
     private final static byte POSITION_PACKET_NUMBER = 1; // index
     private final static byte SIZE_PACKET_NUMBER = Primitives.INT_SIZE; // bytes
 
-    private final static byte SIZE_OF_THE_END_SYMBOL = Primitives.BYTE_SIZE;
-
-    protected final static byte SIZE_NETWORK_PACKET = SIZE_PACKET_TYPE + SIZE_PACKET_NUMBER + SIZE_OF_THE_END_SYMBOL;
+    protected final static byte SIZE_NETWORK_PACKET = SIZE_PACKET_TYPE + SIZE_PACKET_NUMBER;
 
     public NetworkPacket(byte[] bufferFromRequest){
         if (bufferFromRequest.length >= SIZE_PACKET_NUMBER){

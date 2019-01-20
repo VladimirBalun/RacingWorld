@@ -21,6 +21,9 @@ import lombok.ToString;
 import ru.servers.gameServer.common.Primitives;
 import ru.servers.gameServer.network.protocol.NetworkPacket;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public final class LoginPacket extends NetworkPacket implements PacketToServer {
@@ -28,22 +31,23 @@ public final class LoginPacket extends NetworkPacket implements PacketToServer {
     // Byte protocol:
     // [0] - protocol type
     // [1...4] - packet number
-    // [5...513] - email(254 symbols in UTF-8)
-    // [514] - email length TODO: need to change size of email on two bytes
-    // [515...578] - password(32 symbols in UTF-8)
-    // [579] - password length
+    // [5...258] - email(254 symbols in UTF-8)
+    // [259...560] - email length
+    // [261...292] - password(32 symbols in UTF-8)
+    // [293] - password length
 
     private final static byte POSITION_EMAIL = 5; // index
-    private final static short SIZE_EMAIL = 254 * Primitives.CHAR_SIZE; // bytes
+    private final static short SIZE_EMAIL = 254; // bytes
 
-    private final static short POSITION_OF_SIZE_EMAIL = 514; // index
-    private final static short POSITION_OF_SIZE_PASSWORD = 579; // index
-    private final static byte SIZE_OF_EMAIL_AND_PASSWORD_SIZES = Primitives.BYTE_SIZE * 2; // bytes
+    private final static short POSITION_PASSWORD = 261; // index
+    private final static short SIZE_PASSWORD = 32; // bytes
 
-    private final static short POSITION_PASSWORD = 515; // index
-    private final static short SIZE_PASSWORD = 32 * Primitives.CHAR_SIZE; // bytes
+    private final static short POSITION_OF_SIZE_EMAIL = 259; // index
+    private final static byte SIZE_OF_EMAIL_SIZE = Primitives.SHORT_SIZE; // bytes
+    private final static short POSITION_OF_SIZE_PASSWORD = 293; // index
+    private final static byte SIZE_OF_PASSWORD_SIZE = Primitives.BYTE_SIZE; // bytes
 
-    public final static short SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_EMAIL + SIZE_PASSWORD + SIZE_OF_EMAIL_AND_PASSWORD_SIZES;
+    public final static short SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_EMAIL + SIZE_PASSWORD + SIZE_OF_EMAIL_SIZE + SIZE_OF_PASSWORD_SIZE;
 
     public LoginPacket(byte[] bufferFromRequest){
         super(bufferFromRequest);
@@ -53,11 +57,11 @@ public final class LoginPacket extends NetworkPacket implements PacketToServer {
     }
 
     public String getEmail(){
-        return new String(buffer, POSITION_EMAIL, buffer[POSITION_OF_SIZE_EMAIL]);
+        return new String(buffer, POSITION_EMAIL, ByteBuffer.wrap(buffer, POSITION_OF_SIZE_EMAIL, SIZE_OF_EMAIL_SIZE).getShort(), StandardCharsets.UTF_8);
     }
 
     public String getPassword(){
-        return new String(buffer, POSITION_PASSWORD, buffer[POSITION_OF_SIZE_PASSWORD]);
+        return new String(buffer, POSITION_PASSWORD, buffer[POSITION_OF_SIZE_PASSWORD], StandardCharsets.UTF_8);
     }
 
 }

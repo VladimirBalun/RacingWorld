@@ -51,9 +51,7 @@ public class GameServer implements Server {
                 byte[] buffer = new byte[1024];
                 DatagramPacket packetFromClient = new DatagramPacket(buffer, buffer.length);
                 serverSocket.receive(packetFromClient);
-                threadPool.execute(() -> {
-                    handleRequest(packetFromClient);
-                });
+                threadPool.execute(() -> handleRequest(packetFromClient));
             } catch (IOException | InterruptedException e) {
                 log.warn("Error during of handling client request. Cause: " + e.getMessage());
             } finally {

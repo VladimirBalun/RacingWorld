@@ -32,8 +32,8 @@ struct Configuration
 
     struct Player 
     {
-        static const std::wstring PLAYER_EMAIL;
-        static const std::wstring PLAYER_PASSWORD;
+        static const std::string PLAYER_EMAIL;
+        static const std::string PLAYER_PASSWORD;
         static const Math::Vector3<float> PLAYER_START_POSITION;
         static const Math::Vector3<float> PLAYER_START_DIRECTION;
     };

@@ -40,7 +40,7 @@ bool Network::NetworkManager::initializePosition()
     std::unique_ptr<Protocol::InitializePositionPacket> packetToServer = std::make_unique<Protocol::InitializePositionPacket>();
     packetToServer->setPacketNumber(mPacketNumber++);
     packetToServer->setToken(mCurrentToken);
-    packetToServer->setPosition({10.f, 2.0f, 3.0f});//Configuration::Player::PLAYER_START_POSITION);
+    packetToServer->setPosition(Configuration::Player::PLAYER_START_POSITION);
     packetToServer->setDirection(Configuration::Player::PLAYER_START_DIRECTION);
     mConnection.sendBuffer(packetToServer->toBuffer(), sizeof(Protocol::InitializePositionPacket));
 

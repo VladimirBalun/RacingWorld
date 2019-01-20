@@ -1,6 +1,5 @@
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\ecs\entities\Car.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\math\Constants.java
-C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\math\Points.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\network\protocol\NetworkPacket.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\math\algebra\vectors\Vector4.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\math\algebra\matrices\Matrix3x3.java
@@ -9,7 +8,6 @@ C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\r
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\math\geometry\Circle.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\network\protocol\fromServer\InitializePositionAnswerPacket.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\math\algebra\Quaternion.java
-C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\math\Point2.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\network\protocol\fromServer\LoginAnswerPacket.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\math\algebra\matrices\Matrices4x4.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\math\algebra\vectors\Vector3.java
@@ -37,4 +35,3 @@ C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\r
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\ecs\entities\Entity.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\math\geometry\Rectangle.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\physic\Mass.java
-C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameServer\src\main\java\ru\servers\gameServer\math\Point3.java

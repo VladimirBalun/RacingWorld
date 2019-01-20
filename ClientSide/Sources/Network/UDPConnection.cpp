@@ -39,13 +39,16 @@ Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t port)
 
 void Network::UDPConnection::sendBuffer(char* buffer, std::size_t size) noexcept
 {
-    sendto(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, size);
+    int statusCode = sendto(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, size);
+    if (statusCode <= 0)
+        LOG_WARNING("Error during sending of the packet.");
 }
 
 void Network::UDPConnection::receiveBuffer(char* buffer) noexcept
 {
-    int sizeStub = 0;
-    recvfrom(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, &sizeStub);
+    int statusCode = recvfrom(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, 0, 0);
+    if (statusCode <= 0)
+        LOG_WARNING("Error during getting of the packet.");
 }
 
 Network::UDPConnection::~UDPConnection()

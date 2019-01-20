@@ -1,7 +1,6 @@
 ru\servers\gameServer\math\algebra\matrices\Matrices3x3$1.class
 ru\servers\gameServer\physic\Constants.class
 ru\servers\gameServer\math\algebra\vectors\Vectors.class
-ru\servers\gameServer\math\Point3.class
 ru\servers\gameServer\network\protocol\PacketType.class
 ru\servers\gameServer\math\algebra\matrices\Matrices2x2.class
 ru\servers\gameServer\common\ByteConverter.class
@@ -24,14 +23,12 @@ ru\servers\gameServer\network\NetworkManager$1.class
 ru\servers\gameServer\network\protocol\toServer\LoginPacket.class
 ru\servers\gameServer\math\algebra\matrices\Matrices4x4$1.class
 ru\servers\gameServer\math\geometry\Triangle.class
-ru\servers\gameServer\math\Point2.class
 ru\servers\gameServer\network\NetworkManager.class
 ru\servers\gameServer\math\algebra\vectors\Vector4.class
 ru\servers\gameServer\math\algebra\matrices\Matrix2x2.class
 ru\servers\gameServer\network\protocol\toServer\InitializePositionPacket.class
 ru\servers\gameServer\common\Primitives.class
 ru\servers\gameServer\math\algebra\vectors\Vector3.class
-ru\servers\gameServer\math\Points.class
 ru\servers\gameServer\math\algebra\matrices\Matrices3x3.class
 ru\servers\gameServer\network\protocol\fromServer\InitializePositionAnswerPacket.class
 ru\servers\gameServer\network\protocol\fromServer\LoginAnswerPacket.class

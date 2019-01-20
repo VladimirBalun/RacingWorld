@@ -29,28 +29,28 @@ namespace Network { namespace Protocol {
     {
     public:
         explicit LoginPacket() : NetworkPacket(LOGIN_PACKET) {}
-        void setEmail(const wchar_t* email);
-        void setPassword(const wchar_t* password);
+        void setEmail(const char* email);
+        void setPassword(const char* password);
         void setPacketNumber(std::int32_t number) noexcept;
         void setEmailSize(std::int16_t emailSize) noexcept;
         void setPasswordSize(std::int8_t passwordSize) noexcept;
         char* toBuffer() noexcept;
     private:
-        wchar_t mEmail[Configuration::Game::MAX_SIZE_EMAIL];
+        char mEmail[Configuration::Game::MAX_SIZE_EMAIL];
         Endianness::int16be_t mEmailSize;
-        wchar_t mPassword[Configuration::Game::MAX_SIZE_PASSWORD];
+        char mPassword[Configuration::Game::MAX_SIZE_PASSWORD];
         Endianness::int8be_t mPasswordSize;
     };
 
     #pragma pack(pop)
 
-    inline void LoginPacket::setEmail(const wchar_t* email)
+    inline void LoginPacket::setEmail(const char* email)
     {
         for (std::uint16_t i = 0; i < Configuration::Game::MAX_SIZE_EMAIL; i++)
             mEmail[i] = email[i];
     }
 
-    inline void LoginPacket::setPassword(const wchar_t* password)
+    inline void LoginPacket::setPassword(const char* password)
     {
         for (std::uint8_t i = 0; i < Configuration::Game::MAX_SIZE_PASSWORD; i++)
             mPassword[i] = password[i];
