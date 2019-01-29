@@ -14,24 +14,9 @@
  * limitations under the License.
  */
 
-package ru.servers.gameServer.ecs.entities;
+package ru.servers.gameServer.ecs.systems;
 
-import ru.servers.gameServer.ecs.components.Component;
-import ru.servers.gameServer.ecs.components.ComponentType;
+public class MoveSystem {
 
-import java.util.Iterator;
-import java.util.Map;
-
-public interface Entity {
-
-    void addComponent(ComponentType componentType, Component component);
-
-    Component getComponent(ComponentType componentType);
-
-    Iterator<Map.Entry<ComponentType, Component>> getComponents();
-
-    int getCountComponents();
-
-    void removeComponent(ComponentType componentType);
 
 }

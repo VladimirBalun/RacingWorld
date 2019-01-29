@@ -16,22 +16,6 @@
 
 package ru.servers.gameServer.ecs.entities;
 
-import ru.servers.gameServer.ecs.components.Component;
-import ru.servers.gameServer.ecs.components.ComponentType;
-
-import java.util.Iterator;
-import java.util.Map;
-
-public interface Entity {
-
-    void addComponent(ComponentType componentType, Component component);
-
-    Component getComponent(ComponentType componentType);
-
-    Iterator<Map.Entry<ComponentType, Component>> getComponents();
-
-    int getCountComponents();
-
-    void removeComponent(ComponentType componentType);
-
+public enum EntityType {
+    CAR_ENTITY
 }

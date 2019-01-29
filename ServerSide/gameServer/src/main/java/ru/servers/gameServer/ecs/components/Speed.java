@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package ru.servers.gameServer.ecs.entities;
+package ru.servers.gameServer.ecs.components;
 
-import ru.servers.gameServer.ecs.components.Component;
-import ru.servers.gameServer.ecs.components.ComponentType;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import java.util.Iterator;
-import java.util.Map;
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+public class Speed {
 
-public interface Entity {
-
-    void addComponent(ComponentType componentType, Component component);
-
-    Component getComponent(ComponentType componentType);
-
-    Iterator<Map.Entry<ComponentType, Component>> getComponents();
-
-    int getCountComponents();
-
-    void removeComponent(ComponentType componentType);
+    double maxSpeed; // km/h
+    double acceleration; // acceleration time to 100 km/h
+    double currentSpeed; // km/h
 
 }

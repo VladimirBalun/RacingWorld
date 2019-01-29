@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-package ru.servers.gameServer.ecs.entities;
+package ru.servers.gameServer.ecs.components;
 
-import ru.servers.gameServer.ecs.components.Component;
-import ru.servers.gameServer.ecs.components.ComponentType;
+import lombok.*;
+import ru.servers.gameServer.math.algebra.vectors.Vector3;
 
-import java.util.Iterator;
-import java.util.Map;
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+public class Location {
 
-public interface Entity {
-
-    void addComponent(ComponentType componentType, Component component);
-
-    Component getComponent(ComponentType componentType);
-
-    Iterator<Map.Entry<ComponentType, Component>> getComponents();
-
-    int getCountComponents();
-
-    void removeComponent(ComponentType componentType);
+    Vector3 position;
+    Vector3 direction;
 
 }

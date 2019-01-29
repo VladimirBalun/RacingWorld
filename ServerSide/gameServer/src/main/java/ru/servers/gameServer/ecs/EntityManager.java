@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package ru.servers.gameServer.ecs.entities;
+package ru.servers.gameServer.ecs;
 
-import ru.servers.gameServer.ecs.components.Component;
-import ru.servers.gameServer.ecs.components.ComponentType;
+import ru.servers.gameServer.ecs.entities.Entity;
+import ru.servers.gameServer.ecs.entities.EntityType;
 
-import java.util.Iterator;
-import java.util.Map;
+public interface EntityManager {
 
-public interface Entity {
+    int createEntity(EntityType entityType);
 
-    void addComponent(ComponentType componentType, Component component);
+    Entity getEntity(int entityID);
 
-    Component getComponent(ComponentType componentType);
+    void destroyEntity(int entityID);
 
-    Iterator<Map.Entry<ComponentType, Component>> getComponents();
-
-    int getCountComponents();
-
-    void removeComponent(ComponentType componentType);
+    int getCountEntities();
 
 }

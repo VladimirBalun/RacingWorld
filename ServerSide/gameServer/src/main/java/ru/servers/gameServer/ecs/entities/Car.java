@@ -17,13 +17,45 @@
 package ru.servers.gameServer.ecs.entities;
 
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.servers.gameServer.ecs.components.Health;
+import ru.servers.gameServer.ecs.components.Component;
+import ru.servers.gameServer.ecs.components.ComponentType;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Car implements Entity{
 
-    private Health health;
+    private Map<ComponentType, Component> components = new HashMap<>();
+
+    @Override
+    public void addComponent(ComponentType componentType, Component component) {
+        components.put(componentType, component);
+    }
+
+    @Override
+    public Component getComponent(ComponentType componentType) {
+        return components.get(componentType);
+    }
+
+    @Override
+    public Iterator<Map.Entry<ComponentType, Component>> getComponents() {
+        return components.entrySet().iterator();
+    }
+
+    @Override
+    public int getCountComponents() {
+        return components.size();
+    }
+
+    @Override
+    public void removeComponent(ComponentType componentType) {
+        components.remove(componentType);
+    }
 
 }
