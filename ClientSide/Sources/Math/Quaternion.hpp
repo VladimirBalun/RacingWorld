@@ -27,5 +27,4 @@ namespace Math {
         Vector3<Type> vector;
     };
 
-
 }

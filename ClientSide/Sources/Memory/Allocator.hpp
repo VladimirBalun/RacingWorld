@@ -33,13 +33,52 @@ namespace Memory {
     public:
         explicit Allocator(std::size_t totalSize) 
             : INonCopyable(), mSize(totalSize) {}
+        std::size_t getFullMemorySize() const noexcept;
+        std::size_t getUsedMemorySize() const noexcept;
+        std::size_t getFreeMemorySize() const noexcept;
         IAllocatable* allocate(std::size_t size, std::size_t alignment) noexcept;
-        void free(IAllocatable* pointer) noexcept;
+        void deallocate(IAllocatable* pointer) noexcept;
         void reset() noexcept;
     protected:
         std::size_t mSize = 0;
         std::size_t mOffset = 0;
         IAllocatable* mpBasePointer = nullptr;
     };
+
+    template<class AllocatorType>
+    std::size_t Allocator<AllocatorType>::getFullMemorySize() const noexcept
+    {
+        return mSize;
+    }
+
+    template<class AllocatorType>
+    std::size_t Allocator<AllocatorType>::getUsedMemorySize() const noexcept
+    {
+        return mOffset;
+    }
+
+    template<class AllocatorType>
+    std::size_t Allocator<AllocatorType>::getFreeMemorySize() const noexcept
+    {
+        return mSize - mOffset;
+    }
+
+    template<class AllocatorType>
+    IAllocatable* Allocator<AllocatorType>::allocate(std::size_t size, std::size_t alignment) noexcept
+    {
+        return static_cast<AllocatorType*>(this)->allocate(size, alignment);
+    }
+
+    template<class AllocatorType>
+    void Allocator<AllocatorType>::deallocate(IAllocatable* pointer) noexcept
+    {
+        static_cast<AllocatorType*>(this)->free(pointer);
+    }
+
+    template<class AllocatorType>
+    void Allocator<AllocatorType>::reset() noexcept
+    {
+        static_cast<AllocatorType*>(this)->reset();
+    }
 
 }

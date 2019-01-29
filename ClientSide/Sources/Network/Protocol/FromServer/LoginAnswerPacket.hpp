@@ -16,15 +16,15 @@
 
 #pragma once
 
-#include "EPacketType.hpp"
-#include "NetworkPacket.hpp"
-#include "../Endianness/BigEndian.hpp"
+#include "../EPacketType.hpp"
+#include "../NetworkPacket.hpp"
+#include "../../Endianness/BigEndian.hpp"
 
 namespace Network { namespace Protocol {
 
     #pragma pack(push, 1)
 
-    class LoginAnswerPacket : NetworkPacket<LoginAnswerPacket>, IPacketFromServer
+    class LoginAnswerPacket : NetworkPacket<LoginAnswerPacket>, public IPacketFromServer
     {
     public:
         explicit LoginAnswerPacket() = default;

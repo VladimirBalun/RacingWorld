@@ -17,7 +17,6 @@
 #pragma once
 
 #include "Allocator.hpp"
-#include "IAllocatable.hpp"
 
 namespace Memory {
 
@@ -26,7 +25,7 @@ namespace Memory {
     public:
         explicit LinearAllocator(size_t memorySize);
         IAllocatable* allocate(std::size_t size, std::size_t alignment) noexcept;
-        void free(IAllocatable* pointer) noexcept;
+        void deallocate(IAllocatable* pointer) noexcept;
         void reset() noexcept;
         ~LinearAllocator();
     };

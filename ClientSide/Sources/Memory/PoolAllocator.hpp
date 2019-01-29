@@ -16,15 +16,12 @@
 
 #pragma once
 
-#include <cstdlib>
-
 namespace Memory {
 
-    // Interface
-    struct IAllocatable
+    class PoolAllocator
     {
-        void* operator new (std::size_t size) = delete;
-        void operator delete (void* pointer) = delete;
+
     };
+
 
 }

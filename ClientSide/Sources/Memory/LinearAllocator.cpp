@@ -16,8 +16,8 @@
 
 #include "LinearAllocator.hpp"
 
-Memory::LinearAllocator::LinearAllocator(size_t memorySize) 
-    : Memory::Allocator<LinearAllocator>(memorySize)
+Memory::LinearAllocator::LinearAllocator(size_t memorySize)
+    : Allocator<LinearAllocator>(memorySize)
 {
     if (memorySize == 0)
         throw std::runtime_error("Incorrect size of memory for allocation.");
@@ -34,17 +34,17 @@ Memory::IAllocatable* Memory::LinearAllocator::allocate(std::size_t size, std::s
     return reinterpret_cast<IAllocatable*>(allocatedPointer);
 }
 
-void Memory::LinearAllocator::free(IAllocatable* pointer) noexcept 
+void Memory::LinearAllocator::deallocate(IAllocatable* pointer) noexcept
 {
     assert(false && "Current allocator does not support this method. Use reset().");
 }
 
-void Memory::LinearAllocator::reset() noexcept 
+void Memory::LinearAllocator::reset() noexcept
 {
     mSize = mOffset = 0;
 }
 
-Memory::LinearAllocator::~LinearAllocator() 
+Memory::LinearAllocator::~LinearAllocator()
 {
-    ::free(static_cast<void*>(mpBasePointer));
+    std::free(static_cast<void*>(mpBasePointer));
 }

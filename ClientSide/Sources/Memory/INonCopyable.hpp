@@ -18,6 +18,7 @@
 
 namespace Memory {
 
+    // Interface
     struct INonCopyable 
     {
         INonCopyable() = default;

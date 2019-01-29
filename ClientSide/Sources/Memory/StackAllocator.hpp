@@ -16,15 +16,13 @@
 
 #pragma once
 
-#include <cstdlib>
+#include "Allocator.hpp"
 
 namespace Memory {
 
-    // Interface
-    struct IAllocatable
+    class StackAllocator
     {
-        void* operator new (std::size_t size) = delete;
-        void operator delete (void* pointer) = delete;
+
     };
 
 }

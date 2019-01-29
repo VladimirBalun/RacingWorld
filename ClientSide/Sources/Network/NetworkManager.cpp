@@ -18,8 +18,7 @@
 
 bool Network::NetworkManager::login() 
 {
-    // TODO: need to change on custom allocators
-    std::unique_ptr<Protocol::LoginPacket> packetToServer = std::make_unique<Protocol::LoginPacket>();
+    auto packetToServer = mPacketBuilder.createPacketToServer<Protocol::LoginPacket>();
     packetToServer->setPacketNumber(mPacketNumber++);
     packetToServer->setEmailSize((std::int16_t) Configuration::Player::PLAYER_EMAIL.size());
     packetToServer->setPasswordSize((std::int8_t) Configuration::Player::PLAYER_PASSWORD.size());
@@ -27,8 +26,7 @@ bool Network::NetworkManager::login()
     packetToServer->setPassword(Configuration::Player::PLAYER_PASSWORD.data());
     mConnection.sendBuffer(packetToServer->toBuffer(), sizeof(Protocol::LoginPacket));
 
-    // TODO: need to change on custom allocators
-    std::unique_ptr<Protocol::LoginAnswerPacket> packetFromServer = std::make_unique<Protocol::LoginAnswerPacket>();
+    auto packetFromServer = mPacketBuilder.createPacketFromServer<Protocol::LoginAnswerPacket>();
     mConnection.receiveBuffer(packetFromServer->toBuffer());
     mCurrentToken = packetFromServer->getToken();
     return packetFromServer->getResultLogin();
@@ -36,16 +34,14 @@ bool Network::NetworkManager::login()
 
 bool Network::NetworkManager::initializePosition()
 {
-    // TODO: need to change on custom allocators
-    std::unique_ptr<Protocol::InitializePositionPacket> packetToServer = std::make_unique<Protocol::InitializePositionPacket>();
+    auto packetToServer = mPacketBuilder.createPacketToServer<Protocol::InitializePositionPacket>();
     packetToServer->setPacketNumber(mPacketNumber++);
     packetToServer->setToken(mCurrentToken);
     packetToServer->setPosition(Configuration::Player::PLAYER_START_POSITION);
     packetToServer->setDirection(Configuration::Player::PLAYER_START_DIRECTION);
     mConnection.sendBuffer(packetToServer->toBuffer(), sizeof(Protocol::InitializePositionPacket));
 
-    // TODO: need to change on custom allocators
-    std::unique_ptr<Protocol::InitializePositionAnswerPacket> packetFromServer = std::make_unique<Protocol::InitializePositionAnswerPacket>();
+    auto packetFromServer = mPacketBuilder.createPacketFromServer<Protocol::InitializePositionAnswerPacket>();
     mConnection.receiveBuffer(packetFromServer->toBuffer());
     return packetFromServer->getResultInitialization();
 }

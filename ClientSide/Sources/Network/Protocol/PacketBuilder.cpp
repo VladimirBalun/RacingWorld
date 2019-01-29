@@ -14,22 +14,4 @@
  * limitations under the License.
  */
 
-#include "Allocator.hpp"
-
-template<class AllocatorType>
-Memory::IAllocatable* Memory::Allocator<AllocatorType>::allocate(std::size_t size, std::size_t alignment) noexcept
-{
-    return static_cast<AllocatorType*>(this)->allocate(size, alignment);
-}
-
-template<class AllocatorType>
-void Memory::Allocator<AllocatorType>::free(IAllocatable* pointer) noexcept
-{
-    static_cast<AllocatorType*>(this)->free(pointer);
-}
-
-template<class AllocatorType>
-void Memory::Allocator<AllocatorType>::reset() noexcept
-{
-    static_cast<AllocatorType*>(this)->reset();
-}
+#include "PacketBuilder.hpp"

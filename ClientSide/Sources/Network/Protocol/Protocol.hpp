@@ -16,8 +16,8 @@
 
 #pragma once
 
-#include "LoginPacket.hpp"
-#include "LoginAnswerPacket.hpp"
+#include "ToServer/LoginPacket.hpp"
+#include "FromServer/LoginAnswerPacket.hpp"
 
-#include "InitializePositionPacket.hpp"
-#include "InitializePositionAnswerPacket.hpp"
+#include "ToServer/InitializePositionPacket.hpp"
+#include "FromServer/InitializePositionAnswerPacket.hpp"

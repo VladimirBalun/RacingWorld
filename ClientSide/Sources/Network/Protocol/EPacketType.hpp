@@ -18,7 +18,7 @@
 
 namespace Network { namespace Protocol {
 
-    enum PacketType
+    enum EPacketType
     {
         ERROR_PACKET = 0,
         LOGIN_PACKET = 1,

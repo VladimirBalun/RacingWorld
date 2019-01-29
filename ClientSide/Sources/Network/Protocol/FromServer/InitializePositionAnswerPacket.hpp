@@ -16,14 +16,14 @@
 
 #pragma once
 
-#include "EPacketType.hpp"
-#include "NetworkPacket.hpp"
+#include "../EPacketType.hpp"
+#include "../NetworkPacket.hpp"
 
 namespace Network { namespace Protocol {
 
     #pragma pack(push, 1)
 
-    class InitializePositionAnswerPacket : public NetworkPacket<InitializePositionAnswerPacket>, IPacketToServer
+    class InitializePositionAnswerPacket : public NetworkPacket<InitializePositionAnswerPacket>, public IPacketToServer
     {
     public:
         explicit InitializePositionAnswerPacket() = default;

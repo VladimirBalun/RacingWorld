@@ -20,6 +20,8 @@
 
 #include "UDPConnection.hpp"
 #include "Protocol/Protocol.hpp"
+#include "Protocol/EPacketType.hpp"
+#include "Protocol/PacketBuilder.hpp"
 #include "../Utils/Configuration.hpp"
 
 namespace Network {
@@ -28,13 +30,14 @@ namespace Network {
     {
     public:
         explicit NetworkManager()
-            : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
+            : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT), mPacketBuilder(8192) {}
         bool login();
         bool initializePosition();
     private:
         UDPConnection mConnection;
         std::int32_t mCurrentToken = 0;
         std::int32_t mPacketNumber = 1;
+        Protocol::PacketBuilder mPacketBuilder;
     };
 
 }

@@ -16,16 +16,16 @@
 
 #pragma once
 
-#include "EPacketType.hpp"
-#include "NetworkPacket.hpp"
-#include "../Endianness/BigEndian.hpp"
-#include "../../Math/Vectors/Vector3.hpp"
+#include "../EPacketType.hpp"
+#include "../NetworkPacket.hpp"
+#include "../../Endianness/BigEndian.hpp"
+#include "../../../Math/Vectors/Vector3.hpp"
 
 namespace Network { namespace Protocol {
 
     #pragma pack(push, 1)
 
-    class InitializePositionPacket : public NetworkPacket<InitializePositionPacket>, IPacketToServer
+    class InitializePositionPacket : public NetworkPacket<InitializePositionPacket>, public IPacketToServer
     {
     public:
         explicit InitializePositionPacket() : NetworkPacket(INITIALIZE_POSITION_PACKET) {}
