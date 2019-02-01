@@ -18,10 +18,11 @@
 
 Graphics::Components::Mesh Utils::ObjParser::parse(const char* objFileName)
 {
+    // TODO: need to change vectors on custom containers
     std::vector<Math::Vector4<float>> vertices;
     std::vector<Math::Vector3<float>> normals;
     std::vector<Math::Vector2<float>> textureCoordinates;
-    std::vector<std::tuple<int, int, int>> indexes; // (0) - vertex, (1) - texture, (2) - normal 
+    std::vector<Graphics::Components::MeshIndex> indexes; // (0) - vertex, (1) - texture, (2) - normal 
 
     std::string line;
     std::ifstream inputStream(objFileName);
@@ -71,7 +72,7 @@ void Utils::ObjParser::addTextureCoordinate(std::vector<Math::Vector2<float>>& t
     textureCoordinates.emplace_back(u, v);
 }
 
-void Utils::ObjParser::addIndex(std::vector<std::tuple<int, int, int>>& indexes, const std::string_view& line)
+void Utils::ObjParser::addIndex(std::vector<Graphics::Components::MeshIndex>& indexes, const std::string_view& line)
 {
     // TODO: Need to add getting indexes
 }

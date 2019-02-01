@@ -16,24 +16,24 @@
 
 #pragma once
 
-#include <forward_list>
-
 #include "../Components/Mesh.hpp"
 #include "../../Math/Matrices/Matrix4x4.hpp"
+#include "../../Memory/IAllocatable.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
-    class Node
+    class Node : public Memory::IAllocatable
     {
     public:
         Node(const Components::Mesh& mesh) : mMesh(mesh) {}
         GLvoid removeChildren() noexcept;
-        GLvoid addChild(const Node& child) noexcept;
+        GLvoid addChild(Node* child) noexcept;
         const Math::Matrix4x4<GLfloat>& getTransformation() noexcept;
         GLvoid setTransformation(const Math::Matrix4x4<GLfloat>& transformation) noexcept;
     private:
         Components::Mesh mMesh;
-        std::forward_list<Node> mChildren;
+        Node* mChild = nullptr;
+        Node* mNextNode = nullptr;
         Math::Matrix4x4<GLfloat> mTransformation;
     };
 

@@ -32,8 +32,8 @@ namespace Platforms { namespace WindowSystem {
         void showWindow(LPCSTR windowTitle, int windowWidth, int windowHeight, bool fullscreen = false);
         ~Window();
     private:
-        void _initOpenGLContext();
-        void _initFullscreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP);
+        void initOpenGLContext();
+        void initFullScreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP);
     private:
         int mCmdShow;
         DWORD dwStyle;

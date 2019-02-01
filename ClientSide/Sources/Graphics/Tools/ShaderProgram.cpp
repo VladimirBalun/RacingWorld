@@ -16,11 +16,12 @@
 
 #include "ShaderProgram.hpp"
 
-Graphics::Tools::ShaderProgram::ShaderProgram(const char* vShaderFileName, const char* fShaderFileName)
+Graphics::Tools::ShaderProgram::ShaderProgram(Memory::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName)
 {
-    // TODO: need to fix reallocation of string
-    const char* vShaderSourceCode = _strdup(readFile(vShaderFileName).c_str());
-    const char* fShaderSourceCode = _strdup(readFile(fShaderFileName).c_str());
+    const char* vShaderSourceCode = Utils::readFile(vShaderFileName,
+        std::bind(&Memory::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2));
+    const char* fShaderSourceCode = Utils::readFile(fShaderFileName,
+        std::bind(&Memory::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2));
 
     const GLuint vertexShader = compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
     const GLuint fragmantShader = compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
@@ -29,36 +30,25 @@ Graphics::Tools::ShaderProgram::ShaderProgram(const char* vShaderFileName, const
     glDetachShader(mProgram, fragmantShader);
     glDeleteShader(vertexShader);
     glDeleteShader(fragmantShader);
-
-    free((void*) vShaderSourceCode);
-    free((void*) fShaderSourceCode);
 }
 
-Graphics::Tools::ShaderProgram::ShaderProgram()
-{
-    unsetProgram();
-    mProgram = -1;
-}
-
-GLuint Graphics::Tools::ShaderProgram::compileShader(const char* shaderSourceCode, GLint shaderType)
+GLuint Graphics::Tools::ShaderProgram::compileShader(const char* shaderSourceCode, GLint shaderType) noexcept
 {
     GLint isCompiledShader;
     const GLuint shader = glCreateShader(shaderType);
     glShaderSource(shader, 1, &shaderSourceCode, NULL);
     glCompileShader(shader);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiledShader);
-
     if (!isCompiledShader)
     {
         GLchar errorLog[512];
         glGetShaderInfoLog(shader, 512, NULL, errorLog);
-        LOG_WARNING("Shader was not compiled. Cause: " + std::string(errorLog));
+        LOG_WARNING(errorLog);
     }
-
     return shader;
 }
 
-GLvoid Graphics::Tools::ShaderProgram::linkShaders(GLuint vertexShader, GLuint fragmentShader)
+GLvoid Graphics::Tools::ShaderProgram::linkShaders(GLuint vertexShader, GLuint fragmentShader) noexcept
 {
     GLint isLinkedShaders;
     mProgram = glCreateProgram();
@@ -66,65 +56,43 @@ GLvoid Graphics::Tools::ShaderProgram::linkShaders(GLuint vertexShader, GLuint f
     glAttachShader(mProgram, fragmentShader);
     glLinkProgram(mProgram);
     glGetProgramiv(mProgram, GL_LINK_STATUS, &isLinkedShaders);
-
     if (!isLinkedShaders) 
     {
         GLchar errorLog[512];
         glGetProgramInfoLog(mProgram, 512, NULL, errorLog);
-        LOG_WARNING(std::string("Shaders were not linked. Cause: ") + std::string(errorLog));
+        LOG_WARNING(errorLog);
     }
 }
 
-void Graphics::Tools::ShaderProgram::destroyProgram()
+GLboolean Graphics::Tools::ShaderProgram::isInitializedProgram() const noexcept
 {
-    glDeleteProgram(mProgram);
+    return mProgram != 0;
 }
 
-void Graphics::Tools::ShaderProgram::destroyProgram(UINT idProgram)
-{
-    glDeleteProgram(idProgram);
-}
-
-Graphics::Tools::ShaderProgram::~ShaderProgram()
-{
-    //destroyProgram();
-}
-
-void Graphics::Tools::ShaderProgram::setProgram() const noexcept
+GLvoid Graphics::Tools::ShaderProgram::useProgram() const noexcept
 {
     glUseProgram(mProgram);
 }
 
-void Graphics::Tools::ShaderProgram::setProgram(UINT idProgram)
-{
-    mProgram = idProgram;
-    setProgram();
-}
-
-void Graphics::Tools::ShaderProgram::unsetProgram()
-{
-    glUseProgram(NULL);
-}
-
-GLuint Graphics::Tools::ShaderProgram::getProgram()
+GLuint Graphics::Tools::ShaderProgram::getProgram() const noexcept
 {
     return mProgram;
 }
 
-GLuint Graphics::Tools::ShaderProgram::getAttribLocation(const char* name) const
+GLuint Graphics::Tools::ShaderProgram::getAttributeLocation(const char* name) const noexcept
 {
     return glGetAttribLocation(mProgram, name);
 }
 
-GLuint Graphics::Tools::ShaderProgram::getUniformLocation(const char* name) const
+GLuint Graphics::Tools::ShaderProgram::getUniformLocation(const char* name) const noexcept
 {
     return glGetUniformLocation(mProgram, name);
 }
 
 template<typename Type>
-void Graphics::Tools::ShaderProgram::setUniform(const char* name, Type value) const noexcept
+GLvoid Graphics::Tools::ShaderProgram::setUniform(const char* name, Type value) const noexcept
 {
-    setProgram();
+    glUseProgram(mProgram);
     if constexpr (std::is_same<Type, GLfloat>::value)
         glUniform1f(getUniformLocation(name), value);
     else if constexpr (std::is_same<Type, GLdouble>::value)
@@ -136,21 +104,21 @@ void Graphics::Tools::ShaderProgram::setUniform(const char* name, Type value) co
 }
 
 template<typename Type>
-void Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector2<Type> &vector) const noexcept
+GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector2<Type> &vector) const noexcept
 {
-    setProgram();
+    glUseProgram(mProgram);
     if constexpr (std::is_same<Type, GLfloat>::value)
-        glUniform2f(getUniformLocation(name), vector.getX() , vector.getY());
+        glUniform2f(getUniformLocation(name), vector.getX(), vector.getY());
     else if constexpr (std::is_same<Type, GLdouble>::value)
-        glUniform2d(getUniformLocation(name), vector.getX() , vector.getY());
+        glUniform2d(getUniformLocation(name), vector.getX(), vector.getY());
     else if constexpr (std::is_same<Type, GLint>::value)
-        glUniform2i(getUniformLocation(name), vector.getX() , vector.getY());
+        glUniform2i(getUniformLocation(name), vector.getX(), vector.getY());
 }
 
 template<typename Type>
-void Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector3<Type>& vector) const noexcept
+GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector3<Type>& vector) const noexcept
 {
-    setProgram();
+    glUseProgram(mProgram);
     if constexpr (std::is_same<Type, GLfloat>::value)
         glUniform3f(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ());
     else if constexpr (std::is_same<Type, GLdouble>::value)
@@ -160,9 +128,9 @@ void Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Ma
 }
 
 template<typename Type>
-void Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector4<Type>& vector) const noexcept
+GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector4<Type>& vector) const noexcept
 {
-    setProgram();
+    glUseProgram(mProgram);
     if constexpr (std::is_same<Type, GLfloat>::value)
         glUniform4f(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ(), vector.getW());
     else if constexpr (std::is_same<Type, GLdouble>::value)
@@ -172,9 +140,9 @@ void Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Ma
 }
 
 template<typename Type>
-void Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix2x2<Type>& matrix) const noexcept
+GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix2x2<Type>& matrix) const noexcept
 {
-    setProgram();
+    glUseProgram(mProgram);
     Type array[Math::Matrix2x2<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)
@@ -184,9 +152,9 @@ void Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Ma
 }
 
 template<typename Type>
-void Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix3x3<Type>& matrix) const noexcept
+GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix3x3<Type>& matrix) const noexcept
 {
-    setProgram();
+    glUseProgram(mProgram);
     Type array[Math::Matrix3x3<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)
@@ -196,9 +164,9 @@ void Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Ma
 }
 
 template<typename Type>
-void Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix4x4<Type>& matrix) const noexcept
+GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix4x4<Type>& matrix) const noexcept
 {
-    setProgram();
+    glUseProgram(mProgram);
     Type array[Math::Matrix4x4<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)
@@ -207,28 +175,33 @@ void Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Ma
         glUniformMatrix4dv(getUniformLocation(name), 1, GL_TRUE, array);
 }
 
-template void Graphics::Tools::ShaderProgram::setUniform<GLfloat>(const char* name, GLfloat value) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniform<GLdouble>(const char* name, GLdouble value) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniform<GLint>(const char* name, GLint value) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniform<GLboolean>(const char* name, GLboolean value) const noexcept;
+Graphics::Tools::ShaderProgram::~ShaderProgram()
+{
+    glDeleteProgram(mProgram);
+}
 
-template void Graphics::Tools::ShaderProgram::setUniformVector<GLfloat>(const char* name, const Math::Vector2f& vector) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniformVector<GLdouble>(const char* name, const Math::Vector2d& vector) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniformVector<GLint>(const char* name, const Math::Vector2i& vector) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniform<GLfloat>(const char* name, GLfloat value) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniform<GLdouble>(const char* name, GLdouble value) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniform<GLint>(const char* name, GLint value) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniform<GLboolean>(const char* name, GLboolean value) const noexcept;
 
-template void Graphics::Tools::ShaderProgram::setUniformVector<GLfloat>(const char* name, const Math::Vector3f& vector) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniformVector<GLdouble>(const char* name, const Math::Vector3d& vector) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniformVector<GLint>(const char* name, const Math::Vector3i& vector) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLfloat>(const char* name, const Math::Vector2f& vector) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLdouble>(const char* name, const Math::Vector2d& vector) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLint>(const char* name, const Math::Vector2i& vector) const noexcept;
 
-template void Graphics::Tools::ShaderProgram::setUniformVector<GLfloat>(const char* name, const Math::Vector4f& vector) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniformVector<GLdouble>(const char* name, const Math::Vector4d& vector) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniformVector<GLint>(const char* name, const Math::Vector4i& vector) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLfloat>(const char* name, const Math::Vector3f& vector) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLdouble>(const char* name, const Math::Vector3d& vector) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLint>(const char* name, const Math::Vector3i& vector) const noexcept;
 
-template void Graphics::Tools::ShaderProgram::setUniformMatrix<GLfloat>(const char* name, const Math::Matrix2x2f& matrix) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniformMatrix<GLdouble>(const char* name, const Math::Matrix2x2d& matrix) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLfloat>(const char* name, const Math::Vector4f& vector) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLdouble>(const char* name, const Math::Vector4d& vector) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLint>(const char* name, const Math::Vector4i& vector) const noexcept;
 
-template void Graphics::Tools::ShaderProgram::setUniformMatrix<GLfloat>(const char* name, const Math::Matrix3x3f& matrix) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniformMatrix<GLdouble>(const char* name, const Math::Matrix3x3d& matrix) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLfloat>(const char* name, const Math::Matrix2x2f& matrix) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLdouble>(const char* name, const Math::Matrix2x2d& matrix) const noexcept;
 
-template void Graphics::Tools::ShaderProgram::setUniformMatrix<GLfloat>(const char* name, const Math::Matrix4x4f& matrix) const noexcept;
-template void Graphics::Tools::ShaderProgram::setUniformMatrix<GLdouble>(const char* name, const Math::Matrix4x4d& matrix) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLfloat>(const char* name, const Math::Matrix3x3f& matrix) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLdouble>(const char* name, const Math::Matrix3x3d& matrix) const noexcept;
+
+template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLfloat>(const char* name, const Math::Matrix4x4f& matrix) const noexcept;
+template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLdouble>(const char* name, const Math::Matrix4x4d& matrix) const noexcept;

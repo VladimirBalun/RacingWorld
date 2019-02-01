@@ -14,24 +14,4 @@
  * limitations under the License.
  */
 
-#include "Mesh.hpp"
-
-std::vector<Math::Vector3<GLfloat>>& Graphics::Components::Mesh::getNormals() noexcept
-{
-    return mNormals;
-}
-
-std::vector<Math::Vector4<GLfloat>>& Graphics::Components::Mesh::getVertexes() noexcept
-{
-    return mVertexes;
-}
-
-std::vector<Math::Vector2<GLfloat>>& Graphics::Components::Mesh::getTextureCoordinates() noexcept
-{
-    return mTextureCoordinates;
-}
-
-std::vector<Graphics::Components::MeshIndex>& Graphics::Components::Mesh::getIndexes() noexcept
-{
-    return mIndexes;
-}
+#include "StackAllocator.hpp"

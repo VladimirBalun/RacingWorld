@@ -14,82 +14,36 @@
  * limitations under the License.
  */
 
-
 #include "ShaderManager.hpp"
-#include "../../Utils/Logger.hpp"
 
-void Graphics::Managers::ShaderManager::addShader(std::string key, const char* vShaderFileName, const char* fShaderFileName)
+GLvoid Graphics::Managers::ShaderManager::initializeShaders() noexcept
 {
-    auto res = shadersList.find(key);
-    if (res != shadersList.end())
-    {
-        LOG_PRINT("This Shader Name already exists!");
-    }
-    else
-    {
-        Tools::ShaderProgram newShader(vShaderFileName, fShaderFileName);
-        shadersList.emplace(std::make_pair(key, newShader.getProgram()));
-    }
+    Memory::LinearAllocator shadersAllocator(32768); // Temp size for allocator
+    mShaderPrograms[BASE_SHADER] = createShader(shadersAllocator, "BaseShader.vert", "BaseShader.frag");
+    mShaderPrograms[BASE_SHADER2] = createShader(shadersAllocator, "BaseShader2.vert", "BaseShader2.frag");
 }
 
-void Graphics::Managers::ShaderManager::setShader(std::string key)
+Graphics::Tools::ShaderProgram Graphics::Managers::ShaderManager::createShader(Memory::LinearAllocator& allocator, const char* vShaderName, const char* fShaderName) const noexcept
 {
-    auto res = shadersList.find(key);
-    if (res != shadersList.end())
-    {
-        currentShader = key;
-        mProgram.setProgram(shadersList.at(currentShader));
-    }
-    else 
-    {
-        LOG_PRINT("This shader name does not exist!");
-    }
+    const char* shadersPath = Configuration::getShadersPath();
+    const std::size_t legthShadersPath = strlen(shadersPath);
+
+    char* vertexShaderPath = Utils::createStringFromStrings(legthShadersPath + strlen(vShaderName) + 1,
+        std::bind(&Memory::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2), shadersPath, vShaderName);
+    char* fragmentShaderPath = Utils::createStringFromStrings(legthShadersPath + strlen(fShaderName) + 1,
+        std::bind(&Memory::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2), shadersPath, fShaderName);
+
+    return Tools::ShaderProgram(allocator, vertexShaderPath, fragmentShaderPath);
 }
 
-void Graphics::Managers::ShaderManager::unsetShader()
+GLvoid Graphics::Managers::ShaderManager::useShaderProgram(ShaderType shaderType) const noexcept
 {
-    mProgram.unsetProgram();
+    const Tools::ShaderProgram& shaderProgram = mShaderPrograms[shaderType];
+    assert(shaderProgram.isInitializedProgram() && "Incorrect type of shader program.");
+    shaderProgram.useProgram();
 }
 
-UINT Graphics::Managers::ShaderManager::getIdShader(std::string key)
+Graphics::Tools::ShaderProgram& Graphics::Managers::ShaderManager::getShader(ShaderType shaderType) noexcept
 {
-    if (currentShader != key) 
-    {
-        setShader(key);
-    }
-
-    auto res = shadersList.find(key);
-    if (res != shadersList.end()) {
-        return shadersList.at(key);
-    }
-    else 
-    {
-        LOG_PRINT("This Shader does not exist!");
-    }
-    return -1;
-}
-
-void Graphics::Managers::ShaderManager::destroyProgram(std::string key)
-{
-    UINT idProg = getIdShader(key);
-    getShader(key).destroyProgram(idProg);
-    shadersList.erase(key); 
-}
-
-Graphics::Tools::ShaderProgram Graphics::Managers::ShaderManager::getShader(std::string key)
-{
-    setShader(key);
-    return mProgram;
-}
-
-void Graphics::Managers::ShaderManager::PrintShadersList()
-{
-    std::cout << "=========================================" << std::endl;
-    std::cout << "List shaders" << std::endl;
-    std::cout << "-----------------------------------------" << std::endl;
-    for (auto it = shadersList.begin(); it != shadersList.end(); ++it)
-    {
-        std::cout << (*it).first << " " << (*it).second << std::endl;
-    }
-    std::cout << "=========================================" << std::endl;
+    return mShaderPrograms[shaderType];
 }

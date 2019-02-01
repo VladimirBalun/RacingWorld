@@ -1563,37 +1563,37 @@ static GLboolean initOpenGL_4_6()
 GLvoid initOpenGL()
 {
     if (!initOpenGL_1_2())
-        LOG_PRINT("Opengl version of 1.2 was not initialized.");
+        LOG_DEBUG("Opengl version of 1.2 was not initialized.");
     if (!initOpenGL_1_3())
-        LOG_PRINT("Opengl version of 1.3 was not initialized.");
+        LOG_DEBUG("Opengl version of 1.3 was not initialized.");
     if (!initOpenGL_1_4())
-        LOG_PRINT("Opengl version of 1.4 was not initialized.");
+        LOG_DEBUG("Opengl version of 1.4 was not initialized.");
     if (!initOpenGL_1_5())
-        LOG_PRINT("Opengl version of 1.5 was not initialized.");
+        LOG_DEBUG("Opengl version of 1.5 was not initialized.");
     if (!initOpenGL_2_0())
-        LOG_PRINT("Opengl version of 2.0 was not initialized.");
+        LOG_DEBUG("Opengl version of 2.0 was not initialized.");
     if (!initOpenGL_2_1())
-        LOG_PRINT("Opengl version of 2.1 was not initialized.");
+        LOG_DEBUG("Opengl version of 2.1 was not initialized.");
     if (!initOpenGL_3_0())
-        LOG_PRINT("Opengl version of 3.0 was not initialized.");
+        LOG_DEBUG("Opengl version of 3.0 was not initialized.");
     if (!initOpenGL_3_1())
-        LOG_PRINT("Opengl version of 3.1 was not initialized.");
+        LOG_DEBUG("Opengl version of 3.1 was not initialized.");
     if (!initOpenGL_3_2())
-        LOG_PRINT("Opengl version of 3.2 was not initialized.");
+        LOG_DEBUG("Opengl version of 3.2 was not initialized.");
     if (!initOpenGL_3_3())
-        LOG_PRINT("Opengl version of 3.3 was not initialized.");
+        LOG_DEBUG("Opengl version of 3.3 was not initialized.");
     if (!initOpenGL_4_0())
-        LOG_PRINT("Opengl version of 4.0 was not initialized.");
+        LOG_DEBUG("Opengl version of 4.0 was not initialized.");
     if (!initOpenGL_4_1())
-        LOG_PRINT("Opengl version of 4.1 was not initialized.");
+        LOG_DEBUG("Opengl version of 4.1 was not initialized.");
     if (!initOpenGL_4_2())
-        LOG_PRINT("Opengl version of 4.2 was not initialized.");
+        LOG_DEBUG("Opengl version of 4.2 was not initialized.");
     if (!initOpenGL_4_3())
-        LOG_PRINT("Opengl version of 4.3 was not initialized.");
+        LOG_DEBUG("Opengl version of 4.3 was not initialized.");
     if (!initOpenGL_4_4())
-        LOG_PRINT("Opengl version of 4.4 was not initialized.");
+        LOG_DEBUG("Opengl version of 4.4 was not initialized.");
     if (!initOpenGL_4_5())
-        LOG_PRINT("Opengl version of 4.5 was not initialized.");
+        LOG_DEBUG("Opengl version of 4.5 was not initialized.");
     if (!initOpenGL_4_6())
-        LOG_PRINT("Opengl version of 4.6 was not initialized.");
+        LOG_DEBUG("Opengl version of 4.6 was not initialized.");
 }

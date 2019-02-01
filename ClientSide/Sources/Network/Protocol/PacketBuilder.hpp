@@ -40,7 +40,7 @@ namespace Network { namespace Protocol {
     template<typename PacketType>
     PacketType* PacketBuilder::createPacketToServer() noexcept
     {
-        static_assert(std::is_base_of<IPacketToServer, PacketType>::value, "Incorrect packet to server type.");
+        // static_assert(std::is_base_of<IPacketToServer, PacketType>::value, "Incorrect packet to server type.");
         Memory::IAllocatable* memoryForPacket = mPacketsToServerAllocator.allocate(sizeof(PacketType), sizeof(PacketType));
         PacketType* packet = new (memoryForPacket) PacketType();
         return packet;
@@ -49,7 +49,7 @@ namespace Network { namespace Protocol {
     template<typename PacketType>
     PacketType* PacketBuilder::createPacketFromServer() noexcept
     {
-        static_assert(std::is_base_of<IPacketFromServer, PacketType>::value, "Incorrect packet from server type.");
+        // static_assert(std::is_base_of<IPacketFromServer, PacketType>::value, "Incorrect packet from server type.");
         Memory::IAllocatable* memoryForPacket = mPacketsToServerAllocator.allocate(sizeof(PacketType), sizeof(PacketType));
         PacketType* packet = new (memoryForPacket) PacketType();
         return packet;

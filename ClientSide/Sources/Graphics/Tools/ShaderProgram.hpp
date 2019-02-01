@@ -17,45 +17,49 @@
 #pragma once
 
 #include <string>
-#include <sstream>
 #include <iostream>
 
 #include "../OpenGL.hpp"
 #include "../../Utils/FileSystem.hpp"
 #include "../../Math/Vectors.hpp"
 #include "../../Math/Matrices.hpp"
+#include "../../Memory/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {
 
     class ShaderProgram 
     {
     public:
-        explicit ShaderProgram(const char* vShaderFileName, const char* fShaderFileName);
-        ShaderProgram();
+        explicit ShaderProgram() = default;
+        explicit ShaderProgram(Memory::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName);
         ~ShaderProgram();
-        void destroyProgram();
-        void destroyProgram(UINT idProgram);
-        void setProgram() const noexcept;
-        void setProgram(UINT idProgram);
-        void unsetProgram();
-        GLuint getProgram();
 
-        GLuint getAttribLocation(const char* name) const;
-        GLuint getUniformLocation(const char* name) const;
+        GLvoid useProgram() const noexcept;
+        GLuint getProgram() const noexcept;
+        GLboolean isInitializedProgram() const noexcept;
 
-        template<typename Type> void setUniform(const char* name, Type value) const noexcept;
-        template<typename Type> void setUniformVector(const char* name, const Math::Vector2<Type>& vector) const noexcept;
-        template<typename Type> void setUniformVector(const char* name, const Math::Vector3<Type>& vector) const noexcept;
-        template<typename Type> void setUniformVector(const char* name, const Math::Vector4<Type>& vector) const noexcept;
+        template<typename Type>
+        GLvoid setUniform(const char* name, Type value) const noexcept;
+        template<typename Type>
+        GLvoid setUniformVector(const char* name, const Math::Vector2<Type>& vector) const noexcept;
+        template<typename Type>
+        GLvoid setUniformVector(const char* name, const Math::Vector3<Type>& vector) const noexcept;
+        template<typename Type>
+        GLvoid setUniformVector(const char* name, const Math::Vector4<Type>& vector) const noexcept;
 
-        template<typename Type> void setUniformMatrix(const char* name, const Math::Matrix2x2<Type>& matrix) const noexcept;
-        template<typename Type> void setUniformMatrix(const char* name, const Math::Matrix3x3<Type>& matrix) const noexcept;
-        template<typename Type> void setUniformMatrix(const char* name, const Math::Matrix4x4<Type>& matrix) const noexcept;
+        template<typename Type>
+        GLvoid setUniformMatrix(const char* name, const Math::Matrix2x2<Type>& matrix) const noexcept;
+        template<typename Type>
+        GLvoid setUniformMatrix(const char* name, const Math::Matrix3x3<Type>& matrix) const noexcept;
+        template<typename Type> 
+        GLvoid setUniformMatrix(const char* name, const Math::Matrix4x4<Type>& matrix) const noexcept;
     private:
-        GLuint compileShader(const char* shaderSourcCode, GLint shaderType);
-        GLvoid linkShaders(GLuint vertexShader, GLuint fragmentShader);
+        GLuint compileShader(const char* shaderSourceCode, GLint shaderType) noexcept;
+        GLvoid linkShaders(GLuint vertexShader, GLuint fragmentShader) noexcept;
+        GLuint getAttributeLocation(const char* name) const noexcept;
+        GLuint getUniformLocation(const char* name) const noexcept;
     private:
-        GLuint mProgram;
+        GLuint mProgram = 0;
     };
 
 }}

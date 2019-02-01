@@ -17,8 +17,9 @@
 #pragma once
 
 #include <string>
-#include <filesystem>
+#include <Windows.h>
 
+#include "StringOperations.hpp"
 #include "../Math/Vectors/Vector3.hpp"
 
 struct Configuration 
@@ -44,8 +45,7 @@ struct Configuration
         static const std::uint16_t SERVER_PORT = 17012;
     };
 
-    static const std::filesystem::path& getResourcesPath();
-    static const std::filesystem::path& getShadersPath();
-    static const std::filesystem::path& getTexturesPath();
-    static const std::filesystem::path& getModelsPath();
+    static const char* getShadersPath();
+    static const char* getTexturesPath();
+    static const char* getModelsPath();
 };

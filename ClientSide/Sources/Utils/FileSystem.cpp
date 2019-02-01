@@ -16,17 +16,23 @@
 
 #include "FileSystem.hpp"
 
-std::string readFile(const char* fileName)
+char* Utils::readFile(const char* fullFileName, std::function<Memory::IAllocatable*(std::size_t, std::size_t)> allocateFunction) noexcept
 {
-    std::ifstream inputStream(fileName);
-    if (inputStream.is_open()) 
+    FILE* file = NULL;
+    fopen_s(&file, fullFileName, "rb");
+    if (!file)
     {
-        std::string content(std::istreambuf_iterator<char>(inputStream.rdbuf()), std::istreambuf_iterator<char>());
-        return content;
+        LOG_WARNING("File was not opened.");
+        return nullptr;
     }
-    else 
-    {
-        LOG_WARNING("File was not opened. Unknown cause.");
-        return "";
-    }
+
+    std::fseek(file, 0, SEEK_END);
+    std::size_t fileSize = std::ftell(file) + 1;
+    std::rewind(file);
+
+    char* buffer = reinterpret_cast<char*>(allocateFunction(fileSize, 0));
+    std::size_t countReadSymbols = std::fread(buffer, sizeof(char), fileSize, file);
+    buffer[countReadSymbols] = '\0';
+    std::fclose(file);
+    return buffer;
 }

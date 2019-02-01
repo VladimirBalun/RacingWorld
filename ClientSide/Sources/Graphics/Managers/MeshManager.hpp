@@ -14,24 +14,17 @@
  * limitations under the License.
  */
 
-#include "Mesh.hpp"
+#pragma once
 
-std::vector<Math::Vector3<GLfloat>>& Graphics::Components::Mesh::getNormals() noexcept
-{
-    return mNormals;
-}
+#include "../OpenGL.hpp"
+#include "../../Memory/INonCopyable.hpp"
 
-std::vector<Math::Vector4<GLfloat>>& Graphics::Components::Mesh::getVertexes() noexcept
-{
-    return mVertexes;
-}
+namespace Graphics { namespace Managers {
 
-std::vector<Math::Vector2<GLfloat>>& Graphics::Components::Mesh::getTextureCoordinates() noexcept
-{
-    return mTextureCoordinates;
-}
+    class MeshManager : Memory::INonCopyable
+    {
+    public:
+        GLvoid initializeMeshes();
+    };
 
-std::vector<Graphics::Components::MeshIndex>& Graphics::Components::Mesh::getIndexes() noexcept
-{
-    return mIndexes;
-}
+} }

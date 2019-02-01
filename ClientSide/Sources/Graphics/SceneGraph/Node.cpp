@@ -18,12 +18,18 @@
 
 GLvoid Graphics::SceneGraph::Node::removeChildren() noexcept
 {
-    mChildren.clear();
+    while (mChild)
+    {
+        Node* tmpPoiner = mChild;
+        mChild = mChild->mNextNode;
+        mChild = nullptr;
+    }
 }
 
-GLvoid Graphics::SceneGraph::Node::addChild(const Node& child) noexcept
+GLvoid Graphics::SceneGraph::Node::addChild(Node* child) noexcept
 {
-    mChildren.push_front(child);
+    child->mNextNode = mNextNode;
+    mNextNode = child;
 }
 
 const Math::Matrix4x4<GLfloat>& Graphics::SceneGraph::Node::getTransformation() noexcept 

@@ -26,7 +26,7 @@
 
 namespace Network {
 
-    class NetworkManager
+    class NetworkManager : Memory::INonCopyable
     {
     public:
         explicit NetworkManager()

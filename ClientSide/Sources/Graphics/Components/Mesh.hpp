@@ -24,28 +24,33 @@
 
 namespace Graphics { namespace Components {
 
+    struct MeshIndex 
+    {
+        GLint mVertexIndex;
+        GLint mTextureIndex;
+        GLint mNormalIndex;
+    };
+
     class Mesh
     {
-        typedef GLint VertexIndex;
-        typedef GLint TextureIndex;
-        typedef GLint NormalIndex;
     public:
         Mesh() = default;
         Mesh(std::vector<Math::Vector3<GLfloat>>&& normals,
             std::vector<Math::Vector4<GLfloat>>&& vertexes,
             std::vector<Math::Vector2<GLfloat>>&& textureCoordinates, 
-            std::vector<std::tuple<VertexIndex, TextureIndex, NormalIndex>>&& indexes)
+            std::vector<MeshIndex>&& indexes)
             : mNormals(std::move(normals)), mVertexes(std::move(vertexes)), mTextureCoordinates(std::move(textureCoordinates)), mIndexes(indexes) {}
 
         std::vector<Math::Vector3<GLfloat>>& getNormals() noexcept;
         std::vector<Math::Vector4<GLfloat>>& getVertexes() noexcept;
         std::vector<Math::Vector2<GLfloat>>& getTextureCoordinates() noexcept;
-        std::vector<std::tuple<VertexIndex, TextureIndex, NormalIndex>>& getIndexes() noexcept;
+        std::vector<MeshIndex>& getIndexes() noexcept;
     private:
+        // TODO: need to change vectors on custom containers
         std::vector<Math::Vector3<GLfloat>> mNormals;
         std::vector<Math::Vector4<GLfloat>> mVertexes;
         std::vector<Math::Vector2<GLfloat>> mTextureCoordinates;
-        std::vector<std::tuple<VertexIndex, TextureIndex, NormalIndex>> mIndexes;
+        std::vector<MeshIndex> mIndexes;
     };
 
 }}

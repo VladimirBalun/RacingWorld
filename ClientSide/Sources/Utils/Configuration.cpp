@@ -23,30 +23,38 @@ const std::string Configuration::Player::PLAYER_PASSWORD = u8"difficult_password
 const Math::Vector3<float> Configuration::Player::PLAYER_START_POSITION = { 15.0f, 15.0f, 15.0f };
 const Math::Vector3<float> Configuration::Player::PLAYER_START_DIRECTION = { 0.0f, 1.0f, 0.0f };
 
-const std::filesystem::path& Configuration::getResourcesPath()
+const char* Configuration::getShadersPath()
 {
-    static const std::filesystem::path shadersPath = std::filesystem::current_path()
-        .parent_path().append("Resources");
-    return shadersPath;
+    static char path[MAX_PATH] = { 0 };
+    if (!*path) 
+    {
+        GetCurrentDirectory(MAX_PATH, path);
+        Utils::getParentPathFromString(path);
+        Utils::concatenateStringsToString(path, MAX_PATH, "\\Resources", "\\Shaders\\");
+    }
+    return path;
 }
 
-const std::filesystem::path& Configuration::getShadersPath()
+const char* Configuration::getTexturesPath()
 {
-    static const std::filesystem::path shadersPath = std::filesystem::current_path()
-        .parent_path().append("Resources").append("Shaders");
-    return shadersPath;
+    static char path[MAX_PATH] = { 0 };
+    if (!*path)
+    {
+        GetCurrentDirectory(MAX_PATH, path);
+        Utils::getParentPathFromString(path);
+        Utils::concatenateStringsToString(path, MAX_PATH, "\\Resources", "\\Textures\\");
+    }
+    return path;
 }
 
-const std::filesystem::path& Configuration::getTexturesPath()
+const char* Configuration::getModelsPath()
 {
-    static const std::filesystem::path texturesPath = std::filesystem::current_path()
-        .parent_path().append("Resources").append("Textures");
-    return texturesPath;
-}
-
-const std::filesystem::path& Configuration::getModelsPath()
-{
-    static const std::filesystem::path modelsPath = std::filesystem::current_path()
-        .parent_path().append("Resources").append("Models");
-    return modelsPath;
+    static char path[MAX_PATH] = { 0 };
+    if (!*path)
+    {
+        GetCurrentDirectory(MAX_PATH, path);
+        Utils::getParentPathFromString(path);
+        Utils::concatenateStringsToString(path, MAX_PATH, "\\Resources", "\\Models\\");
+    }
+    return path;
 }

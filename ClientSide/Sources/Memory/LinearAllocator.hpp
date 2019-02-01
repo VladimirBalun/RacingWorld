@@ -24,7 +24,7 @@ namespace Memory {
     {
     public:
         explicit LinearAllocator(size_t memorySize);
-        IAllocatable* allocate(std::size_t size, std::size_t alignment) noexcept;
+        IAllocatable* allocate(std::size_t size, std::size_t alignment = 0) noexcept;
         void deallocate(IAllocatable* pointer) noexcept;
         void reset() noexcept;
         ~LinearAllocator();

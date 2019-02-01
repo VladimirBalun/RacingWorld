@@ -41,7 +41,7 @@ void Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowW
 {
     if (fullscreen)
     {
-        this->_initFullscreen(windowWidth, windowHeight, 32);
+        initFullScreen(windowWidth, windowHeight, 32);
 
         // Windows Style
         dwExStyle = WS_EX_APPWINDOW;
@@ -62,7 +62,7 @@ void Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowW
     if (!mWindowHandle)
         throw std::runtime_error("Window was not created.");
 
-    this->_initOpenGLContext();
+    initOpenGLContext();
     ShowWindow(mWindowHandle, mCmdShow);
     SetForegroundWindow(mWindowHandle);
     SetFocus(mWindowHandle);
@@ -91,7 +91,7 @@ void Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowW
     }
 }
 
-void Platforms::WindowSystem::Window::_initFullscreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP)
+void Platforms::WindowSystem::Window::initFullScreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP)
 {
     // Create Device Mode
     DEVMODE dmScreenSettings;
@@ -106,7 +106,7 @@ void Platforms::WindowSystem::Window::_initFullscreen(DWORD windowWidth, DWORD w
         throw std::runtime_error("Fullscreen Mode Is Not Supported.");
 }
 
-void Platforms::WindowSystem::Window::_initOpenGLContext() 
+void Platforms::WindowSystem::Window::initOpenGLContext() 
 {
     PIXELFORMATDESCRIPTOR pixelFormat;
     memset(&pixelFormat, 0, sizeof(PIXELFORMATDESCRIPTOR));
@@ -132,12 +132,6 @@ void Platforms::WindowSystem::Window::_initOpenGLContext()
             WGL_CONTEXT_MINOR_VERSION_ARB, 0,
             WGL_CONTEXT_FLAGS_ARB,  WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
             WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
-            // WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
-            // WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
-            // WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
-            // WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-            // WGL_COLOR_BITS_ARB, 32,
-            // WGL_DEPTH_BITS_ARB, 24,
             0
         };
         mOpenGLContext = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>

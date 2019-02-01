@@ -20,16 +20,10 @@ Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t port)
 {
     WSADATA socketData;
     if (WSAStartup(MAKEWORD(2, 2), &socketData) != 0)
-    {
         LOG_ERROR("Socket was not initialized. Cause: " + WSAGetLastError());
-        throw Exceptions::NetworkException("Socket was not initialized");
-    }
 
     if ((mSocketHandle = (int) socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == SOCKET_ERROR)
-    {
         LOG_ERROR("Socket was not created. Cause: " + WSAGetLastError());
-        throw Exceptions::NetworkException("Socket was not created");
-    }
 
     memset((char*) &mSocketAddress, 0, sizeof(mSocketAddress));
     mSocketAddress.sin_family = AF_INET;

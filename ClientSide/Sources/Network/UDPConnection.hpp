@@ -21,7 +21,6 @@
 #include <Winsock2.h>
 #include <WS2tcpip.h>
 
-#include "NetworkException.hpp"
 #include "../Utils/Logger.hpp"
 
 namespace Network {

@@ -16,9 +16,14 @@
 
 #pragma once
 
-#include <sstream>
-#include <fstream>
+#include <cstdio>
 
 #include "Logger.hpp"
+#include "../Memory/Allocator.hpp"
+#include "../Memory/IAllocatable.hpp"
 
-std::string readFile(const char* fileName);
+namespace Utils {
+
+    char* readFile(const char* fullFileName, std::function<Memory::IAllocatable*(std::size_t, std::size_t)> allocateFunction) noexcept;
+
+}

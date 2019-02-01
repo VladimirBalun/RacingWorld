@@ -16,27 +16,32 @@
 
 #pragma once
 
-#include <map>
+#include <cstring>
 
 #include "../Tools/ShaderProgram.hpp"
+#include "../../Utils/Configuration.hpp"
+#include "../../Memory/LinearAllocator.hpp"
 
 namespace Graphics { namespace Managers {
-    
-    class ShaderManager
+
+    enum ShaderType 
+    {
+        BASE_SHADER,
+        BASE_SHADER2,
+        MODEL_VIEW_SHADER,
+        COUNT_SHADER_TYPES // Used for setting size of shaders array 
+    };
+
+    class ShaderManager : Memory::INonCopyable
     {
     public:
-        void addShader(std::string key, const char* vShaderFileName, const char* fShaderFileName);
-        void setShader(std::string key);
-        void unsetShader();
-        UINT getIdShader(std::string key);
-        void destroyProgram(std::string key);
-        Tools::ShaderProgram getShader(std::string key);
-        void PrintShadersList(); // for debugging
+        GLvoid initializeShaders() noexcept;
+        GLvoid useShaderProgram(ShaderType shaderType) const noexcept;
+        Tools::ShaderProgram& getShader(ShaderType shaderType) noexcept;
+    private: 
+        Tools::ShaderProgram createShader(Memory::LinearAllocator& allocator, const char* vShaderPath, const char* fShaderPath) const noexcept;
     private:
-        std::string currentShader;
-        std::map<std::string, UINT> shadersList;
-        Tools::ShaderProgram mProgram;
+        Tools::ShaderProgram mShaderPrograms[COUNT_SHADER_TYPES];
     };
 
 } }
-

@@ -16,23 +16,14 @@
 
 #pragma once
 
-#include <string>
+#include <future>
 
 #include "Node.hpp"
 #include "../OpenGL.hpp"
-#include "../Tools/ShaderProgram.hpp"
-#include "../../Utils/Configuration.hpp"
-#include "../Components/SimpleMesh.hpp"
-#include "../../Math/Matrices/Matrix4x4.hpp"
-#include "../../Math/Matrices/Matrices4x4.hpp"
-#include "../../Math/Vectors/Vector3.hpp"
-#include "../Tools/HardwareBuffers.hpp"
+#include "../Managers/MeshManager.hpp"
+#include "../Managers/ShaderManager.hpp"
 
 namespace Graphics { namespace SceneGraph {
-
-    struct Matrix4fz {
-        float m[4][4];
-    };
 
     class Scene
     {
@@ -46,15 +37,8 @@ namespace Graphics { namespace SceneGraph {
         HDC& mWindowContext;
         GLint mSceneWidth;
         GLint mSceneHeight;
-
-        Graphics::Tools::ShaderProgram* prog;
-        Graphics::Tools::ShaderProgram* prog2;
-        Graphics::Tools::HardwareBuffers* obj1;
-        Graphics::Tools::HardwareBuffers* obj2;
-        Graphics::Components::SimpleMesh* mesh;
-
-        Math::Matrix4x4f matpos, matPerspect, matRot;
-
+        Managers::MeshManager mMeshManager;
+        Managers::ShaderManager mShaderManager;
     };
 
 }}

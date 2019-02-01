@@ -30,7 +30,7 @@ Memory::LinearAllocator::LinearAllocator(size_t memorySize)
 Memory::IAllocatable* Memory::LinearAllocator::allocate(std::size_t size, std::size_t alignment) noexcept
 {
     std::size_t allocatedPointer = reinterpret_cast<std::size_t>(mpBasePointer) + mOffset;
-    mOffset += alignment;
+    mOffset += size;
     return reinterpret_cast<IAllocatable*>(allocatedPointer);
 }
 

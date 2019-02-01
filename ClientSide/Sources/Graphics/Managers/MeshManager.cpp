@@ -14,31 +14,9 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "MeshManager.hpp"
 
-#include "../Tools/HardwareBuffers.hpp"
-#include "../Tools/ShaderProgram.hpp"
-
-namespace Graphics { namespace Components
+GLvoid Graphics::Managers::MeshManager::initializeMeshes() 
 {
-    enum TypeRender
-    {
-        TR_WIRE  = 0x1B01,
-        TR_SOLID = 0x1B02,
-        TR_POINT = 0x1B00,
-    };
 
-    class SimpleMesh
-    {
-    public:
-        SimpleMesh();
-        void createCube(float size);
-        void createTetrahedron(float size);
-        void drawMesh(TypeRender tr);
-        ~SimpleMesh();
-    private:
-        Graphics::Tools::HardwareBuffers* mesh;
-        Graphics::Tools::ShaderProgram *shader;
-        int positionLocation;
-    };
- } }
+}
