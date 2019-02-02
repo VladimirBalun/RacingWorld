@@ -17,6 +17,7 @@
 #pragma once
 
 #include <cstdio>
+#include <functional>
 
 #include "Logger.hpp"
 #include "../Memory/Allocator.hpp"

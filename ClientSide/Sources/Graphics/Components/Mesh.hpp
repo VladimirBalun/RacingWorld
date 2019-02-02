@@ -16,41 +16,29 @@
 
 #pragma once
 
-#include <tuple>
-#include <vector>
-
 #include "../OpenGL.hpp"
 #include "../../Math/Vectors.hpp"
 
 namespace Graphics { namespace Components {
 
-    struct MeshIndex 
-    {
-        GLint mVertexIndex;
-        GLint mTextureIndex;
-        GLint mNormalIndex;
-    };
-
     class Mesh
     {
     public:
         Mesh() = default;
-        Mesh(std::vector<Math::Vector3<GLfloat>>&& normals,
-            std::vector<Math::Vector4<GLfloat>>&& vertexes,
-            std::vector<Math::Vector2<GLfloat>>&& textureCoordinates, 
-            std::vector<MeshIndex>&& indexes)
-            : mNormals(std::move(normals)), mVertexes(std::move(vertexes)), mTextureCoordinates(std::move(textureCoordinates)), mIndexes(indexes) {}
-
-        std::vector<Math::Vector3<GLfloat>>& getNormals() noexcept;
-        std::vector<Math::Vector4<GLfloat>>& getVertexes() noexcept;
-        std::vector<Math::Vector2<GLfloat>>& getTextureCoordinates() noexcept;
-        std::vector<MeshIndex>& getIndexes() noexcept;
+        Mesh(GLfloat* elements, std::size_t countElements);
+        GLvoid draw();
+        ~Mesh();
+    public:
+        static const std::uint8_t ALIGNMENT_VERTEX = 0;
+        static const std::uint8_t ALIGNMENT_COLOR = 4;
+        static const std::uint8_t ALIGNMENT_TEXTURE_COORDINATE = 8;
+        static const std::uint8_t ALIGNMENT_NORMAL = 10;
+        static constexpr std::uint8_t SIZE_ELEMENT = ALIGNMENT_NORMAL + 3;
     private:
-        // TODO: need to change vectors on custom containers
-        std::vector<Math::Vector3<GLfloat>> mNormals;
-        std::vector<Math::Vector4<GLfloat>> mVertexes;
-        std::vector<Math::Vector2<GLfloat>> mTextureCoordinates;
-        std::vector<MeshIndex> mIndexes;
+        GLuint mVBO = 0;
+        GLuint mVAO = 0;
+        std::size_t mCountElements = 0;
+        GLfloat* mElements = nullptr;
     };
 
 }}

@@ -16,11 +16,8 @@
 
 #pragma once
 
-#include <string>
-#include <fstream>
-#include <algorithm>
-
 #include "FileSystem.hpp"
+#include "../Memory/LinearAllocator.hpp"
 #include "../Graphics/Components/Mesh.hpp"
 
 namespace Utils {
@@ -28,12 +25,14 @@ namespace Utils {
     class ObjParser 
     {
     public:
-        static Graphics::Components::Mesh parse(const char* objFileName);
+        static Graphics::Components::Mesh parse(const char* objFileName, Memory::LinearAllocator& allocator) noexcept;
     private:
-        static void addVertex(std::vector<Math::Vector4<float>>& vertices, const std::string_view& line);
-        static void addNormal(std::vector<Math::Vector3<float>>& normals, const std::string_view& line);
-        static void addTextureCoordinate(std::vector<Math::Vector2<float>>& textureCoordinates, const std::string_view& line);
-        static void addIndex(std::vector<Graphics::Components::MeshIndex>& indexes, const std::string_view& line);
+        static void parseVertices(const char* line, Math::Vector4f* vertices) noexcept;
+        static void parseTextureCoordinates(const char* line, Math::Vector2f* textureCoordinates) noexcept;
+        static void parseNormals(const char* line, Math::Vector3f* normals) noexcept;
+        static void parseFaceElementIndexes(const char* line, Math::Vector3i* faceElementIndexes) noexcept;
+        static Graphics::Components::Mesh createMesh(const Math::Vector4f* vertices, const Math::Vector2f* textureCoordinates,
+            const Math::Vector3f* normals, const Math::Vector3i* faceElementIndexes, std::size_t countFaceElementIndexes, Memory::LinearAllocator& allocator) noexcept;
     };
 
 }

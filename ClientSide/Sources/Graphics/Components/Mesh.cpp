@@ -16,22 +16,40 @@
 
 #include "Mesh.hpp"
 
-std::vector<Math::Vector3<GLfloat>>& Graphics::Components::Mesh::getNormals() noexcept
+Graphics::Components::Mesh::Mesh(GLfloat* elements, std::size_t countElements) :
+    mElements(elements), mCountElements(countElements)
 {
-    return mNormals;
+    glGenBuffers(1, &mVBO);
+    glGenVertexArrays(1, &mVAO);
+    glBindVertexArray(mVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
+        (void*)(ALIGNMENT_VERTEX * sizeof(GLfloat)));
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
+        (void*)(ALIGNMENT_COLOR * sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
+        (void*)(ALIGNMENT_TEXTURE_COORDINATE * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
+        (void*)(ALIGNMENT_NORMAL * sizeof(GLfloat)));
+    glEnableVertexAttribArray(3);
+
+    glBindVertexArray(NULL);
+    glBindBuffer(GL_ARRAY_BUFFER, NULL);
 }
 
-std::vector<Math::Vector4<GLfloat>>& Graphics::Components::Mesh::getVertexes() noexcept
+GLvoid Graphics::Components::Mesh::draw()
 {
-    return mVertexes;
+    glBindVertexArray(mVAO);
+    glDrawArrays(GL_TRIANGLES, 0, mCountElements);
+    glBindVertexArray(NULL);
 }
 
-std::vector<Math::Vector2<GLfloat>>& Graphics::Components::Mesh::getTextureCoordinates() noexcept
+Graphics::Components::Mesh::~Mesh()
 {
-    return mTextureCoordinates;
-}
-
-std::vector<Graphics::Components::MeshIndex>& Graphics::Components::Mesh::getIndexes() noexcept
-{
-    return mIndexes;
+    glDeleteBuffers(1, &mVBO);
+    glDeleteVertexArrays(1, &mVAO);
 }
