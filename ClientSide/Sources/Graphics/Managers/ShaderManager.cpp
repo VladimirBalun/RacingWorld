@@ -36,14 +36,14 @@ Graphics::Tools::ShaderProgram Graphics::Managers::ShaderManager::createShader(M
     return Tools::ShaderProgram(allocator, vertexShaderPath, fragmentShaderPath);
 }
 
-GLvoid Graphics::Managers::ShaderManager::useShaderProgram(ShaderType shaderType) const noexcept
+GLvoid Graphics::Managers::ShaderManager::useShaderProgram(EShaderType shaderType) const noexcept
 {
     const Tools::ShaderProgram& shaderProgram = mShaderPrograms[shaderType];
-    assert(shaderProgram.isInitializedProgram() && "Incorrect type of shader program.");
-    shaderProgram.useProgram();
+    assert(shaderProgram.isInitialized() && "Incorrect type of shader program.");
+    shaderProgram.use();
 }
 
-Graphics::Tools::ShaderProgram& Graphics::Managers::ShaderManager::getShader(ShaderType shaderType) noexcept
+Graphics::Tools::ShaderProgram& Graphics::Managers::ShaderManager::getShader(EShaderType shaderType) noexcept
 {
     return mShaderPrograms[shaderType];
 }

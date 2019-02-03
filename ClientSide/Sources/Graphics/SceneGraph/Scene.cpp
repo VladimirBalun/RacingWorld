@@ -18,22 +18,27 @@
 
 GLvoid Graphics::SceneGraph::Scene::initScene()
 {
-    std::future<void> futureShadersInitialization =
-        std::async(std::launch::async, std::bind(&Managers::ShaderManager::initializeShaders, &mShaderManager));
     std::future<void> futureMeshesInitialization =
         std::async(std::launch::async, std::bind(&Managers::MeshManager::initializeMeshes, &mMeshManager));
+    std::future<void> futureShadersInitialization =
+        std::async(std::launch::async, std::bind(&Managers::ShaderManager::initializeShaders, &mShaderManager));
 
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.3f, 0.7f, 0.9f, 1.0f);
     glViewport(0, 0, mSceneWidth, mSceneHeight);
 
-    futureShadersInitialization.wait();
     futureMeshesInitialization.wait();
+    SceneGraphBuilder sceneGraphBuilder(mMeshManager);
+    mRootNode = sceneGraphBuilder.build();
+    futureShadersInitialization.wait();
 }
 
 GLvoid Graphics::SceneGraph::Scene::renderScene()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    if (mRootNode->isExistChildren())
+        mRootNode->childrenForEach([](Node* child) {});
 
     glFinish();
     SwapBuffers(mWindowContext);

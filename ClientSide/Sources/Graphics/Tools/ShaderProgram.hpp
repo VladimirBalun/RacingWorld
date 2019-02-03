@@ -30,13 +30,15 @@ namespace Graphics { namespace Tools {
     class ShaderProgram 
     {
     public:
-        explicit ShaderProgram() = default;
-        explicit ShaderProgram(Memory::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName);
+        ShaderProgram() = default;
+        ShaderProgram(const ShaderProgram& anotherShaderProgram)
+            : mProgramID(anotherShaderProgram.mProgramID) {}
+        ShaderProgram(Memory::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName);
         ~ShaderProgram();
 
-        GLvoid useProgram() const noexcept;
-        GLuint getProgram() const noexcept;
-        GLboolean isInitializedProgram() const noexcept;
+        GLvoid use() const noexcept;
+        GLuint getProgramID() const noexcept;
+        GLboolean isInitialized() const noexcept;
 
         template<typename Type>
         GLvoid setUniform(const char* name, Type value) const noexcept;
@@ -59,7 +61,7 @@ namespace Graphics { namespace Tools {
         GLuint getAttributeLocation(const char* name) const noexcept;
         GLuint getUniformLocation(const char* name) const noexcept;
     private:
-        GLuint mProgram = 0;
+        GLuint mProgramID = 0;
     };
 
 }}

@@ -25,11 +25,16 @@ namespace Graphics { namespace SceneGraph {
     class Node : public Memory::IAllocatable
     {
     public:
-        Node(const Components::Mesh& mesh) : mMesh(mesh) {}
         GLvoid removeChildren() noexcept;
         GLvoid addChild(Node* child) noexcept;
-        const Math::Matrix4x4<GLfloat>& getTransformation() noexcept;
+        GLvoid setMesh(Components::Mesh mesh) noexcept;
         GLvoid setTransformation(const Math::Matrix4x4<GLfloat>& transformation) noexcept;
+
+        Components::Mesh getMesh() noexcept;
+        GLboolean isExistMesh() const noexcept;
+        GLboolean isExistChildren() const noexcept;
+        Math::Matrix4x4<GLfloat>& getTransformation() noexcept;
+        GLvoid childrenForEach(GLvoid(*callback)(Node* child)) noexcept;
     private:
         Components::Mesh mMesh;
         Node* mChild = nullptr;

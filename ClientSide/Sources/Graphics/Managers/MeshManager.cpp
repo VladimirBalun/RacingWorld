@@ -16,7 +16,22 @@
 
 #include "MeshManager.hpp"
 
-GLvoid Graphics::Managers::MeshManager::initializeMeshes() 
+GLvoid Graphics::Managers::MeshManager::initializeMeshes() noexcept
 {
+    Memory::LinearAllocator meshesAllocator(32768); // Temp size for allocator
+    mMeshes[CUBE] = createMesh(meshesAllocator, "Cube.obj");
+    mIsInitialized = true;
+}
 
+Graphics::Components::Mesh Graphics::Managers::MeshManager::createMesh(Memory::LinearAllocator& allocator, const char* modelName) const noexcept
+{
+    const char* modelsPath = Configuration::getModelsPath();
+    char* modelPath = Utils::createStringFromStrings(strlen(modelsPath) + strlen(modelName) + 1,
+        std::bind(&Memory::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2), modelsPath, modelName);
+    return Tools::ObjParser::parse(modelPath, allocator);
+}
+
+Graphics::Components::Mesh& Graphics::Managers::MeshManager::getMesh(EMeshType meshType) noexcept
+{
+    return mMeshes[meshType];
 }

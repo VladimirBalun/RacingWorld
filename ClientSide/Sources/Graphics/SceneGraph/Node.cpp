@@ -32,12 +32,39 @@ GLvoid Graphics::SceneGraph::Node::addChild(Node* child) noexcept
     mNextNode = child;
 }
 
-const Math::Matrix4x4<GLfloat>& Graphics::SceneGraph::Node::getTransformation() noexcept 
+GLvoid Graphics::SceneGraph::Node::setMesh(Components::Mesh mesh) noexcept
 {
-    return mTransformation;
+    mMesh = mesh;
 }
 
 GLvoid Graphics::SceneGraph::Node::setTransformation(const Math::Matrix4x4<GLfloat>& transformation) noexcept
 {
     mTransformation = transformation;
+}
+
+Graphics::Components::Mesh Graphics::SceneGraph::Node::getMesh() noexcept
+{
+    return mMesh;
+}
+
+GLboolean Graphics::SceneGraph::Node::isExistMesh() const noexcept
+{
+    return mMesh.isInitialized();
+}
+
+GLboolean Graphics::SceneGraph::Node::isExistChildren() const noexcept
+{
+    return mChild != nullptr;
+}
+
+Math::Matrix4x4<GLfloat>& Graphics::SceneGraph::Node::getTransformation() noexcept 
+{
+    return mTransformation;
+}
+
+GLvoid Graphics::SceneGraph::Node::childrenForEach(GLvoid(*callback)(Node* child)) noexcept
+{
+    Node* iterator = mChild;
+    while (iterator)
+        callback(iterator);
 }

@@ -21,9 +21,9 @@
 #define MAX_COUNT_NORMALS              50
 #define MAX_COUNT_FACE_ELEMENT_INDEXES 100
 
-Graphics::Components::Mesh Utils::ObjParser::parse(const char* objFileName, Memory::LinearAllocator& allocator) noexcept
+Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFileName, Memory::LinearAllocator& allocator) noexcept
 {
-    std::uint16_t countIndexes = 1;
+    std::uint16_t countVertices = 1;
     std::uint16_t countTextureCoordinates = 1;
     std::uint16_t countNormals = 1;
     std::uint16_t countElementIndexes = 1;
@@ -33,15 +33,15 @@ Graphics::Components::Mesh Utils::ObjParser::parse(const char* objFileName, Memo
     Math::Vector3f normals[MAX_COUNT_NORMALS];
     Math::Vector3i faceElementIndexes[MAX_COUNT_FACE_ELEMENT_INDEXES]; // (0) - vertex, (1) - texture coordinate, (2) - normal
 
-    char* buffer = readFile(objFileName, std::bind(&Memory::LinearAllocator::allocate, 
+    char* buffer = Utils::readFile(objFileName, std::bind(&Memory::LinearAllocator::allocate, 
         &allocator, std::placeholders::_1, std::placeholders::_2));
     char* symbolIterator = buffer;
     while (*symbolIterator != '\0') 
     {
         if (strncmp(symbolIterator, "v ", 2) == 0)
         {
-            parseVertices(symbolIterator + 2, vertices + countIndexes);
-            assert(++countIndexes <= MAX_COUNT_VERTICES &&
+            parseVertices(symbolIterator + 2, vertices + countVertices);
+            assert(++countVertices <= MAX_COUNT_VERTICES &&
                 "Vertices in the file more than size of buffer.");
         }
         else if (strncmp(symbolIterator, "vt ", 3) == 0)
@@ -65,10 +65,10 @@ Graphics::Components::Mesh Utils::ObjParser::parse(const char* objFileName, Memo
         symbolIterator++;
     }
 
-    return createMesh(vertices, textureCoordinates, normals, faceElementIndexes, countElementIndexes - 1, allocator);
+    return createMesh(vertices, textureCoordinates, normals, faceElementIndexes, countElementIndexes, allocator);
 }
 
-void Utils::ObjParser::parseVertices(const char* line, Math::Vector4f* vertices) noexcept
+void Graphics::Tools::ObjParser::parseVertices(const char* line, Math::Vector4f* vertices) noexcept
 {
     float xPos = 0.0f;
     float yPos = 0.0f;
@@ -78,7 +78,7 @@ void Utils::ObjParser::parseVertices(const char* line, Math::Vector4f* vertices)
     *vertices = { xPos, yPos, zPos, wPos };
 }
 
-void Utils::ObjParser::parseTextureCoordinates(const char* line, Math::Vector2f* textureCoordinates) noexcept
+void Graphics::Tools::ObjParser::parseTextureCoordinates(const char* line, Math::Vector2f* textureCoordinates) noexcept
 {
     float vPos = 0.0f;
     float uPos = 0.0f;
@@ -86,7 +86,7 @@ void Utils::ObjParser::parseTextureCoordinates(const char* line, Math::Vector2f*
     *textureCoordinates = { vPos, uPos };
 }
 
-void Utils::ObjParser::parseNormals(const char* line, Math::Vector3f* normals) noexcept
+void Graphics::Tools::ObjParser::parseNormals(const char* line, Math::Vector3f* normals) noexcept
 {
     float xPos = 0.0f;
     float yPos = 0.0f;
@@ -95,11 +95,11 @@ void Utils::ObjParser::parseNormals(const char* line, Math::Vector3f* normals) n
     *normals = { xPos, yPos, zPos };
 }
 
-void Utils::ObjParser::parseFaceElementIndexes(const char* line, Math::Vector3i* faceElementIndexes) noexcept
+void Graphics::Tools::ObjParser::parseFaceElementIndexes(const char* line, Math::Vector3i* faceElementIndexes) noexcept
 {
-    int vertexIndex[2] = { 0 };
-    int normalIndex[2] = { 0 };
-    int textureCoordinateIndex[2] = { 0 };
+    int vertexIndex[3] = { 0 };
+    int normalIndex[3] = { 0 };
+    int textureCoordinateIndex[3] = { 0 };
     sscanf_s(line, "%i/%i/%i %i/%i/%i %i/%i/%i", 
         &vertexIndex[0], &normalIndex[0], &textureCoordinateIndex[0],
         &vertexIndex[1], &normalIndex[1], &textureCoordinateIndex[1],
@@ -109,12 +109,12 @@ void Utils::ObjParser::parseFaceElementIndexes(const char* line, Math::Vector3i*
     *(faceElementIndexes + 2) = { vertexIndex[2], normalIndex[2], textureCoordinateIndex[2] };
 }
 
-Graphics::Components::Mesh Utils::ObjParser::createMesh(const Math::Vector4f* vertices, const Math::Vector2f* textureCoordinates,
+Graphics::Components::Mesh Graphics::Tools::ObjParser::createMesh(const Math::Vector4f* vertices, const Math::Vector2f* textureCoordinates,
     const Math::Vector3f* normals, const Math::Vector3i* faceElementIndexes, std::size_t countFaceElementIndexes, Memory::LinearAllocator& allocator) noexcept
 {
     std::size_t memorySizeForMeshElements = countFaceElementIndexes * (Graphics::Components::Mesh::SIZE_ELEMENT * sizeof(float));
     float* meshElements = reinterpret_cast<float*>(allocator.allocate(memorySizeForMeshElements));
-    for (std::uint16_t i = 0; i < countFaceElementIndexes; i++)
+    for (std::uint16_t i = 1; i < countFaceElementIndexes; i++)
     {
         int vertexIndex = faceElementIndexes[i].getX();
         int normalIndex = faceElementIndexes[i].getY();
@@ -123,5 +123,5 @@ Graphics::Components::Mesh Utils::ObjParser::createMesh(const Math::Vector4f* ve
         textureCoordinates[normalIndex].toArray(&meshElements[i] + Graphics::Components::Mesh::ALIGNMENT_TEXTURE_COORDINATE * sizeof(float));
         normals[textureCoordinateIndex].toArray(&meshElements[i] + Graphics::Components::Mesh::ALIGNMENT_NORMAL * sizeof(float));
     }
-    return Graphics::Components::Mesh(meshElements, countFaceElementIndexes);
+    return Components::Mesh(meshElements, countFaceElementIndexes);
 }

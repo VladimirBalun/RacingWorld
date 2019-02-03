@@ -26,8 +26,8 @@ Graphics::Tools::ShaderProgram::ShaderProgram(Memory::LinearAllocator& allocator
     const GLuint vertexShader = compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
     const GLuint fragmantShader = compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
     linkShaders(vertexShader, fragmantShader);
-    glDetachShader(mProgram, vertexShader);
-    glDetachShader(mProgram, fragmantShader);
+    glDetachShader(mProgramID, vertexShader);
+    glDetachShader(mProgramID, fragmantShader);
     glDeleteShader(vertexShader);
     glDeleteShader(fragmantShader);
 }
@@ -51,48 +51,48 @@ GLuint Graphics::Tools::ShaderProgram::compileShader(const char* shaderSourceCod
 GLvoid Graphics::Tools::ShaderProgram::linkShaders(GLuint vertexShader, GLuint fragmentShader) noexcept
 {
     GLint isLinkedShaders;
-    mProgram = glCreateProgram();
-    glAttachShader(mProgram, vertexShader);
-    glAttachShader(mProgram, fragmentShader);
-    glLinkProgram(mProgram);
-    glGetProgramiv(mProgram, GL_LINK_STATUS, &isLinkedShaders);
+    mProgramID = glCreateProgram();
+    glAttachShader(mProgramID, vertexShader);
+    glAttachShader(mProgramID, fragmentShader);
+    glLinkProgram(mProgramID);
+    glGetProgramiv(mProgramID, GL_LINK_STATUS, &isLinkedShaders);
     if (!isLinkedShaders) 
     {
         GLchar errorLog[512];
-        glGetProgramInfoLog(mProgram, 512, NULL, errorLog);
+        glGetProgramInfoLog(mProgramID, 512, NULL, errorLog);
         LOG_WARNING(errorLog);
     }
 }
 
-GLboolean Graphics::Tools::ShaderProgram::isInitializedProgram() const noexcept
+GLboolean Graphics::Tools::ShaderProgram::isInitialized() const noexcept
 {
-    return mProgram != 0;
+    return mProgramID != 0;
 }
 
-GLvoid Graphics::Tools::ShaderProgram::useProgram() const noexcept
+GLvoid Graphics::Tools::ShaderProgram::use() const noexcept
 {
-    glUseProgram(mProgram);
+    glUseProgram(mProgramID);
 }
 
-GLuint Graphics::Tools::ShaderProgram::getProgram() const noexcept
+GLuint Graphics::Tools::ShaderProgram::getProgramID() const noexcept
 {
-    return mProgram;
+    return mProgramID;
 }
 
 GLuint Graphics::Tools::ShaderProgram::getAttributeLocation(const char* name) const noexcept
 {
-    return glGetAttribLocation(mProgram, name);
+    return glGetAttribLocation(mProgramID, name);
 }
 
 GLuint Graphics::Tools::ShaderProgram::getUniformLocation(const char* name) const noexcept
 {
-    return glGetUniformLocation(mProgram, name);
+    return glGetUniformLocation(mProgramID, name);
 }
 
 template<typename Type>
 GLvoid Graphics::Tools::ShaderProgram::setUniform(const char* name, Type value) const noexcept
 {
-    glUseProgram(mProgram);
+    glUseProgram(mProgramID);
     if constexpr (std::is_same<Type, GLfloat>::value)
         glUniform1f(getUniformLocation(name), value);
     else if constexpr (std::is_same<Type, GLdouble>::value)
@@ -106,7 +106,7 @@ GLvoid Graphics::Tools::ShaderProgram::setUniform(const char* name, Type value) 
 template<typename Type>
 GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector2<Type> &vector) const noexcept
 {
-    glUseProgram(mProgram);
+    glUseProgram(mProgramID);
     if constexpr (std::is_same<Type, GLfloat>::value)
         glUniform2f(getUniformLocation(name), vector.getX(), vector.getY());
     else if constexpr (std::is_same<Type, GLdouble>::value)
@@ -118,7 +118,7 @@ GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const 
 template<typename Type>
 GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector3<Type>& vector) const noexcept
 {
-    glUseProgram(mProgram);
+    glUseProgram(mProgramID);
     if constexpr (std::is_same<Type, GLfloat>::value)
         glUniform3f(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ());
     else if constexpr (std::is_same<Type, GLdouble>::value)
@@ -130,7 +130,7 @@ GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const 
 template<typename Type>
 GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector4<Type>& vector) const noexcept
 {
-    glUseProgram(mProgram);
+    glUseProgram(mProgramID);
     if constexpr (std::is_same<Type, GLfloat>::value)
         glUniform4f(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ(), vector.getW());
     else if constexpr (std::is_same<Type, GLdouble>::value)
@@ -142,7 +142,7 @@ GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const 
 template<typename Type>
 GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix2x2<Type>& matrix) const noexcept
 {
-    glUseProgram(mProgram);
+    glUseProgram(mProgramID);
     Type array[Math::Matrix2x2<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)
@@ -154,7 +154,7 @@ GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const 
 template<typename Type>
 GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix3x3<Type>& matrix) const noexcept
 {
-    glUseProgram(mProgram);
+    glUseProgram(mProgramID);
     Type array[Math::Matrix3x3<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)
@@ -166,7 +166,7 @@ GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const 
 template<typename Type>
 GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix4x4<Type>& matrix) const noexcept
 {
-    glUseProgram(mProgram);
+    glUseProgram(mProgramID);
     Type array[Math::Matrix4x4<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)
@@ -177,7 +177,7 @@ GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const 
 
 Graphics::Tools::ShaderProgram::~ShaderProgram()
 {
-    glDeleteProgram(mProgram);
+    glDeleteProgram(mProgramID);
 }
 
 template GLvoid Graphics::Tools::ShaderProgram::setUniform<GLfloat>(const char* name, GLfloat value) const noexcept;

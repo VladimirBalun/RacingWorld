@@ -24,6 +24,12 @@
 #include "IAllocatable.hpp"
 #include "INonCopyable.hpp"
 
+#define ONE_VIRTUAL_PAGE    1
+#define TWO_VIRTUAL_PAGES   2
+#define THREE_VIRTUAL_PAGES 3
+#define FOUR_VIRTUAL_PAGES  4
+#define FIVE_VIRTUAL_PAGES  5
+
 namespace Memory {
 
     // Abstract class

@@ -19,28 +19,22 @@
 #include <future>
 
 #include "Node.hpp"
-#include "SceneGraphBuilder.hpp"
 #include "../OpenGL.hpp"
 #include "../Managers/MeshManager.hpp"
 #include "../Managers/ShaderManager.hpp"
+#include "../../Memory/LinearAllocator.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
-    class Scene
+    class SceneGraphBuilder 
     {
     public:
-        explicit Scene(HDC& windowContext, GLint sceneWidth, GLint sceneHeight)
-            : mWindowContext(windowContext), mSceneWidth(sceneWidth), mSceneHeight(sceneHeight) {}
-        GLvoid initScene();
-        GLvoid renderScene();
-        GLvoid updateScene();
+        explicit SceneGraphBuilder(Managers::MeshManager& meshManager) :
+            mMeshManager(meshManager), mAllocator(32768) {} // temp size for allocator
+        Node* build() noexcept;
     private:
-        Node* mRootNode;
-        HDC& mWindowContext;
-        GLint mSceneWidth;
-        GLint mSceneHeight;
-        Managers::MeshManager mMeshManager;
-        Managers::ShaderManager mShaderManager;
+        Memory::LinearAllocator mAllocator;
+        Managers::MeshManager& mMeshManager;
     };
 
-}}
+} }

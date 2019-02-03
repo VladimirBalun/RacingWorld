@@ -17,14 +17,29 @@
 #pragma once
 
 #include "../OpenGL.hpp"
-#include "../../Memory/INonCopyable.hpp"
+#include "../Components/Mesh.hpp"
+#include "../Tools/ObjParser.hpp"
+#include "../../Utils/Configuration.hpp"
+#include "../../Memory/LinearAllocator.hpp"
 
 namespace Graphics { namespace Managers {
+
+    enum EMeshType 
+    {
+        CUBE,
+        COUNT_MESH_TYPES // Used for setting size of meshes array 
+    };
 
     class MeshManager : Memory::INonCopyable
     {
     public:
-        GLvoid initializeMeshes();
+        GLvoid initializeMeshes() noexcept;
+        Components::Mesh& getMesh(EMeshType meshType) noexcept;
+    private:
+        Components::Mesh createMesh(Memory::LinearAllocator& allocator, const char* modelPath) const noexcept;
+    private:
+        bool mIsInitialized;
+        Components::Mesh mMeshes[COUNT_MESH_TYPES];
     };
 
 } }

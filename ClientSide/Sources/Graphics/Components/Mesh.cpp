@@ -16,6 +16,16 @@
 
 #include "Mesh.hpp"
 
+Graphics::Components::Mesh::Mesh(const Mesh& anotherMesh)
+{
+    mVBO = anotherMesh.mVBO;
+    mVAO = anotherMesh.mVAO;
+    mPosition = anotherMesh.mPosition;
+    mElements = anotherMesh.mElements;
+    mCountElements = anotherMesh.mCountElements;
+    mIsInitialized = true;
+}
+
 Graphics::Components::Mesh::Mesh(GLfloat* elements, std::size_t countElements) :
     mElements(elements), mCountElements(countElements)
 {
@@ -39,9 +49,20 @@ Graphics::Components::Mesh::Mesh(GLfloat* elements, std::size_t countElements) :
 
     glBindVertexArray(NULL);
     glBindBuffer(GL_ARRAY_BUFFER, NULL);
+    mIsInitialized = true;
 }
 
-GLvoid Graphics::Components::Mesh::draw()
+GLboolean Graphics::Components::Mesh::isInitialized() const noexcept
+{
+    return mIsInitialized;
+}
+
+Math::Vector4f& Graphics::Components::Mesh::getPosition() noexcept
+{
+    return mPosition;
+}
+
+GLvoid Graphics::Components::Mesh::draw() const noexcept
 {
     glBindVertexArray(mVAO);
     glDrawArrays(GL_TRIANGLES, 0, mCountElements);

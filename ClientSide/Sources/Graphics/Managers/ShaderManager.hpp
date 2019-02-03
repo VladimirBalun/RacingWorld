@@ -24,7 +24,7 @@
 
 namespace Graphics { namespace Managers {
 
-    enum ShaderType 
+    enum EShaderType 
     {
         BASE_SHADER,
         BASE_SHADER2,
@@ -36,8 +36,8 @@ namespace Graphics { namespace Managers {
     {
     public:
         GLvoid initializeShaders() noexcept;
-        GLvoid useShaderProgram(ShaderType shaderType) const noexcept;
-        Tools::ShaderProgram& getShader(ShaderType shaderType) noexcept;
+        GLvoid useShaderProgram(EShaderType shaderType) const noexcept;
+        Tools::ShaderProgram& getShader(EShaderType shaderType) noexcept;
     private: 
         Tools::ShaderProgram createShader(Memory::LinearAllocator& allocator, const char* vShaderPath, const char* fShaderPath) const noexcept;
     private:
