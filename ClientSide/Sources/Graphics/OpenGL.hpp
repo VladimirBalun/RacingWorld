@@ -24,6 +24,8 @@
 #include <GL/glext.h>
 #include <GL/wglext.h>
 
+#include "../Utils/Debug.hpp"
+
 GLvoid initOpenGL();
 
 // GL_VERSION_1_2

@@ -24,7 +24,7 @@ Memory::MemoryManager& Memory::MemoryManager::getInstance()
 
 Memory::MemoryManager::MemoryManager() 
 {
-    *mVirtualPages = VirtualAlloc(NULL, VIRTUAL_PAGE_SIZE * COUNT_ALLOCATED_PAGES, MEM_RESERVE, PAGE_READWRITE);
+    *mVirtualPages = malloc(VIRTUAL_PAGE_SIZE * COUNT_ALLOCATED_PAGES);
     std::size_t basePointerAddress = reinterpret_cast<std::size_t>(*mVirtualPages);
     for (std::uint8_t i = 1; i < COUNT_ALLOCATED_PAGES; i++) 
         mVirtualPages[i] = reinterpret_cast<void*>(basePointerAddress + (VIRTUAL_PAGE_SIZE * i));
@@ -45,16 +45,22 @@ void* Memory::MemoryManager::getMemoryPage()
     assert(false && "Out of memory. Memory manager doesn't have more pages.");
 }
 
+#include <iostream>
+
 void Memory::MemoryManager::returnMemoryPage(void* pointer)
 {
+    bool isReleasedPage;
     std::lock_guard<std::mutex> lock(mMutex);
     for (std::uint8_t i = 1; i < COUNT_ALLOCATED_PAGES; i++)
     {
-        if (mVirtualPages[i] == pointer)
+        if ((std::size_t) mVirtualPages[i] == (std::size_t) pointer)
+        {
             mUsedPages[i] = PAGE_NOT_USED;
+            isReleasedPage = true;
+        }
     }
 
-    assert(false && "Incorrect addres of memory page.");
+    assert(isReleasedPage && "Incorrect addres of memory page.");
 }
 
 Memory::MemoryManager::~MemoryManager() 

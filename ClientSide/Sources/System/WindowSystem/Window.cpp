@@ -74,8 +74,8 @@ void Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowW
     if (!networkManager.initializePosition())
         throw std::runtime_error("Initialization of position is failure.");
 
-    Graphics::SceneGraph::Scene scene(mWindowContext, windowWidth, windowHeight);
-    scene.initScene();
+    Graphics::SceneGraph::Scene scene(mWindowContext);
+    scene.init(windowWidth, windowHeight);
 
     // Game loop
     while (mWindowEvent.message != WM_QUIT)
@@ -86,8 +86,8 @@ void Platforms::WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowW
             DispatchMessage(&mWindowEvent);
         }
 
-        scene.updateScene();
-        scene.renderScene();
+        scene.update();
+        scene.render();
     }
 }
 

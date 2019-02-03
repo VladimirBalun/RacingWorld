@@ -15,7 +15,6 @@
  */
 
 #include "OpenGL.hpp"
-#include "../Utils/Logger.hpp"
 
 PFNGLDRAWRANGEELEMENTSPROC __glDrawRangeElements = nullptr;
 PFNGLTEXIMAGE3DPROC __glTexImage3D = nullptr;

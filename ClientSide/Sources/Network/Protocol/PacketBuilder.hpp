@@ -26,8 +26,8 @@ namespace Network { namespace Protocol {
     class PacketBuilder 
     {
     public:
-        explicit PacketBuilder(std::size_t memorySizeForPackets)
-            : mPacketsToServerAllocator(memorySizeForPackets / 2), mPacketsFromServerAllocator(memorySizeForPackets / 2) {}
+        explicit PacketBuilder()
+            : mPacketsToServerAllocator(ONE_VIRTUAL_PAGE), mPacketsFromServerAllocator(ONE_VIRTUAL_PAGE) {}
         template<typename PacketType>
         PacketType* createPacketToServer() noexcept;
         template<typename PacketType>
@@ -41,7 +41,7 @@ namespace Network { namespace Protocol {
     PacketType* PacketBuilder::createPacketToServer() noexcept
     {
         // static_assert(std::is_base_of<IPacketToServer, PacketType>::value, "Incorrect packet to server type.");
-        Memory::IAllocatable* memoryForPacket = mPacketsToServerAllocator.allocate(sizeof(PacketType), sizeof(PacketType));
+        void* memoryForPacket = mPacketsToServerAllocator.allocate(sizeof(PacketType), sizeof(PacketType));
         PacketType* packet = new (memoryForPacket) PacketType();
         return packet;
     }
@@ -50,7 +50,7 @@ namespace Network { namespace Protocol {
     PacketType* PacketBuilder::createPacketFromServer() noexcept
     {
         // static_assert(std::is_base_of<IPacketFromServer, PacketType>::value, "Incorrect packet from server type.");
-        Memory::IAllocatable* memoryForPacket = mPacketsToServerAllocator.allocate(sizeof(PacketType), sizeof(PacketType));
+        void* memoryForPacket = mPacketsToServerAllocator.allocate(sizeof(PacketType), sizeof(PacketType));
         PacketType* packet = new (memoryForPacket) PacketType();
         return packet;
     }

@@ -32,7 +32,7 @@ namespace Graphics { namespace SceneGraph {
     {
     public:
         explicit Scene(HDC& windowContext)
-            : mWindowContext(windowContext), mSceneGraphAllocator(32768) {} // temp size for allocator
+            : mWindowContext(windowContext), mSceneGraphAllocator(ONE_VIRTUAL_PAGE) {}
         GLvoid init(GLint sceneWidth, GLint sceneHeight);
         GLvoid render();
         GLvoid update();

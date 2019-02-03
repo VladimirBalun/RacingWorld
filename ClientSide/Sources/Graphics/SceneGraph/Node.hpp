@@ -18,11 +18,10 @@
 
 #include "../Components/Mesh.hpp"
 #include "../../Math/Matrices/Matrix4x4.hpp"
-#include "../../Memory/IAllocatable.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
-    class Node : public Memory::IAllocatable
+    class Node
     {
     public:
         GLvoid removeChildren() noexcept;
@@ -37,7 +36,7 @@ namespace Graphics { namespace SceneGraph {
         GLvoid childrenForEach(GLvoid(*callback)(Node* child)) noexcept;
     private:
         Components::Mesh mMesh;
-        Node* mChild = nullptr;
+        Node* mChild= nullptr;
         Node* mNextNode = nullptr;
         Math::Matrix4x4<GLfloat> mTransformation;
     };

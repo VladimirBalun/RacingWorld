@@ -30,7 +30,7 @@ namespace Network {
     {
     public:
         explicit NetworkManager()
-            : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT), mPacketBuilder(8192) {}
+            : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
         bool login();
         bool initializePosition();
     private:

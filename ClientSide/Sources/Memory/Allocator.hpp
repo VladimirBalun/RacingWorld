@@ -16,13 +16,11 @@
 
 #pragma once
 
+#include <cstdio>
 #include <cstdlib>
-#include <cassert>
-#include <iostream>
-#include <algorithm>
 
-#include "IAllocatable.hpp"
 #include "INonCopyable.hpp"
+#include "MemoryManager.hpp"
 
 #define ONE_VIRTUAL_PAGE    1
 #define TWO_VIRTUAL_PAGES   2
@@ -42,19 +40,19 @@ namespace Memory {
         std::size_t getFullMemorySize() const noexcept;
         std::size_t getUsedMemorySize() const noexcept;
         std::size_t getFreeMemorySize() const noexcept;
-        IAllocatable* allocate(std::size_t size, std::size_t alignment) noexcept;
-        void deallocate(IAllocatable* pointer) noexcept;
+        void* allocate(std::size_t size, std::size_t alignment) noexcept;
+        void deallocate(void* pointer) noexcept;
         void reset() noexcept;
     protected:
         std::size_t mSize = 0;
         std::size_t mOffset = 0;
-        IAllocatable* mpBasePointer = nullptr;
+        void* mBasePointer = nullptr;
     };
 
     template<class AllocatorType>
     std::size_t Allocator<AllocatorType>::getFullMemorySize() const noexcept
     {
-        return mSize;
+        return mSize * VIRTUAL_PAGE_SIZE;
     }
 
     template<class AllocatorType>
@@ -70,13 +68,13 @@ namespace Memory {
     }
 
     template<class AllocatorType>
-    IAllocatable* Allocator<AllocatorType>::allocate(std::size_t size, std::size_t alignment) noexcept
+    void* Allocator<AllocatorType>::allocate(std::size_t size, std::size_t alignment) noexcept
     {
         return static_cast<AllocatorType*>(this)->allocate(size, alignment);
     }
 
     template<class AllocatorType>
-    void Allocator<AllocatorType>::deallocate(IAllocatable* pointer) noexcept
+    void Allocator<AllocatorType>::deallocate(void* pointer) noexcept
     {
         static_cast<AllocatorType*>(this)->free(pointer);
     }
@@ -86,5 +84,19 @@ namespace Memory {
     {
         static_cast<AllocatorType*>(this)->reset();
     }
+
+    #ifdef _DEBUG
+
+    template<typename AllocatorType>
+    __forceinline void showAllocatorMemoryState(const Allocator<AllocatorType>& allocator) 
+    {
+        printf("Memory state of alllocator\n"
+               " - Full size of memory: %zu bytes\n"
+               " - Used memory: %zu bytes\n"
+               " - Free memory: %zu bytes\n",
+            allocator.getFullMemorySize(), allocator.getUsedMemorySize(), allocator.getFreeMemorySize());
+    }
+
+    #endif // _DEBUG
 
 }

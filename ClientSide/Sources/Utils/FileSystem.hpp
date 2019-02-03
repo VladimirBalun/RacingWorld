@@ -19,12 +19,12 @@
 #include <cstdio>
 #include <functional>
 
-#include "Logger.hpp"
+#include "Debug.hpp"
 #include "../Memory/Allocator.hpp"
 #include "../Memory/IAllocatable.hpp"
 
 namespace Utils {
 
-    char* readFile(const char* fullFileName, std::function<Memory::IAllocatable*(std::size_t, std::size_t)> allocateFunction) noexcept;
+    char* readFile(const char* fullFileName, std::function<void*(std::size_t, std::size_t)> allocateFunction) noexcept;
 
 }

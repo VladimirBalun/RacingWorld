@@ -39,10 +39,9 @@ namespace Utils {
     }
 
     template<typename ... SourceStrings, typename = std::enable_if_t<(std::is_convertible_v<SourceStrings, const char *> && ...)>>
-    char* createStringFromStrings(std::size_t lengthString, std::function<Memory::IAllocatable*(std::size_t, std::size_t)> allocateFunction, SourceStrings ... sourceStrings)
+    char* createStringFromStrings(std::size_t lengthString, std::function<void*(std::size_t, std::size_t)> allocateFunction, SourceStrings ... sourceStrings)
     {
-        Memory::IAllocatable* memoryForString = allocateFunction(lengthString, 0);
-        char* newString = new (memoryForString) char[lengthString];
+        char* newString = reinterpret_cast<char*>(allocateFunction(lengthString, 0));
         Utils::concatenateStringsToEmptyString(newString, lengthString, sourceStrings ...);
         return newString;
     }

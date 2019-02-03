@@ -34,7 +34,7 @@ namespace Graphics { namespace Managers {
     {
     public:
         explicit MeshManager()
-            : mMeshesAllocator(327668) {}// Temp size for allocator
+            : mMeshesAllocator(ONE_VIRTUAL_PAGE) {}
         GLvoid initializeMeshes() noexcept;
         Components::Mesh& getMesh(EMeshType meshType) noexcept;
     private:

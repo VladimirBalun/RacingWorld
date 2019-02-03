@@ -16,7 +16,7 @@
 
 #include "FileSystem.hpp"
 
-char* Utils::readFile(const char* fullFileName, std::function<Memory::IAllocatable*(std::size_t, std::size_t)> allocateFunction) noexcept
+char* Utils::readFile(const char* fullFileName, std::function<void*(std::size_t, std::size_t)> allocateFunction) noexcept
 {
     FILE* file = NULL;
     fopen_s(&file, fullFileName, "rb");

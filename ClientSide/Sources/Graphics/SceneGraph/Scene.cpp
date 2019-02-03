@@ -18,10 +18,8 @@
 
 GLvoid Graphics::SceneGraph::Scene::init(GLint sceneWidth, GLint sceneHeight)
 {
-    std::future<void> futureMeshesInitialization =
-        std::async(std::launch::async, std::bind(&Managers::MeshManager::initializeMeshes, &mMeshManager));
-    std::future<void> futureShadersInitialization =
-        std::async(std::launch::async, std::bind(&Managers::ShaderManager::initializeShaders, &mShaderManager));
+    mMeshManager.initializeMeshes();
+    mShaderManager.initializeShaders();
 
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.3f, 0.7f, 0.9f, 1.0f);
@@ -34,9 +32,7 @@ GLvoid Graphics::SceneGraph::Scene::init(GLint sceneWidth, GLint sceneHeight)
     shader.setUniformMatrix("viewMatrix", mViewMatrix);
     shader.setUniformMatrix("perspectiveMatrix", mPerspectiveMatrix);
 
-    futureMeshesInitialization.wait();
     mRootNode = SceneGraphBuilder::build(mMeshManager, mSceneGraphAllocator);
-    futureShadersInitialization.wait();
 }
 
 GLvoid Graphics::SceneGraph::Scene::render()

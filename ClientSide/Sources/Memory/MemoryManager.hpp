@@ -17,12 +17,11 @@
 #pragma once
 
 #include <mutex>
+#include <cassert>
 #include <Windows.h>
 
 #include "INonCopyable.hpp"
-#include "PoolAllocator.hpp"
-#include "StackAllocator.hpp"
-#include "LinearAllocator.hpp"
+#include "IAllocatable.hpp"
 
 #define VIRTUAL_PAGE_SIZE 4096
 #define COUNT_ALLOCATED_PAGES 25

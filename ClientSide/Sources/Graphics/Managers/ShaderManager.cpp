@@ -18,7 +18,7 @@
 
 GLvoid Graphics::Managers::ShaderManager::initializeShaders() noexcept
 {
-    Memory::LinearAllocator shadersAllocator(32768); // Temp size for allocator
+    Memory::LinearAllocator shadersAllocator(ONE_VIRTUAL_PAGE);
     mShaderPrograms[BASE_SHADER] = createShader(shadersAllocator, "BaseShader.vert", "BaseShader.frag");
     mShaderPrograms[BASE_SHADER2] = createShader(shadersAllocator, "BaseShader2.vert", "BaseShader2.frag");
 }

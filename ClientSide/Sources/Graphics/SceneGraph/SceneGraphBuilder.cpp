@@ -18,8 +18,10 @@
 
 Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::build(Managers::MeshManager& meshManager, Memory::LinearAllocator& allocator) noexcept
 {
-    Node* rootNode = reinterpret_cast<Node*>(allocator.allocate(sizeof(Node)));
-    Node* cubeNode = reinterpret_cast<Node*>(allocator.allocate(sizeof(Node)));
+    void* memoryForRootNode = allocator.allocate(sizeof(Node));
+    Node* rootNode = new (memoryForRootNode) Node;
+    void* memoryForCubeNode = allocator.allocate(sizeof(Node));
+    Node* cubeNode = new (memoryForCubeNode) Node;
 
     cubeNode->setMesh(meshManager.getMesh(Managers::CUBE));
     rootNode->addChild(cubeNode);

@@ -19,7 +19,7 @@
 #include <WinSock2.h>
 
 #include "WindowEventListener.hpp"
-#include "../../Utils/Logger.hpp"
+#include "../../Utils/Debug.hpp"
 #include "../../Network/NetworkManager.hpp"
 #include "../../Graphics/SceneGraph/Scene.hpp"
 

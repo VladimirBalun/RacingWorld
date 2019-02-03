@@ -14,5 +14,5 @@ uniform mat4 projectionMatrix;
 void main()
 {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * position;
-    fragmentColor = vec3(color.x, color.y, color.z);
+    fragmentColor = vec3(1.0f, 0.0f, 0.0f);
 }

@@ -17,15 +17,16 @@
 #pragma once
 
 #include "Allocator.hpp"
+#include "../Utils/Debug.hpp"
 
 namespace Memory {
 
     class LinearAllocator : public Allocator<LinearAllocator>
     {
     public:
-        explicit LinearAllocator(size_t memorySize);
-        IAllocatable* allocate(std::size_t size, std::size_t alignment = 0) noexcept;
-        void deallocate(IAllocatable* pointer) noexcept;
+        explicit LinearAllocator(std::size_t countVirtualPages);
+        void* allocate(std::size_t size, std::size_t alignment = 0) noexcept;
+        void deallocate(void* pointer) noexcept;
         void reset() noexcept;
         ~LinearAllocator();
     };
