@@ -23,24 +23,27 @@
 #include "../OpenGL.hpp"
 #include "../Managers/MeshManager.hpp"
 #include "../Managers/ShaderManager.hpp"
+#include "../../Math/Matrices.hpp"
+#include "../../Memory/LinearAllocator.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
     class Scene
     {
     public:
-        explicit Scene(HDC& windowContext, GLint sceneWidth, GLint sceneHeight)
-            : mWindowContext(windowContext), mSceneWidth(sceneWidth), mSceneHeight(sceneHeight) {}
-        GLvoid initScene();
-        GLvoid renderScene();
-        GLvoid updateScene();
+        explicit Scene(HDC& windowContext)
+            : mWindowContext(windowContext), mSceneGraphAllocator(32768) {} // temp size for allocator
+        GLvoid init(GLint sceneWidth, GLint sceneHeight);
+        GLvoid render();
+        GLvoid update();
     private:
         Node* mRootNode;
         HDC& mWindowContext;
-        GLint mSceneWidth;
-        GLint mSceneHeight;
+        Math::Matrix4x4f mViewMatrix;
+        Math::Matrix4x4f mPerspectiveMatrix;
         Managers::MeshManager mMeshManager;
         Managers::ShaderManager mShaderManager;
+        Memory::LinearAllocator mSceneGraphAllocator;
     };
 
 }}

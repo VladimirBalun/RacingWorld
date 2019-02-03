@@ -19,7 +19,7 @@
 #include <cstdint>
 #include <utility>
 
-#include "Vectors/Vector2.hpp"
+#include "../Vectors/Vector2.hpp"
 
 namespace Math {
 
@@ -56,7 +56,10 @@ namespace Math {
         static const std::uint8_t FIRST_ROW = 0;
         static const std::uint8_t SECOND_ROW = ROW_SIZE;
     private:
-        Type mElements[MATRIX_SIZE] = { 0 };
+        Type mElements[MATRIX_SIZE] = {
+            1, 0,
+            0, 1
+        };
     };
 
     template<class Type>

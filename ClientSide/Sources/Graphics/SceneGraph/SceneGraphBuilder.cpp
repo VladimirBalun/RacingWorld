@@ -16,12 +16,12 @@
 
 #include "SceneGraphBuilder.hpp"
 
-Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::build() noexcept
+Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::build(Managers::MeshManager& meshManager, Memory::LinearAllocator& allocator) noexcept
 {
-    Node* rootNode = reinterpret_cast<Node*>(mAllocator.allocate(sizeof(Node)));
-    Node* cubeNode = reinterpret_cast<Node*>(mAllocator.allocate(sizeof(Node)));
+    Node* rootNode = reinterpret_cast<Node*>(allocator.allocate(sizeof(Node)));
+    Node* cubeNode = reinterpret_cast<Node*>(allocator.allocate(sizeof(Node)));
 
-    cubeNode->setMesh(mMeshManager.getMesh(Managers::CUBE));
+    cubeNode->setMesh(meshManager.getMesh(Managers::CUBE));
     rootNode->addChild(cubeNode);
 
     return rootNode;

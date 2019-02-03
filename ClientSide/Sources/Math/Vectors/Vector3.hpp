@@ -224,35 +224,35 @@ namespace Math {
     template<class Type>
     Vector3<Type> operator + (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept
     {
-        return Vector3<Type>(vector.mX + anotherVector.mX, vector.mY + anotherVector.mY, vector.mZ + anotherVector.mZ);
+        return Vector3<Type>(vector.getX() + anotherVector.getX(), vector.getY() + anotherVector.getY(), vector.getZ() + anotherVector.getZ());
     }
 
     template<class Type>
     Vector3<Type> operator - (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept
     {
-        return Vector3<Type>(vector.mX - anotherVector.mX, vector.mY - anotherVector.mY, vector.mZ - anotherVector.mZ);
+        return Vector3<Type>(vector.getX() - anotherVector.getX(), vector.getY() - anotherVector.getY(), vector.getZ() - anotherVector.getZ());
     }
 
     template<class Type>
     Vector3<Type> operator * (const Vector3<Type>& vector, Type scalar) noexcept
     {
-        return Vector3<Type>(vector.mX * scalar, vector.mY * scalar, vector.mZ * scalar);
+        return Vector3<Type>(vector.getX() * scalar, vector.getY() * scalar, vector.mZ * scalar);
     }
 
     template<class Type>
     bool operator == (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept
     {
-        return ( (vector.mX == anotherVector.mX) &&
-                 (vector.mY == anotherVector.mY) &&
-                 (vector.mZ == anotherVector.mZ) );
+        return ( (vector.getX() == anotherVector.getX()) &&
+                 (vector.getY() == anotherVector.getY()) &&
+                 (vector.getZ() == anotherVector.getZ()) );
     }
 
     template<class Type>
     bool operator != (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept
     {
-        return ( (vector.mX != anotherVector.mX) ||
-                 (vector.mY != anotherVector.mY) ||
-                 (vector.mZ != anotherVector.mZ) );
+        return ( (vector.getX() != anotherVector.getX()) ||
+                 (vector.getY() != anotherVector.getY()) ||
+                 (vector.getZ() != anotherVector.getZ()) );
     }
 
 } 

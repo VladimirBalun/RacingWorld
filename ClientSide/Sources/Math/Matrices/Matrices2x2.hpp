@@ -19,7 +19,7 @@
 #include <cmath>
 
 #include "Matrix2x2.hpp"
-#include "Vectors/Vector2.hpp"
+#include "../Vectors/Vector2.hpp"
 
 namespace Math {
 

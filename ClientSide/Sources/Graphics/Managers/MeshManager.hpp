@@ -33,6 +33,8 @@ namespace Graphics { namespace Managers {
     class MeshManager : Memory::INonCopyable
     {
     public:
+        explicit MeshManager()
+            : mMeshesAllocator(327668) {}// Temp size for allocator
         GLvoid initializeMeshes() noexcept;
         Components::Mesh& getMesh(EMeshType meshType) noexcept;
     private:
@@ -40,6 +42,7 @@ namespace Graphics { namespace Managers {
     private:
         bool mIsInitialized;
         Components::Mesh mMeshes[COUNT_MESH_TYPES];
+        Memory::LinearAllocator mMeshesAllocator; 
     };
 
 } }

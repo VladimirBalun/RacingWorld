@@ -19,12 +19,12 @@
 #include <cmath>
 
 #include "Matrix4x4.hpp"
-#include "Constants.hpp"
-#include "Vectors/Vector3.hpp"
+#include "../Constants.hpp"
+#include "../Vectors/Vector3.hpp"
 
 namespace Math {
 
-    template<class Type>
+    template<typename Type>
     void setIdentityMatrix(Matrix4x4<Type>& matrix) noexcept
     {
         static Type identity[] = {
@@ -36,7 +36,7 @@ namespace Math {
         matrix = identity;
     }
 
-    template<class Type>
+    template<typename Type>
     void setOrthoMatrix(Matrix4x4<Type>& matrix, Type left, Type right, Type bottom, Type top, Type znear, Type zfar) noexcept
     {
         Type ortho[] = {
@@ -48,7 +48,7 @@ namespace Math {
         matrix = ortho;
     }
 
-    template<class Type>
+    template<typename Type>
     void setPerspectiveMatrix(Matrix4x4<Type>& matrix, Type fov, Type aspect, Type znear, Type zfar) noexcept
     {
         const Type yScale = static_cast<Type>(1.0 / tan(RADIANS_PER_DEGREE * fov / 2));
@@ -64,7 +64,19 @@ namespace Math {
 
     }
 
-    template<class Type>
+    template<typename Type>
+    void setLookAt(Matrix4x4<Type>& matrix, const Vector3<Type> right, const Vector3<Type> up, const Vector3<Type> direction) noexcept
+    {
+        Type lookAt[] = {
+          right.getX(), right.getY(), right.getZ(), 0.0,
+          up.getX(), up.getY(), up.getZ(), 0.0,
+          direction.getX(), direction.getY(), direction.getZ(), 0.0,
+          0.0, 0.0, 0.0, 1.0
+        };
+        matrix = lookAt;
+    }
+
+    template<typename Type>
     void setTranslationMatrix(Matrix4x4<Type>& matrix, const Vector3<Type>& vector) noexcept
     {
         Type translation[] = {
@@ -76,7 +88,7 @@ namespace Math {
         matrix = translation;
     }
     
-    template<class Type>
+    template<typename Type>
     void setTranslationMatrix(Matrix4x4<Type>& matrix, Type x, Type y, Type z) noexcept
     {
         Type translation[] = {
@@ -88,7 +100,7 @@ namespace Math {
         matrix = translation;
     }
     
-    template<class Type>
+    template<typename Type>
     void setScaleMatrix(Matrix4x4<Type>& matrix, const Vector3<Type>& vector) noexcept
     {
         Type scale[] = {
@@ -100,7 +112,7 @@ namespace Math {
         matrix = scale;
     }
 
-    template<class Type>
+    template<typename Type>
     void setScaleMatrix(Matrix4x4<Type>& matrix, Type x, Type y, Type z) noexcept
     {
         Type scale[] = {
@@ -112,7 +124,7 @@ namespace Math {
         matrix = scale;
     }
 
-    template<class Type>
+    template<typename Type>
     void setRotationMatrixByX(Matrix4x4<Type>& matrix, Type angle) noexcept
     {
         Type rotation[] = {
@@ -124,7 +136,7 @@ namespace Math {
         matrix = rotation;
     }
 
-    template<class Type>
+    template<typename Type>
     void setRotationMatrixByY(Matrix4x4<Type>& matrix, Type angle) noexcept
     {
         Type rotation[] = {
@@ -136,7 +148,7 @@ namespace Math {
         matrix = rotation;
     }
 
-    template<class Type>
+    template<typename Type>
     void setRotationMatrixByZ(Matrix4x4<Type>& matrix, Type angle) noexcept
     {
         Type rotation[] = {

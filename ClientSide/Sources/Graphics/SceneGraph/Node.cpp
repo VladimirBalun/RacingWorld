@@ -29,7 +29,7 @@ GLvoid Graphics::SceneGraph::Node::removeChildren() noexcept
 GLvoid Graphics::SceneGraph::Node::addChild(Node* child) noexcept
 {
     child->mNextNode = mNextNode;
-    mNextNode = child;
+    mChild = child;
 }
 
 GLvoid Graphics::SceneGraph::Node::setMesh(Components::Mesh mesh) noexcept
@@ -42,7 +42,7 @@ GLvoid Graphics::SceneGraph::Node::setTransformation(const Math::Matrix4x4<GLflo
     mTransformation = transformation;
 }
 
-Graphics::Components::Mesh Graphics::SceneGraph::Node::getMesh() noexcept
+Graphics::Components::Mesh& Graphics::SceneGraph::Node::getMesh() noexcept
 {
     return mMesh;
 }

@@ -18,8 +18,7 @@
 
 GLvoid Graphics::Managers::MeshManager::initializeMeshes() noexcept
 {
-    Memory::LinearAllocator meshesAllocator(32768); // Temp size for allocator
-    mMeshes[CUBE] = createMesh(meshesAllocator, "Cube.obj");
+    mMeshes[CUBE] = createMesh(mMeshesAllocator, "Cube.obj");
     mIsInitialized = true;
 }
 

@@ -18,19 +18,21 @@
 
 Graphics::Components::Mesh::Mesh(const Mesh& anotherMesh)
 {
-    mVBO = anotherMesh.mVBO;
-    mVAO = anotherMesh.mVAO;
-    mPosition = anotherMesh.mPosition;
-    mElements = anotherMesh.mElements;
-    mCountElements = anotherMesh.mCountElements;
-    mIsInitialized = true;
+    if (anotherMesh.mElements)
+    {
+        mVBO = anotherMesh.mVBO;
+        mVAO = anotherMesh.mVAO;
+        mPosition = anotherMesh.mPosition;
+        mElements = anotherMesh.mElements;
+        mCountElements = anotherMesh.mCountElements;
+    }
 }
 
 Graphics::Components::Mesh::Mesh(GLfloat* elements, std::size_t countElements) :
     mElements(elements), mCountElements(countElements)
 {
-    glGenBuffers(1, &mVBO);
     glGenVertexArrays(1, &mVAO);
+    glGenBuffers(1, &mVBO);
     glBindVertexArray(mVAO);
     glBindBuffer(GL_ARRAY_BUFFER, mVBO);
 
@@ -49,12 +51,11 @@ Graphics::Components::Mesh::Mesh(GLfloat* elements, std::size_t countElements) :
 
     glBindVertexArray(NULL);
     glBindBuffer(GL_ARRAY_BUFFER, NULL);
-    mIsInitialized = true;
 }
 
 GLboolean Graphics::Components::Mesh::isInitialized() const noexcept
 {
-    return mIsInitialized;
+    return mElements != nullptr;
 }
 
 Math::Vector4f& Graphics::Components::Mesh::getPosition() noexcept

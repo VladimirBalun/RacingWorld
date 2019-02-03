@@ -19,7 +19,7 @@
 #include <cmath>
 
 #include "Matrix3x3.hpp"
-#include "Vectors/Vector3.hpp"
+#include "../Vectors/Vector3.hpp"
 
 namespace Math {
 

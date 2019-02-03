@@ -188,33 +188,33 @@ namespace Math {
     template<class Type>
     Vector2<Type> operator + (const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept
     {
-        return Vector2<Type>(vector.mX + anotherVector.mX, vector.mY + anotherVector.mY);
+        return Vector2<Type>(vector.getX() + anotherVector.getX(), vector.getY() + anotherVector.getY());
     }
 
     template<class Type>
     Vector2<Type> operator - (const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept
     {
-        return Vector2<Type>(vector.mX - anotherVector.mX, vector.mY - anotherVector.mY);
+        return Vector2<Type>(vector.getX() - anotherVector.getX(), vector.getY() - anotherVector.getY());
     }
 
     template<class Type>
     Vector2<Type> operator * (const Vector2<Type>& vector, Type scalar) noexcept
     {
-        return Vector2<Type>(vector.mX * scalar, vector.mY * scalar);
+        return Vector2<Type>(vector.getX() * scalar, vector.mY * scalar);
     }
 
     template<class Type>
     bool operator == (const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept
     {
-        return ( (vector.mX == anotherVector.mX) &&
-                 (vector.mY == anotherVector.mY) );
+        return ( (vector.getX() == anotherVector.getX()) &&
+                 (vector.getY() == anotherVector.getY()) );
     }
 
     template<class Type>
     bool operator != (const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept
     {
-        return ( (vector.mX != anotherVector.mX) ||
-                 (vector.mY != anotherVector.mY) );
+        return ( (vector.getX() != anotherVector.getX()) ||
+                 (vector.getY() != anotherVector.getY()) );
     }
 
 }

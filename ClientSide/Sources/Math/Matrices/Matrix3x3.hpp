@@ -19,7 +19,7 @@
 #include <utility>
 #include <cstdint>
 
-#include "Vectors/Vector3.hpp"
+#include "../Vectors/Vector3.hpp"
 
 namespace Math {
 
@@ -58,7 +58,11 @@ namespace Math {
         static const std::uint8_t THIRD_ROW = ROW_SIZE + ROW_SIZE;
         static const std::uint8_t FOURTH_ROW = ROW_SIZE + ROW_SIZE + ROW_SIZE;
     private:
-        Type mElements[MATRIX_SIZE] = { 0 };
+        Type mElements[MATRIX_SIZE] = { 
+            1, 0, 0,
+            0, 1, 0,
+            0, 0, 1
+        };
     };
 
     template<class Type>

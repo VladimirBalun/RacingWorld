@@ -29,12 +29,7 @@ namespace Graphics { namespace SceneGraph {
     class SceneGraphBuilder 
     {
     public:
-        explicit SceneGraphBuilder(Managers::MeshManager& meshManager) :
-            mMeshManager(meshManager), mAllocator(32768) {} // temp size for allocator
-        Node* build() noexcept;
-    private:
-        Memory::LinearAllocator mAllocator;
-        Managers::MeshManager& mMeshManager;
+        static Node* build(Managers::MeshManager& meshManager, Memory::LinearAllocator& allocator) noexcept;
     };
 
 } }

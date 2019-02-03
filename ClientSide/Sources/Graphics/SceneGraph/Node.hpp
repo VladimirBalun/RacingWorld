@@ -30,7 +30,7 @@ namespace Graphics { namespace SceneGraph {
         GLvoid setMesh(Components::Mesh mesh) noexcept;
         GLvoid setTransformation(const Math::Matrix4x4<GLfloat>& transformation) noexcept;
 
-        Components::Mesh getMesh() noexcept;
+        Components::Mesh& getMesh() noexcept;
         GLboolean isExistMesh() const noexcept;
         GLboolean isExistChildren() const noexcept;
         Math::Matrix4x4<GLfloat>& getTransformation() noexcept;

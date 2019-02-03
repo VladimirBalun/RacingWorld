@@ -40,7 +40,6 @@ namespace Graphics { namespace Components {
     private:
         GLuint mVBO = 0;
         GLuint mVAO = 0;
-        GLboolean mIsInitialized;
         Math::Vector4f mPosition;
         std::size_t mCountElements = 0;
         GLfloat* mElements = nullptr;
