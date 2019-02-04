@@ -13,19 +13,19 @@
 # limitations under the License.
 
 #!/bin/bash
- 
+
 readonly CURRENT_PATH=$(pwd)
 readonly SERVER_SIDE_PATH=$CURRENT_PATH\..\ServerSide
 
-readonly AUTHORIZATION_SERVER_PATH=$SERVER_SIDE_PATH\authorizationServer
-readonly GAME_SERVER_PATH=$SERVER_SIDE_PATH\gameServer
+readonly AUTHORIZATION_SERVER_PATH=$SERVER_SIDE_PATH\authorization
+readonly GAME_SERVER_PATH=$SERVER_SIDE_PATH\game
 
-readonly AUTHORIZATION_SERVER_JAR=$AUTHORIZATION_SERVER_PATH\target\authorizationServer-0.0.1-SNAPSHOT-jar-with-dependencies.jar
-readonly GAME_SERVER_JAR=$GAME_SERVER_PATH\target\gameServer-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+readonly AUTHORIZATION_SERVER_JAR=$AUTHORIZATION_SERVER_PATH\target\authorization-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+readonly GAME_SERVER_JAR=$GAME_SERVER_PATH\target\game-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 echo $GAME_SERVER_JAR
 echo $AUTHORIZATION_SERVER_JAR
 
-echo "Copyright 2018 Vladimir Balun - Script to run all the servers on Windows." 
+echo "Copyright 2018 Vladimir Balun - Script to run all the servers on Windows."
 bash java -jar $AUTHORIZATION_SERVER_JAR
 bash java -jar $GAME_SERVER_JAR
