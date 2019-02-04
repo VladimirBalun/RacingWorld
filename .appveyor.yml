@@ -1,0 +1,38 @@
+# Copyright 2018 Vladimir Balun
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+image: Visual Studio 2017
+
+matrix:
+  fast_finish: false
+
+platform:
+  - x64
+  - x86
+
+clone_folder: c:\projects\RacingWorld
+
+environment:
+  matrix:
+    - TOOLCHAIN: msvc15
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+
+build_script:
+  - cd c:\projects\RacingWorld\ClientSide
+  - if "%platform%" equ "x86" (cmake CMakeLists.txt -G "Visual Studio 15 2017")
+  - if "%platform%" equ "x64" (cmake CMakeLists.txt -G "Visual Studio 15 2017 Win64")
+  - if "%platform%" equ "x86" (msbuild /m /p:Configuration=Release /p:Platform="Win32" RacingWorld.sln)
+  - if "%platform%" equ "x64" (msbuild /m /p:Configuration=Debug /p:Platform="x64" RacingWorld.sln)
+  - if "%platform%" equ "x86" (msbuild /m /p:Configuration=Release /p:Platform="Win32" RacingWorld.sln)
+  - if "%platform%" equ "x64" (msbuild /m /p:Configuration=Debug /p:Platform="x64" RacingWorld.sln)
