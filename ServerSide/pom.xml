@@ -8,13 +8,13 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>gameServer</module>
-        <module>authorizationServer</module>
+        <module>game</module>
+        <module>authorization</module>
     </modules>
 
     <packaging>pom</packaging>
     <name>serverSide</name>
-    <description>Server side RacingWorld</description>
+    <description>Server side of the RacingWorld</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
