@@ -37,7 +37,7 @@ namespace Graphics { namespace SceneGraph {
         GLvoid render();
         GLvoid update();
     private:
-        Node* mRootNode;
+        Node* mRootNode = nullptr;
         HDC& mWindowContext;
         Math::Matrix4x4f mViewMatrix;
         Math::Matrix4x4f mPerspectiveMatrix;

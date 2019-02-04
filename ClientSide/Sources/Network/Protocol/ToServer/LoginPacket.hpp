@@ -36,9 +36,9 @@ namespace Network { namespace Protocol {
         void setPasswordSize(std::int8_t passwordSize) noexcept;
         char* toBuffer() noexcept;
     private:
-        char mEmail[Configuration::Game::MAX_SIZE_EMAIL];
+        char mEmail[Configuration::Game::MAX_SIZE_EMAIL] = { 0 };
         Endianness::int16be_t mEmailSize;
-        char mPassword[Configuration::Game::MAX_SIZE_PASSWORD];
+        char mPassword[Configuration::Game::MAX_SIZE_PASSWORD] = { 0 };
         Endianness::int8be_t mPasswordSize;
     };
 

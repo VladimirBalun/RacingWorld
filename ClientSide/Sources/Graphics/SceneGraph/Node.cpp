@@ -22,7 +22,7 @@ GLvoid Graphics::SceneGraph::Node::removeChildren() noexcept
     {
         Node* tmpPoiner = mChild;
         mChild = mChild->mNextNode;
-        mChild = nullptr;
+        tmpPoiner = nullptr;
     }
 }
 

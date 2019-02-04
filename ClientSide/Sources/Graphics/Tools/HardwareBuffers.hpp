@@ -19,7 +19,7 @@
 #include <vector>
 
 #include "../OpenGL.hpp"
-#include "../../Utils/Logger.hpp"
+#include "../../Utils/Debug.hpp"
 
 
 namespace Graphics { namespace Tools {

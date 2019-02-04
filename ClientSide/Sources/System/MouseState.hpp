@@ -28,8 +28,8 @@ namespace Platforms {
         bool isPressedLeftButton() const noexcept;
         bool isPressedRightButton() const noexcept;
     private:
-        bool mIsPressedLeftButton;
-        bool mIsPressedRightButton;
+        bool mIsPressedLeftButton = false;
+        bool mIsPressedRightButton = false;
     };
 
 }

@@ -25,7 +25,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, IN
     #ifdef _DEBUG
         AllocConsole();
         AttachConsole(GetCurrentProcessId());
-        freopen("CON", "w", stdout);
+        FILE* outStream = freopen("CON", "w", stdout);
+        if (!outStream)
+            LOG_ERROR("Console was not attached to process.");
     #endif
 
     try 

@@ -34,10 +34,10 @@ namespace Platforms {
         bool isPressedKeyA() const noexcept;
         bool isPressedKeyD() const noexcept;
     private:
-        bool mIsPressedKeyW;
-        bool mIsPressedKeyS;
-        bool mIsPressedKeyA;
-        bool mIisPressedKeyD;
+        bool mIsPressedKeyW = false;
+        bool mIsPressedKeyS = false;
+        bool mIsPressedKeyA = false;
+        bool mIisPressedKeyD = false;
     };
 
 }

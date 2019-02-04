@@ -43,6 +43,7 @@ void* Memory::MemoryManager::getMemoryPage()
     }
 
     assert(false && "Out of memory. Memory manager doesn't have more pages.");
+    return nullptr; // For disable of warning
 }
 
 #include <iostream>

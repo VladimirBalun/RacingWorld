@@ -59,7 +59,8 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
         else if (strncmp(symbolIterator, "f ", 2) == 0)
         {
             parseFaceElementIndexes(symbolIterator + 2, faceElementIndexes + countElementIndexes);
-            assert((countElementIndexes += 3) <= MAX_COUNT_FACE_ELEMENT_INDEXES &&
+            countElementIndexes += 3;
+            assert(countElementIndexes <= MAX_COUNT_FACE_ELEMENT_INDEXES &&
                 "Face element indexes in the file more than size of buffer.");
         }
         symbolIterator++;

@@ -40,7 +40,7 @@ namespace Graphics { namespace Managers {
     private:
         Components::Mesh createMesh(Memory::LinearAllocator& allocator, const char* modelPath) const noexcept;
     private:
-        bool mIsInitialized;
+        bool mIsInitialized = false;
         Components::Mesh mMeshes[COUNT_MESH_TYPES];
         Memory::LinearAllocator mMeshesAllocator; 
     };
