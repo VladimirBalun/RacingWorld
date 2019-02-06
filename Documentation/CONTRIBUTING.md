@@ -27,7 +27,9 @@ Adhering to the following process is the best way to get your work included in t
 
        git checkout -b <topic-branch-name>
 
-4. Commit your changes in logical chunks. Use Git's interactive rebase feature to tidy up your commits before making them public.
+4. Commit your changes in logical chunks(but before commit read our
+ <a href="./COMMITS_STYLE_CONVENTION.md">commits style guide</a>). Use Git's interactive rebase 
+ feature to tidy up your commits before making them public.
 
 5. Locally rebase the upstream development branch into your topic branch:
 
