@@ -27,6 +27,7 @@ namespace Graphics { namespace Components {
         Mesh() = default;
         Mesh(const Mesh& anotherMesh);
         Mesh(GLfloat* elements, std::size_t countElements);
+        Mesh& operator = (const Mesh& anotherMesh);
         GLboolean isInitialized() const noexcept;
         Math::Vector4f& getPosition() noexcept;
         GLvoid draw() const noexcept;

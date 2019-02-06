@@ -50,7 +50,7 @@ namespace Network { namespace Protocol {
     PacketType* PacketBuilder::createPacketFromServer() noexcept
     {
         // static_assert(std::is_base_of<IPacketFromServer, PacketType>::value, "Incorrect packet from server type.");
-        void* memoryForPacket = mPacketsToServerAllocator.allocate(sizeof(PacketType), sizeof(PacketType));
+        void* memoryForPacket = mPacketsFromServerAllocator.allocate(sizeof(PacketType), sizeof(PacketType));
         PacketType* packet = new (memoryForPacket) PacketType();
         return packet;
     }

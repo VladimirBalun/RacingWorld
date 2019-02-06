@@ -19,11 +19,7 @@
 GLvoid Graphics::SceneGraph::Node::removeChildren() noexcept
 {
     while (mChild)
-    {
-        Node* tmpPoiner = mChild;
         mChild = mChild->mNextNode;
-        tmpPoiner = nullptr;
-    }
 }
 
 GLvoid Graphics::SceneGraph::Node::addChild(Node* child) noexcept

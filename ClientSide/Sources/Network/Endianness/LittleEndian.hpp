@@ -32,6 +32,7 @@ namespace Network { namespace Endianness {
         LittleEndian(Type value = Type());
         LittleEndian(const LittleEndian& another);
         LittleEndian(const BigEndian<Type>& another);
+        LittleEndian& operator = (const LittleEndian& another);
         operator const Type() const;
     private:
         unsigned char bytes[sizeof(Type)];
@@ -68,6 +69,14 @@ namespace Network { namespace Endianness {
     {
         for (std::uint8_t i = 0; i < sizeof(Type); i++)
             bytes[i] = another.bytes[sizeof(Type) - 1 - i];
+    }
+
+    template<typename Type>
+    LittleEndian<Type>& LittleEndian<Type>::operator = (const LittleEndian& another)
+    {
+        for (std::uint8_t i = 0; i < sizeof(Type); i++)
+            bytes[i] = another.bytes[i];
+        return *this;
     }
 
     template<typename Type>

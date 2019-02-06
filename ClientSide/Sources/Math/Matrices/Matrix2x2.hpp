@@ -30,10 +30,10 @@ namespace Math {
         static const std::uint8_t ROW_SIZE = 2;
         static const std::uint8_t MATRIX_SIZE = ROW_SIZE * ROW_SIZE;
 
-        Matrix2x2() = default;
-        Matrix2x2(const Type* array);
-        Matrix2x2(const Matrix2x2& anotherMatrix);
-        Matrix2x2(Matrix2x2&& anotherMatrix);
+        explicit Matrix2x2() = default;
+        explicit Matrix2x2(const Type* array) noexcept;
+        explicit Matrix2x2(const Matrix2x2& anotherMatrix) noexcept;
+        explicit Matrix2x2(Matrix2x2&& anotherMatrix) noexcept;
 
         void transpose() noexcept;
         void sub(const Matrix2x2& anotherMatrix) noexcept;
@@ -77,7 +77,7 @@ namespace Math {
     using Matrix2x2d = Matrix2x2<double>;
 
     template<class Type>
-    Matrix2x2<Type>::Matrix2x2(const Type* array)
+    Matrix2x2<Type>::Matrix2x2(const Type* array) noexcept
     {
         for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
         {
@@ -87,14 +87,14 @@ namespace Math {
     }
 
     template<class Type>
-    Matrix2x2<Type>::Matrix2x2(const Matrix2x2& anotherMatrix)
+    Matrix2x2<Type>::Matrix2x2(const Matrix2x2& anotherMatrix) noexcept
     {
         const Type* otherElements = anotherMatrix.mElements;
         std::copy(std::begin(otherElements), std::end(otherElements), std::begin(mElements));
     }
 
     template<class Type>
-    Matrix2x2<Type>::Matrix2x2(Matrix2x2&& anotherMatrix)
+    Matrix2x2<Type>::Matrix2x2(Matrix2x2&& anotherMatrix) noexcept
     {
         std::move(std::begin(anotherMatrix.mElements), std::end(anotherMatrix.mElements), std::begin(mElements));
     }
@@ -137,7 +137,6 @@ namespace Math {
     template<class Type>
     void Matrix2x2<Type>::mul(Type scalar) noexcept
     {
-        const Type* otherElements = anotherMatrix.mElements;
         for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
         {
             mElements[i] *= scalar;

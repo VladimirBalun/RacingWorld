@@ -32,7 +32,7 @@ namespace Graphics { namespace Components {
         GLuint getHeight() const noexcept;
         const std::vector<GLubyte>& getImageData() const noexcept;
     private:
-        GLuint mID;
+        GLuint mID = 0;
         const GLuint mWidth;
         const GLuint mHeight;
         const std::vector<GLubyte> mImageData;

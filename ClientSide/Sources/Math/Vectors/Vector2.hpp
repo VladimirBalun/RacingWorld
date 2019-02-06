@@ -171,18 +171,21 @@ namespace Math {
     Vector2<Type>& Vector2<Type>::operator += (const Vector2& anotherVector) noexcept
     {
         add(anotherVector);
+        return *this;
     }
 
     template<class Type>
     Vector2<Type>& Vector2<Type>::operator -= (const Vector2& anotherVector) noexcept
     {
         sub(anotherVector);
+        return *this;
     }
 
     template<class Type>
     Vector2<Type>& Vector2<Type>::operator *= (Type scalar) noexcept
     {
         mul(scalar);
+        return *this;
     }
 
     template<class Type>

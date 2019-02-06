@@ -30,10 +30,10 @@ namespace Math {
         static const std::uint8_t ROW_SIZE = 3;
         static const std::uint8_t MATRIX_SIZE = ROW_SIZE * ROW_SIZE;
 
-        Matrix3x3() = default;
-        Matrix3x3(const Type* array);
-        Matrix3x3(const Matrix3x3& anotherMatrix);
-        Matrix3x3(Matrix3x3&& anotherMatrix);
+        explicit Matrix3x3() = default;
+        explicit Matrix3x3(const Type* array) noexcept;
+        explicit Matrix3x3(const Matrix3x3& anotherMatrix) noexcept;
+        explicit Matrix3x3(Matrix3x3&& anotherMatrix) noexcept;
 
         void transpose() noexcept;
         void sub(const Matrix3x3& anotherMatrix) noexcept;
@@ -80,7 +80,7 @@ namespace Math {
     using Matrix3x3d = Matrix3x3<double>;
 
     template<class Type>
-    Matrix3x3<Type>::Matrix3x3(const Type* array)
+    Matrix3x3<Type>::Matrix3x3(const Type* array) noexcept
     {
         for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
         {
@@ -91,7 +91,7 @@ namespace Math {
     }
 
     template<class Type>
-    Matrix3x3<Type>::Matrix3x3(const Matrix3x3& anotherMatrix)
+    Matrix3x3<Type>::Matrix3x3(const Matrix3x3& anotherMatrix) noexcept
     {
         const Type* otherElements = anotherMatrix.mElements;
         for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
@@ -103,7 +103,7 @@ namespace Math {
     }
 
     template<class Type>
-    Matrix3x3<Type>::Matrix3x3(Matrix3x3&& anotherMatrix)
+    Matrix3x3<Type>::Matrix3x3(Matrix3x3&& anotherMatrix) noexcept
     {
         std::move(std::begin(anotherMatrix.mElements), std::end(anotherMatrix.mElements), std::begin(mElements));
     }

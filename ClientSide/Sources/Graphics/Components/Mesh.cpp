@@ -28,6 +28,19 @@ Graphics::Components::Mesh::Mesh(const Mesh& anotherMesh)
     }
 }
 
+Graphics::Components::Mesh& Graphics::Components::Mesh::operator = (const Mesh& anotherMesh)
+{
+    if (anotherMesh.mElements)
+    {
+        mVBO = anotherMesh.mVBO;
+        mVAO = anotherMesh.mVAO;
+        mPosition = anotherMesh.mPosition;
+        mElements = anotherMesh.mElements;
+        mCountElements = anotherMesh.mCountElements;
+    }
+    return *this;
+}
+
 Graphics::Components::Mesh::Mesh(GLfloat* elements, std::size_t countElements) :
     mElements(elements), mCountElements(countElements)
 {
