@@ -16,9 +16,6 @@
 
 #pragma once
 
-#include <string>
-#include <iostream>
-
 #include "../OpenGL.hpp"
 #include "../../Utils/FileSystem.hpp"
 #include "../../Math/Vectors.hpp"
@@ -31,12 +28,10 @@ namespace Graphics { namespace Tools {
     {
     public:
         ShaderProgram() = default;
-        ShaderProgram(const ShaderProgram& anotherShaderProgram)
-            : mProgramID(anotherShaderProgram.mProgramID) {}
         ShaderProgram(Memory::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName);
-        ~ShaderProgram();
-
+        
         GLvoid use() const noexcept;
+        GLvoid destroy() const noexcept;
         GLuint getProgramID() const noexcept;
         GLboolean isInitialized() const noexcept;
 
@@ -58,8 +53,8 @@ namespace Graphics { namespace Tools {
     private:
         GLuint compileShader(const char* shaderSourceCode, GLint shaderType) noexcept;
         GLvoid linkShaders(GLuint vertexShader, GLuint fragmentShader) noexcept;
-        GLuint getAttributeLocation(const char* name) const noexcept;
-        GLuint getUniformLocation(const char* name) const noexcept;
+        GLint getAttributeLocation(const char* name) const noexcept;
+        GLint getUniformLocation(const char* name) const noexcept;
     private:
         GLuint mProgramID = 0;
     };

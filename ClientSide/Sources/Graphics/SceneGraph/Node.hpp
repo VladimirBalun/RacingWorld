@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <functional>
+
 #include "../Components/Mesh.hpp"
 #include "../../Math/Matrices/Matrix4x4.hpp"
 
@@ -33,7 +35,7 @@ namespace Graphics { namespace SceneGraph {
         GLboolean isExistMesh() const noexcept;
         GLboolean isExistChildren() const noexcept;
         Math::Matrix4x4<GLfloat>& getTransformation() noexcept;
-        GLvoid childrenForEach(GLvoid(*callback)(Node* child)) noexcept;
+        GLvoid childrenForEach(std::function<GLvoid(Node* child)> callback) noexcept;
     private:
         Components::Mesh mMesh;
         Node* mChild= nullptr;

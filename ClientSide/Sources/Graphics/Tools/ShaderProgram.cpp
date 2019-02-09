@@ -24,20 +24,18 @@ Graphics::Tools::ShaderProgram::ShaderProgram(Memory::LinearAllocator& allocator
         std::bind(&Memory::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2));
 
     const GLuint vertexShader = compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
-    const GLuint fragmantShader = compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
-    linkShaders(vertexShader, fragmantShader);
-    glDetachShader(mProgramID, vertexShader);
-    glDetachShader(mProgramID, fragmantShader);
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmantShader);
+    const GLuint fragmentShader = compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
+    linkShaders(vertexShader, fragmentShader);
 }
 
 GLuint Graphics::Tools::ShaderProgram::compileShader(const char* shaderSourceCode, GLint shaderType) noexcept
 {
-    GLint isCompiledShader;
     const GLuint shader = glCreateShader(shaderType);
     glShaderSource(shader, 1, &shaderSourceCode, NULL);
     glCompileShader(shader);
+
+#ifdef _DEBUG
+    GLint isCompiledShader;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiledShader);
     if (!isCompiledShader)
     {
@@ -45,23 +43,33 @@ GLuint Graphics::Tools::ShaderProgram::compileShader(const char* shaderSourceCod
         glGetShaderInfoLog(shader, 512, NULL, errorLog);
         LOG_WARNING(errorLog);
     }
+#endif // _DEBUG
+
     return shader;
 }
 
 GLvoid Graphics::Tools::ShaderProgram::linkShaders(GLuint vertexShader, GLuint fragmentShader) noexcept
 {
-    GLint isLinkedShaders;
     mProgramID = glCreateProgram();
     glAttachShader(mProgramID, vertexShader);
     glAttachShader(mProgramID, fragmentShader);
     glLinkProgram(mProgramID);
+
+#ifdef _DEBUG
+    GLint isLinkedShaders;
     glGetProgramiv(mProgramID, GL_LINK_STATUS, &isLinkedShaders);
-    if (!isLinkedShaders) 
+    if (!isLinkedShaders)
     {
         GLchar errorLog[512];
         glGetProgramInfoLog(mProgramID, 512, NULL, errorLog);
         LOG_WARNING(errorLog);
     }
+#endif // _DEBUG
+
+    glDetachShader(mProgramID, vertexShader);
+    glDetachShader(mProgramID, fragmentShader);
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
 }
 
 GLboolean Graphics::Tools::ShaderProgram::isInitialized() const noexcept
@@ -74,19 +82,38 @@ GLvoid Graphics::Tools::ShaderProgram::use() const noexcept
     glUseProgram(mProgramID);
 }
 
+GLvoid Graphics::Tools::ShaderProgram::destroy() const noexcept
+{
+    glDeleteProgram(mProgramID);
+}
+
 GLuint Graphics::Tools::ShaderProgram::getProgramID() const noexcept
 {
     return mProgramID;
 }
 
-GLuint Graphics::Tools::ShaderProgram::getAttributeLocation(const char* name) const noexcept
+GLint Graphics::Tools::ShaderProgram::getAttributeLocation(const char* name) const noexcept
 {
-    return glGetAttribLocation(mProgramID, name);
+    GLint locationID = glGetAttribLocation(mProgramID, name);
+
+#ifdef  _DEBUG
+    if (locationID == -1)
+        LOG_WARNING("Location of attribute was not found.");
+#endif // _DEBUG
+
+    return locationID;
 }
 
-GLuint Graphics::Tools::ShaderProgram::getUniformLocation(const char* name) const noexcept
+GLint Graphics::Tools::ShaderProgram::getUniformLocation(const char* name) const noexcept
 {
-    return glGetUniformLocation(mProgramID, name);
+    GLint locationID = glGetUniformLocation(mProgramID, name);
+
+#ifdef  _DEBUG
+    if (locationID == -1)
+        LOG_WARNING("Location of uniform was not found.");
+#endif // _DEBUG
+
+    return locationID;
 }
 
 template<typename Type>
@@ -146,9 +173,9 @@ GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const 
     Type array[Math::Matrix2x2<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)
-        glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, array);
+        glUniformMatrix2fv(getUniformLocation(name), 1, GL_TRUE, array);
     else if constexpr (std::is_same<Type, GLdouble>::value)
-        glUniformMatrix2dv(getUniformLocation(name), 1, GL_FALSE, array);
+        glUniformMatrix2dv(getUniformLocation(name), 1, GL_TRUE, array);
 }
 
 template<typename Type>
@@ -158,9 +185,9 @@ GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const 
     Type array[Math::Matrix3x3<Type>::MATRIX_SIZE];
     matrix.toArray(array);
     if constexpr (std::is_same<Type, GLfloat>::value)
-        glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, array);
+        glUniformMatrix3fv(getUniformLocation(name), 1, GL_TRUE, array);
     else if constexpr (std::is_same<Type, GLdouble>::value)
-        glUniformMatrix3dv(getUniformLocation(name), 1, GL_FALSE, array);
+        glUniformMatrix3dv(getUniformLocation(name), 1, GL_TRUE, array);
 }
 
 template<typename Type>
@@ -173,11 +200,6 @@ GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const 
         glUniformMatrix4fv(getUniformLocation(name), 1, GL_TRUE, array);
     else if constexpr (std::is_same<Type, GLdouble>::value)
         glUniformMatrix4dv(getUniformLocation(name), 1, GL_TRUE, array);
-}
-
-Graphics::Tools::ShaderProgram::~ShaderProgram()
-{
-    glDeleteProgram(mProgramID);
 }
 
 template GLvoid Graphics::Tools::ShaderProgram::setUniform<GLfloat>(const char* name, GLfloat value) const noexcept;

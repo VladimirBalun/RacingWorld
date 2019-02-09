@@ -50,10 +50,10 @@
         ( (void)0 )
 
     #define LOG_INFO(text) \
-        std::cout << "[INFO] [" << __TIMESTAMP__ << "] - " << (text) << std::endl;
+        ( (void)0 )
 
     #define LOG_ERROR(text) \
-        std::cerr << "[ERROR] [" << __TIMESTAMP__ << "] - " << (text) << std::endl;
+        ( (void)0 )
 
     #define ASSERT(condition, message) \
         ( (void)0 )

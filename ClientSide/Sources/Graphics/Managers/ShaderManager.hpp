@@ -38,6 +38,7 @@ namespace Graphics { namespace Managers {
         GLvoid initializeShaders() noexcept;
         GLvoid useShaderProgram(EShaderType shaderType) const noexcept;
         Tools::ShaderProgram& getShader(EShaderType shaderType) noexcept;
+        ~ShaderManager();
     private: 
         Tools::ShaderProgram createShader(Memory::LinearAllocator& allocator, const char* vShaderPath, const char* fShaderPath) const noexcept;
     private:

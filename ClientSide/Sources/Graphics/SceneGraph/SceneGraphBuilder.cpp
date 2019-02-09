@@ -23,7 +23,10 @@ Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::build(Manag
     void* memoryForCubeNode = allocator.allocate(sizeof(Node));
     Node* cubeNode = new (memoryForCubeNode) Node;
 
+    Math::Matrix4x4f cubeTransofrmation;
+    Math::setTranslationMatrix(cubeTransofrmation, 0.0f, 0.0f, 0.0f);
     cubeNode->setMesh(meshManager.getMesh(Managers::CUBE));
+    cubeNode->setTransformation(cubeTransofrmation);
     rootNode->addChild(cubeNode);
 
     return rootNode;

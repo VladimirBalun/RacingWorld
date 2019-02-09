@@ -47,3 +47,9 @@ Graphics::Tools::ShaderProgram& Graphics::Managers::ShaderManager::getShader(ESh
 {
     return mShaderPrograms[shaderType];
 }
+
+Graphics::Managers::ShaderManager::~ShaderManager()
+{
+    for (std::uint8_t i = 0; i < COUNT_SHADER_TYPES; i++)
+        mShaderPrograms[i].destroy();
+}

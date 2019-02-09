@@ -41,26 +41,26 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
         if (strncmp(symbolIterator, "v ", 2) == 0)
         {
             parseVertices(symbolIterator + 2, vertices + countVertices);
-            assert(++countVertices <= MAX_COUNT_VERTICES &&
+            ASSERT(++countVertices <= MAX_COUNT_VERTICES,
                 "Vertices in the file more than size of buffer.");
         }
         else if (strncmp(symbolIterator, "vt ", 3) == 0)
         {
             parseTextureCoordinates(symbolIterator + 3, textureCoordinates + countTextureCoordinates);
-            assert(++countTextureCoordinates <= MAX_COUNT_TEXTURE_COORDINATES &&
+            ASSERT(++countTextureCoordinates <= MAX_COUNT_TEXTURE_COORDINATES,
                 "Texture coordinates in the file more than size of buffer.");
         }
         else if (strncmp(symbolIterator, "vn ", 3) == 0)
         {
             parseNormals(symbolIterator + 3, normals + countNormals);
-            assert(++countNormals <= MAX_COUNT_NORMALS &&
+            ASSERT(++countNormals <= MAX_COUNT_NORMALS,
                 "Normals in the file more than size of buffer.");
         }
         else if (strncmp(symbolIterator, "f ", 2) == 0)
         {
             parseFaceElementIndexes(symbolIterator + 2, faceElementIndexes + countElementIndexes);
             countElementIndexes += 3;
-            assert(countElementIndexes <= MAX_COUNT_FACE_ELEMENT_INDEXES &&
+            ASSERT(countElementIndexes <= MAX_COUNT_FACE_ELEMENT_INDEXES,
                 "Face element indexes in the file more than size of buffer.");
         }
         symbolIterator++;
@@ -120,9 +120,9 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::createMesh(const Math::Ve
         int vertexIndex = faceElementIndexes[i].getX();
         int normalIndex = faceElementIndexes[i].getY();
         int textureCoordinateIndex = faceElementIndexes[i].getZ();
-        vertices[vertexIndex].toArray(&meshElements[i] + Graphics::Components::Mesh::ALIGNMENT_VERTEX * sizeof(float));
-        textureCoordinates[normalIndex].toArray(&meshElements[i] + Graphics::Components::Mesh::ALIGNMENT_TEXTURE_COORDINATE * sizeof(float));
-        normals[textureCoordinateIndex].toArray(&meshElements[i] + Graphics::Components::Mesh::ALIGNMENT_NORMAL * sizeof(float));
+        vertices[vertexIndex].toArray(&meshElements[i] + Graphics::Components::Mesh::ALIGNMENT_VERTEX + sizeof(float));
+        //textureCoordinates[normalIndex].toArray(&meshElements[i] + Graphics::Components::Mesh::ALIGNMENT_TEXTURE_COORDINATE);
+        //normals[textureCoordinateIndex].toArray(&meshElements[i] + Graphics::Components::Mesh::ALIGNMENT_NORMAL);
     }
     return Components::Mesh(meshElements, countFaceElementIndexes);
 }

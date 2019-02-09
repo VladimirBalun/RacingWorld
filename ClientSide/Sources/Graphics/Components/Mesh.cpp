@@ -16,51 +16,35 @@
 
 #include "Mesh.hpp"
 
-Graphics::Components::Mesh::Mesh(const Mesh& anotherMesh)
-{
-    if (anotherMesh.mElements)
-    {
-        mVBO = anotherMesh.mVBO;
-        mVAO = anotherMesh.mVAO;
-        mPosition = anotherMesh.mPosition;
-        mElements = anotherMesh.mElements;
-        mCountElements = anotherMesh.mCountElements;
-    }
-}
-
-Graphics::Components::Mesh& Graphics::Components::Mesh::operator = (const Mesh& anotherMesh)
-{
-    if (anotherMesh.mElements)
-    {
-        mVBO = anotherMesh.mVBO;
-        mVAO = anotherMesh.mVAO;
-        mPosition = anotherMesh.mPosition;
-        mElements = anotherMesh.mElements;
-        mCountElements = anotherMesh.mCountElements;
-    }
-    return *this;
-}
-
 Graphics::Components::Mesh::Mesh(GLfloat* elements, std::size_t countElements) :
     mElements(elements), mCountElements(countElements)
 {
     glGenVertexArrays(1, &mVAO);
     glGenBuffers(1, &mVBO);
+
+#ifdef _DEBUG
+    if (mVAO == 0)
+        LOG_WARNING("ID for vertex array objects was not generated.");
+    if (mVBO == 0)
+        LOG_WARNING("ID for vertex buffer object was not generated.");
+#endif // _DEBUG
+
     glBindVertexArray(mVAO);
     glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+    glBufferData(GL_ARRAY_BUFFER, mCountElements * 4, mElements, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat),
         (void*)(ALIGNMENT_VERTEX * sizeof(GLfloat)));
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
-        (void*)(ALIGNMENT_COLOR * sizeof(GLfloat)));
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
-        (void*)(ALIGNMENT_TEXTURE_COORDINATE * sizeof(GLfloat)));
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
-        (void*)(ALIGNMENT_NORMAL * sizeof(GLfloat)));
-    glEnableVertexAttribArray(3);
+    //glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
+    //    (void*)(ALIGNMENT_COLOR * sizeof(GLfloat)));
+    //glEnableVertexAttribArray(1);
+    //glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
+    //    (void*)(ALIGNMENT_TEXTURE_COORDINATE * sizeof(GLfloat)));
+    //glEnableVertexAttribArray(2);
+    //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
+    //    (void*)(ALIGNMENT_NORMAL * sizeof(GLfloat)));
+    //glEnableVertexAttribArray(3);
 
     glBindVertexArray(NULL);
     glBindBuffer(GL_ARRAY_BUFFER, NULL);
@@ -71,11 +55,6 @@ GLboolean Graphics::Components::Mesh::isInitialized() const noexcept
     return mElements != nullptr;
 }
 
-Math::Vector4f& Graphics::Components::Mesh::getPosition() noexcept
-{
-    return mPosition;
-}
-
 GLvoid Graphics::Components::Mesh::draw() const noexcept
 {
     glBindVertexArray(mVAO);
@@ -83,7 +62,7 @@ GLvoid Graphics::Components::Mesh::draw() const noexcept
     glBindVertexArray(NULL);
 }
 
-Graphics::Components::Mesh::~Mesh()
+GLvoid Graphics::Components::Mesh::destroy() const noexcept
 {
     glDeleteBuffers(1, &mVBO);
     glDeleteVertexArrays(1, &mVAO);

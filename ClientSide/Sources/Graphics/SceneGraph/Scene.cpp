@@ -18,8 +18,8 @@
 
 GLvoid Graphics::SceneGraph::Scene::init(GLint sceneWidth, GLint sceneHeight)
 {
-    mMeshManager.initializeMeshes();
     mShaderManager.initializeShaders();
+    mMeshManager.initializeMeshes();
 
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.3f, 0.7f, 0.9f, 1.0f);
@@ -28,9 +28,6 @@ GLvoid Graphics::SceneGraph::Scene::init(GLint sceneWidth, GLint sceneHeight)
     // TODO: need to add class for camera
     Math::setLookAt(mViewMatrix, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 2.0f }, { 0.0f, 1.0f, 0.0f });
     Math::setPerspectiveMatrix(mPerspectiveMatrix, 45.0f, (GLfloat) sceneWidth / sceneHeight, 0.1f, 100.f);
-    Tools::ShaderProgram shader = mShaderManager.getShader(Managers::BASE_SHADER);
-    shader.setUniformMatrix("viewMatrix", mViewMatrix);
-    shader.setUniformMatrix("perspectiveMatrix", mPerspectiveMatrix);
 
     mRootNode = SceneGraphBuilder::build(mMeshManager, mSceneGraphAllocator);
 }
@@ -38,19 +35,18 @@ GLvoid Graphics::SceneGraph::Scene::init(GLint sceneWidth, GLint sceneHeight)
 GLvoid Graphics::SceneGraph::Scene::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    // TODO: need to use matrix of each node
-    Math::Matrix4x4f modelMatrix; 
-    Math::setTranslationMatrix(modelMatrix, { 0.0f, 0.0f, 0.0f });
-    Tools::ShaderProgram shader = mShaderManager.getShader(Managers::BASE_SHADER);
-    shader.setUniformMatrix("modelMatrix", modelMatrix);
+    Tools::ShaderProgram& shader = mShaderManager.getShader(Managers::BASE_SHADER);
+    shader.use();
 
     if (mRootNode->isExistChildren()) 
     {
-        mRootNode->childrenForEach([](Node* child)
+        mRootNode->childrenForEach([&shader](Node* child)
         {
-            if (child->isExistMesh())
+            if (child->isExistMesh()) 
+            {
+                shader.setUniformMatrix("modelMatrix", child->getTransformation());
                 child->getMesh().draw();
+            }
         });
     }
 

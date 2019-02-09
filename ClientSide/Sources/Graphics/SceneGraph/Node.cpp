@@ -58,7 +58,7 @@ Math::Matrix4x4<GLfloat>& Graphics::SceneGraph::Node::getTransformation() noexce
     return mTransformation;
 }
 
-GLvoid Graphics::SceneGraph::Node::childrenForEach(GLvoid(*callback)(Node* child)) noexcept
+GLvoid Graphics::SceneGraph::Node::childrenForEach(std::function<GLvoid(Node* child)> callback) noexcept
 {
     Node* iterator = mChild;
     while (iterator) 

@@ -25,13 +25,10 @@ namespace Graphics { namespace Components {
     {
     public:
         Mesh() = default;
-        Mesh(const Mesh& anotherMesh);
         Mesh(GLfloat* elements, std::size_t countElements);
-        Mesh& operator = (const Mesh& anotherMesh);
         GLboolean isInitialized() const noexcept;
-        Math::Vector4f& getPosition() noexcept;
+        GLvoid destroy() const noexcept;
         GLvoid draw() const noexcept;
-        ~Mesh();
     public:
         static const std::uint8_t ALIGNMENT_VERTEX = 0;
         static const std::uint8_t ALIGNMENT_COLOR = 4;
@@ -41,7 +38,6 @@ namespace Graphics { namespace Components {
     private:
         GLuint mVBO = 0;
         GLuint mVAO = 0;
-        Math::Vector4f mPosition;
         std::size_t mCountElements = 0;
         GLfloat* mElements = nullptr;
     };

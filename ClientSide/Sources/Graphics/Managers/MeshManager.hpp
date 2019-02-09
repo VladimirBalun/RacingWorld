@@ -37,6 +37,7 @@ namespace Graphics { namespace Managers {
             : mMeshesAllocator(ONE_VIRTUAL_PAGE) {}
         GLvoid initializeMeshes() noexcept;
         Components::Mesh& getMesh(EMeshType meshType) noexcept;
+        ~MeshManager();
     private:
         Components::Mesh createMesh(Memory::LinearAllocator& allocator, const char* modelPath) const noexcept;
     private:

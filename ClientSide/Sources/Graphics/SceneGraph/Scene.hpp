@@ -16,8 +16,6 @@
 
 #pragma once
 
-#include <future>
-
 #include "Node.hpp"
 #include "SceneGraphBuilder.hpp"
 #include "../OpenGL.hpp"

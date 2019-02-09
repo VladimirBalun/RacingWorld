@@ -34,3 +34,9 @@ Graphics::Components::Mesh& Graphics::Managers::MeshManager::getMesh(EMeshType m
 {
     return mMeshes[meshType];
 }
+
+Graphics::Managers::MeshManager::~MeshManager()
+{
+    for (std::uint8_t i = 0; i < COUNT_MESH_TYPES; i++)
+        mMeshes[i].destroy();
+}
