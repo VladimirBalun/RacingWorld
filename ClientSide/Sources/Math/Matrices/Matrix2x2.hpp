@@ -157,11 +157,13 @@ namespace Math {
     template<class Type>
     void Matrix2x2<Type>::mul(const Matrix2x2& anotherMatrix) noexcept
     {
+        Type currentElements[MATRIX_SIZE];
+        std::copy(std::begin(mElements), std::end(mElements), currentElements);
         const Type* otherElements = anotherMatrix.mElements;
         for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
         {
-            mElements[i] = mElements[i]*otherElements[FIRST_ROW] + mElements[i + 1]*otherElements[SECOND_ROW];
-            mElements[i + 1] = mElements[i]*otherElements[FIRST_ROW + 1] + mElements[i + 1]*otherElements[SECOND_ROW + 1];
+            mElements[i] = currentElements[i]*otherElements[FIRST_ROW] + currentElements[i + 1]*otherElements[SECOND_ROW];
+            mElements[i + 1] = currentElements[i]*otherElements[FIRST_ROW + 1] + currentElements[i + 1]*otherElements[SECOND_ROW + 1];
         }
     }
 

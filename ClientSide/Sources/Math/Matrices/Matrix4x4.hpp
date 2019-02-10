@@ -179,25 +179,27 @@ namespace Math {
     template<class Type>
     void Matrix4x4<Type>::mul(const Matrix4x4& anotherMatrix) noexcept
     {
+        Type currentElements[MATRIX_SIZE];
+        std::copy(std::begin(mElements), std::end(mElements), currentElements);
         const Type* otherElements = anotherMatrix.mElements;
         for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE) 
         {
-            mElements[i] = mElements[i] * otherElements[FIRST_ROW] + 
-                mElements[i + 1] * otherElements[SECOND_ROW] + 
-                mElements[i + 2] * otherElements[THIRD_ROW] + 
-                mElements[i + 3] * otherElements[FOURTH_ROW];
-            mElements[i + 1] = mElements[i] * otherElements[FIRST_ROW + 1] +
-                mElements[i + 1] * otherElements[SECOND_ROW + 1] +
-                mElements[i + 2] * otherElements[THIRD_ROW + 1] +
-                mElements[i + 3] * otherElements[FOURTH_ROW + 1];
-            mElements[i + 2] = mElements[i] * otherElements[FIRST_ROW + 2] +
-                mElements[i + 1] * otherElements[SECOND_ROW + 2] +
-                mElements[i + 2] * otherElements[THIRD_ROW + 2] +
-                mElements[i + 3] * otherElements[FOURTH_ROW + 2];
-            mElements[i + 3] = mElements[i] * otherElements[FIRST_ROW + 3] +
-                mElements[i + 1] * otherElements[SECOND_ROW + 3] +
-                mElements[i + 2] * otherElements[THIRD_ROW + 3] +
-                mElements[i + 3] * otherElements[FOURTH_ROW + 3];
+            mElements[i] = currentElements[i] * otherElements[FIRST_ROW] +
+                currentElements[i + 1] * otherElements[SECOND_ROW] +
+                currentElements[i + 2] * otherElements[THIRD_ROW] +
+                currentElements[i + 3] * otherElements[FOURTH_ROW];
+            mElements[i + 1] = currentElements[i] * otherElements[FIRST_ROW + 1] +
+                currentElements[i + 1] * otherElements[SECOND_ROW + 1] +
+                currentElements[i + 2] * otherElements[THIRD_ROW + 1] +
+                currentElements[i + 3] * otherElements[FOURTH_ROW + 1];
+            mElements[i + 2] = currentElements[i] * otherElements[FIRST_ROW + 2] +
+                currentElements[i + 1] * otherElements[SECOND_ROW + 2] +
+                currentElements[i + 2] * otherElements[THIRD_ROW + 2] +
+                currentElements[i + 3] * otherElements[FOURTH_ROW + 2];
+            mElements[i + 3] = currentElements[i] * otherElements[FIRST_ROW + 3] +
+                currentElements[i + 1] * otherElements[SECOND_ROW + 3] +
+                currentElements[i + 2] * otherElements[THIRD_ROW + 3] +
+                currentElements[i + 3] * otherElements[FOURTH_ROW + 3];
         }
     }
 
