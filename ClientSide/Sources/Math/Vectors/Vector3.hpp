@@ -112,7 +112,7 @@ namespace Math {
     template<class Type>
     std::size_t Vector3<Type>::getLength() const noexcept
     {
-        return sqrt(mX*mX + mY*mY + mZ*mZ);
+        return (std::size_t) sqrt(mX*mX + mY*mY + mZ*mZ);
     }
 
     template<class Type>
@@ -239,7 +239,7 @@ namespace Math {
     template<class Type>
     Vector3<Type> operator * (const Vector3<Type>& vector, Type scalar) noexcept
     {
-        return Vector3<Type>(vector.getX() * scalar, vector.getY() * scalar, vector.mZ * scalar);
+        return Vector3<Type>(vector.getX() * scalar, vector.getY() * scalar, vector.getZ() * scalar);
     }
 
     template<class Type>

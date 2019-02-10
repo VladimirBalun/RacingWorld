@@ -28,7 +28,7 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
     std::uint16_t countNormals = 1;
     std::uint16_t countElementIndexes = 1;
 
-    Math::Vector4f vertices[MAX_COUNT_VERTICES];
+    Math::Vector3f vertices[MAX_COUNT_VERTICES];
     Math::Vector2f textureCoordinates[MAX_COUNT_TEXTURE_COORDINATES];
     Math::Vector3f normals[MAX_COUNT_NORMALS];
     Math::Vector3i faceElementIndexes[MAX_COUNT_FACE_ELEMENT_INDEXES]; // (0) - vertex, (1) - texture coordinate, (2) - normal
@@ -66,17 +66,16 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
         symbolIterator++;
     }
 
-    return createMesh(vertices, textureCoordinates, normals, faceElementIndexes, countElementIndexes, allocator);
+    return createMesh(vertices, textureCoordinates, normals, faceElementIndexes, countElementIndexes - 1, allocator);
 }
 
-void Graphics::Tools::ObjParser::parseVertices(const char* line, Math::Vector4f* vertices) noexcept
+void Graphics::Tools::ObjParser::parseVertices(const char* line, Math::Vector3f* vertices) noexcept
 {
     float xPos = 0.0f;
     float yPos = 0.0f;
     float zPos = 0.0f;
-    float wPos = 1.0f;
-    sscanf_s(line, "%f %f %f %f", &xPos, &yPos, &zPos, &wPos);
-    *vertices = { xPos, yPos, zPos, wPos };
+    sscanf_s(line, "%f %f %f", &xPos, &yPos, &zPos);
+    *vertices = { xPos, yPos, zPos };
 }
 
 void Graphics::Tools::ObjParser::parseTextureCoordinates(const char* line, Math::Vector2f* textureCoordinates) noexcept
@@ -102,27 +101,30 @@ void Graphics::Tools::ObjParser::parseFaceElementIndexes(const char* line, Math:
     int normalIndex[3] = { 0 };
     int textureCoordinateIndex[3] = { 0 };
     sscanf_s(line, "%i/%i/%i %i/%i/%i %i/%i/%i", 
-        &vertexIndex[0], &normalIndex[0], &textureCoordinateIndex[0],
-        &vertexIndex[1], &normalIndex[1], &textureCoordinateIndex[1],
-        &vertexIndex[2], &normalIndex[2], &textureCoordinateIndex[2]);
+        &vertexIndex[0], &textureCoordinateIndex[0], &normalIndex[0],
+        &vertexIndex[1], &textureCoordinateIndex[1], &normalIndex[1],
+        &vertexIndex[2], &textureCoordinateIndex[2], &normalIndex[2]);
     *(faceElementIndexes) = { vertexIndex[0], normalIndex[0], textureCoordinateIndex[0] };
     *(faceElementIndexes + 1) = { vertexIndex[1], normalIndex[1], textureCoordinateIndex[1] };
     *(faceElementIndexes + 2) = { vertexIndex[2], normalIndex[2], textureCoordinateIndex[2] };
 }
 
-Graphics::Components::Mesh Graphics::Tools::ObjParser::createMesh(const Math::Vector4f* vertices, const Math::Vector2f* textureCoordinates,
+Graphics::Components::Mesh Graphics::Tools::ObjParser::createMesh(const Math::Vector3f* vertices, const Math::Vector2f* textureCoordinates,
     const Math::Vector3f* normals, const Math::Vector3i* faceElementIndexes, std::size_t countFaceElementIndexes, Memory::LinearAllocator& allocator) noexcept
 {
-    std::size_t memorySizeForMeshElements = countFaceElementIndexes * (Graphics::Components::Mesh::SIZE_ELEMENT * sizeof(float));
+    std::size_t memorySizeForMeshElements = countFaceElementIndexes * (Components::Mesh::SIZE_ELEMENT * sizeof(float));
     float* meshElements = reinterpret_cast<float*>(allocator.allocate(memorySizeForMeshElements));
-    for (std::uint16_t i = 1; i < countFaceElementIndexes; i++)
+    std::size_t innerAlignmentForElements = 0;
+    for (std::uint16_t i = 1; i <= countFaceElementIndexes; i++)
     {
         int vertexIndex = faceElementIndexes[i].getX();
         int normalIndex = faceElementIndexes[i].getY();
         int textureCoordinateIndex = faceElementIndexes[i].getZ();
-        vertices[vertexIndex].toArray(&meshElements[i] + Graphics::Components::Mesh::ALIGNMENT_VERTEX + sizeof(float));
-        //textureCoordinates[normalIndex].toArray(&meshElements[i] + Graphics::Components::Mesh::ALIGNMENT_TEXTURE_COORDINATE);
-        //normals[textureCoordinateIndex].toArray(&meshElements[i] + Graphics::Components::Mesh::ALIGNMENT_NORMAL);
+        vertices[vertexIndex].toArray(meshElements + innerAlignmentForElements + Components::Mesh::ALIGNMENT_VERTEX);
+        textureCoordinates[normalIndex].toArray(meshElements + innerAlignmentForElements + Components::Mesh::ALIGNMENT_TEXTURE_COORDINATE);
+        normals[textureCoordinateIndex].toArray(meshElements + innerAlignmentForElements + Components::Mesh::ALIGNMENT_NORMAL);
+        innerAlignmentForElements += Components::Mesh::SIZE_ELEMENT;
     }
+
     return Components::Mesh(meshElements, countFaceElementIndexes);
 }

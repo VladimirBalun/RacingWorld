@@ -38,6 +38,8 @@ namespace Memory {
     private:
         MemoryManager();
         ~MemoryManager();
+        MemoryManager(MemoryManager const&) = delete;
+        MemoryManager& operator = (MemoryManager const&) = delete;
     private:
         static const std::uint8_t PAGE_USED = 1;
         static const std::uint8_t PAGE_NOT_USED = 0;

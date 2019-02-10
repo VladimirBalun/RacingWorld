@@ -31,9 +31,8 @@ namespace Graphics { namespace Components {
         GLvoid draw() const noexcept;
     public:
         static const std::uint8_t ALIGNMENT_VERTEX = 0;
-        static const std::uint8_t ALIGNMENT_COLOR = 4;
-        static const std::uint8_t ALIGNMENT_TEXTURE_COORDINATE = 8;
-        static const std::uint8_t ALIGNMENT_NORMAL = 10;
+        static const std::uint8_t ALIGNMENT_TEXTURE_COORDINATE = 3;
+        static const std::uint8_t ALIGNMENT_NORMAL = 5;
         static constexpr std::uint8_t SIZE_ELEMENT = ALIGNMENT_NORMAL + 3;
     private:
         GLuint mVBO = 0;

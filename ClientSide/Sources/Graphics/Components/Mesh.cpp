@@ -31,20 +31,55 @@ Graphics::Components::Mesh::Mesh(GLfloat* elements, std::size_t countElements) :
 
     glBindVertexArray(mVAO);
     glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-    glBufferData(GL_ARRAY_BUFFER, mCountElements * 4, mElements, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, mCountElements * SIZE_ELEMENT * sizeof(GLfloat), mElements, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat),
-        (void*)(ALIGNMENT_VERTEX * sizeof(GLfloat)));
+#ifdef _DEBUG
+    switch (glGetError())
+    {
+    case GL_INVALID_ENUM:
+        LOG_WARNING("Target is not GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER or "
+            "usage is not GL_STREAM_DRAW, GL_STATIC_DRAW, or GL_DYNAMIC_DRAW.");
+        break;
+    case GL_INVALID_VALUE:
+        LOG_WARNING("Size is negative.");
+        break;
+    case GL_INVALID_OPERATION:
+        LOG_WARNING("The reserved buffer object name 0 is bound to target.");
+        break;
+    case GL_OUT_OF_MEMORY:
+        LOG_WARNING("GL is unable to create a data store with the specified size.");
+    }
+#endif // _DEBUG
+
+    glVertexAttribPointer(0, Math::Vector3f::VECTOR_SIZE, GL_FLOAT, GL_FALSE,
+        SIZE_ELEMENT * sizeof(GLfloat), (void*)(ALIGNMENT_VERTEX * sizeof(GLfloat)));
     glEnableVertexAttribArray(0);
-    //glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
-    //    (void*)(ALIGNMENT_COLOR * sizeof(GLfloat)));
-    //glEnableVertexAttribArray(1);
-    //glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
-    //    (void*)(ALIGNMENT_TEXTURE_COORDINATE * sizeof(GLfloat)));
-    //glEnableVertexAttribArray(2);
-    //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, SIZE_ELEMENT * sizeof(GLfloat),
-    //    (void*)(ALIGNMENT_NORMAL * sizeof(GLfloat)));
-    //glEnableVertexAttribArray(3);
+    glVertexAttribPointer(1, Math::Vector2f::VECTOR_SIZE, GL_FLOAT, GL_FALSE, 
+        SIZE_ELEMENT * sizeof(GLfloat), (void*)(ALIGNMENT_TEXTURE_COORDINATE * sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(3, Math::Vector3f::VECTOR_SIZE, GL_FLOAT, GL_FALSE,
+        SIZE_ELEMENT * sizeof(GLfloat), (void*)(ALIGNMENT_NORMAL * sizeof(GLfloat)));
+    glEnableVertexAttribArray(3);
+
+#ifdef _DEBUG
+    switch (glGetError())
+    {
+    case GL_INVALID_VALUE:
+        LOG_WARNING("Index is greater than or equal to GL_MAX_VERTEX_ATTRIBS or"
+            "size is not 1, 2, 3, 4 or (for glVertexAttribPointer), GL_BGRA or"
+            "stride is negative.");
+        break;
+    case GL_INVALID_ENUM:
+        LOG_WARNING("Type is not an accepted value.");
+        break;
+    case GL_INVALID_OPERATION:
+        LOG_WARNING("Size is GL_BGRA and type is not GL_UNSIGNED_BYTE, GL_INT_2_10_10_10_REV or GL_UNSIGNED_INT_2_10_10_10_REV or "
+            "type is GL_INT_2_10_10_10_REV or GL_UNSIGNED_INT_2_10_10_10_REV and size is not 4 or GL_BGRA or "
+            "type is GL_UNSIGNED_INT_10F_11F_11F_REV and size is not 3 or "
+            "size is GL_BGRA and noramlized is GL_FALSE or "
+            "zero is bound to the GL_ARRAY_BUFFER buffer object binding point and the pointer argument is not NULL.");
+    }
+#endif // _DEBUG
 
     glBindVertexArray(NULL);
     glBindBuffer(GL_ARRAY_BUFFER, NULL);

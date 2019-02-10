@@ -27,11 +27,11 @@ namespace Graphics { namespace Tools {
     public:
         static Components::Mesh parse(const char* objFileName, Memory::LinearAllocator& allocator) noexcept;
     private:
-        static void parseVertices(const char* line, Math::Vector4f* vertices) noexcept;
+        static void parseVertices(const char* line, Math::Vector3f* vertices) noexcept;
         static void parseTextureCoordinates(const char* line, Math::Vector2f* textureCoordinates) noexcept;
         static void parseNormals(const char* line, Math::Vector3f* normals) noexcept;
         static void parseFaceElementIndexes(const char* line, Math::Vector3i* faceElementIndexes) noexcept;
-        static Components::Mesh createMesh(const Math::Vector4f* vertices, const Math::Vector2f* textureCoordinates,
+        static Components::Mesh createMesh(const Math::Vector3f* vertices, const Math::Vector2f* textureCoordinates,
             const Math::Vector3f* normals, const Math::Vector3i* faceElementIndexes, std::size_t countFaceElementIndexes, Memory::LinearAllocator& allocator) noexcept;
     };
 

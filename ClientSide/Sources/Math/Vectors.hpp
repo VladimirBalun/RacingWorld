@@ -19,3 +19,16 @@
 #include "Vectors/Vector2.hpp"
 #include "Vectors/Vector3.hpp"
 #include "Vectors/Vector4.hpp"
+
+namespace Math {
+
+    template<typename Type>
+    Math::Vector3<Type> cross(Vector3<Type> vector, Vector3<Type> anotherVector) noexcept
+    {
+        const Type x = vector.getY()*anotherVector.getZ() - vector.getZ()*anotherVector.getY();
+        const Type y = -(vector.getX()*anotherVector.getZ() - vector.getZ()*anotherVector.getX());
+        const Type z = vector.getX()*anotherVector.getY() - vector.getY()*anotherVector.getX();
+        return { x, y, z };
+    }
+
+}
