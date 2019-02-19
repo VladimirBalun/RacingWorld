@@ -20,7 +20,7 @@
 #include "../Components/Mesh.hpp"
 #include "../Tools/ObjParser.hpp"
 #include "../../Utils/Configuration.hpp"
-#include "../../Memory/LinearAllocator.hpp"
+#include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Managers {
 
@@ -39,11 +39,11 @@ namespace Graphics { namespace Managers {
         Components::Mesh& getMesh(EMeshType meshType) noexcept;
         ~MeshManager();
     private:
-        Components::Mesh createMesh(Memory::LinearAllocator& allocator, const char* modelPath) const noexcept;
+        Components::Mesh createMesh(Memory::Allocators::LinearAllocator& allocator, const char* modelPath) const noexcept;
     private:
         bool mIsInitialized = false;
         Components::Mesh mMeshes[COUNT_MESH_TYPES];
-        Memory::LinearAllocator mMeshesAllocator; 
+        Memory::Allocators::LinearAllocator mMeshesAllocator;
     };
 
 } }

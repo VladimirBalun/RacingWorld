@@ -16,14 +16,25 @@
 
 #include "Texture.hpp"
 
-GLvoid Graphics::Components::Texture::setID(GLuint id) noexcept
+Graphics::Components::Texture::Texture(const char* imageData, GLuint width, GLuint height)
+    : mWidth(width), mHeight(height) 
 {
-    mID = id;
+    glGenTextures(1, &mTextureID);
+
+#ifdef _DEBUG
+    if (mTextureID == 0)
+        LOG_WARNING("ID for texture was not generated.");
+#endif // _DEBUG
+
+    glBindTexture(GL_TEXTURE_2D, mTextureID);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 GLuint Graphics::Components::Texture::getID() const noexcept
 {
-    return mID;
+    return mTextureID;
 }
 
 GLuint Graphics::Components::Texture::getWidth() const noexcept
@@ -34,9 +45,4 @@ GLuint Graphics::Components::Texture::getWidth() const noexcept
 GLuint Graphics::Components::Texture::getHeight() const noexcept
 {
     return mHeight;
-}
-
-const std::vector<GLubyte>& Graphics::Components::Texture::getImageData() const noexcept
-{
-    return mImageData;
 }

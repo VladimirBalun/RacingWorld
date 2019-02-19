@@ -24,7 +24,7 @@ GLvoid Graphics::SceneGraph::Node::removeChildren() noexcept
 
 GLvoid Graphics::SceneGraph::Node::addChild(Node* child) noexcept
 {
-    child->mNextNode = mNextNode;
+    child->mNextNode = mChild;
     mChild = child;
 }
 
@@ -61,7 +61,7 @@ Math::Matrix4x4<GLfloat>& Graphics::SceneGraph::Node::getTransformation() noexce
 GLvoid Graphics::SceneGraph::Node::childrenForEach(std::function<GLvoid(Node* child)> callback) noexcept
 {
     Node* iterator = mChild;
-    while (iterator) 
+    while (iterator)
     {
         callback(iterator);
         iterator = iterator->mNextNode;

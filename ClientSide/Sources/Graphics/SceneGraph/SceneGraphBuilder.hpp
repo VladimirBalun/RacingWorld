@@ -16,20 +16,18 @@
 
 #pragma once
 
-#include <future>
-
-#include "Node.hpp"
+#include "./Node.hpp"
 #include "../OpenGL.hpp"
 #include "../Managers/MeshManager.hpp"
 #include "../Managers/ShaderManager.hpp"
-#include "../../Memory/LinearAllocator.hpp"
+#include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
     class SceneGraphBuilder 
     {
     public:
-        static Node* build(Managers::MeshManager& meshManager, Memory::LinearAllocator& allocator) noexcept;
+        static Node* build(Managers::MeshManager& meshManager, Memory::Allocators::LinearAllocator& allocator) noexcept;
     };
 
 } }

@@ -21,7 +21,6 @@
 
 #include "Constants.hpp"
 #include "ECoordinateAxis.hpp"
-#include "Quaternion.hpp"
 
 namespace Math {
 
@@ -34,7 +33,7 @@ namespace Math {
     template<typename Type>
     Type degrees(Type radians) noexcept
     {
-        return radians * 57.295779513082320876798154814105;
+        return radians * DEGREES_PER_RADIAN;
     }
 
 }

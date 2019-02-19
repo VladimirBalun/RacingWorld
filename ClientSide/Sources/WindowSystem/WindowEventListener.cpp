@@ -16,28 +16,28 @@
 
 #include "WindowEventListener.hpp"
 
-Platforms::WindowSystem::WindowEventListener& Platforms::WindowSystem::WindowEventListener::getInstance()
+WindowSystem::WindowEventListener& WindowSystem::WindowEventListener::getInstance()
 {
     static WindowEventListener windowEventListener;
     return windowEventListener;
 }
 
-Platforms::KeyboardState& Platforms::WindowSystem::WindowEventListener::getKeyboardState() noexcept
+Input::KeyboardState& WindowSystem::WindowEventListener::getKeyboardState() noexcept
 {
     return mKeyboardState;
 }
 
-Platforms::MouseState& Platforms::WindowSystem::WindowEventListener::getMouseState() noexcept
+Input::MouseState& WindowSystem::WindowEventListener::getMouseState() noexcept
 {
     return mMouseState;
 }
 
- LRESULT CALLBACK Platforms::WindowSystem::WindowEventListener::onWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept
+ LRESULT CALLBACK WindowSystem::WindowEventListener::onWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept
  {
      return getInstance().handleWindowEvent(windowHandle, windowEvent, wParam, lParam);
  }
 
-LRESULT CALLBACK Platforms::WindowSystem::WindowEventListener::handleWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept
+LRESULT CALLBACK WindowSystem::WindowEventListener::handleWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept
 {
     switch (windowEvent)
     {
@@ -46,6 +46,9 @@ LRESULT CALLBACK Platforms::WindowSystem::WindowEventListener::handleWindowEvent
         break;
     case WM_KEYUP:
         onKeyboardKeyUpEvent(wParam);
+        break;
+    case WM_MOUSEWHEEL:
+        onMouseWheelEvent(wParam);
         break;
     case WM_MOUSEMOVE:
         onMouseMoveEvent(lParam);
@@ -73,69 +76,79 @@ LRESULT CALLBACK Platforms::WindowSystem::WindowEventListener::handleWindowEvent
     return 0;
 }
 
-void Platforms::WindowSystem::WindowEventListener::onKeyboardKeyDownEvent(WPARAM wParam) noexcept
+void WindowSystem::WindowEventListener::onKeyboardKeyDownEvent(WPARAM wParam) noexcept
 {
     switch (wParam)
     {
     case VK_ESCAPE:
         PostQuitMessage(0);
         break;
-    case VK_W:
+    case Input::VK_W:
         mKeyboardState.pressKeyW();
         break;
-    case VK_S:
+    case Input::VK_S:
         mKeyboardState.pressKeyS();
         break;
-    case VK_A:
+    case Input::VK_A:
         mKeyboardState.pressKeyA();
         break;
-    case VK_D:
+    case Input::VK_D:
         mKeyboardState.pressKeyD();
         break;
     }
 }
 
-void Platforms::WindowSystem::WindowEventListener::onKeyboardKeyUpEvent(WPARAM wParam) noexcept
+void WindowSystem::WindowEventListener::onKeyboardKeyUpEvent(WPARAM wParam) noexcept
 {
     switch (wParam)
     {
-    case VK_W:
+    case Input::VK_W:
         mKeyboardState.releaseKeyW();
         break;
-    case VK_S:
+    case Input::VK_S:
         mKeyboardState.releaseKeyS();
         break;
-    case VK_A:
+    case Input::VK_A:
         mKeyboardState.releaseKeyA();
         break;
-    case VK_D:
+    case Input::VK_D:
         mKeyboardState.releaseKeyD();
         break;
     }
 }
 
-void Platforms::WindowSystem::WindowEventListener::onMouseMoveEvent(LPARAM lParam) noexcept
+void WindowSystem::WindowEventListener::onMouseWheelEvent(LPARAM lParam) noexcept
 {
-    const INT x_pos = LOWORD(lParam);
-    const INT y_pos = HIWORD(lParam);
+    static std::uint8_t wheelOffset = 1;
+    if (lParam > 0)
+        mMouseState.setWheelOffset(-wheelOffset);
+    else
+        mMouseState.setWheelOffset(wheelOffset);
 }
 
-void Platforms::WindowSystem::WindowEventListener::onMouseLeftBtnDownEvent(LPARAM lParam) noexcept
+void WindowSystem::WindowEventListener::onMouseMoveEvent(LPARAM lParam) noexcept
+{
+    const INT xPos = LOWORD(lParam);
+    const INT yPos = HIWORD(lParam);
+    mMouseState.setPosition(xPos, yPos);
+}
+
+void WindowSystem::WindowEventListener::onMouseLeftBtnDownEvent(LPARAM lParam) noexcept
 {
     mMouseState.pressLeftButton();
 }
 
-void Platforms::WindowSystem::WindowEventListener::onMouseRightBtnDownEvent(LPARAM lParam) noexcept
+void WindowSystem::WindowEventListener::onMouseRightBtnDownEvent(LPARAM lParam) noexcept
 {
     mMouseState.pressRightButton();
 }
 
-void Platforms::WindowSystem::WindowEventListener::onMouseLeftBtnUpEvent(LPARAM lParam) noexcept
+void WindowSystem::WindowEventListener::onMouseLeftBtnUpEvent(LPARAM lParam) noexcept
 {
     mMouseState.releaseLeftButton();
 }
 
-void Platforms::WindowSystem::WindowEventListener::onMouseRightBtnUpEvent(LPARAM lParam) noexcept
+void WindowSystem::WindowEventListener::onMouseRightBtnUpEvent(LPARAM lParam) noexcept
 {
     mMouseState.releaseRightButton();
 }

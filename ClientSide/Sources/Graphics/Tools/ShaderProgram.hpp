@@ -20,7 +20,7 @@
 #include "../../Utils/FileSystem.hpp"
 #include "../../Math/Vectors.hpp"
 #include "../../Math/Matrices.hpp"
-#include "../../Memory/LinearAllocator.hpp"
+#include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {
 
@@ -28,28 +28,16 @@ namespace Graphics { namespace Tools {
     {
     public:
         ShaderProgram() = default;
-        ShaderProgram(Memory::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName);
+        ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName);
         
         GLvoid use() const noexcept;
         GLvoid destroy() const noexcept;
         GLuint getProgramID() const noexcept;
         GLboolean isInitialized() const noexcept;
 
-        template<typename Type>
-        GLvoid setUniform(const char* name, Type value) const noexcept;
-        template<typename Type>
-        GLvoid setUniformVector(const char* name, const Math::Vector2<Type>& vector) const noexcept;
-        template<typename Type>
-        GLvoid setUniformVector(const char* name, const Math::Vector3<Type>& vector) const noexcept;
-        template<typename Type>
-        GLvoid setUniformVector(const char* name, const Math::Vector4<Type>& vector) const noexcept;
-
-        template<typename Type>
-        GLvoid setUniformMatrix(const char* name, const Math::Matrix2x2<Type>& matrix) const noexcept;
-        template<typename Type>
-        GLvoid setUniformMatrix(const char* name, const Math::Matrix3x3<Type>& matrix) const noexcept;
-        template<typename Type> 
-        GLvoid setUniformMatrix(const char* name, const Math::Matrix4x4<Type>& matrix) const noexcept;
+        GLvoid setUniformf(const char* name, GLfloat value) const noexcept;
+        GLvoid setUniformVector3f(const char* name, const Math::Vector3<GLfloat>& vector) const noexcept;
+        GLvoid setUniformMatrix4x4f(const char* name, const Math::Matrix4x4<GLfloat>& matrix) const noexcept;
     private:
         GLuint compileShader(const char* shaderSourceCode, GLint shaderType) noexcept;
         GLvoid linkShaders(GLuint vertexShader, GLuint fragmentShader) noexcept;

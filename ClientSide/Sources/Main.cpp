@@ -14,37 +14,24 @@
  * limitations under the License.
  */
 
-#include "System/WindowSystem/Window.hpp"
-
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 #define WINDOW_TITLE "RacingWorld"
 
+#include "WindowSystem/Window.hpp"
+
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, INT cmdShow)
 {
-    #ifdef _DEBUG
-        AllocConsole();
-        AttachConsole(GetCurrentProcessId());
-        FILE* outStream;
-        freopen_s(&outStream, "CON", "w", stdout);
-        if (!outStream)
-            LOG_ERROR("Console was not attached to process.");
-    #endif
+#ifdef _DEBUG
+    AllocConsole();
+    AttachConsole(GetCurrentProcessId());
+    FILE* outStream;
+    freopen_s(&outStream, "CON", "w", stdout);
+    if (!outStream)
+        LOG_ERROR("Console was not attached to process.");
+#endif
 
-    try 
-    {
-        Platforms::WindowSystem::Window window(instance, cmdShow);
-        window.showWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT);
-        return EXIT_SUCCESS;
-    }
-    catch (const std::exception& e) 
-    {
-        LOG_ERROR(e.what());
-        return EXIT_FAILURE;
-    }
-    catch (...) 
-    {
-        LOG_ERROR("Unknown error.");
-        return EXIT_FAILURE;
-    }
+    WindowSystem::Window window(instance, cmdShow);
+    window.showWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT);
+    return EXIT_SUCCESS;
 }

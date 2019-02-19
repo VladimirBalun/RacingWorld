@@ -16,15 +16,19 @@
 
 #pragma once
 
-#include <cstdlib>
+#include "Allocator.hpp"
+#include "../../Utils/Debug.hpp"
 
-namespace Memory {
+namespace Memory { namespace Allocators {
 
-    // Interface
-    struct IAllocatable
+    class LinearAllocator : public Allocator<LinearAllocator>
     {
-        void* operator new (std::size_t size) = delete;
-        void operator delete (void* pointer) = delete;
+    public:
+        explicit LinearAllocator(std::size_t countVirtualPages);
+        void* allocate(std::size_t size, std::size_t alignment = 0) noexcept;
+        void deallocate(void* pointer) noexcept;
+        void reset() noexcept;
+        ~LinearAllocator();
     };
 
-}
+} }

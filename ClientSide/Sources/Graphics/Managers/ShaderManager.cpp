@@ -18,20 +18,20 @@
 
 GLvoid Graphics::Managers::ShaderManager::initializeShaders() noexcept
 {
-    Memory::LinearAllocator shadersAllocator(ONE_VIRTUAL_PAGE);
+    Memory::Allocators::LinearAllocator shadersAllocator(ONE_VIRTUAL_PAGE);
     mShaderPrograms[BASE_SHADER] = createShader(shadersAllocator, "BaseShader.vert", "BaseShader.frag");
     mShaderPrograms[BASE_SHADER2] = createShader(shadersAllocator, "BaseShader2.vert", "BaseShader2.frag");
 }
 
-Graphics::Tools::ShaderProgram Graphics::Managers::ShaderManager::createShader(Memory::LinearAllocator& allocator, const char* vShaderName, const char* fShaderName) const noexcept
+Graphics::Tools::ShaderProgram Graphics::Managers::ShaderManager::createShader(Memory::Allocators::LinearAllocator& allocator, const char* vShaderName, const char* fShaderName) const noexcept
 {
     const char* shadersPath = Configuration::getShadersPath();
     const std::size_t legthShadersPath = strlen(shadersPath);
 
     char* vertexShaderPath = Utils::createStringFromStrings(legthShadersPath + strlen(vShaderName) + 1,
-        std::bind(&Memory::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2), shadersPath, vShaderName);
+        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2), shadersPath, vShaderName);
     char* fragmentShaderPath = Utils::createStringFromStrings(legthShadersPath + strlen(fShaderName) + 1,
-        std::bind(&Memory::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2), shadersPath, fShaderName);
+        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2), shadersPath, fShaderName);
 
     return Tools::ShaderProgram(allocator, vertexShaderPath, fragmentShaderPath);
 }

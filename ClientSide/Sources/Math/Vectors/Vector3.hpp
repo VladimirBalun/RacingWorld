@@ -17,7 +17,9 @@
 #pragma once
 
 #include <cmath>
-#include <array>
+#include <cstdint>
+#include <utility>
+#include <iterator>
 
 namespace Math {
 
@@ -44,8 +46,6 @@ namespace Math {
         void setZ(Type z) noexcept;
 
         void normalize() noexcept;
-        Type dot(const Vector3& anotherVector) noexcept;
-        void cross(const Vector3& anotherVector) noexcept;
         void add(const Vector3& anotherVector) noexcept;
         void sub(const Vector3& anotherVector) noexcept;
         void mul(Type scalar) noexcept;
@@ -154,23 +154,6 @@ namespace Math {
     }
 
     template<class Type>
-    Type Vector3<Type>::dot(const Vector3& anotherVector) noexcept
-    {
-        return mX*anotherVector.mX + mY*anotherVector.mY + mZ*anotherVector.mZ;
-    }
-
-    template<class Type>
-    void Vector3<Type>::cross(const Vector3& anotherVector) noexcept 
-    {
-        const Type x = mY*another.mZ - mZ*another.mY;
-        const Type y = -(mX*another.mZ - mZ*another.mX);
-        const Type z = mX*another.mY - mY*another.mX;
-        mX = x;
-        mY = y;
-        mZ = z;
-    }
-
-    template<class Type>
     void Vector3<Type>::add(const Vector3& anotherVector) noexcept
     {
         mX += anotherVector.mX;
@@ -253,9 +236,7 @@ namespace Math {
     template<class Type>
     bool operator != (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept
     {
-        return ( (vector.getX() != anotherVector.getX()) ||
-                 (vector.getY() != anotherVector.getY()) ||
-                 (vector.getZ() != anotherVector.getZ()) );
+        return !(vector == anotherVector);
     }
 
 } 

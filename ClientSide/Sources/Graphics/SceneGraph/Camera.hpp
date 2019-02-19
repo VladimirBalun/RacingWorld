@@ -17,34 +17,29 @@
 #pragma once
 
 #include "../OpenGL.hpp"
-#include "../../Math/Vectors.hpp"
+#include "../../Math/Math.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
-    // Singleton
     class Camera 
     {
     public:
-        GLvoid moveLeft();
-        GLvoid moveRight();
-        GLvoid moveForward();
-        GLvoid moveBackward();
-        GLvoid scale(GLfloat value);
-        GLvoid setSpeed(GLfloat speed);
-        static Camera& getInstance();
+        GLvoid moveLeft(GLfloat speed);
+        GLvoid moveRight(GLfloat speed);
+        GLvoid moveForward(GLfloat speed);
+        GLvoid moveBackward(GLfloat speed);
+        GLvoid turn(GLint xOffset, GLint yOffset);
+        GLvoid scale(GLint value);
+        Math::Vector3f getPosition();
+        Math::Matrix4x4f getViewMatrix();
+        Math::Matrix4x4f getProjectionMatrix();
     private:
-        Camera() = default;
-        ~Camera() = default;
-        Camera(Camera const&) = delete;
-        Camera& operator = (Camera const&) = delete;
-    private:
-        GLfloat mFov;
-        GLfloat mSpeed;
-        GLfloat mYawAngle;
-        GLfloat mPitchAngle;
-        Math::Vector3f mPosition;
-        Math::Vector3f mUpDirection;
-        Math::Vector3f mForwardDirection;
+        GLfloat mFov = 45.0f;
+        GLfloat mYawAngle = -90.0f;
+        GLfloat mPitchAngle = 0.0f;
+        Math::Vector3f mPosition = { 0.0f, 0.0f, 3.0f };
+        Math::Vector3f mUpDirection = { 0.0f, 1.0f, 0.0f };
+        Math::Vector3f mForwardDirection = { 0.0f, 0.0f, -1.0f };
     };
 
 } }

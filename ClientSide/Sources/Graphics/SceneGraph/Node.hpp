@@ -38,7 +38,7 @@ namespace Graphics { namespace SceneGraph {
         GLvoid childrenForEach(std::function<GLvoid(Node* child)> callback) noexcept;
     private:
         Components::Mesh mMesh;
-        Node* mChild= nullptr;
+        Node* mChild = nullptr;
         Node* mNextNode = nullptr;
         Math::Matrix4x4<GLfloat> mTransformation;
     };

@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "Light.hpp"
 
-#include "Allocator.hpp"
-#include "../Utils/Debug.hpp"
+const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getPosition() const 
+{
+    return mPosition;
+}
 
-namespace Memory {
+const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getAmbientColor() const
+{
+    return mAmbientColor;
+}
 
-    class LinearAllocator : public Allocator<LinearAllocator>
-    {
-    public:
-        explicit LinearAllocator(std::size_t countVirtualPages);
-        void* allocate(std::size_t size, std::size_t alignment = 0) noexcept;
-        void deallocate(void* pointer) noexcept;
-        void reset() noexcept;
-        ~LinearAllocator();
-    };
+const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getDiffuseColor() const
+{
+    return mDiffuseColor;
+}
 
+const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getSpecularColor() const
+{
+    return mSpecularColor;
 }

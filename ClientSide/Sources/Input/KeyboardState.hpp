@@ -16,11 +16,16 @@
 
 #pragma once
 
-namespace Platforms {
+#include <atomic>
+
+#include "../Utils/Debug.hpp"
+
+namespace Input {
 
     class KeyboardState
     {
     public:
+        explicit KeyboardState();
         void pressKeyW() noexcept;
         void releaseKeyW() noexcept;
         void pressKeyS() noexcept;
@@ -34,10 +39,10 @@ namespace Platforms {
         bool isPressedKeyA() const noexcept;
         bool isPressedKeyD() const noexcept;
     private:
-        bool mIsPressedKeyW = false;
-        bool mIsPressedKeyS = false;
-        bool mIsPressedKeyA = false;
-        bool mIisPressedKeyD = false;
+        std::atomic_bool mIsPressedKeyW = false;
+        std::atomic_bool mIsPressedKeyS = false;
+        std::atomic_bool mIsPressedKeyA = false;
+        std::atomic_bool mIisPressedKeyD = false;
     };
 
 }

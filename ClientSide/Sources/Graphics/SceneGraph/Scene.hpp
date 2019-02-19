@@ -17,31 +17,35 @@
 #pragma once
 
 #include "Node.hpp"
+#include "Light.hpp"
+#include "Camera.hpp"
 #include "SceneGraphBuilder.hpp"
 #include "../OpenGL.hpp"
 #include "../Managers/MeshManager.hpp"
 #include "../Managers/ShaderManager.hpp"
-#include "../../Math/Matrices.hpp"
-#include "../../Memory/LinearAllocator.hpp"
+#include "../../WindowSystem/WindowEventListener.hpp"
+#include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
     class Scene
     {
     public:
-        explicit Scene(HDC& windowContext)
-            : mWindowContext(windowContext), mSceneGraphAllocator(ONE_VIRTUAL_PAGE) {}
+        explicit Scene(HDC& windowContext): 
+            mWindowContext(windowContext), 
+            mSceneGraphAllocator(ONE_VIRTUAL_PAGE), 
+            mSceneLight({ 1.2f, 1.0f, 2.0f }, { 0.2f, 0.2f, 0.2f }, { 0.5f, 0.5f, 0.5f }) {}
         GLvoid init(GLint sceneWidth, GLint sceneHeight);
         GLvoid render();
         GLvoid update();
     private:
         Node* mRootNode = nullptr;
         HDC& mWindowContext;
-        Math::Matrix4x4f mViewMatrix;
-        Math::Matrix4x4f mPerspectiveMatrix;
+        Light mSceneLight;
+        Camera mSceneCamera;
         Managers::MeshManager mMeshManager;
         Managers::ShaderManager mShaderManager;
-        Memory::LinearAllocator mSceneGraphAllocator;
+        Memory::Allocators::LinearAllocator mSceneGraphAllocator;
     };
 
-}}
+} }

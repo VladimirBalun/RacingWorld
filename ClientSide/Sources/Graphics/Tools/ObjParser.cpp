@@ -21,7 +21,7 @@
 #define MAX_COUNT_NORMALS              50
 #define MAX_COUNT_FACE_ELEMENT_INDEXES 100
 
-Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFileName, Memory::LinearAllocator& allocator) noexcept
+Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFileName, Memory::Allocators::LinearAllocator& allocator) noexcept
 {
     std::uint16_t countVertices = 1;
     std::uint16_t countTextureCoordinates = 1;
@@ -33,7 +33,7 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
     Math::Vector3f normals[MAX_COUNT_NORMALS];
     Math::Vector3i faceElementIndexes[MAX_COUNT_FACE_ELEMENT_INDEXES]; // (0) - vertex, (1) - texture coordinate, (2) - normal
 
-    char* buffer = Utils::readFile(objFileName, std::bind(&Memory::LinearAllocator::allocate, 
+    char* buffer = Utils::readFile(objFileName, std::bind(&Memory::Allocators::LinearAllocator::allocate,
         &allocator, std::placeholders::_1, std::placeholders::_2));
     char* symbolIterator = buffer;
     while (*symbolIterator != '\0') 
@@ -41,19 +41,22 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
         if (strncmp(symbolIterator, "v ", 2) == 0)
         {
             parseVertices(symbolIterator + 2, vertices + countVertices);
-            ASSERT(++countVertices <= MAX_COUNT_VERTICES,
+            countVertices++;
+            ASSERT(countVertices <= MAX_COUNT_VERTICES,
                 "Vertices in the file more than size of buffer.");
         }
         else if (strncmp(symbolIterator, "vt ", 3) == 0)
         {
             parseTextureCoordinates(symbolIterator + 3, textureCoordinates + countTextureCoordinates);
-            ASSERT(++countTextureCoordinates <= MAX_COUNT_TEXTURE_COORDINATES,
+            countTextureCoordinates++;
+            ASSERT(countTextureCoordinates <= MAX_COUNT_TEXTURE_COORDINATES,
                 "Texture coordinates in the file more than size of buffer.");
         }
         else if (strncmp(symbolIterator, "vn ", 3) == 0)
         {
             parseNormals(symbolIterator + 3, normals + countNormals);
-            ASSERT(++countNormals <= MAX_COUNT_NORMALS,
+            countNormals++;
+            ASSERT(countNormals <= MAX_COUNT_NORMALS,
                 "Normals in the file more than size of buffer.");
         }
         else if (strncmp(symbolIterator, "f ", 2) == 0)
@@ -104,13 +107,13 @@ void Graphics::Tools::ObjParser::parseFaceElementIndexes(const char* line, Math:
         &vertexIndex[0], &textureCoordinateIndex[0], &normalIndex[0],
         &vertexIndex[1], &textureCoordinateIndex[1], &normalIndex[1],
         &vertexIndex[2], &textureCoordinateIndex[2], &normalIndex[2]);
-    *(faceElementIndexes) = { vertexIndex[0], normalIndex[0], textureCoordinateIndex[0] };
-    *(faceElementIndexes + 1) = { vertexIndex[1], normalIndex[1], textureCoordinateIndex[1] };
-    *(faceElementIndexes + 2) = { vertexIndex[2], normalIndex[2], textureCoordinateIndex[2] };
+    *(faceElementIndexes) = { vertexIndex[0], textureCoordinateIndex[0], normalIndex[0] };
+    *(faceElementIndexes + 1) = { vertexIndex[1], textureCoordinateIndex[1], normalIndex[1] };
+    *(faceElementIndexes + 2) = { vertexIndex[2], textureCoordinateIndex[2], normalIndex[2] };
 }
 
 Graphics::Components::Mesh Graphics::Tools::ObjParser::createMesh(const Math::Vector3f* vertices, const Math::Vector2f* textureCoordinates,
-    const Math::Vector3f* normals, const Math::Vector3i* faceElementIndexes, std::size_t countFaceElementIndexes, Memory::LinearAllocator& allocator) noexcept
+    const Math::Vector3f* normals, const Math::Vector3i* faceElementIndexes, std::size_t countFaceElementIndexes, Memory::Allocators::LinearAllocator& allocator) noexcept
 {
     std::size_t memorySizeForMeshElements = countFaceElementIndexes * (Components::Mesh::SIZE_ELEMENT * sizeof(float));
     float* meshElements = reinterpret_cast<float*>(allocator.allocate(memorySizeForMeshElements));

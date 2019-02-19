@@ -16,24 +16,22 @@
 
 #pragma once
 
-#include <cassert>
-#include <iostream>
-
 #ifdef _DEBUG
 
-    #include <thread>
+    #include <cstdio>
+    #include <cassert>
 
     #define LOG_DEBUG(text) \
-        std::cout << "[DEBUG] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
-
-    #define LOG_WARNING(text) \
-        std::cout << "[WARNING] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
+        printf("[DEBUG] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
 
     #define LOG_INFO(text) \
-        std::cout << "[INFO] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
+        printf("[INFO] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
 
+    #define LOG_WARNING(text) \
+        printf("[WARNING] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+        
     #define LOG_ERROR(text) \
-        std::cout << "[ERROR] [" << std::this_thread::get_id() << "] [" << __TIMESTAMP__ << "] [" << __FILE__ << ":" << __LINE__ << "] - " << (text) << std::endl;
+        printf("[ERROR] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
 
     #define ASSERT(condition, message) \
         assert(condition && message);
@@ -46,10 +44,10 @@
     #define LOG_DEBUG(text) \
         ( (void)0 )
 
-    #define LOG_WARNING(text) \
+    #define LOG_INFO(text) \
         ( (void)0 )
 
-    #define LOG_INFO(text) \
+    #define LOG_WARNING(text) \
         ( (void)0 )
 
     #define LOG_ERROR(text) \

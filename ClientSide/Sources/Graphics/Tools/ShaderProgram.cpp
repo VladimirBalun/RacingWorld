@@ -16,12 +16,12 @@
 
 #include "ShaderProgram.hpp"
 
-Graphics::Tools::ShaderProgram::ShaderProgram(Memory::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName)
+Graphics::Tools::ShaderProgram::ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName)
 {
     const char* vShaderSourceCode = Utils::readFile(vShaderFileName,
-        std::bind(&Memory::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2));
+        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2));
     const char* fShaderSourceCode = Utils::readFile(fShaderFileName,
-        std::bind(&Memory::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2));
+        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2));
 
     const GLuint vertexShader = compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
     const GLuint fragmentShader = compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
@@ -116,114 +116,22 @@ GLint Graphics::Tools::ShaderProgram::getUniformLocation(const char* name) const
     return locationID;
 }
 
-template<typename Type>
-GLvoid Graphics::Tools::ShaderProgram::setUniform(const char* name, Type value) const noexcept
+GLvoid Graphics::Tools::ShaderProgram::setUniformf(const char* name, GLfloat value) const noexcept
 {
     glUseProgram(mProgramID);
-    if constexpr (std::is_same<Type, GLfloat>::value)
-        glUniform1f(getUniformLocation(name), value);
-    else if constexpr (std::is_same<Type, GLdouble>::value)
-        glUniform1d(getUniformLocation(name), value);
-    else if constexpr (std::is_same<Type, GLint>::value)
-        glUniform1i(getUniformLocation(name), value);
-    else if constexpr (std::is_same<Type, GLboolean>::value)
-        glUniform1i(getUniformLocation(name), static_cast<GLint>(value));
+    glUniform1f(getUniformLocation(name), value);
 }
 
-template<typename Type>
-GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector2<Type> &vector) const noexcept
+GLvoid Graphics::Tools::ShaderProgram::setUniformVector3f(const char* name, const Math::Vector3<GLfloat>& vector) const noexcept
 {
     glUseProgram(mProgramID);
-    if constexpr (std::is_same<Type, GLfloat>::value)
-        glUniform2f(getUniformLocation(name), vector.getX(), vector.getY());
-    else if constexpr (std::is_same<Type, GLdouble>::value)
-        glUniform2d(getUniformLocation(name), vector.getX(), vector.getY());
-    else if constexpr (std::is_same<Type, GLint>::value)
-        glUniform2i(getUniformLocation(name), vector.getX(), vector.getY());
+    glUniform3f(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ());
 }
 
-template<typename Type>
-GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector3<Type>& vector) const noexcept
+GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix4x4f(const char* name, const Math::Matrix4x4<GLfloat>& matrix) const noexcept
 {
-    glUseProgram(mProgramID);
-    if constexpr (std::is_same<Type, GLfloat>::value)
-        glUniform3f(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ());
-    else if constexpr (std::is_same<Type, GLdouble>::value)
-        glUniform3d(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ());
-    else if constexpr (std::is_same<Type, GLint>::value)
-        glUniform3i(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ());
-}
-
-template<typename Type>
-GLvoid Graphics::Tools::ShaderProgram::setUniformVector(const char* name, const Math::Vector4<Type>& vector) const noexcept
-{
-    glUseProgram(mProgramID);
-    if constexpr (std::is_same<Type, GLfloat>::value)
-        glUniform4f(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ(), vector.getW());
-    else if constexpr (std::is_same<Type, GLdouble>::value)
-        glUniform4d(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ(), vector.getW());
-    else if constexpr (std::is_same<Type, GLint>::value)
-        glUniform4i(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ(), vector.getW());
-}
-
-template<typename Type>
-GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix2x2<Type>& matrix) const noexcept
-{
-    glUseProgram(mProgramID);
-    Type array[Math::Matrix2x2<Type>::MATRIX_SIZE];
+    GLfloat array[Math::Matrix4x4<GLfloat>::MATRIX_SIZE];
     matrix.toArray(array);
-    if constexpr (std::is_same<Type, GLfloat>::value)
-        glUniformMatrix2fv(getUniformLocation(name), 1, GL_TRUE, array);
-    else if constexpr (std::is_same<Type, GLdouble>::value)
-        glUniformMatrix2dv(getUniformLocation(name), 1, GL_TRUE, array);
-}
-
-template<typename Type>
-GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix3x3<Type>& matrix) const noexcept
-{
     glUseProgram(mProgramID);
-    Type array[Math::Matrix3x3<Type>::MATRIX_SIZE];
-    matrix.toArray(array);
-    if constexpr (std::is_same<Type, GLfloat>::value)
-        glUniformMatrix3fv(getUniformLocation(name), 1, GL_TRUE, array);
-    else if constexpr (std::is_same<Type, GLdouble>::value)
-        glUniformMatrix3dv(getUniformLocation(name), 1, GL_TRUE, array);
+    glUniformMatrix4fv(getUniformLocation(name), 1, GL_TRUE, array);
 }
-
-template<typename Type>
-GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix(const char* name, const Math::Matrix4x4<Type>& matrix) const noexcept
-{
-    glUseProgram(mProgramID);
-    Type array[Math::Matrix4x4<Type>::MATRIX_SIZE];
-    matrix.toArray(array);
-    if constexpr (std::is_same<Type, GLfloat>::value)
-        glUniformMatrix4fv(getUniformLocation(name), 1, GL_TRUE, array);
-    else if constexpr (std::is_same<Type, GLdouble>::value)
-        glUniformMatrix4dv(getUniformLocation(name), 1, GL_TRUE, array);
-}
-
-template GLvoid Graphics::Tools::ShaderProgram::setUniform<GLfloat>(const char* name, GLfloat value) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniform<GLdouble>(const char* name, GLdouble value) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniform<GLint>(const char* name, GLint value) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniform<GLboolean>(const char* name, GLboolean value) const noexcept;
-
-template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLfloat>(const char* name, const Math::Vector2f& vector) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLdouble>(const char* name, const Math::Vector2d& vector) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLint>(const char* name, const Math::Vector2i& vector) const noexcept;
-
-template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLfloat>(const char* name, const Math::Vector3f& vector) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLdouble>(const char* name, const Math::Vector3d& vector) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLint>(const char* name, const Math::Vector3i& vector) const noexcept;
-
-template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLfloat>(const char* name, const Math::Vector4f& vector) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLdouble>(const char* name, const Math::Vector4d& vector) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniformVector<GLint>(const char* name, const Math::Vector4i& vector) const noexcept;
-
-template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLfloat>(const char* name, const Math::Matrix2x2f& matrix) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLdouble>(const char* name, const Math::Matrix2x2d& matrix) const noexcept;
-
-template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLfloat>(const char* name, const Math::Matrix3x3f& matrix) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLdouble>(const char* name, const Math::Matrix3x3d& matrix) const noexcept;
-
-template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLfloat>(const char* name, const Math::Matrix4x4f& matrix) const noexcept;
-template GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix<GLdouble>(const char* name, const Math::Matrix4x4d& matrix) const noexcept;

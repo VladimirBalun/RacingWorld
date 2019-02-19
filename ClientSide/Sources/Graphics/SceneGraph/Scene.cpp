@@ -25,10 +25,6 @@ GLvoid Graphics::SceneGraph::Scene::init(GLint sceneWidth, GLint sceneHeight)
     glClearColor(0.3f, 0.7f, 0.9f, 1.0f);
     glViewport(0, 0, sceneWidth, sceneHeight);
 
-    // TODO: need to add class for camera
-    Math::setLookAt(mViewMatrix, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 2.0f }, { 0.0f, 1.0f, 0.0f });
-    Math::setPerspectiveMatrix(mPerspectiveMatrix, 45.0f, (GLfloat) sceneWidth / sceneHeight, 0.1f, 100.f);
-
     mRootNode = SceneGraphBuilder::build(mMeshManager, mSceneGraphAllocator);
 }
 
@@ -38,14 +34,32 @@ GLvoid Graphics::SceneGraph::Scene::render()
     Tools::ShaderProgram& shader = mShaderManager.getShader(Managers::BASE_SHADER);
     shader.use();
 
-    if (mRootNode->isExistChildren()) 
+    shader.setUniformVector3f("viewPosition", mSceneCamera.getPosition());
+    shader.setUniformMatrix4x4f("viewMatrix", mSceneCamera.getViewMatrix());
+    shader.setUniformMatrix4x4f("projectionMatrix", mSceneCamera.getProjectionMatrix());
+
+    shader.setUniformVector3f("light.position", mSceneLight.getPosition());
+    shader.setUniformVector3f("light.ambientColor", mSceneLight.getAmbientColor());
+    shader.setUniformVector3f("light.diffuseColor", mSceneLight.getDiffuseColor());
+    shader.setUniformVector3f("light.specularColor", mSceneLight.getSpecularColor());
+
+    if (mRootNode->isExistChildren())
     {
         mRootNode->childrenForEach([&shader](Node* child)
         {
-            if (child->isExistMesh()) 
+            if (child->isExistMesh())
             {
-                shader.setUniformMatrix("modelMatrix", child->getTransformation());
-                child->getMesh().draw();
+                shader.setUniformMatrix4x4f("modelMatrix", child->getTransformation());
+                Components::Mesh& mesh = child->getMesh();
+                if (mesh.isExistMaterial()) 
+                {
+                    const Components::Material& material = mesh.getMaterial();
+                    shader.setUniformf("material.shininess", material.getShininess());
+                    shader.setUniformVector3f("material.ambientColor", material.getAmbientColor());
+                    shader.setUniformVector3f("material.diffuseColor", material.getDiffuseColor());
+                    shader.setUniformVector3f("material.specularColor", material.getSpecularColor());
+                }
+                mesh.draw();
             }
         });
     }
@@ -56,5 +70,23 @@ GLvoid Graphics::SceneGraph::Scene::render()
 
 GLvoid Graphics::SceneGraph::Scene::update()
 {
+    Input::KeyboardState& keyboard = WindowSystem::WindowEventListener::getInstance().getKeyboardState();
+    const GLfloat cameraSpeed = 0.001f;
+    if (keyboard.isPressedKeyW())
+        mSceneCamera.moveForward(cameraSpeed);
+    if (keyboard.isPressedKeyS())
+        mSceneCamera.moveBackward(cameraSpeed);
+    if (keyboard.isPressedKeyA())
+        mSceneCamera.moveLeft(cameraSpeed);
+    if (keyboard.isPressedKeyD())
+        mSceneCamera.moveRight(cameraSpeed);
 
+    Input::MouseState& mouse = WindowSystem::WindowEventListener::getInstance().getMouseState();
+    const int xDisplacementOffset = mouse.getAndUnsetXDisplacementOffset();
+    const int yDisplacementOffset = mouse.getAndUnsetYDisplacementOffset();
+    if (xDisplacementOffset != 0 || yDisplacementOffset != 0)
+        mSceneCamera.turn(xDisplacementOffset, yDisplacementOffset);
+    const int wheelOffset = mouse.getAndUnsetWheelOffset();
+    if (wheelOffset != 0) 
+        mSceneCamera.scale(wheelOffset);
 }

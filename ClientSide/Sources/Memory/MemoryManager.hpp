@@ -20,8 +20,8 @@
 #include <cassert>
 #include <Windows.h>
 
-#include "INonCopyable.hpp"
-#include "IAllocatable.hpp"
+#include "./INonCopyable.hpp"
+#include "../Utils/Debug.hpp"
 
 #define VIRTUAL_PAGE_SIZE 4096
 #define COUNT_ALLOCATED_PAGES 25
@@ -41,12 +41,9 @@ namespace Memory {
         MemoryManager(MemoryManager const&) = delete;
         MemoryManager& operator = (MemoryManager const&) = delete;
     private:
-        static const std::uint8_t PAGE_USED = 1;
-        static const std::uint8_t PAGE_NOT_USED = 0;
-    private:
         std::mutex mMutex;
         void* mVirtualPages[COUNT_ALLOCATED_PAGES] = { NULL };
-        std::uint8_t mUsedPages[COUNT_ALLOCATED_PAGES] = { PAGE_NOT_USED };
+        bool mUsedPages[COUNT_ALLOCATED_PAGES] = { false };
     };
 
 }

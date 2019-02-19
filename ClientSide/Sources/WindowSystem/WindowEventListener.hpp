@@ -16,39 +16,41 @@
 
 #pragma once
 
+#include <cstdint>
 #include <cstdlib>
 #include <Windows.h>
 
-#include "../MouseState.hpp"
-#include "../KeyboardState.hpp"
-#include "../EWinKeyboardCode.hpp"
+#include "../Input/MouseState.hpp"
+#include "../Input/KeyboardState.hpp"
+#include "../Input/EKeyboardCode.hpp"
 
-namespace Platforms { namespace WindowSystem {
+namespace WindowSystem {
 
     // Singleton
     class WindowEventListener 
     {
         WindowEventListener() = default;
         ~WindowEventListener() = default;
-        WindowEventListener(const WindowEventListener& other) = delete; 
-        WindowEventListener& operator = (const WindowEventListener& other) = delete;
+        WindowEventListener(const WindowEventListener&) = delete; 
+        WindowEventListener& operator = (const WindowEventListener&) = delete;
     public:
         static WindowEventListener& getInstance();
         static LRESULT CALLBACK onWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept;
-        KeyboardState& getKeyboardState() noexcept;
-        MouseState& getMouseState() noexcept;
+        Input::KeyboardState& getKeyboardState() noexcept;
+        Input::MouseState& getMouseState() noexcept;
     private:
         LRESULT CALLBACK handleWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept;
-        void onKeyboardKeyDownEvent(WPARAM w_param) noexcept;
-        void onKeyboardKeyUpEvent(WPARAM w_param) noexcept;
-        void onMouseMoveEvent(LPARAM l_param) noexcept;
-        void onMouseLeftBtnUpEvent(LPARAM l_param) noexcept;
-        void onMouseRightBtnUpEvent(LPARAM l_param) noexcept;
-        void onMouseLeftBtnDownEvent(LPARAM l_param) noexcept;
-        void onMouseRightBtnDownEvent(LPARAM l_param) noexcept;
+        void onKeyboardKeyDownEvent(WPARAM wParam) noexcept;
+        void onKeyboardKeyUpEvent(WPARAM wParam) noexcept;
+        void onMouseWheelEvent(LPARAM lParam) noexcept;
+        void onMouseMoveEvent(LPARAM lParam) noexcept;
+        void onMouseLeftBtnUpEvent(LPARAM lParam) noexcept;
+        void onMouseRightBtnUpEvent(LPARAM lParam) noexcept;
+        void onMouseLeftBtnDownEvent(LPARAM lParam) noexcept;
+        void onMouseRightBtnDownEvent(LPARAM lParam) noexcept;
     private:
-        MouseState mMouseState;
-        KeyboardState mKeyboardState;
+        Input::MouseState mMouseState;
+        Input::KeyboardState mKeyboardState;
     };
 
-} }
+}

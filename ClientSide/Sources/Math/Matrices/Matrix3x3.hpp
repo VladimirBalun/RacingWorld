@@ -16,9 +16,6 @@
 
 #pragma once
 
-#include <utility>
-#include <cstdint>
-
 #include "../Vectors/Vector3.hpp"
 
 namespace Math {
@@ -30,7 +27,7 @@ namespace Math {
         static const std::uint8_t ROW_SIZE = 3;
         static const std::uint8_t MATRIX_SIZE = ROW_SIZE * ROW_SIZE;
 
-        explicit Matrix3x3() = default;
+        explicit Matrix3x3() noexcept = default;
         explicit Matrix3x3(const Type* array) noexcept;
         explicit Matrix3x3(const Matrix3x3& anotherMatrix) noexcept;
         explicit Matrix3x3(Matrix3x3&& anotherMatrix) noexcept;
@@ -46,7 +43,7 @@ namespace Math {
         Matrix3x3& operator = (const Type* array);
         Matrix3x3& operator = (const Matrix3x3& anotherMatrix) noexcept;
         Matrix3x3& operator = (Matrix3x3&& anotherMatrix) noexcept;
-        Type operator [] (std::uint8_t index) const;
+        Type operator [] (std::uint8_t index) const noexcept;
         Matrix3x3& operator += (const Matrix3x3& anotherMatrix) noexcept;
         Matrix3x3& operator -= (const Matrix3x3& anotherMatrix) noexcept;
         Matrix3x3& operator *= (Type scalar) noexcept;
@@ -231,12 +228,9 @@ namespace Math {
     }
 
     template<class Type>
-    Type Matrix3x3<Type>::operator [] (std::uint8_t index) const
+    Type Matrix3x3<Type>::operator [] (std::uint8_t index) const noexcept
     {
-        if (index < MATRIX_SIZE)
-            return mElements[index];
-        else
-            throw std::overflow_error("Matrix dows not contain element with current index.");
+        return mElements[index];
     }
 
     template<class Type>

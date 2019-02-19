@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "Material.hpp"
 #include "../OpenGL.hpp"
 #include "../../Math/Vectors.hpp"
 
@@ -24,8 +25,11 @@ namespace Graphics { namespace Components {
     class Mesh
     {
     public:
-        Mesh() = default;
-        Mesh(GLfloat* elements, std::size_t countElements);
+        Mesh() noexcept = default;
+        Mesh(GLfloat* elements, std::size_t countElements) noexcept;
+        GLvoid setMaterial(const Material& material) noexcept;
+        const Material& getMaterial() const noexcept;
+        GLboolean isExistMaterial() const noexcept;
         GLboolean isInitialized() const noexcept;
         GLvoid destroy() const noexcept;
         GLvoid draw() const noexcept;
@@ -35,10 +39,11 @@ namespace Graphics { namespace Components {
         static const std::uint8_t ALIGNMENT_NORMAL = 5;
         static constexpr std::uint8_t SIZE_ELEMENT = ALIGNMENT_NORMAL + 3;
     private:
+        Material mMaterial;
         GLuint mVBO = 0;
         GLuint mVAO = 0;
         std::size_t mCountElements = 0;
-        GLfloat* mElements = nullptr;
+        const GLfloat* mElements = nullptr;
     };
 
 }}

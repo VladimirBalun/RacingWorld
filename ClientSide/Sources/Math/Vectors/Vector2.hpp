@@ -17,6 +17,9 @@
 #pragma once
 
 #include <cmath>
+#include <cstdint>
+#include <utility>
+#include <iterator>
 
 namespace Math {
 
@@ -41,7 +44,6 @@ namespace Math {
         void setY(Type y) noexcept;
 
         void normalize() noexcept;
-        Type dot(const Vector2& anotherVector) noexcept;
         void add(const Vector2& anotherVector) noexcept;
         void sub(const Vector2& anotherVector) noexcept;
         void mul(Type scalar) noexcept;
@@ -133,12 +135,6 @@ namespace Math {
     }
 
     template<class Type>
-    Type Vector2<Type>::dot(const Vector2& anotherVector) noexcept
-    {
-        return mX*anotherVector.mX + mY*anotherVector.mY;
-    }
-
-    template<class Type>
     void Vector2<Type>::add(const Vector2& anotherVector) noexcept
     {
         mX += anotherVector.mX;
@@ -216,8 +212,7 @@ namespace Math {
     template<class Type>
     bool operator != (const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept
     {
-        return ( (vector.getX() != anotherVector.getX()) ||
-                 (vector.getY() != anotherVector.getY()) );
+        return !(vector == anotherVector);
     }
 
 }

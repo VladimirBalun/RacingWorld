@@ -18,8 +18,8 @@
 
 #include <type_traits>
 
-#include "Protocol.hpp"
-#include "../../Memory/LinearAllocator.hpp"
+#include "./Protocol.hpp"
+#include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Network { namespace Protocol {
 
@@ -33,8 +33,8 @@ namespace Network { namespace Protocol {
         template<typename PacketType>
         PacketType* createPacketFromServer() noexcept;
     private:
-        Memory::LinearAllocator mPacketsToServerAllocator;
-        Memory::LinearAllocator mPacketsFromServerAllocator;
+        Memory::Allocators::LinearAllocator mPacketsToServerAllocator;
+        Memory::Allocators::LinearAllocator mPacketsFromServerAllocator;
     };
 
     template<typename PacketType>

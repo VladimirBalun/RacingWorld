@@ -16,20 +16,23 @@
 
 #pragma once
 
-namespace Platforms {
+#include "Allocator.hpp"
+#include "../../Utils/Debug.hpp"
 
-    class MouseState 
+namespace Memory { namespace Allocators {
+
+    class PoolAllocator : public Allocator<PoolAllocator>
     {
     public:
-        void pressLeftButton() noexcept;
-        void releaseLeftButton() noexcept;
-        void pressRightButton() noexcept;
-        void releaseRightButton() noexcept;
-        bool isPressedLeftButton() const noexcept;
-        bool isPressedRightButton() const noexcept;
+        explicit PoolAllocator(std::size_t countVirtualPages, std::size_t chunkSize);
+        void* allocate(std::size_t size, std::size_t alignment = 0) noexcept;
+        void deallocate(void* pointer) noexcept;
+        void reset() noexcept;
+        ~PoolAllocator();
     private:
-        bool mIsPressedLeftButton = false;
-        bool mIsPressedRightButton = false;
+        std::size_t mChunkSize = 0;
+        struct Chunk { Chunk* next; };
+        Chunk *mChunksHead = nullptr;
     };
 
-}
+} }

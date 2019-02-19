@@ -17,22 +17,22 @@
 #pragma once
 
 #include "../Components/Mesh.hpp"
-#include "../../Memory/LinearAllocator.hpp"
 #include "../../Utils/FileSystem.hpp"
+#include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {
 
     class ObjParser 
     {
     public:
-        static Components::Mesh parse(const char* objFileName, Memory::LinearAllocator& allocator) noexcept;
+        static Components::Mesh parse(const char* objFileName, Memory::Allocators::LinearAllocator& allocator) noexcept;
     private:
         static void parseVertices(const char* line, Math::Vector3f* vertices) noexcept;
         static void parseTextureCoordinates(const char* line, Math::Vector2f* textureCoordinates) noexcept;
         static void parseNormals(const char* line, Math::Vector3f* normals) noexcept;
         static void parseFaceElementIndexes(const char* line, Math::Vector3i* faceElementIndexes) noexcept;
         static Components::Mesh createMesh(const Math::Vector3f* vertices, const Math::Vector2f* textureCoordinates,
-            const Math::Vector3f* normals, const Math::Vector3i* faceElementIndexes, std::size_t countFaceElementIndexes, Memory::LinearAllocator& allocator) noexcept;
+            const Math::Vector3f* normals, const Math::Vector3i* faceElementIndexes, std::size_t countFaceElementIndexes, Memory::Allocators::LinearAllocator& allocator) noexcept;
     };
 
 } }

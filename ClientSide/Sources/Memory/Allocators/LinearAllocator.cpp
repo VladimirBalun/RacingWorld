@@ -16,7 +16,7 @@
 
 #include "LinearAllocator.hpp"
 
-Memory::LinearAllocator::LinearAllocator(size_t countVirtualPages)
+Memory::Allocators::LinearAllocator::LinearAllocator(size_t countVirtualPages)
     : Allocator<LinearAllocator>(countVirtualPages)
 {
     ASSERT(countVirtualPages != 0, "Empty size of memory for allocation.");
@@ -24,24 +24,24 @@ Memory::LinearAllocator::LinearAllocator(size_t countVirtualPages)
     ASSERT(mBasePointer, "Memory was not allocated.");
 }
 
-void* Memory::LinearAllocator::allocate(std::size_t size, std::size_t alignment) noexcept
+void* Memory::Allocators::LinearAllocator::allocate(std::size_t size, std::size_t alignment) noexcept
 {
     std::size_t allocatedPointer = reinterpret_cast<std::size_t>(mBasePointer) + mOffset;
     mOffset += size;
-    return reinterpret_cast<IAllocatable*>(allocatedPointer);
+    return reinterpret_cast<void*>(allocatedPointer);
 }
 
-void Memory::LinearAllocator::deallocate(void* pointer) noexcept
+void Memory::Allocators::LinearAllocator::deallocate(void* pointer) noexcept
 {
     ASSERT(false, "Current allocator does not support this method. Use reset().");
 }
 
-void Memory::LinearAllocator::reset() noexcept
+void Memory::Allocators::LinearAllocator::reset() noexcept
 {
-    mSize = mOffset = 0;
+    mOffset = 0;
 }
 
-Memory::LinearAllocator::~LinearAllocator()
+Memory::Allocators::LinearAllocator::~LinearAllocator()
 {
     MemoryManager::getInstance().returnMemoryPage(mBasePointer);
 }

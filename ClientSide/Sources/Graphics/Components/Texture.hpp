@@ -16,26 +16,20 @@
 
 #pragma once
 
-#include <vector>
-
 #include "../OpenGL.hpp"
 
 namespace Graphics { namespace Components {
 
     class Texture 
     {
-        Texture(std::vector<GLubyte>&& imageData, GLuint width, GLuint height)
-            : mImageData(std::move(imageData)), mWidth(width), mHeight(height) {}
-        GLvoid setID(GLuint id) noexcept;
+        Texture(const char* imageData, GLuint width, GLuint height);
         GLuint getID() const noexcept;
         GLuint getWidth() const noexcept;
         GLuint getHeight() const noexcept;
-        const std::vector<GLubyte>& getImageData() const noexcept;
     private:
-        GLuint mID = 0;
+        GLuint mTextureID = 0;
         const GLuint mWidth;
         const GLuint mHeight;
-        const std::vector<GLubyte> mImageData;
     };
 
 }}

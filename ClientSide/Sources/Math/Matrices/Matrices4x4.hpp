@@ -61,18 +61,29 @@ namespace Math {
             0, 0, -1, 0
         };
         matrix = perspective;
-
     }
 
     template<typename Type>
-    void setLookAt(Matrix4x4<Type>& matrix, const Vector3<Type> right, const Vector3<Type> up, const Vector3<Type> direction) noexcept
+    void setLookAt(Matrix4x4<Type>& matrix, const Vector3<Type> eye, const Vector3<Type> center, const Vector3<Type> up) noexcept
     {
-        Type lookAt[] = {
-          right.getX(), right.getY(), right.getZ(), 0.0,
-          up.getX(), up.getY(), up.getZ(), 0.0,
-          direction.getX(), direction.getY(), direction.getZ(), 0.0,
-          0.0, 0.0, 0.0, 1.0
+        Math::Vector3f right = Math::cross(center, up);
+        right.normalize();
+
+        Type oneMatrix[] = {
+            right.getX(), right.getY(), right.getZ(), 0.0,
+            up.getX(), up.getY(), up.getZ(), 0.0,
+            center.getX(), center.getY(), center.getZ(), 0.0,
+            0.0, 0.0, 0.0, 1.0
         };
+        Type anotherMatrix[] = {
+            1.0, 0.0, 0.0, -(eye.getX()),
+            0.0, 1.0, 0.0, -(eye.getY()),
+            0.0, 0.0, 1.0, -(eye.getZ()),
+            0.0, 0.0, 0.0, 1.0
+        };
+        Matrix4x4f lookAt(oneMatrix);
+        Matrix4x4f additionalMatrix(anotherMatrix);
+        lookAt.mul(additionalMatrix);
         matrix = lookAt;
     }
 
@@ -87,7 +98,7 @@ namespace Math {
         };
         matrix = translation;
     }
-    
+
     template<typename Type>
     void setTranslationMatrix(Matrix4x4<Type>& matrix, Type x, Type y, Type z) noexcept
     {
@@ -99,7 +110,7 @@ namespace Math {
         };
         matrix = translation;
     }
-    
+
     template<typename Type>
     void setScaleMatrix(Matrix4x4<Type>& matrix, const Vector3<Type>& vector) noexcept
     {

@@ -16,9 +16,6 @@
 
 #pragma once
 
-#include <utility>
-#include <cstdint>
-
 #include "../Vectors/Vector4.hpp"
 
 namespace Math {
@@ -30,10 +27,10 @@ namespace Math {
         static const std::uint8_t ROW_SIZE = 4;
         static const std::uint8_t MATRIX_SIZE = ROW_SIZE * ROW_SIZE;
 
-        explicit Matrix4x4() = default;
-        explicit Matrix4x4(const Type* array) noexcept;
-        explicit Matrix4x4(const Matrix4x4& anotherMatrix) noexcept;
-        explicit Matrix4x4(Matrix4x4&& anotherMatrix) noexcept;
+        Matrix4x4() noexcept = default;
+        Matrix4x4(const Type* array) noexcept;
+        Matrix4x4(const Matrix4x4& anotherMatrix) noexcept;
+        Matrix4x4(Matrix4x4&& anotherMatrix) noexcept;
 
         void transpose() noexcept;
         void sub(const Matrix4x4& anotherMatrix) noexcept;
@@ -46,7 +43,7 @@ namespace Math {
         Matrix4x4& operator = (const Type* array);
         Matrix4x4& operator = (const Matrix4x4& anotherMatrix) noexcept;
         Matrix4x4& operator = (Matrix4x4&& anotherMatrix) noexcept;
-        Type operator [] (std::uint8_t index) const;
+        Type operator [] (std::uint8_t index) const noexcept;
         Matrix4x4& operator += (const Matrix4x4& anotherMatrix) noexcept;
         Matrix4x4& operator -= (const Matrix4x4& anotherMatrix) noexcept;
         Matrix4x4& operator *= (Type scalar) noexcept;
@@ -249,12 +246,9 @@ namespace Math {
     }
 
     template<class Type>
-    Type Matrix4x4<Type>::operator [] (std::uint8_t index) const 
+    Type Matrix4x4<Type>::operator [] (std::uint8_t index) const noexcept
     {
-        if (index < MATRIX_SIZE)
-            return mElements[index];
-        else
-            throw std::overflow_error("Matrix dows not contain element with current index.");
+        return mElements[index];
     }
 
     template<class Type>

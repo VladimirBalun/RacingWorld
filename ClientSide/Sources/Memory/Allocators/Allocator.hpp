@@ -19,8 +19,8 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include "INonCopyable.hpp"
-#include "MemoryManager.hpp"
+#include "../INonCopyable.hpp"
+#include "../MemoryManager.hpp"
 
 #define ONE_VIRTUAL_PAGE    1
 #define TWO_VIRTUAL_PAGES   2
@@ -28,7 +28,7 @@
 #define FOUR_VIRTUAL_PAGES  4
 #define FIVE_VIRTUAL_PAGES  5
 
-namespace Memory {
+namespace Memory { namespace Allocators {
 
     // Abstract class
     template<class AllocatorType>
@@ -91,12 +91,14 @@ namespace Memory {
     __forceinline void showAllocatorMemoryState(const Allocator<AllocatorType>& allocator) 
     {
         printf("Memory state of alllocator\n"
-               " - Full size of memory: %zu bytes\n"
-               " - Used memory: %zu bytes\n"
-               " - Free memory: %zu bytes\n",
-            allocator.getFullMemorySize(), allocator.getUsedMemorySize(), allocator.getFreeMemorySize());
+            " - Full size of memory: %zu bytes\n"
+            " - Used memory: %zu bytes\n"
+            " - Free memory: %zu bytes\n",
+            allocator.getFullMemorySize(), 
+            allocator.getUsedMemorySize(),
+            allocator.getFreeMemorySize());
     }
 
     #endif // _DEBUG
 
-}
+} }

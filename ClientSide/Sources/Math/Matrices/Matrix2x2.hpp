@@ -16,9 +16,6 @@
 
 #pragma once
 
-#include <cstdint>
-#include <utility>
-
 #include "../Vectors/Vector2.hpp"
 
 namespace Math {
@@ -30,7 +27,7 @@ namespace Math {
         static const std::uint8_t ROW_SIZE = 2;
         static const std::uint8_t MATRIX_SIZE = ROW_SIZE * ROW_SIZE;
 
-        explicit Matrix2x2() = default;
+        explicit Matrix2x2() noexcept = default;
         explicit Matrix2x2(const Type* array) noexcept;
         explicit Matrix2x2(const Matrix2x2& anotherMatrix) noexcept;
         explicit Matrix2x2(Matrix2x2&& anotherMatrix) noexcept;
@@ -46,7 +43,7 @@ namespace Math {
         Matrix2x2& operator = (const Type* array);
         Matrix2x2& operator = (const Matrix2x2& anotherMatrix) noexcept;
         Matrix2x2& operator = (Matrix2x2&& anotherMatrix) noexcept;
-        Type operator [] (std::uint8_t index) const;
+        Type operator [] (std::uint8_t index) const noexcept;
         Matrix2x2& operator += (const Matrix2x2& anotherMatrix) noexcept;
         Matrix2x2& operator -= (const Matrix2x2& anotherMatrix) noexcept;
         Matrix2x2& operator *= (Type scalar) noexcept;
@@ -207,12 +204,9 @@ namespace Math {
     }
 
     template<class Type>
-    Type Matrix2x2<Type>::operator [] (std::uint8_t index) const
+    Type Matrix2x2<Type>::operator [] (std::uint8_t index) const noexcept
     {
-        if (index < MATRIX_SIZE)
-            return mElements[index];
-        else
-            throw std::overflow_error("Matrix dows not contain element with current index.");
+        return mElements[index];
     }
 
     template<class Type>

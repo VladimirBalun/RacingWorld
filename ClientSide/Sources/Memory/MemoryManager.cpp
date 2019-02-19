@@ -35,36 +35,33 @@ void* Memory::MemoryManager::getMemoryPage()
     std::lock_guard<std::mutex> lock(mMutex);
     for (std::uint8_t i = 1; i < COUNT_ALLOCATED_PAGES; i++)
     {
-        if (mUsedPages[i] == PAGE_NOT_USED)
+        if (!mUsedPages[i])
         {
-            mUsedPages[i] = PAGE_USED;
+            mUsedPages[i] = true;
             return mVirtualPages[i];
         }
     }
 
-    assert(false && "Out of memory. Memory manager doesn't have more pages.");
-    return nullptr; // For disable of warning
+    ASSERT(false, "Out of memory. Memory manager doesn't have more pages.");
+    return nullptr;
 }
-
-#include <iostream>
 
 void Memory::MemoryManager::returnMemoryPage(void* pointer)
 {
-    bool isReleasedPage;
     std::lock_guard<std::mutex> lock(mMutex);
     for (std::uint8_t i = 1; i < COUNT_ALLOCATED_PAGES; i++)
     {
         if ((std::size_t) mVirtualPages[i] == (std::size_t) pointer)
         {
-            mUsedPages[i] = PAGE_NOT_USED;
-            isReleasedPage = true;
+            mUsedPages[i] = false;
+            return;
         }
     }
 
-    assert(isReleasedPage && "Incorrect addres of memory page.");
+    ASSERT(false, "Incorrect addres of memory page.");
 }
 
 Memory::MemoryManager::~MemoryManager() 
 {
-    VirtualFree(*mVirtualPages, 0, MEM_RELEASE);
+    free(mVirtualPages);
 }

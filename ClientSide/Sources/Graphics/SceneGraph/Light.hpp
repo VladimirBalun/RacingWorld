@@ -19,25 +19,24 @@
 #include "../OpenGL.hpp"
 #include "../../Math/Vectors/Vector3.hpp"
 
-namespace Graphics { namespace Components {
+namespace Graphics { namespace SceneGraph {
 
-    class Material 
+    class Light
     {
     public:
-        Material() noexcept = default;
-        Material(const Math::Vector3<GLfloat>& ambient, const Math::Vector3<GLfloat>& diffuse, const Math::Vector3<GLfloat>& specular, GLfloat shininess = 32.0f) noexcept
-            : mAmbientColor(ambient), mDiffuseColor(diffuse), mSpecularColor(specular), mShininess(shininess) {}
+        Light(const Math::Vector3<GLfloat>& position, const Math::Vector3<GLfloat>& ambient,
+            const Math::Vector3<GLfloat>& diffuse, const Math::Vector3<GLfloat>& specular = { 1.0, 1.0f, 1.0f })
+            : mPosition(position), mAmbientColor(ambient), mDiffuseColor(diffuse), mSpecularColor(specular) {}
 
-        GLboolean isInitialized() const noexcept;
-        const Math::Vector3<GLfloat>& getAmbientColor() const noexcept;
-        const Math::Vector3<GLfloat>& getDiffuseColor() const noexcept;
-        const Math::Vector3<GLfloat>& getSpecularColor() const noexcept;
-        GLfloat getShininess() const noexcept;
+        const Math::Vector3<GLfloat>& getPosition() const;
+        const Math::Vector3<GLfloat>& getAmbientColor() const;
+        const Math::Vector3<GLfloat>& getDiffuseColor() const;
+        const Math::Vector3<GLfloat>& getSpecularColor() const;
     private:
+        Math::Vector3<GLfloat> mPosition;
         Math::Vector3<GLfloat> mAmbientColor;
         Math::Vector3<GLfloat> mDiffuseColor;
         Math::Vector3<GLfloat> mSpecularColor;
-        GLfloat mShininess = 0.0F;
     };
 
 } }
