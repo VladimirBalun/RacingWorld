@@ -4,51 +4,19 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.servers</groupId>
-    <artifactId>serverSide</artifactId> 
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>serverside</artifactId>
+    <version>0.1.0</version>
 
     <modules>
-        <module>game</module>
-        <module>authorization</module>
+        <module>gameserver</module>
     </modules>
 
     <packaging>pom</packaging>
-    <name>serverSide</name>
-    <description>Server side of the RacingWorld</description>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-    </properties>
+    <name>serverside</name>
+    <description>Server side for game</description>
 
     <dependencyManagement>
         <dependencies>
-
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-jpa</artifactId>
-                <version>1.11.10.RELEASE</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-test</artifactId>
-                <version>5.0.3.RELEASE</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-entitymanager</artifactId>
-                <version>4.2.5.Final</version>
-            </dependency>
-
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>6.0.6</version>
-            </dependency>
 
             <dependency>
                 <groupId>org.projectlombok</groupId>
