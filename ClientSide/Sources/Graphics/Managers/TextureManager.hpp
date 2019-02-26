@@ -17,32 +17,28 @@
 #pragma once
 
 #include "../OpenGL.hpp"
-#include "../Components/Mesh.hpp"
-#include "../Tools/ObjParser.hpp"
+#include "../Tools/BmpReader.hpp"
+#include "../Components/Texture.hpp"
 #include "../../Utils/Configuration.hpp"
-#include "../../Memory/Allocators/LinearAllocator.hpp"
+#include "../../Utils/StringOperations.hpp"
 
 namespace Graphics { namespace Managers {
 
-    enum EMeshType 
+    enum ETextureType
     {
-        CUBE,
-        COUNT_MESH_TYPES // Used for setting size of meshes array 
+        LETTERS,
+        COUNT_TEXTURE_TYPES // Used for setting size of textures array 
     };
 
-    class MeshManager : Memory::INonCopyable
+    class TextureManager
     {
     public:
-        explicit MeshManager() noexcept
-            : mMeshesAllocator(ONE_VIRTUAL_PAGE) {}
-        GLvoid initializeMeshes() noexcept;
-        Components::Mesh& getMesh(EMeshType meshType) noexcept;
-        ~MeshManager();
+        GLvoid initializeTextures() noexcept;
+        const Components::Texture& getTexture(ETextureType meshType) noexcept;
     private:
-        Components::Mesh createMesh(Memory::Allocators::LinearAllocator& allocator, const char* modelName) const noexcept;
+        Components::Texture createTexture(Memory::Allocators::LinearAllocator& allocator, const char* textureName) const noexcept;
     private:
-        Components::Mesh mMeshes[COUNT_MESH_TYPES];
-        Memory::Allocators::LinearAllocator mMeshesAllocator;
+        Components::Texture mTextures[COUNT_TEXTURE_TYPES];
     };
 
 } }

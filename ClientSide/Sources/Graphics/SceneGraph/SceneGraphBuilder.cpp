@@ -53,7 +53,7 @@ Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::build(Manag
         Math::Matrix4x4f cubeTransofrmation;
         Math::setTranslationMatrix(cubeTransofrmation, cubePositions[i]);
         void* memoryForCubeNode = allocator.allocate(sizeof(Node));
-        Node* cubeNode = new (memoryForCubeNode) Node;
+        Node* cubeNode = new (memoryForCubeNode) Node();
         cubeNode->setMesh(mesh);
         cubeNode->setTransformation(cubeTransofrmation);
         rootNode->addChild(cubeNode);

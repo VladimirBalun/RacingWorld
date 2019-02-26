@@ -17,6 +17,7 @@
 #pragma once
 
 #include <cstdio>
+#include <Windows.h>
 #include <functional>
 
 #include "Debug.hpp"
@@ -24,6 +25,15 @@
 
 namespace Utils {
 
-    char* readFile(const char* fullFileName, std::function<void*(std::size_t, std::size_t)> allocateFunction) noexcept;
+    char* readFile(const char* fileName, std::function<void*(std::size_t, std::size_t)> allocateFunction) noexcept;
+
+    bool createFile(const char* fileName) noexcept;
+    bool removeFile(const char* fileName) noexcept;
+    bool copyFile(const char* fromfileName, const char* tofileName) noexcept;
+    bool moveFile(const char* fileName, const char* newfileName) noexcept;
+    bool renameFile(const char* oldfileName, const char* newfileName) noexcept;
+
+    bool createSymLink(const char* fileName, const char* linkName) noexcept;
+    bool createHardLink(const char* fileName, const char* linkName) noexcept;
 
 }

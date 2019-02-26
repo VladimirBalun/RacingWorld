@@ -20,16 +20,18 @@
 
 namespace Graphics { namespace Components {
 
-    class Texture 
+    class Texture
     {
-        Texture(const char* imageData, GLuint width, GLuint height);
+    public:
+        explicit Texture() noexcept = default;
+        explicit Texture(const unsigned char* imageData, GLuint width, GLuint height) noexcept;
         GLuint getID() const noexcept;
         GLuint getWidth() const noexcept;
         GLuint getHeight() const noexcept;
     private:
+        GLuint mWidth = 0;
+        GLuint mHeight = 0;
         GLuint mTextureID = 0;
-        const GLuint mWidth;
-        const GLuint mHeight;
     };
 
 }}

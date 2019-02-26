@@ -22,6 +22,8 @@ GLvoid Graphics::SceneGraph::Scene::init(GLint sceneWidth, GLint sceneHeight)
     mMeshManager.initializeMeshes();
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.3f, 0.7f, 0.9f, 1.0f);
     glViewport(0, 0, sceneWidth, sceneHeight);
 
@@ -35,8 +37,8 @@ GLvoid Graphics::SceneGraph::Scene::render()
     shader.use();
 
     shader.setUniformVector3f("viewPosition", mSceneCamera.getPosition());
-    shader.setUniformMatrix4x4f("viewMatrix", mSceneCamera.getViewMatrix());
     shader.setUniformMatrix4x4f("projectionMatrix", mSceneCamera.getProjectionMatrix());
+    shader.setUniformMatrix4x4f("viewMatrix", mSceneCamera.getViewMatrix());
 
     shader.setUniformVector3f("light.position", mSceneLight.getPosition());
     shader.setUniformVector3f("light.ambientColor", mSceneLight.getAmbientColor());
@@ -50,7 +52,7 @@ GLvoid Graphics::SceneGraph::Scene::render()
             if (child->isExistMesh())
             {
                 shader.setUniformMatrix4x4f("modelMatrix", child->getTransformation());
-                Components::Mesh& mesh = child->getMesh();
+                const Components::Mesh& mesh = child->getMesh();
                 if (mesh.isExistMaterial()) 
                 {
                     const Components::Material& material = mesh.getMaterial();

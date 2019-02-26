@@ -41,8 +41,8 @@ namespace Input {
         std::atomic_int mWheelOffset = 0;
         std::atomic_int mXPosition = 0;
         std::atomic_int mYPosition = 0;
-        std::atomic_int mLastXPosition = 0;
-        std::atomic_int mLastYPosition = 0;
+        std::atomic_int mLastXPosition = 400;
+        std::atomic_int mLastYPosition = 300;
         std::atomic_bool mIsPressedLeftButton = false;
         std::atomic_bool mIsPressedRightButton = false;
     };

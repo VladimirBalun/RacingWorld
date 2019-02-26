@@ -29,10 +29,10 @@ namespace Math {
     public:
         static const std::uint8_t VECTOR_SIZE = 2;
 
-        Vector2() = default;
-        Vector2(const Vector2& anotherVector);
-        Vector2(const Type* array);
-        Vector2(Type x, Type y)
+        Vector2() noexcept = default;
+        Vector2(const Vector2& anotherVector) noexcept;
+        Vector2(const Type* array) noexcept;
+        Vector2(Type x, Type y) noexcept
             : mX(x), mY(y) {}
 
         Type getX() const noexcept;
@@ -73,14 +73,14 @@ namespace Math {
     using Vector2i = Vector2<int>;
 
     template<class Type>
-    Vector2<Type>::Vector2(const Vector2& anotherVector)
+    Vector2<Type>::Vector2(const Vector2& anotherVector) noexcept
     {
         mX = anotherVector.mX;
         mY = anotherVector.mY;
     }
 
     template<class Type>
-    Vector2<Type>::Vector2(const Type* array)
+    Vector2<Type>::Vector2(const Type* array) noexcept
     {
         mX = array[0];
         mY = array[1];
@@ -101,7 +101,7 @@ namespace Math {
     template<class Type>
     std::size_t Vector2<Type>::getLength() const noexcept
     {
-        return sqrt(mX*mX + mY*mY);
+        return static_cast<std::size_t>(sqrt(mX*mX + mY*mY));
     }
 
     template<class Type>

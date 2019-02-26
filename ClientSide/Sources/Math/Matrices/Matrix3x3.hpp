@@ -28,7 +28,7 @@ namespace Math {
         static const std::uint8_t MATRIX_SIZE = ROW_SIZE * ROW_SIZE;
 
         explicit Matrix3x3() noexcept = default;
-        explicit Matrix3x3(const Type* array) noexcept;
+        explicit Matrix3x3(const Type (&array)[MATRIX_SIZE]) noexcept;
         explicit Matrix3x3(const Matrix3x3& anotherMatrix) noexcept;
         explicit Matrix3x3(Matrix3x3&& anotherMatrix) noexcept;
 
@@ -40,7 +40,7 @@ namespace Math {
         Vector3<Type> mul(const Vector3<Type>& vector) noexcept;
         void toArray(Type* array) const;
 
-        Matrix3x3& operator = (const Type* array);
+        Matrix3x3& operator = (const Type (&array)[MATRIX_SIZE]);
         Matrix3x3& operator = (const Matrix3x3& anotherMatrix) noexcept;
         Matrix3x3& operator = (Matrix3x3&& anotherMatrix) noexcept;
         Type operator [] (std::uint8_t index) const noexcept;
@@ -77,7 +77,7 @@ namespace Math {
     using Matrix3x3d = Matrix3x3<double>;
 
     template<class Type>
-    Matrix3x3<Type>::Matrix3x3(const Type* array) noexcept
+    Matrix3x3<Type>::Matrix3x3(const Type (&array)[MATRIX_SIZE]) noexcept
     {
         for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
         {
@@ -196,7 +196,7 @@ namespace Math {
     }
 
     template<class Type>
-    Matrix3x3<Type>& Matrix3x3<Type>::operator = (const Type* array)
+    Matrix3x3<Type>& Matrix3x3<Type>::operator = (const Type (&array)[MATRIX_SIZE])
     {
         for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
         {

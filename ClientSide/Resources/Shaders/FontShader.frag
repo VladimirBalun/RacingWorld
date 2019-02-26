@@ -14,24 +14,16 @@
  * limitations under the License.
  */
 
-#pragma once
+#version 330 core
 
-#include "Vectors.hpp"
-#include "Matrices.hpp"
-#include "Constants.hpp"
+in vec2 fragmentUV;
 
-namespace Math {
+out vec4 color;
 
-    template<typename Type>
-    Type radians(Type degrees) noexcept
-    {
-        return degrees * RADIANS_PER_DEGREE;
-    }
+uniform sampler2D textureSampler;
 
-    template<typename Type>
-    Type degrees(Type radians) noexcept
-    {
-        return radians * DEGREES_PER_RADIAN;
-    }
-
+void main() 
+{
+    color = texture(textureSampler, fragmentUV);
+    color = vec4(1, 1, 1, color.a);
 }

@@ -27,8 +27,7 @@ namespace Graphics { namespace Managers {
     enum EShaderType 
     {
         BASE_SHADER,
-        BASE_SHADER2,
-        MODEL_VIEW_SHADER,
+        FONT_SHADER,
         COUNT_SHADER_TYPES // Used for setting size of shaders array 
     };
 

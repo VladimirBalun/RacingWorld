@@ -18,21 +18,57 @@
 
 char* Utils::readFile(const char* fullFileName, std::function<void*(std::size_t, std::size_t)> allocateFunction) noexcept
 {
-    FILE* file = NULL;
-    fopen_s(&file, fullFileName, "rb");
-    if (!file)
+    FILE* inputStream = NULL;
+    fopen_s(&inputStream, fullFileName, "rb");
+    if (!inputStream)
     {
         LOG_WARNING("File was not opened.");
         return nullptr;
     }
 
-    std::fseek(file, 0, SEEK_END);
-    std::size_t fileSize = std::ftell(file) + 1;
-    std::rewind(file);
+    std::fseek(inputStream, 0, SEEK_END);
+    long fileSize = std::ftell(inputStream) + 1;
+    std::rewind(inputStream);
 
     char* buffer = reinterpret_cast<char*>(allocateFunction(fileSize, 0));
-    std::size_t countReadSymbols = std::fread(buffer, sizeof(char), fileSize, file);
+    std::size_t countReadSymbols = std::fread(buffer, sizeof(char), fileSize, inputStream);
     buffer[countReadSymbols] = '\0';
-    std::fclose(file);
+    std::fclose(inputStream);
+
     return buffer;
+}
+
+bool Utils::createFile(const char* fileName) noexcept
+{
+    return CreateFile(fileName, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL) != INVALID_HANDLE_VALUE;
+}
+
+bool Utils::removeFile(const char* fileName) noexcept
+{
+    return DeleteFile(fileName) != 0;
+}
+
+bool Utils::copyFile(const char* fromfileName, const char* tofileName) noexcept
+{
+    return CopyFile(fromfileName, tofileName, FALSE) != 0;
+}
+
+bool Utils::moveFile(const char* fileName, const char* newfileName) noexcept
+{
+    return MoveFile(fileName, newfileName) != 0;
+}
+
+bool Utils::renameFile(const char* oldfileName, const char* newfileName) noexcept
+{
+    return rename(oldfileName, newfileName) == 0;
+}
+
+bool Utils::createSymLink(const char* fileName, const char* linkName) noexcept
+{
+    return CreateSymbolicLink(linkName, fileName, 0) != 0;
+}
+
+bool Utils::createHardLink(const char* fileName, const char* linkName) noexcept
+{
+    return CreateHardLink(linkName, fileName, NULL) != 0;
 }

@@ -24,15 +24,15 @@ namespace Graphics { namespace SceneGraph {
     class Camera 
     {
     public:
-        GLvoid moveLeft(GLfloat speed);
-        GLvoid moveRight(GLfloat speed);
-        GLvoid moveForward(GLfloat speed);
-        GLvoid moveBackward(GLfloat speed);
-        GLvoid turn(GLint xOffset, GLint yOffset);
-        GLvoid scale(GLint value);
-        Math::Vector3f getPosition();
-        Math::Matrix4x4f getViewMatrix();
-        Math::Matrix4x4f getProjectionMatrix();
+        GLvoid moveLeft(GLfloat speed) noexcept;
+        GLvoid moveRight(GLfloat speed) noexcept;
+        GLvoid moveForward(GLfloat speed) noexcept;
+        GLvoid moveBackward(GLfloat speed) noexcept;
+        GLvoid turn(GLint xOffset, GLint yOffset) noexcept;
+        GLvoid scale(GLint value) noexcept;
+        const Math::Vector3f& getPosition() const noexcept;
+        const Math::Matrix4x4f& getViewMatrix() const noexcept;
+        const Math::Matrix4x4f& getProjectionMatrix() const noexcept;
     private:
         GLfloat mFov = 45.0f;
         GLfloat mYawAngle = -90.0f;

@@ -31,8 +31,8 @@ namespace Network { namespace Protocol {
         explicit InitializePositionPacket() : NetworkPacket(INITIALIZE_POSITION_PACKET) {}
         void setPacketNumber(std::int32_t number) noexcept;
         void setToken(std::int32_t token) noexcept;
-        void setPosition(const Math::Vector3f position) noexcept;
-        void setDirection(const Math::Vector3f direction) noexcept;
+        void setPosition(const Math::Vector3f& position) noexcept;
+        void setDirection(const Math::Vector3f& direction) noexcept;
         char* toBuffer() noexcept;
     private:
         Endianness::int32be_t mToken;
@@ -52,12 +52,12 @@ namespace Network { namespace Protocol {
         mToken = token;
     }
 
-    inline void InitializePositionPacket::setPosition(const Math::Vector3f position) noexcept
+    inline void InitializePositionPacket::setPosition(const Math::Vector3f& position) noexcept
     {
         mPosition = position;
     }
 
-    inline void InitializePositionPacket::setDirection(const Math::Vector3f direction) noexcept
+    inline void InitializePositionPacket::setDirection(const Math::Vector3f& direction) noexcept
     {
         mDirection = direction;
     }

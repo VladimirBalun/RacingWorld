@@ -16,7 +16,7 @@
 
 #include "Mesh.hpp"
 
-Graphics::Components::Mesh::Mesh(GLfloat* elements, std::size_t countElements) noexcept :
+Graphics::Components::Mesh::Mesh(GLfloat* elements, GLsizei countElements) noexcept :
     mElements(elements), mCountElements(countElements)
 {
     glGenVertexArrays(1, &mVAO);
@@ -31,16 +31,16 @@ Graphics::Components::Mesh::Mesh(GLfloat* elements, std::size_t countElements) n
 
     glBindVertexArray(mVAO);
     glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-    glBufferData(GL_ARRAY_BUFFER, mCountElements * SIZE_ELEMENT * sizeof(GLfloat), mElements, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(mCountElements * SIZE_ELEMENT * sizeof(GLfloat)), mElements, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, Math::Vector3f::VECTOR_SIZE, GL_FLOAT, GL_FALSE,
-        SIZE_ELEMENT * sizeof(GLfloat), (void*)(ALIGNMENT_VERTEX * sizeof(GLfloat)));
+        SIZE_ELEMENT * sizeof(GLfloat), reinterpret_cast<void*>(ALIGNMENT_VERTEX * sizeof(GLfloat)));
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, Math::Vector2f::VECTOR_SIZE, GL_FLOAT, GL_FALSE, 
-        SIZE_ELEMENT * sizeof(GLfloat), (void*)(ALIGNMENT_TEXTURE_COORDINATE * sizeof(GLfloat)));
+        SIZE_ELEMENT * sizeof(GLfloat), reinterpret_cast<void*>(ALIGNMENT_TEXTURE_COORDINATE * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(2, Math::Vector3f::VECTOR_SIZE, GL_FLOAT, GL_FALSE,
-        SIZE_ELEMENT * sizeof(GLfloat), (void*)(ALIGNMENT_NORMAL * sizeof(GLfloat)));
+        SIZE_ELEMENT * sizeof(GLfloat), reinterpret_cast<void*>(ALIGNMENT_NORMAL * sizeof(GLfloat)));
     glEnableVertexAttribArray(2);
 
     glBindVertexArray(NULL);

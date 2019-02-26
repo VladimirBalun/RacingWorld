@@ -16,9 +16,17 @@
 
 #pragma once
 
-enum ECoordinateAxis 
-{
-    X_ASIS,
-    Y_AXIS,
-    Z_AXIS
-};
+#include <cstdio>
+
+#include "../OpenGL.hpp"
+#include "../../Memory/Allocators/LinearAllocator.hpp"
+
+namespace Graphics { namespace Tools {
+
+    class BmpReader 
+    {
+    public:
+        static unsigned char* read(const char* bmpFileName, GLuint& width, GLuint& height, Memory::Allocators::LinearAllocator& allocator);
+    };
+
+} }

@@ -22,29 +22,50 @@
 
 namespace Math {
 
-    template<class Type>
+    template<typename Type>
+    Math::Vector2<Type> normalize(const Vector2<Type>& vector) noexcept
+    {
+        Math::Vector2<Type> normalizedVector = vector;
+        normalizedVector.normalize();
+        return normalizedVector;
+    }
+
+    template<typename Type>
+    Math::Vector3<Type> normalize(const Vector3<Type>& vector) noexcept
+    {
+        Math::Vector3<Type> normalizedVector = vector;
+        normalizedVector.normalize();
+        return normalizedVector;
+    }
+
+    template<typename Type>
+    Math::Vector4<Type> normalize(const Vector4<Type>& vector) noexcept
+    {
+        Math::Vector4<Type> normalizedVector = vector;
+        normalizedVector.normalize();
+        return normalizedVector;
+    }
+
+    template<typename Type>
     Type dot(const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept
     {
         return vector.getX()*anotherVector.getX() + vector.getY()*anotherVector.getY();
     }
 
     template<typename Type>
-    Math::Vector3<Type> cross(Vector3<Type> vector, Vector3<Type> anotherVector) noexcept
-    {
-        const Type x = vector.getY()*anotherVector.getZ() - vector.getZ()*anotherVector.getY();
-        const Type y = -(vector.getX()*anotherVector.getZ() - vector.getZ()*anotherVector.getX());
-        const Type z = vector.getX()*anotherVector.getY() - vector.getY()*anotherVector.getX();
-        return { x, y, z };
-    }
-
-    template<class Type>
     Type dot(const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept
     {
         return vector.getX()*anotherVector.getX() + vector.getY()*anotherVector.getY() + vector.getZ()*anotherVector.getZ();
     }
 
     template<typename Type>
-    Math::Vector4<Type> cross(Vector4<Type> vector, Vector4<Type> anotherVector) noexcept
+    Type dot(const Vector4<Type>& vector, const Vector4<Type>& anotherVector) noexcept
+    {
+        return vector.getX()*anotherVector.getX() + vector.getY()*anotherVector.getY() + vector.getZ()*anotherVector.getZ();
+    }
+
+    template<typename Type>
+    Vector3<Type> cross(const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept
     {
         const Type x = vector.getY()*anotherVector.getZ() - vector.getZ()*anotherVector.getY();
         const Type y = -(vector.getX()*anotherVector.getZ() - vector.getZ()*anotherVector.getX());
@@ -52,10 +73,13 @@ namespace Math {
         return { x, y, z };
     }
 
-    template<class Type>
-    Type dot(const Vector4<Type>& vector, const Vector4<Type>& anotherVector) noexcept
+    template<typename Type>
+    Vector4<Type> cross(const Vector4<Type>& vector, const Vector4<Type>& anotherVector) noexcept
     {
-        return vector.getX()*anotherVector.getX() + vector.getY()*anotherVector.getY() + vector.getZ()*anotherVector.getZ();
+        const Type x = vector.getY()*anotherVector.getZ() - vector.getZ()*anotherVector.getY();
+        const Type y = -(vector.getX()*anotherVector.getZ() - vector.getZ()*anotherVector.getX());
+        const Type z = vector.getX()*anotherVector.getY() - vector.getY()*anotherVector.getX();
+        return { x, y, z };
     }
 
 }

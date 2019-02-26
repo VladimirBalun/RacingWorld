@@ -63,5 +63,5 @@ void Memory::MemoryManager::returnMemoryPage(void* pointer)
 
 Memory::MemoryManager::~MemoryManager() 
 {
-    free(mVirtualPages);
+    free(*mVirtualPages);
 }

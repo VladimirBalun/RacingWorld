@@ -21,31 +21,33 @@
 #define PITCH_MIN_ANGLE -89.0f
 #define PITCH_MAX_ANGLE 89.0f
 
-GLvoid Graphics::SceneGraph::Camera::moveLeft(GLfloat speed)
+GLvoid Graphics::SceneGraph::Camera::moveLeft(GLfloat speed) noexcept
 {
     Math::Vector3f rightDirection = Math::cross(mForwardDirection, mUpDirection);
     rightDirection.normalize();
-    mPosition.sub(rightDirection * speed);
+    rightDirection.mul(speed);
+    mPosition.sub(rightDirection);
 }
 
-GLvoid Graphics::SceneGraph::Camera::moveRight(GLfloat speed)
+GLvoid Graphics::SceneGraph::Camera::moveRight(GLfloat speed) noexcept
 {
     Math::Vector3f rightDirection = Math::cross(mForwardDirection, mUpDirection);
     rightDirection.normalize();
-    mPosition.add(rightDirection * speed);
+    rightDirection.mul(speed);
+    mPosition.add(rightDirection);
 }
 
-GLvoid Graphics::SceneGraph::Camera::moveForward(GLfloat speed)
+GLvoid Graphics::SceneGraph::Camera::moveForward(GLfloat speed) noexcept
 {
     mPosition.add(mForwardDirection * speed);
 }
 
-GLvoid Graphics::SceneGraph::Camera::moveBackward(GLfloat speed)
+GLvoid Graphics::SceneGraph::Camera::moveBackward(GLfloat speed) noexcept
 {
     mPosition.sub(mForwardDirection * speed);
 }
 
-GLvoid Graphics::SceneGraph::Camera::turn(GLint xOffset, GLint yOffset)
+GLvoid Graphics::SceneGraph::Camera::turn(GLint xOffset, GLint yOffset) noexcept
 {
     GLfloat sensitivity = 0.05f; // TODO: need speed calculation by FPS
     mYawAngle += xOffset * sensitivity;
@@ -56,13 +58,16 @@ GLvoid Graphics::SceneGraph::Camera::turn(GLint xOffset, GLint yOffset)
     if (mPitchAngle < -89.0f)
         mPitchAngle = -89.0f;
 
-    mForwardDirection.setX(cos(Math::radians(mPitchAngle)) * cos(Math::radians(mYawAngle)));
-    mForwardDirection.setY(sin(Math::radians(mPitchAngle)));
-    mForwardDirection.setZ(cos(Math::radians(mPitchAngle)) * sin(Math::radians(mYawAngle)));
+    GLfloat pitchAnglePerRadians = Math::radians(mPitchAngle);
+    GLfloat yawAnglePerRadians = Math::radians(mYawAngle);
+    GLfloat pitchAngleCosine = cos(pitchAnglePerRadians);
+    mForwardDirection.setX(pitchAngleCosine * cos(yawAnglePerRadians));
+    mForwardDirection.setY(sin(pitchAnglePerRadians));
+    mForwardDirection.setZ(pitchAngleCosine * sin(yawAnglePerRadians));
     mForwardDirection.normalize();
 }
 
-GLvoid Graphics::SceneGraph::Camera::scale(GLint value)
+GLvoid Graphics::SceneGraph::Camera::scale(GLint value) noexcept
 {
     mFov += value;
     if (mFov < FOV_MIN_SIZE)
@@ -71,21 +76,21 @@ GLvoid Graphics::SceneGraph::Camera::scale(GLint value)
         mFov = FOW_MAX_SIZE;
 }
 
-Math::Vector3f Graphics::SceneGraph::Camera::getPosition()
+const Math::Vector3f& Graphics::SceneGraph::Camera::getPosition() const noexcept
 {
     return mPosition;
 }
 
-Math::Matrix4x4f Graphics::SceneGraph::Camera::getViewMatrix()
+const Math::Matrix4x4f& Graphics::SceneGraph::Camera::getViewMatrix() const noexcept
 {
-    Math::Matrix4x4f viewMatrix;
+    static Math::Matrix4x4f viewMatrix;
     Math::setLookAt(viewMatrix, mPosition, mPosition + mForwardDirection, mUpDirection);
     return viewMatrix;
 }
 
-Math::Matrix4x4f Graphics::SceneGraph::Camera::getProjectionMatrix()
+const Math::Matrix4x4f& Graphics::SceneGraph::Camera::getProjectionMatrix() const noexcept
 {
-    Math::Matrix4x4f perspectiveMatrix;
+    static Math::Matrix4x4f perspectiveMatrix;
     Math::setPerspectiveMatrix(perspectiveMatrix, mFov, (GLfloat)800 / 600, 0.1f, 100.f);
     return perspectiveMatrix;
 }

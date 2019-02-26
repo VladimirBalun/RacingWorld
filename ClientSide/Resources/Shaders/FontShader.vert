@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-#pragma once
+#version 330 core
 
-#include "Vectors.hpp"
-#include "Matrices.hpp"
-#include "Constants.hpp"
+layout(location = 0) in vec2 vertexPos;
+layout(location = 1) in vec2 vertexUV;
 
-namespace Math {
+out vec2 fragmentUV;
 
-    template<typename Type>
-    Type radians(Type degrees) noexcept
-    {
-        return degrees * RADIANS_PER_DEGREE;
-    }
-
-    template<typename Type>
-    Type degrees(Type radians) noexcept
-    {
-        return radians * DEGREES_PER_RADIAN;
-    }
-
+void main() 
+{
+    fragmentUV = vertexUV;
+    gl_Position.x = vertexPos.x*2 - 1;
+    gl_Position.y = vertexPos.y*2 - 1;
+    gl_Position.z = -1.0;
+    gl_Position.w =  1.0;
 }

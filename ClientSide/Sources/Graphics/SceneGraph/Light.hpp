@@ -27,7 +27,6 @@ namespace Graphics { namespace SceneGraph {
         Light(const Math::Vector3<GLfloat>& position, const Math::Vector3<GLfloat>& ambient,
             const Math::Vector3<GLfloat>& diffuse, const Math::Vector3<GLfloat>& specular = { 1.0, 1.0f, 1.0f })
             : mPosition(position), mAmbientColor(ambient), mDiffuseColor(diffuse), mSpecularColor(specular) {}
-
         const Math::Vector3<GLfloat>& getPosition() const;
         const Math::Vector3<GLfloat>& getAmbientColor() const;
         const Math::Vector3<GLfloat>& getDiffuseColor() const;

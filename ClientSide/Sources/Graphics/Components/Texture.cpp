@@ -16,7 +16,7 @@
 
 #include "Texture.hpp"
 
-Graphics::Components::Texture::Texture(const char* imageData, GLuint width, GLuint height)
+Graphics::Components::Texture::Texture(const unsigned char* imageData, GLuint width, GLuint height) noexcept
     : mWidth(width), mHeight(height) 
 {
     glGenTextures(1, &mTextureID);
