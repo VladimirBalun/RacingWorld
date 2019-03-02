@@ -16,6 +16,9 @@
 
 #include "Configuration.hpp"
 
+std::uint16_t Configuration::Window::windowWidth = 800;
+std::uint16_t Configuration::Window::windowHeight = 600;
+
 const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
 
 const std::string Configuration::Player::PLAYER_EMAIL = u8"player@gmail.com";

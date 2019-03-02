@@ -24,6 +24,12 @@
 
 struct Configuration 
 {
+    struct Window 
+    {
+        static std::uint16_t windowWidth;
+        static std::uint16_t windowHeight;
+    };
+
     struct Game
     {
         static const std::uint8_t MAX_COUNT_PLAYERS = 10;

@@ -20,6 +20,7 @@
 #include "../../Utils/FileSystem.hpp"
 #include "../../Math/Vectors.hpp"
 #include "../../Math/Matrices.hpp"
+#include "../../EventSystem/EventManager.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {
@@ -27,14 +28,12 @@ namespace Graphics { namespace Tools {
     class ShaderProgram 
     {
     public:
-        ShaderProgram() = default;
-        ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName);
-        
+        explicit ShaderProgram() = default;
+        explicit ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName);
         GLvoid use() const noexcept;
         GLvoid destroy() const noexcept;
         GLuint getProgramID() const noexcept;
         GLboolean isInitialized() const noexcept;
-
         GLvoid setUniformf(const char* name, GLfloat value) const noexcept;
         GLvoid setUniformVector3f(const char* name, const Math::Vector3<GLfloat>& vector) const noexcept;
         GLvoid setUniformMatrix4x4f(const char* name, const Math::Matrix4x4<GLfloat>& matrix) const noexcept;

@@ -23,6 +23,11 @@ Graphics::Tools::ShaderProgram::ShaderProgram(Memory::Allocators::LinearAllocato
     const char* fShaderSourceCode = Utils::readFile(fShaderFileName,
         std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2));
 
+    if (!vShaderSourceCode)
+        EventSystem::EventManager::getInstance().notifyGlobalError("Vertex shader was not read.");
+    if (!fShaderSourceCode)
+        EventSystem::EventManager::getInstance().notifyGlobalError("Fragment shader was not read.");
+
     const GLuint vertexShader = compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
     const GLuint fragmentShader = compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
     linkShaders(vertexShader, fragmentShader);

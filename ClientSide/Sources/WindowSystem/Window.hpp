@@ -19,32 +19,31 @@
 #include <WinSock2.h>
 
 #include "WindowEventListener.hpp"
-#include "../Utils/Debug.hpp"
 #include "../Network/NetworkManager.hpp"
+#include "../EventSystem/EventManager.hpp"
 #include "../Graphics/SceneGraph/Scene.hpp"
 
 namespace WindowSystem {
 
-    class Window
+    class Window : public EventSystem::IEventSubscriber
     {
     public:
         explicit Window(HINSTANCE& appInstance, int cmdShow);
-        void showWindow(LPCSTR windowTitle, int windowWidth, int windowHeight, bool fullscreen = false);
+        void showWindow(LPCSTR windowTitle, bool fullscreen = false);
+        void onEvent(const char* message) const noexcept override;
         ~Window();
     private:
         void initOpenGLContext();
         void initFullScreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP);
     private:
         int mCmdShow;
-        DWORD dwStyle;
-        DWORD dwExStyle;
         MSG mWindowEvent;
         HWND mWindowHandle;
         HDC mWindowContext;
         HGLRC mOpenGLContext;
         HINSTANCE& mAppInstance;
         WNDCLASSEX mWindowClass;
-        LPCSTR mWindowClassName;
+        volatile mutable bool mIsGlobalErrorOccured;
     };
 
 }

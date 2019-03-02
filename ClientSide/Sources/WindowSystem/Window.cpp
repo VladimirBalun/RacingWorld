@@ -16,11 +16,14 @@
 
 #include "Window.hpp"
 
-WindowSystem::Window::Window(HINSTANCE& instance, int cmdShow) 
-    : mAppInstance(instance), mCmdShow(cmdShow), mWindowClassName("RacingWorld")
+WindowSystem::Window::Window(HINSTANCE& instance, int cmdShow)
+    : mAppInstance(instance), mCmdShow(cmdShow), mIsGlobalErrorOccured(false)
 {
+    EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
+    eventManager.subscribeOnGlobalError(*this);
+
     memset(&mWindowEvent, 0, sizeof(mWindowEvent));
-    mWindowClass.lpszClassName = mWindowClassName;
+    mWindowClass.lpszClassName = "RacingWorld";
     mWindowClass.cbSize = sizeof(WNDCLASSEX);
     mWindowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     mWindowClass.lpfnWndProc = (WNDPROC)WindowEventListener::onWindowEvent;
@@ -34,34 +37,17 @@ WindowSystem::Window::Window(HINSTANCE& instance, int cmdShow)
     mWindowClass.cbWndExtra = 0;
 
     if (!RegisterClassEx(&mWindowClass)) 
-    {
-        LOG_ERROR("Window class was not registered.");
-        exit(EXIT_FAILURE);
-    }
+        eventManager.notifyGlobalError("Window class was not registered.");
 }
 
-void WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowWidth, int windowHeight, bool fullscreen)
+void WindowSystem::Window::showWindow(LPCSTR windowTitle, bool fullscreen)
 {
-    if (fullscreen)
-    {
-        initFullScreen(windowWidth, windowHeight, 32);
-        dwExStyle = WS_EX_APPWINDOW;
-        dwStyle = WS_POPUP;
-        ShowCursor(FALSE);
-    }
-    else
-    {
-        dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
-        dwStyle = WS_OVERLAPPEDWINDOW;
-        ShowCursor(TRUE);
-    }
-
-    mWindowHandle = CreateWindowEx(dwExStyle, mWindowClassName, windowTitle, dwStyle | WS_CLIPSIBLINGS |WS_CLIPCHILDREN,
-                    0, 0, windowWidth, windowHeight, NULL, NULL, mAppInstance, NULL);
+    mWindowHandle = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE, "RacingWorld", windowTitle, WS_OVERLAPPEDWINDOW | WS_CLIPSIBLINGS |WS_CLIPCHILDREN,
+        0, 0, Configuration::Window::windowWidth, Configuration::Window::windowHeight, NULL, NULL, mAppInstance, NULL);
     if (!mWindowHandle)
     {
-        LOG_ERROR("Window was not created.");
-        exit(EXIT_FAILURE);
+        EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
+        eventManager.notifyGlobalError("Window was not created.");
     }
 
     initOpenGLContext();
@@ -70,20 +56,19 @@ void WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowWidth, int w
     SetFocus(mWindowHandle);
     UpdateWindow(mWindowHandle);
  
-    //Network::NetworkManager networkManager;
-    //if (!networkManager.login())
-    //{
-    //    LOG_ERROR("Login on the server is failure.");
-    //    exit(EXIT_FAILURE);
-    //}
+    Network::NetworkManager networkManager;
+    if (!networkManager.login())
+    {
+        EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
+        eventManager.notifyGlobalError("Login on the server is failure.");
+    }
     //if (!networkManager.initializePosition())
     //{
-    //    LOG_ERROR("Initialization of position on the server is failure.");
-    //    exit(EXIT_FAILURE);
+    //    EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
+    //    eventManager.notifyGlobalError("Initialization of position on the server is failure.");
     //}
 
     Graphics::SceneGraph::Scene scene(mWindowContext);
-    scene.init(windowWidth, windowHeight);
     while (mWindowEvent.message != WM_QUIT)
     {
         if (PeekMessage(&mWindowEvent, NULL, 0, 0, PM_REMOVE))
@@ -92,9 +77,23 @@ void WindowSystem::Window::showWindow(LPCSTR windowTitle, int windowWidth, int w
             DispatchMessage(&mWindowEvent);
         }
 
-        scene.update();
-        scene.render();
+        if (!mIsGlobalErrorOccured)
+        {
+            scene.update();
+            scene.render();
+        }
+        else 
+        {
+            static EventSystem::EventManager& manager = EventSystem::EventManager::getInstance();
+            scene.writeError(manager.getGlobalErrorMessage());
+        }
     }
+}
+
+void WindowSystem::Window::onEvent(const char* message) const noexcept
+{
+    LOG_ERROR(message);
+    mIsGlobalErrorOccured = true;
 }
 
 void WindowSystem::Window::initFullScreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP)
@@ -106,10 +105,10 @@ void WindowSystem::Window::initFullScreen(DWORD windowWidth, DWORD windowHeight,
     dmScreenSettings.dmPelsHeight = windowHeight;
     dmScreenSettings.dmBitsPerPel = windowBPP;
     dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
-    if (ChangeDisplaySettings(&dmScreenSettings, 0) != DISP_CHANGE_SUCCESSFUL)
+    if (ChangeDisplaySettings(&dmScreenSettings, 0) != DISP_CHANGE_SUCCESSFUL) 
     {
-        LOG_ERROR("Fullscreen mode is not supporting.");
-        exit(EXIT_FAILURE);
+        EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
+        eventManager.notifyGlobalError("Fullscreen mode is not supporting.");
     }
 }
 

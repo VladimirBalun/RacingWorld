@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
-#define WINDOW_TITLE "RacingWorld"
-
 #include "WindowSystem/Window.hpp"
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, INT cmdShow)
@@ -32,6 +28,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, IN
 #endif
 
     WindowSystem::Window window(instance, cmdShow);
-    window.showWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT);
+    window.showWindow("RacingWorld");
     return EXIT_SUCCESS;
 }

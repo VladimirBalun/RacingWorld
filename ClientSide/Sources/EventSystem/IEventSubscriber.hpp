@@ -16,25 +16,12 @@
 
 #pragma once
 
-#include <cstdint>
-#include <Winsock2.h>
-#include <WS2tcpip.h>
+namespace EventSystem {
 
-#include "../Utils/Debug.hpp"
-
-namespace Network {
-
-    class UDPConnection 
+    struct IEventSubscriber 
     {
-    public:
-        explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port);
-        void sendBuffer(char* buffer, std::size_t size) noexcept;
-        void receiveBuffer(char* buffer) noexcept;
-        ~UDPConnection();
-    private:
-        int mSocketHandle;
-        struct sockaddr_in mSocketAddress;
-        static const std::uint16_t MAX_PACKET_SIZE = 1024;
+        virtual void onEvent(const char* message) const noexcept = 0;
+        virtual ~IEventSubscriber() = default;
     };
 
 }

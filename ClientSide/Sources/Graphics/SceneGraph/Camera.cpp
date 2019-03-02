@@ -91,6 +91,8 @@ const Math::Matrix4x4f& Graphics::SceneGraph::Camera::getViewMatrix() const noex
 const Math::Matrix4x4f& Graphics::SceneGraph::Camera::getProjectionMatrix() const noexcept
 {
     static Math::Matrix4x4f perspectiveMatrix;
-    Math::setPerspectiveMatrix(perspectiveMatrix, mFov, (GLfloat)800 / 600, 0.1f, 100.f);
+    const std::uint16_t windowWidth = Configuration::Window::windowWidth;
+    const std::uint16_t windowHeight = Configuration::Window::windowHeight;
+    Math::setPerspectiveMatrix(perspectiveMatrix, mFov, static_cast<GLfloat>(windowWidth / windowHeight), 0.1f, 100.f);
     return perspectiveMatrix;
 }

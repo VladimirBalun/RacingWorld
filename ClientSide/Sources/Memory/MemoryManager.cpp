@@ -25,12 +25,14 @@ Memory::MemoryManager& Memory::MemoryManager::getInstance()
 Memory::MemoryManager::MemoryManager() 
 {
     *mVirtualPages = malloc(VIRTUAL_PAGE_SIZE * COUNT_ALLOCATED_PAGES);
+    if (!*mVirtualPages)
+        EventSystem::EventManager::getInstance().notifyGlobalError("Memory was not allocated for application");
     std::size_t basePointerAddress = reinterpret_cast<std::size_t>(*mVirtualPages);
     for (std::uint8_t i = 1; i < COUNT_ALLOCATED_PAGES; i++) 
         mVirtualPages[i] = reinterpret_cast<void*>(basePointerAddress + (VIRTUAL_PAGE_SIZE * i));
 }
 
-void* Memory::MemoryManager::getMemoryPage()
+void* Memory::MemoryManager::getMemoryPage() noexcept
 {
     std::lock_guard<std::mutex> lock(mMutex);
     for (std::uint8_t i = 1; i < COUNT_ALLOCATED_PAGES; i++)
@@ -46,7 +48,7 @@ void* Memory::MemoryManager::getMemoryPage()
     return nullptr;
 }
 
-void Memory::MemoryManager::returnMemoryPage(void* pointer)
+void Memory::MemoryManager::returnMemoryPage(void* pointer) noexcept
 {
     std::lock_guard<std::mutex> lock(mMutex);
     for (std::uint8_t i = 1; i < COUNT_ALLOCATED_PAGES; i++)
@@ -58,7 +60,7 @@ void Memory::MemoryManager::returnMemoryPage(void* pointer)
         }
     }
 
-    ASSERT(false, "Incorrect addres of memory page.");
+    ASSERT(false, "Incorrect address of memory page.");
 }
 
 Memory::MemoryManager::~MemoryManager() 

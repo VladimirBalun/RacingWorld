@@ -31,13 +31,10 @@ namespace Graphics { namespace SceneGraph {
     class Scene
     {
     public:
-        explicit Scene(HDC& windowContext): 
-            mWindowContext(windowContext), 
-            mSceneGraphAllocator(ONE_VIRTUAL_PAGE), 
-            mSceneLight({ 1.2f, 1.0f, 2.0f }, { 0.2f, 0.2f, 0.2f }, { 0.5f, 0.5f, 0.5f }) {}
-        GLvoid init(GLint sceneWidth, GLint sceneHeight);
-        GLvoid render();
-        GLvoid update();
+        explicit Scene(HDC& windowContext) noexcept; 
+        GLvoid render() noexcept;
+        GLvoid update() noexcept;
+        GLvoid writeError(const char* error) noexcept;
     private:
         Node* mRootNode = nullptr;
         HDC& mWindowContext;

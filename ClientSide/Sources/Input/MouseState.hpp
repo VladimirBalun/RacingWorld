@@ -19,6 +19,7 @@
 #include <atomic>
 
 #include "../Utils/Debug.hpp"
+#include "../Utils/Configuration.hpp"
 
 namespace Input {
 
@@ -41,8 +42,8 @@ namespace Input {
         std::atomic_int mWheelOffset = 0;
         std::atomic_int mXPosition = 0;
         std::atomic_int mYPosition = 0;
-        std::atomic_int mLastXPosition = 400;
-        std::atomic_int mLastYPosition = 300;
+        std::atomic_int mLastXPosition = Configuration::Window::windowWidth / 2;
+        std::atomic_int mLastYPosition = Configuration::Window::windowHeight / 2;
         std::atomic_bool mIsPressedLeftButton = false;
         std::atomic_bool mIsPressedRightButton = false;
     };

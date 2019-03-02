@@ -16,21 +16,24 @@
 
 #include "Scene.hpp"
 
-GLvoid Graphics::SceneGraph::Scene::init(GLint sceneWidth, GLint sceneHeight)
+Graphics::SceneGraph::Scene::Scene(HDC& windowContext) noexcept :
+    mWindowContext(windowContext),
+    mSceneGraphAllocator(ONE_VIRTUAL_PAGE),
+    mSceneLight({ 1.2f, 1.0f, 2.0f }, { 0.2f, 0.2f, 0.2f }, { 0.5f, 0.5f, 0.5f }) 
 {
     mShaderManager.initializeShaders();
     mMeshManager.initializeMeshes();
 
-    glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.3f, 0.7f, 0.9f, 1.0f);
-    glViewport(0, 0, sceneWidth, sceneHeight);
+    glViewport(0, 0, Configuration::Window::windowWidth, Configuration::Window::windowHeight);
 
     mRootNode = SceneGraphBuilder::build(mMeshManager, mSceneGraphAllocator);
 }
 
-GLvoid Graphics::SceneGraph::Scene::render()
+GLvoid Graphics::SceneGraph::Scene::render() noexcept
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     Tools::ShaderProgram& shader = mShaderManager.getShader(Managers::BASE_SHADER);
@@ -70,7 +73,7 @@ GLvoid Graphics::SceneGraph::Scene::render()
     SwapBuffers(mWindowContext);
 }
 
-GLvoid Graphics::SceneGraph::Scene::update()
+GLvoid Graphics::SceneGraph::Scene::update() noexcept
 {
     Input::KeyboardState& keyboard = WindowSystem::WindowEventListener::getInstance().getKeyboardState();
     const GLfloat cameraSpeed = 0.001f;
@@ -91,4 +94,9 @@ GLvoid Graphics::SceneGraph::Scene::update()
     const int wheelOffset = mouse.getAndUnsetWheelOffset();
     if (wheelOffset != 0) 
         mSceneCamera.scale(wheelOffset);
+}
+
+GLvoid Graphics::SceneGraph::Scene::writeError(const char* error) noexcept
+{
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }

@@ -35,6 +35,9 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
 
     char* buffer = Utils::readFile(objFileName, std::bind(&Memory::Allocators::LinearAllocator::allocate,
         &allocator, std::placeholders::_1, std::placeholders::_2));
+    if (!buffer)
+        EventSystem::EventManager::getInstance().notifyGlobalError("Model was not read.");
+
     char* symbolIterator = buffer;
     while (*symbolIterator != '\0') 
     {

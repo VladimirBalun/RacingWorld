@@ -18,7 +18,7 @@
 
 GLboolean Graphics::Components::Material::isInitialized() const noexcept
 {
-    Math::Vector3f notInitializedVector;
+    Math::Vector3f notInitializedVector{};
     return ( (mShininess != 0.0f) &&
              (mAmbientColor != notInitializedVector) &&
              (mDiffuseColor != notInitializedVector) &&

@@ -16,8 +16,6 @@
 
 #pragma once
 
-#include <type_traits>
-
 #include "./Protocol.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 

@@ -17,24 +17,26 @@
 #pragma once
 
 #include <cstdint>
-#include <Winsock2.h>
-#include <WS2tcpip.h>
 
+#include "IEventSubscriber.hpp"
 #include "../Utils/Debug.hpp"
+#include "../Memory/INonCopyable.hpp"
 
-namespace Network {
+#define MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS 5
 
-    class UDPConnection 
+namespace EventSystem {
+
+    // Singleton
+    class EventManager : public Memory::INonCopyable
     {
     public:
-        explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port);
-        void sendBuffer(char* buffer, std::size_t size) noexcept;
-        void receiveBuffer(char* buffer) noexcept;
-        ~UDPConnection();
+        static EventManager& getInstance() noexcept;
+        const char* getGlobalErrorMessage() const noexcept;
+        void notifyGlobalError(const char* message) noexcept;
+        void subscribeOnGlobalError(const IEventSubscriber& subscriber) noexcept;
     private:
-        int mSocketHandle;
-        struct sockaddr_in mSocketAddress;
-        static const std::uint16_t MAX_PACKET_SIZE = 1024;
+        const char* mGlobalErrorMessage = nullptr;
+        const IEventSubscriber* mGlobalErrorSubscribers[MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS] = { nullptr };
     };
 
 }

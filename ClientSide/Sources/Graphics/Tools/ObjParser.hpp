@@ -18,6 +18,7 @@
 
 #include "../Components/Mesh.hpp"
 #include "../../Utils/FileSystem.hpp"
+#include "../../EventSystem/EventManager.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {

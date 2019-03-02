@@ -22,6 +22,7 @@
 
 #include "./INonCopyable.hpp"
 #include "../Utils/Debug.hpp"
+#include "../EventSystem/EventManager.hpp"
 
 #define VIRTUAL_PAGE_SIZE 4096
 #define COUNT_ALLOCATED_PAGES 25
@@ -32,8 +33,8 @@ namespace Memory {
     class MemoryManager : public INonCopyable
     {
     public:
-        void* getMemoryPage();
-        void returnMemoryPage(void* pointer);
+        void* getMemoryPage() noexcept;
+        void returnMemoryPage(void* pointer) noexcept;
         static MemoryManager& getInstance();
     private:
         MemoryManager();
