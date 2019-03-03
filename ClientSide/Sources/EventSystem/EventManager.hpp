@@ -31,11 +31,9 @@ namespace EventSystem {
     {
     public:
         static EventManager& getInstance() noexcept;
-        const char* getGlobalErrorMessage() const noexcept;
         void notifyGlobalError(const char* message) noexcept;
         void subscribeOnGlobalError(const IEventSubscriber& subscriber) noexcept;
     private:
-        const char* mGlobalErrorMessage = nullptr;
         const IEventSubscriber* mGlobalErrorSubscribers[MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS] = { nullptr };
     };
 

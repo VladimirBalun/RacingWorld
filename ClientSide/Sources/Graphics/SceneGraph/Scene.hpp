@@ -23,6 +23,7 @@
 #include "../OpenGL.hpp"
 #include "../Managers/MeshManager.hpp"
 #include "../Managers/ShaderManager.hpp"
+#include "../Managers/TextureManager.hpp"
 #include "../../WindowSystem/WindowEventListener.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 
@@ -34,7 +35,6 @@ namespace Graphics { namespace SceneGraph {
         explicit Scene(HDC& windowContext) noexcept; 
         GLvoid render() noexcept;
         GLvoid update() noexcept;
-        GLvoid writeError(const char* error) noexcept;
     private:
         Node* mRootNode = nullptr;
         HDC& mWindowContext;

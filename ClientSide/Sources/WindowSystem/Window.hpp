@@ -43,7 +43,6 @@ namespace WindowSystem {
         HGLRC mOpenGLContext;
         HINSTANCE& mAppInstance;
         WNDCLASSEX mWindowClass;
-        volatile mutable bool mIsGlobalErrorOccured;
     };
 
 }

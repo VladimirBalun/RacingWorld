@@ -22,7 +22,7 @@ install (DIRECTORY ./Resources DESTINATION ./)
 
 set (CPACK_GENERATOR NSIS)
 set (CPACK_PACKAGE_NAME "RacingWorld")
-set (CPACK_PACKAGE_VENDOR "CMake.org")
+set (CPACK_PACKAGE_VENDOR "Vladimir Balun")
 set (CPACK_PACKAGE_DESCRIPTION_SUMMARY "RacingWorld - is a multiplayer online 3D game about racing.")
 set (CPACK_PACKAGE_VERSION "0.1.0")
 set (CPACK_PACKAGE_VERSION_MAJOR "0")

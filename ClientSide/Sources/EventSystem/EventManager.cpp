@@ -22,14 +22,8 @@ EventSystem::EventManager& EventSystem::EventManager::getInstance() noexcept
     return eventManager;
 }
 
-const char* EventSystem::EventManager::getGlobalErrorMessage() const noexcept
-{
-    return mGlobalErrorMessage;
-}
-
 void EventSystem::EventManager::notifyGlobalError(const char* message) noexcept
 {
-    mGlobalErrorMessage = message;
     for (std::uint8_t i = 0; i < MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS; i++)
         if (mGlobalErrorSubscribers[i])
             mGlobalErrorSubscribers[i]->onEvent(message);

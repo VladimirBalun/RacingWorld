@@ -48,7 +48,7 @@ struct Configuration
     struct Network 
     {
         static const char* SERVER_ADDRESS;
-        static const std::uint16_t SERVER_PORT = 17012;
+        static const std::uint16_t SERVER_PORT = 17017;
     };
 
     static const char* getShadersPath();

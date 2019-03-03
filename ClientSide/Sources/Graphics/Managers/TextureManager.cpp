@@ -19,6 +19,7 @@
 GLvoid Graphics::Managers::TextureManager::initializeTextures() noexcept 
 {
     Memory::Allocators::LinearAllocator mTexturesAllocator(ONE_VIRTUAL_PAGE);
+    mTextures[FONT_TEXTURE] = createTexture(mTexturesAllocator, "Font.bmp");
 }
 
 Graphics::Components::Texture Graphics::Managers::TextureManager::createTexture(Memory::Allocators::LinearAllocator& allocator, const char* textureName) const noexcept

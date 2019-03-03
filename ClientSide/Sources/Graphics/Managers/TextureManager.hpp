@@ -26,7 +26,7 @@ namespace Graphics { namespace Managers {
 
     enum ETextureType
     {
-        LETTERS,
+        FONT_TEXTURE,
         COUNT_TEXTURE_TYPES // Used for setting size of textures array 
     };
 

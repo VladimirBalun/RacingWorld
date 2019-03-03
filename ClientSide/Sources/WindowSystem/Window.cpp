@@ -17,7 +17,7 @@
 #include "Window.hpp"
 
 WindowSystem::Window::Window(HINSTANCE& instance, int cmdShow)
-    : mAppInstance(instance), mCmdShow(cmdShow), mIsGlobalErrorOccured(false)
+    : mAppInstance(instance), mCmdShow(cmdShow)
 {
     EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
     eventManager.subscribeOnGlobalError(*this);
@@ -42,7 +42,7 @@ WindowSystem::Window::Window(HINSTANCE& instance, int cmdShow)
 
 void WindowSystem::Window::showWindow(LPCSTR windowTitle, bool fullscreen)
 {
-    mWindowHandle = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE, "RacingWorld", windowTitle, WS_OVERLAPPEDWINDOW | WS_CLIPSIBLINGS |WS_CLIPCHILDREN,
+    mWindowHandle = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE, "RacingWorld", windowTitle, WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZE | WS_CLIPSIBLINGS |WS_CLIPCHILDREN,
         0, 0, Configuration::Window::windowWidth, Configuration::Window::windowHeight, NULL, NULL, mAppInstance, NULL);
     if (!mWindowHandle)
     {
@@ -60,13 +60,13 @@ void WindowSystem::Window::showWindow(LPCSTR windowTitle, bool fullscreen)
     if (!networkManager.login())
     {
         EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
-        eventManager.notifyGlobalError("Login on the server is failure.");
+        eventManager.notifyGlobalError("Connection with server is absent.");
     }
-    //if (!networkManager.initializePosition())
-    //{
-    //    EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
-    //    eventManager.notifyGlobalError("Initialization of position on the server is failure.");
-    //}
+    if (!networkManager.initializePosition())
+    {
+        EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
+        eventManager.notifyGlobalError("Connection with server is absent.");
+    }
 
     Graphics::SceneGraph::Scene scene(mWindowContext);
     while (mWindowEvent.message != WM_QUIT)
@@ -77,23 +77,16 @@ void WindowSystem::Window::showWindow(LPCSTR windowTitle, bool fullscreen)
             DispatchMessage(&mWindowEvent);
         }
 
-        if (!mIsGlobalErrorOccured)
-        {
-            scene.update();
-            scene.render();
-        }
-        else 
-        {
-            static EventSystem::EventManager& manager = EventSystem::EventManager::getInstance();
-            scene.writeError(manager.getGlobalErrorMessage());
-        }
+        scene.update();
+        scene.render();
     }
 }
 
 void WindowSystem::Window::onEvent(const char* message) const noexcept
 {
     LOG_ERROR(message);
-    mIsGlobalErrorOccured = true;
+    MessageBox(mWindowHandle, message, "Global error", MB_OK | MB_ICONERROR);
+    exit(EXIT_FAILURE);
 }
 
 void WindowSystem::Window::initFullScreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP)

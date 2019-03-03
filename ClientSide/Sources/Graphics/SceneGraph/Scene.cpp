@@ -95,8 +95,3 @@ GLvoid Graphics::SceneGraph::Scene::update() noexcept
     if (wheelOffset != 0) 
         mSceneCamera.scale(wheelOffset);
 }
-
-GLvoid Graphics::SceneGraph::Scene::writeError(const char* error) noexcept
-{
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-}

@@ -17,6 +17,7 @@
 #pragma once
 
 #include <cstdint>
+#include <cstdlib>
 #include <Winsock2.h>
 #include <WS2tcpip.h>
 
