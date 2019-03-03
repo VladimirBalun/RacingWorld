@@ -1,0 +1,5 @@
+ServerSide/.idea/*
+
+ClientSide/Build/*
+ClientSide/Bin/*
+ClientSide/Libs/*
