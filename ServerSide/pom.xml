@@ -9,6 +9,7 @@
 
     <modules>
         <module>gameserver</module>
+        <module>databaseserver</module>
     </modules>
 
     <packaging>pom</packaging>
