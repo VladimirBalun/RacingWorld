@@ -19,8 +19,8 @@ cmake_minimum_required (VERSION 3.10)
 include(InstallRequiredSystemLibraries)
 
 install (TARGETS ${PROJECT_NAME} RUNTIME DESTINATION Bin)
-install (FILES ../ServerSide/gameserver/target/GameServer.jar DESTINATION Bin)
-install (DIRECTORY ./Resources DESTINATION ./)
+install (FILES ../../ServerSide/gameserver/target/GameServer.jar DESTINATION Bin)
+install (DIRECTORY ../Resources DESTINATION ./)
 
 set (CPACK_GENERATOR NSIS)
 set (CPACK_PACKAGE_NAME "RacingWorld")
