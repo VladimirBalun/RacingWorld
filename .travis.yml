@@ -20,6 +20,8 @@ script:
   - cd Scripts
   - chmod +x BuildServerSide.sh
   - ./BuildServerSide.sh
+  - chmod +x RunServerSideTests.sh
+  - ./RunServerSideTests.sh
 
 os:
   - linux
