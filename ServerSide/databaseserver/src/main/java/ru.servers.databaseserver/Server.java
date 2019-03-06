@@ -16,22 +16,12 @@
 
 package ru.servers.databaseserver;
 
-import lombok.extern.log4j.Log4j;
-
 import java.io.IOException;
 
-@Log4j
-public class Main {
+public interface Server {
 
-    public static void main(String[] args) {
-        try {
-            log.info("Copyright 2018 Vladimir Balun - Database server.");
-            log.info("Initialization of the database server...");
-            Server server = new DatabaseServer(18018);
-            server.startServer(2);
-        } catch (IOException | InterruptedException e) {
-            log.error("Database server was not started. Cause: " + e.getMessage());
-        }
-    }
+    void startServer(int maxCountConnections) throws IOException, InterruptedException;
+
+    void stopServer() throws IOException;
 
 }
