@@ -26,7 +26,7 @@ import java.nio.charset.StandardCharsets;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public final class LoginPacket extends NetworkPacket implements PacketToServer {
+public final class LoginPacket extends NetworkPacket implements PacketFromClient {
 
     // Byte protocol:
     // [0] - protocol type

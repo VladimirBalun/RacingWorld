@@ -26,7 +26,7 @@ import java.nio.ByteBuffer;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public final class InitializePositionPacket extends NetworkPacket implements PacketToServer {
+public final class InitializePositionPacket extends NetworkPacket implements PacketFromClient {
 
     // Byte protocol:
     // [0] - protocol type

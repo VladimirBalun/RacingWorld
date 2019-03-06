@@ -17,4 +17,7 @@
 package ru.servers.gameserver.ecs.components;
 
 public interface Component {
+
+    Component clone();
+
 }

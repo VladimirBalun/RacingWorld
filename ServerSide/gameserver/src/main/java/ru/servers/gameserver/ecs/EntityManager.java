@@ -25,7 +25,7 @@ public interface EntityManager {
 
     Entity getEntity(int entityID);
 
-    void destroyEntity(int entityID);
+    boolean destroyEntity(int entityID);
 
     int getCountEntities();
 

@@ -16,5 +16,4 @@
 
 package ru.servers.gameserver.ecs.systems;
 
-public class SpawnSystem implements System {
-}
+public class SpawnSystem implements System { }

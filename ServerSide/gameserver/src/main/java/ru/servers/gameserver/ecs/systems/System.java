@@ -16,5 +16,4 @@
 
 package ru.servers.gameserver.ecs.systems;
 
-public interface System {
-}
+public interface System { }

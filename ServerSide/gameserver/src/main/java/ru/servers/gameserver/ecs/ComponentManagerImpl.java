@@ -16,12 +16,24 @@
 
 package ru.servers.gameserver.ecs;
 
-import ru.servers.gameserver.ecs.components.Component;
-import ru.servers.gameserver.ecs.components.ComponentType;
+import ru.servers.gameserver.ecs.components.*;
 
+import java.util.HashMap;
+import java.util.Map;
 
-public interface ComponentManager {
+public class ComponentManagerImpl implements ComponentManager {
 
-    Component getComponent(ComponentType componentType);
+    private Map<ComponentType, Component> components = new HashMap<>();
+
+    public ComponentManagerImpl() {
+        components.put(ComponentType.MASS_COMPONENT, new Mass());
+        components.put(ComponentType.HEALTH_COMPONENT, new Health());
+        components.put(ComponentType.LOCATION_COMPONENT, new Location());
+    }
+
+    @Override
+    public Component getComponent(ComponentType componentType) {
+        return components.get(componentType).clone();
+    }
 
 }

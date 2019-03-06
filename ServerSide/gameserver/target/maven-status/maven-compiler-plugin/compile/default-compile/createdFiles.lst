@@ -1,3 +1,4 @@
+ru\servers\gameserver\ecs\ECSGameSystem.class
 ru\servers\gameserver\ecs\components\Mass.class
 ru\servers\gameserver\math\algebra\vectors\Vector4.class
 ru\servers\gameserver\math\CoordinateAxis.class
@@ -8,11 +9,11 @@ ru\servers\gameserver\physic\Mass.class
 ru\servers\gameserver\math\geometry\Triangle.class
 ru\servers\gameserver\ecs\systems\DeathSystem.class
 ru\servers\gameserver\ecs\systems\SpawnSystem.class
-ru\servers\gameserver\network\protocol\toserver\PacketToServer.class
 ru\servers\gameserver\network\GameServer.class
 ru\servers\gameserver\common\ByteConverter.class
 ru\servers\gameserver\ecs\entities\Entity.class
 ru\servers\gameserver\network\protocol\PacketType.class
+ru\servers\gameserver\network\protocol\toserver\PacketFromClient.class
 ru\servers\gameserver\network\protocol\toserver\LoginPacket.class
 ru\servers\gameserver\common\Primitives.class
 ru\servers\gameserver\ecs\components\Health.class
@@ -44,9 +45,9 @@ ru\servers\gameserver\math\algebra\vectors\Vector3.class
 ru\servers\gameserver\physic\Constants.class
 ru\servers\gameserver\ecs\SystemManager.class
 ru\servers\gameserver\ecs\ComponentManager.class
+ru\servers\gameserver\ecs\ComponentManagerImpl.class
 ru\servers\gameserver\network\protocol\toserver\InitializePositionPacket.class
 ru\servers\gameserver\ecs\ECS.class
-ru\servers\gameserver\network\NetworkManager$1.class
 ru\servers\gameserver\ecs\SystemManagerImpl.class
 ru\servers\gameserver\math\algebra\matrices\Matrices4x4.class
 ru\servers\gameserver\network\Server.class

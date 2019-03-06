@@ -16,5 +16,6 @@
 
 package ru.servers.gameserver.ecs;
 
-public class SystemManagerImpl {
+public class SystemManagerImpl implements SystemManager {
+
 }

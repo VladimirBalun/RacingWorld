@@ -19,6 +19,7 @@ C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\r
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\ecs\components\Component.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\network\protocol\fromserver\PacketFromServer.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\network\GameServer.java
+C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\ecs\ComponentManagerImpl.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\ecs\EntityManagerImpl.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\math\algebra\matrices\Matrices3x3.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\common\ByteConverter.java
@@ -32,7 +33,9 @@ C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\r
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\math\geometry\Circle.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\math\algebra\Quaternion.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\network\protocol\fromserver\LoginAnswerPacket.java
+C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\ecs\ECSGameSystem.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\math\algebra\vectors\Vector3.java
+C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\network\protocol\toserver\PacketFromClient.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\ecs\components\Location.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\ecs\events\Event.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\network\protocol\toserver\InitializePositionPacket.java
@@ -41,7 +44,6 @@ C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\r
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\ecs\SystemManagerImpl.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\common\Primitives.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\network\protocol\PacketType.java
-C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\network\protocol\toserver\PacketToServer.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\ecs\systems\System.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\Main.java
 C:\Users\VladimirBalun\Desktop\RacingWorld\ServerSide\gameserver\src\main\java\ru\servers\gameserver\network\Server.java

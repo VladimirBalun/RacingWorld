@@ -23,7 +23,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class Health implements Component {
+public class Health implements Component, Cloneable {
 
     private int hp;
 
@@ -50,6 +50,16 @@ public class Health implements Component {
 
     public int getHP() {
         return hp;
+    }
+
+    @Override
+    public Health clone() {
+        try {
+            return (Health)super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            throw new InternalError();
+        }
     }
 
 }

@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package ru.servers.gameserver.ecs.events;
+package ru.servers.gameserver.network.protocol.toserver;
 
-public interface Event { }
+public interface PacketFromClient { }

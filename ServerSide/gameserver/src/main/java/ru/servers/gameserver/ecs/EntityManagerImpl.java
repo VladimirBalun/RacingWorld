@@ -35,7 +35,7 @@ public class EntityManagerImpl implements EntityManager {
                 entities.put(entityID, new Car());
                 return entityID;
             default:
-                return -1;
+                return 0;
         }
     }
 
@@ -45,8 +45,9 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     @Override
-    public void destroyEntity(int entityID) {
-        entities.remove(entityID);
+    public boolean destroyEntity(int entityID) {
+        Entity deletedEntity = entities.remove(entityID);
+        return deletedEntity != null;
     }
 
     @Override

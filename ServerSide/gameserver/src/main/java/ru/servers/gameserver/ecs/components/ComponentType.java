@@ -19,6 +19,5 @@ package ru.servers.gameserver.ecs.components;
 public enum ComponentType {
     HEALTH_COMPONENT,
     LOCATION_COMPONENT,
-    SPEED_COMPONENT,
     MASS_COMPONENT
 }

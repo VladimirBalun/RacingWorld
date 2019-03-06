@@ -16,5 +16,4 @@
 
 package ru.servers.gameserver.ecs.systems;
 
-public class DeathSystem implements System{
-}
+public class DeathSystem implements System{ }

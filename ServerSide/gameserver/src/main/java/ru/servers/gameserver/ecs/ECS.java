@@ -16,5 +16,17 @@
 
 package ru.servers.gameserver.ecs;
 
+import ru.servers.gameserver.ecs.components.Location;
+import ru.servers.gameserver.math.algebra.vectors.Vector3;
+
 public interface ECS {
+
+    int createPlayer(Vector3 position, Vector3 direction);
+
+    int getCountPlayers();
+
+    boolean removePlayer(int token);
+
+    Location getPlayerLocation(int token);
+
 }
