@@ -3,3 +3,7 @@ ServerSide/.idea/*
 ClientSide/Build/*
 ClientSide/Bin/*
 ClientSide/Libs/*
+
+WebSite/.idea/*
+WebSite/client/node_modules/*
+WebSite/server/node_modules/*
