@@ -56,17 +56,12 @@ void WindowSystem::Window::showWindow(LPCSTR windowTitle, bool fullscreen)
     SetFocus(mWindowHandle);
     UpdateWindow(mWindowHandle);
  
-    Network::NetworkManager networkManager;
-    if (!networkManager.login())
-    {
-        EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
-        eventManager.notifyGlobalError("Connection with server is absent.");
-    }
-    if (!networkManager.initializePosition())
-    {
-        EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
-        eventManager.notifyGlobalError("Connection with server is absent.");
-    }
+    //Network::NetworkManager networkManager;
+    //if (!networkManager.login())
+    //{
+    //    EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
+    //    eventManager.notifyGlobalError("Connection with server is absent.");
+    //}
 
     Graphics::SceneGraph::Scene scene(mWindowContext);
     while (mWindowEvent.message != WM_QUIT)

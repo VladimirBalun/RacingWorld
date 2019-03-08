@@ -18,6 +18,3 @@
 
 #include "ToServer/LoginPacket.hpp"
 #include "FromServer/LoginAnswerPacket.hpp"
-
-#include "ToServer/InitializePositionPacket.hpp"
-#include "FromServer/InitializePositionAnswerPacket.hpp"

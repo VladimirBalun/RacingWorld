@@ -32,7 +32,6 @@ namespace Network {
         explicit NetworkManager()
             : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
         bool login();
-        bool initializePosition();
     private:
         UDPConnection mConnection;
         std::int32_t mCurrentToken = 0;

@@ -31,17 +31,3 @@ bool Network::NetworkManager::login()
     mCurrentToken = packetFromServer->getToken();
     return packetFromServer->getResultLogin();
 }
-
-bool Network::NetworkManager::initializePosition()
-{
-    auto packetToServer = mPacketBuilder.createPacketToServer<Protocol::InitializePositionPacket>();
-    packetToServer->setPacketNumber(mPacketNumber++);
-    packetToServer->setToken(mCurrentToken);
-    packetToServer->setPosition(Configuration::Player::PLAYER_START_POSITION);
-    packetToServer->setDirection(Configuration::Player::PLAYER_START_DIRECTION);
-    mConnection.sendBuffer(packetToServer->toBuffer(), sizeof(Protocol::InitializePositionPacket));
-
-    auto packetFromServer = mPacketBuilder.createPacketFromServer<Protocol::InitializePositionAnswerPacket>();
-    mConnection.receiveBuffer(packetFromServer->toBuffer());
-    return packetFromServer->getResultInitialization();
-}
