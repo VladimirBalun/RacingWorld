@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package ru.servers.databaseserver;
+package ru.servers.databaseserver.data.service;
 
-import java.io.IOException;
+import ru.servers.databaseserver.data.entity.User;
 
-public interface Server {
+public interface UsersService {
 
-    void startServer(int maxCountConnections) throws IOException, InterruptedException;
+    boolean addNewUser(User newUser);
 
-    void stopServer() throws IOException;
+    boolean removeUserByEmail(String email, User newUser);
+
+    boolean changeUserPasswordByEmail(String email, String newPassword);
 
 }

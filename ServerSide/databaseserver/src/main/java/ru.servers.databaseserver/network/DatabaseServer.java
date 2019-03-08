@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.servers.databaseserver;
+package ru.servers.databaseserver.network;
 
 import lombok.extern.log4j.Log4j;
 import java.io.*;
