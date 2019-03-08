@@ -10,6 +10,7 @@
     <modules>
         <module>gameserver</module>
         <module>databaseserver</module>
+        <module>protocol</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -18,6 +19,14 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>ru.servers</groupId>
+                <artifactId>protocol</artifactId>
+                <version>0.1.0</version>
+                <scope>system</scope>
+                <systemPath>${basedir}/../protocol/target/Protocol.jar</systemPath>
+            </dependency>
 
             <dependency>
                 <groupId>org.projectlombok</groupId>

@@ -17,8 +17,8 @@
 package ru.servers.gameserver.network;
 
 import lombok.extern.log4j.Log4j;
-import ru.servers.gameserver.network.protocol.ErrorPacket;
-import ru.servers.gameserver.network.protocol.fromserver.PacketFromServer;
+import ru.servers.protocol.clientwithgameserver.ErrorPacket;
+import ru.servers.protocol.clientwithgameserver.fromserver.PacketFromServer;
 
 import java.io.IOException;
 import java.net.InetAddress;

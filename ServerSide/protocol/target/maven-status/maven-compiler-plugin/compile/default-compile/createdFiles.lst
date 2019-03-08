@@ -1,0 +1,13 @@
+ru\servers\protocol\clientwithgameserver\toserver\PacketFromClient.class
+ru\servers\protocol\clientwithgameserver\fromserver\LogoutAnswerPacket.class
+ru\servers\protocol\clientwithgameserver\ErrorPacket.class
+ru\servers\protocol\clientwithgameserver\toserver\LogoutPacket.class
+ru\servers\protocol\clientwithgameserver\common\Primitives.class
+ru\servers\protocol\clientwithgameserver\toserver\PlayerActionPacket.class
+ru\servers\protocol\clientwithgameserver\common\ByteConverter.class
+ru\servers\protocol\clientwithgameserver\toserver\LoginPacket.class
+ru\servers\protocol\clientwithgameserver\fromserver\WorldActionPacket.class
+ru\servers\protocol\clientwithgameserver\fromserver\PacketFromServer.class
+ru\servers\protocol\clientwithgameserver\PacketType.class
+ru\servers\protocol\clientwithgameserver\fromserver\LoginAnswerPacket.class
+ru\servers\protocol\clientwithgameserver\NetworkPacket.class
