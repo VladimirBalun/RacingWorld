@@ -23,9 +23,7 @@ public class PacketType {
     public static final byte LOGIN_ANSWER_PACKET = 2;
     public static final byte LOGOUT_PACKET = 3;
     public static final byte LOGOUT_ANSWER_PACKET = 4;
-    public static final byte INITIALIZE_POSITION_PACKET = 5;
-    public static final byte INITIALIZE_POSITION_ANSWER_PACKET = 6;
-    public static final byte USER_ACTION_PACKET = 7;
+    public static final byte PLAYER_ACTION_PACKET = 7;
     public static final byte WORLD_ACTION_PACKET = 8;
 
 }

@@ -2,7 +2,9 @@ ru\servers\gameserver\ecs\ECSGameSystem.class
 ru\servers\gameserver\ecs\components\Mass.class
 ru\servers\gameserver\math\algebra\vectors\Vector4.class
 ru\servers\gameserver\math\CoordinateAxis.class
+ru\servers\gameserver\network\protocol\toserver\PlayerActionPacket.class
 ru\servers\gameserver\ecs\entities\EntityType.class
+ru\servers\gameserver\network\protocol\fromserver\WorldActionPacket.class
 ru\servers\gameserver\math\Constants.class
 ru\servers\gameserver\network\protocol\fromserver\PacketFromServer.class
 ru\servers\gameserver\physic\Mass.class
@@ -22,6 +24,8 @@ ru\servers\gameserver\math\algebra\matrices\Matrix4x4.class
 ru\servers\gameserver\ecs\systems\System.class
 ru\servers\gameserver\math\geometry\Rectangle.class
 ru\servers\gameserver\ecs\systems\MoveSystem.class
+ru\servers\gameserver\network\protocol\toserver\LogoutPacket.class
+ru\servers\gameserver\network\protocol\fromserver\LogoutAnswerPacket.class
 ru\servers\gameserver\ecs\entities\Car.class
 ru\servers\gameserver\math\algebra\vectors\Vectors.class
 ru\servers\gameserver\ecs\components\Component.class
@@ -35,7 +39,6 @@ ru\servers\gameserver\math\algebra\matrices\Matrices3x3$1.class
 ru\servers\gameserver\math\geometry\Circle.class
 ru\servers\gameserver\ecs\components\ComponentType.class
 ru\servers\gameserver\math\algebra\Quaternion.class
-ru\servers\gameserver\network\protocol\fromserver\InitializePositionAnswerPacket.class
 ru\servers\gameserver\math\algebra\matrices\Matrix3x3.class
 ru\servers\gameserver\math\algebra\matrices\Matrices2x2.class
 ru\servers\gameserver\Main.class
@@ -46,7 +49,6 @@ ru\servers\gameserver\physic\Constants.class
 ru\servers\gameserver\ecs\SystemManager.class
 ru\servers\gameserver\ecs\ComponentManager.class
 ru\servers\gameserver\ecs\ComponentManagerImpl.class
-ru\servers\gameserver\network\protocol\toserver\InitializePositionPacket.class
 ru\servers\gameserver\ecs\ECS.class
 ru\servers\gameserver\ecs\SystemManagerImpl.class
 ru\servers\gameserver\math\algebra\matrices\Matrices4x4.class

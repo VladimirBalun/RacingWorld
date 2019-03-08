@@ -32,11 +32,11 @@ public class NetworkPacket {
 
     protected byte[] buffer;
 
-    private final static byte POSITION_PACKET_TYPE = 0; // index
-    private final static byte SIZE_PACKET_TYPE = Primitives.BYTE_SIZE; // bytes
+    protected final static byte POSITION_PACKET_TYPE = 0;
+    protected final static byte SIZE_PACKET_TYPE = Primitives.BYTE_SIZE;
 
-    private final static byte POSITION_PACKET_NUMBER = 1; // index
-    private final static byte SIZE_PACKET_NUMBER = Primitives.INT_SIZE; // bytes
+    protected final static byte POSITION_PACKET_NUMBER = 1;
+    protected final static byte SIZE_PACKET_NUMBER = Primitives.INT_SIZE;
 
     protected final static byte SIZE_NETWORK_PACKET = SIZE_PACKET_TYPE + SIZE_PACKET_NUMBER;
 
@@ -44,7 +44,7 @@ public class NetworkPacket {
         if (bufferFromRequest.length >= SIZE_PACKET_NUMBER){
             buffer = bufferFromRequest;
         } else {
-            throw new IllegalArgumentException("Incorrect size of the packet.");
+            throw new IllegalArgumentException("incorrect size of the packet.");
         }
     }
 
@@ -61,7 +61,7 @@ public class NetworkPacket {
     }
 
     public void setPacketNumber(int packetNumber){
-        ByteBuffer.wrap(buffer).putInt(POSITION_PACKET_NUMBER,packetNumber);
+        ByteBuffer.wrap(buffer).putInt(POSITION_PACKET_NUMBER, packetNumber);
     }
 
 }

@@ -20,34 +20,25 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import ru.servers.gameserver.common.Primitives;
 import ru.servers.gameserver.network.protocol.NetworkPacket;
+import ru.servers.gameserver.network.protocol.PacketType;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public final class InitializePositionAnswerPacket extends NetworkPacket implements PacketFromServer{
+public class LogoutAnswerPacket extends NetworkPacket implements PacketFromServer  {
 
     // Byte protocol:
     // [0] - protocol type
     // [1...4] - packet number
-    // [5] - result initialization of position
+    // [5] - result of logout
 
-    private final static byte POSITION_RESULT_INITIALIZATION = 5; // index
-    private final static byte SIZE_RESULT_INITIALIZATION = Primitives.BYTE_SIZE; // bytes
+    private final static byte POSITION_RESULT_LOGOUT = 9;
+    private final static byte SIZE_RESULT_LOGOUT = Primitives.BYTE_SIZE;
 
-    public final static byte SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_RESULT_INITIALIZATION ;
+    public final static byte SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_RESULT_LOGOUT;
 
-    public InitializePositionAnswerPacket(byte[] bufferFromRequest) {
-        super(bufferFromRequest);
-        if (bufferFromRequest.length < SIZE_PACKET){
-            throw new IllegalArgumentException("Incorrect size of the initialize position answer packet.");
-        }
-    }
-
-    public void setResultInitialization(boolean resultInitialization){
-        buffer[POSITION_RESULT_INITIALIZATION] = (byte) (resultInitialization ? 1 : 0);
-    }
-
-    public boolean getResultInitialization(){
-        return buffer[POSITION_RESULT_INITIALIZATION] != 0;
+    public LogoutAnswerPacket() {
+        super(new byte[SIZE_PACKET]);
+        buffer[POSITION_PACKET_TYPE] = PacketType.LOGOUT_ANSWER_PACKET;
     }
 
     @Override

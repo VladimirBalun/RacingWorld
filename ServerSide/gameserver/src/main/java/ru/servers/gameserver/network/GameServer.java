@@ -53,7 +53,7 @@ public class GameServer implements Server {
                 serverSocket.receive(packetFromClient);
                 threadPool.execute(() -> handleRequest(packetFromClient));
             } catch (IOException | InterruptedException e) {
-                log.warn("Error during of handling client request. Cause: " + e.getMessage());
+                log.warn("Error of the handling client request. Cause: " + e.getMessage());
             } finally {
                 semaphore.release();
             }

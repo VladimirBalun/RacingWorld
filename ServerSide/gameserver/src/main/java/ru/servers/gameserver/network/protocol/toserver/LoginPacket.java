@@ -36,23 +36,24 @@ public final class LoginPacket extends NetworkPacket implements PacketFromClient
     // [261...292] - password(32 symbols in UTF-8)
     // [293] - password length
 
-    private final static byte POSITION_EMAIL = 5; // index
-    private final static short SIZE_EMAIL = 254; // bytes
+    private final static byte POSITION_EMAIL = 5;
+    private final static short SIZE_EMAIL = 254;
 
-    private final static short POSITION_PASSWORD = 261; // index
-    private final static short SIZE_PASSWORD = 32; // bytes
+    private final static short POSITION_PASSWORD = 261;
+    private final static byte SIZE_PASSWORD = 32;
 
-    private final static short POSITION_OF_SIZE_EMAIL = 259; // index
-    private final static byte SIZE_OF_EMAIL_SIZE = Primitives.SHORT_SIZE; // bytes
-    private final static short POSITION_OF_SIZE_PASSWORD = 293; // index
-    private final static byte SIZE_OF_PASSWORD_SIZE = Primitives.BYTE_SIZE; // bytes
+    private final static short POSITION_OF_SIZE_EMAIL = 259;
+    private final static byte SIZE_OF_EMAIL_SIZE = Primitives.SHORT_SIZE;
+    private final static short POSITION_OF_SIZE_PASSWORD = 293;
+    private final static byte SIZE_OF_PASSWORD_SIZE = Primitives.BYTE_SIZE;
 
-    public final static short SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_EMAIL + SIZE_PASSWORD + SIZE_OF_EMAIL_SIZE + SIZE_OF_PASSWORD_SIZE;
+    public final static short SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_EMAIL +
+            SIZE_PASSWORD + SIZE_OF_EMAIL_SIZE + SIZE_OF_PASSWORD_SIZE;
 
     public LoginPacket(byte[] bufferFromRequest){
         super(bufferFromRequest);
         if (bufferFromRequest.length < SIZE_PACKET){
-            throw new IllegalArgumentException("Incorrect size of the login packet.");
+            throw new IllegalArgumentException("incorrect size of the login packet.");
         }
     }
 

@@ -22,45 +22,34 @@ import ru.servers.gameserver.common.Primitives;
 import ru.servers.gameserver.network.protocol.NetworkPacket;
 import ru.servers.gameserver.network.protocol.PacketType;
 
-import java.nio.ByteBuffer;
-
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public final class LoginAnswerPacket extends NetworkPacket implements PacketFromServer{
+public class WorldActionPacket extends NetworkPacket implements PacketFromServer {
 
     // Byte protocol:
     // [0] - protocol type
     // [1...4] - packet number
-    // [5...8] - player token
-    // [9] - result of login
+    // [5] - count players
+    // for (byte i = 0; i < countPlayers; i++)
+    //   [(START_POSITION_PLAYER_POSITION * i)...((START_POSITION_PLAYER_POSITION + VECTOR_SIZE) * i)] - position
+    //   [(START_POSITION_PLAYER_DIRECTION * i)...((START_POSITION_PLAYER_DIRECTION + VECTOR_SIZE) * i)] - direction
+
+    private final byte countPlayers;
 
     private final static byte POSITION_TOKEN = 5;
     private final static byte SIZE_TOKEN = Primitives.INT_SIZE;
 
-    private final static byte POSITION_RESULT_LOGIN = 9;
-    private final static byte SIZE_RESULT_LOGIN = Primitives.BYTE_SIZE;
+    private final static byte START_POSITION_PLAYER_POSITION = 6;
+    private final static byte START_POSITION_PLAYER_DIRECTION = 18;
+    private final static byte VECTOR_SIZE = Primitives.FLOAT_SIZE * 4;
+    private final static byte PLAYER_LOCATION_SIZE = VECTOR_SIZE * 2;
 
-    public final static byte SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_RESULT_LOGIN + SIZE_TOKEN;
+    public final static byte SIZE_PACKET_WITHOUT_PLAYERS = SIZE_NETWORK_PACKET + SIZE_TOKEN;
 
-    public LoginAnswerPacket() {
-        super(new byte[SIZE_PACKET]);
-        buffer[POSITION_PACKET_TYPE] = PacketType.LOGIN_ANSWER_PACKET;
-    }
-
-    public void setToken(int token){
-        ByteBuffer.wrap(buffer).putInt(POSITION_TOKEN,token);
-    }
-
-    public int getToken(){
-        return ByteBuffer.wrap(buffer, POSITION_TOKEN, SIZE_TOKEN).getInt();
-    }
-
-    public void setResultLogin(boolean resultInitialization){
-        buffer[POSITION_RESULT_LOGIN] = (byte) (resultInitialization ? 1 : 0);
-    }
-
-    public boolean getResultLogin(){
-        return buffer[POSITION_RESULT_LOGIN] != 0;
+    public WorldActionPacket(int countPlayers) {
+        super(new byte[SIZE_PACKET_WITHOUT_PLAYERS + (countPlayers * PLAYER_LOCATION_SIZE)]);
+        this.countPlayers = (byte) countPlayers;
+        buffer[POSITION_PACKET_TYPE] = PacketType.WORLD_ACTION_PACKET;
     }
 
     @Override

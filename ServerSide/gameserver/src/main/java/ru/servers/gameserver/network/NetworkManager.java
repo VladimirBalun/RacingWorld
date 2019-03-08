@@ -20,11 +20,13 @@ import lombok.extern.log4j.Log4j;
 import ru.servers.gameserver.ecs.ECS;
 import ru.servers.gameserver.ecs.ECSGameSystem;
 import ru.servers.gameserver.network.protocol.*;
-import ru.servers.gameserver.network.protocol.fromserver.InitializePositionAnswerPacket;
 import ru.servers.gameserver.network.protocol.fromserver.LoginAnswerPacket;
+import ru.servers.gameserver.network.protocol.fromserver.LogoutAnswerPacket;
 import ru.servers.gameserver.network.protocol.fromserver.PacketFromServer;
-import ru.servers.gameserver.network.protocol.toserver.InitializePositionPacket;
+import ru.servers.gameserver.network.protocol.fromserver.WorldActionPacket;
 import ru.servers.gameserver.network.protocol.toserver.LoginPacket;
+import ru.servers.gameserver.network.protocol.toserver.LogoutPacket;
+import ru.servers.gameserver.network.protocol.toserver.PlayerActionPacket;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -36,42 +38,48 @@ public class NetworkManager {
     private ECS gameSystem = new ECSGameSystem();
 
     public PacketFromServer onReceive(byte[] buffer) {
-        switch (buffer[0]){
-            case PacketType.LOGIN_PACKET:
-                return handleLoginPacket(buffer);
-            case PacketType.INITIALIZE_POSITION_PACKET:
-                return handleInitializePositionPacket(buffer);
-            default:
-                log.debug("Error packet was received.");
-                return new ErrorPacket();
+        try {
+            switch (buffer[0]){
+                case PacketType.LOGIN_PACKET:
+                    return handleLoginPacket(buffer);
+                case PacketType.PLAYER_ACTION_PACKET:
+                    return handlePlayerActionPacket(buffer);
+                case PacketType.LOGOUT_PACKET:
+                    return handleLogoutPacket(buffer);
+                default:
+                    throw new IllegalArgumentException("incorrect packet type");
+            }
+        } catch (IllegalArgumentException e) {
+            log.debug("Invalid packet. Cause: " + e.getMessage());
+            return new ErrorPacket();
         }
     }
 
-    private LoginAnswerPacket handleLoginPacket(byte[] bufferFromClient) {
-        LoginPacket packet = new LoginPacket(bufferFromClient);
-        log.debug("Login packet was received. Packet: " + packet.toString());
+    private LoginAnswerPacket handleLoginPacket(byte[] buffer) throws IllegalArgumentException {
+        LoginPacket loginPacket = new LoginPacket(buffer);
+        log.debug("Login packet was received. Packet: " + loginPacket.toString());
 
         // TODO: add handling of request
-        byte[] bufferFromServer = new byte[LoginAnswerPacket.SIZE_PACKET];
-        LoginAnswerPacket loginAnswerPacket = new LoginAnswerPacket(bufferFromServer);
-        loginAnswerPacket.setPacketType(PacketType.INITIALIZE_POSITION_ANSWER_PACKET);
-        loginAnswerPacket.setPacketNumber(packet.getPacketNumber());
+        LoginAnswerPacket loginAnswerPacket = new LoginAnswerPacket();
+        loginAnswerPacket.setPacketNumber(loginPacket.getPacketNumber());
         loginAnswerPacket.setToken(111);
         loginAnswerPacket.setResultLogin(true);
         return loginAnswerPacket;
     }
 
-    private InitializePositionAnswerPacket handleInitializePositionPacket(byte[] bufferFromClient){
-        InitializePositionPacket packet = new InitializePositionPacket(bufferFromClient);
-        log.debug("Initialize position packet was received. Packet: " + packet.toString());
+    private WorldActionPacket handlePlayerActionPacket(byte[] buffer) throws IllegalArgumentException {
+        PlayerActionPacket playerActionPacket = new PlayerActionPacket(buffer);
+        log.debug("Player action packet was received. Packet: " + playerActionPacket.toString());
+
+        return new WorldActionPacket(gameSystem.getCountPlayers());
+    }
+
+    private LogoutAnswerPacket handleLogoutPacket(byte[] buffer) throws IllegalArgumentException {
+        LogoutPacket logoutPacket = new LogoutPacket(buffer);
+        log.debug("Logout packet was received. Packet: " + logoutPacket.toString());
 
         // TODO: add handling of request
-        byte[] bufferFromServer = new byte[InitializePositionAnswerPacket.SIZE_PACKET];
-        InitializePositionAnswerPacket initializePositionAnswerPacket = new InitializePositionAnswerPacket(bufferFromServer);
-        initializePositionAnswerPacket.setPacketType(PacketType.INITIALIZE_POSITION_ANSWER_PACKET);
-        initializePositionAnswerPacket.setPacketNumber(packet.getPacketNumber());
-        initializePositionAnswerPacket.setResultInitialization(true);
-        return initializePositionAnswerPacket;
+        return new LogoutAnswerPacket();
     }
 
     public void onTimer(){
