@@ -1,4 +1,4 @@
-package ru.servers.gameserver.common;
+package ru.servers.protocol.clientwithgameserver.common;
 
 import java.nio.ByteBuffer;
 

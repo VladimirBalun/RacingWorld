@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.servers.gameserver.network.protocol.fromserver;
+package ru.servers.protocol.clientwithgameserver.fromserver;
 
 public interface PacketFromServer {
 

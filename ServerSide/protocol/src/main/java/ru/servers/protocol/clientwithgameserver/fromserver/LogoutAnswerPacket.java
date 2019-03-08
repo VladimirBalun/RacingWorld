@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package ru.servers.gameserver.network.protocol.fromserver;
+package ru.servers.protocol.clientwithgameserver.fromserver;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.servers.gameserver.common.Primitives;
-import ru.servers.gameserver.network.protocol.NetworkPacket;
-import ru.servers.gameserver.network.protocol.PacketType;
+import ru.servers.protocol.clientwithgameserver.common.Primitives;
+import ru.servers.protocol.clientwithgameserver.NetworkPacket;
+import ru.servers.protocol.clientwithgameserver.PacketType;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)

@@ -1,4 +1,4 @@
-package ru.servers.gameserver.common;
+package ru.servers.protocol.clientwithgameserver.common;
 
 public class Primitives {
 
