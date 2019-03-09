@@ -20,6 +20,7 @@ import lombok.extern.log4j.Log4j;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -29,16 +30,13 @@ public class DatabaseServer implements Server {
 
     private boolean isListening;
     private ServerSocket serverSocket;
-    private static BufferedReader in;
-    private static BufferedWriter out;
-    private Socket connectionSocket;
 
     public DatabaseServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
     }
 
     @Override
-    public void startServer(int maxCountConnections){
+    public void startServer(int maxCountConnections) {
         ExecutorService threadPool = Executors.newFixedThreadPool(maxCountConnections);
         Semaphore semaphore = new Semaphore(maxCountConnections);
         log.info("Database server started successfully.");
@@ -47,39 +45,42 @@ public class DatabaseServer implements Server {
         while (isListening){
             try {
                 semaphore.acquire();
-                connectionSocket = serverSocket.accept();
+                Socket connectionSocket = serverSocket.accept();
                 threadPool.execute(() -> handleRequest(connectionSocket));
-            } catch (Exception e){
+            } catch (InterruptedException | IOException e){
                 log.warn("Error during of handling client request. Cause: " + e.getMessage());
             } finally {
                 semaphore.release();
             }
         }
+
         threadPool.shutdown();
     }
 
-    private void handleRequest(Socket connectionSocket){
+    private void handleRequest(Socket connectionSocket) {
+        BufferedReader inputStream = null;
+        BufferedWriter outputStream = null;
         try {
             try {
-                in = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-                out = new BufferedWriter(new OutputStreamWriter(connectionSocket.getOutputStream()));
-                String test = in.readLine();
-                out.write(test + "\n");
-                out.flush();
+                inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+                outputStream = new BufferedWriter(new OutputStreamWriter(connectionSocket.getOutputStream()));
+                String test = inputStream.readLine();
+                outputStream.write(test + "\n");
+                outputStream.flush();
             } finally {
                 connectionSocket.close();
-                in.close();
-                out.close();
+                Objects.requireNonNull(inputStream).close();
+                Objects.requireNonNull(outputStream).close();
             }
         } catch (IOException e) {
             log.error("Response was not sent to client. Cause:" + e.getMessage());
         }
     }
 
-
     @Override
     public void stopServer() throws IOException {
         isListening = false;
         serverSocket.close();
     }
+
 }

@@ -34,7 +34,7 @@ public final class Database {
     private String databasePassword;
     private static Database instance;
 
-    private Database(){
+    private Database() {
         try {
             Properties props = new Properties();
             try (InputStream in = Files.newInputStream(Paths.get("databaseserver/src/main/resources/database.properties"))){
@@ -45,18 +45,19 @@ public final class Database {
             databasePassword = props.getProperty("db.password");
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
         } catch (Exception e){
-            log.error("Connection failed. Cause:" + e.getMessage());
+            log.error("Database connection failed. Cause:" + e.getMessage());
         }
     }
 
-    public Connection getConnection() throws SQLException {
+    public synchronized Connection getConnection() throws SQLException {
         return DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
     }
 
-    public static Database getInstance(){
+    public synchronized static Database getInstance() {
         if (instance == null){
             instance = new Database();
         }
         return instance;
     }
+
 }

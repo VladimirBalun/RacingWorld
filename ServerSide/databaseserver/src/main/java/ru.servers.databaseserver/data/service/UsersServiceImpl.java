@@ -18,32 +18,45 @@ package ru.servers.databaseserver.data.service;
 
 import lombok.extern.log4j.Log4j;
 import ru.servers.databaseserver.data.dao.UsersRepository;
-import ru.servers.databaseserver.data.dao.UsersRespositoryImpl;
+import ru.servers.databaseserver.data.dao.UsersRepositoryImpl;
 import ru.servers.databaseserver.data.entity.User;
 
 @Log4j
 public class UsersServiceImpl implements UsersService {
 
-    private UsersRepository usersRepository = new UsersRespositoryImpl();
+    private UsersRepository usersRepository = new UsersRepositoryImpl();
 
     @Override
     public boolean addNewUser(User newUser) {
-        return usersRepository.save(newUser);
+        boolean addingResult = usersRepository.save(newUser);
+        if (addingResult) {
+            log.debug("New user was added. User: " + newUser.toString());
+        } else {
+            log.warn("User was not added. User: " + newUser.toString());
+        }
+        return addingResult;
     }
 
     @Override
     public boolean removeUserByEmail(String email, User newUser) {
-        return usersRepository.removeByEmail(email);
+        boolean deletingResult = usersRepository.removeByEmail(email);
+        if (deletingResult) {
+            log.debug("User was deleted. User: " + newUser.toString());
+        } else {
+            log.warn("User was not deleted. User: " + newUser.toString());
+        }
+        return deletingResult;
     }
 
     @Override
     public boolean changeUserPasswordByEmail(String email, String newPassword) {
         User user = usersRepository.findByEmail(email);
         if (user == null){
-            log.warn("User not found");
+            log.warn("Email for user was not changed, user not found by email. Email: " + email);
             return false;
         }
         user.setPassword(newPassword);
+        log.debug("Email for user with email: '" + email + "' was changed on '" + newPassword + "'");
         return usersRepository.updateByEmail(email, user);
     }
 
