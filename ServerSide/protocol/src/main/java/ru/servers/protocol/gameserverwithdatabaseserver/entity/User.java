@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package ru.servers.databaseserver.data.entity;
+package ru.servers.protocol.gameserverwithdatabaseserver.entity;
 
 import lombok.*;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -24,7 +26,9 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @AllArgsConstructor
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = -7742913639693472288L;
 
     private int id;
     private String email;

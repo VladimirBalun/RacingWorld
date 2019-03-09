@@ -18,7 +18,7 @@ package ru.servers.databaseserver.data.dao;
 
 import lombok.extern.log4j.Log4j;
 import ru.servers.databaseserver.data.Database;
-import ru.servers.databaseserver.data.entity.User;
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

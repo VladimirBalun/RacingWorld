@@ -19,15 +19,25 @@ package ru.servers.databaseserver.data.service;
 import lombok.extern.log4j.Log4j;
 import ru.servers.databaseserver.data.dao.UsersRepository;
 import ru.servers.databaseserver.data.dao.UsersRepositoryImpl;
-import ru.servers.databaseserver.data.entity.User;
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
+import ru.servers.protocol.gameserverwithdatabaseserver.service.UsersService;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 @Log4j
-public class UsersServiceImpl implements UsersService {
+public class UsersServiceImpl extends UnicastRemoteObject implements UsersService {
+
+    private static final long serialVersionUID = -6625973424919523876L;
 
     private UsersRepository usersRepository = new UsersRepositoryImpl();
 
+    public UsersServiceImpl() throws RemoteException {
+        super();
+    }
+
     @Override
-    public boolean addNewUser(User newUser) {
+    public boolean addNewUser(User newUser) throws RemoteException {
         boolean addingResult = usersRepository.save(newUser);
         if (addingResult) {
             log.debug("New user was added. User: " + newUser.toString());
@@ -38,7 +48,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public boolean removeUserByEmail(String email, User newUser) {
+    public boolean removeUserByEmail(String email, User newUser) throws RemoteException {
         boolean deletingResult = usersRepository.removeByEmail(email);
         if (deletingResult) {
             log.debug("User was deleted. User: " + newUser.toString());
@@ -49,7 +59,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public boolean changeUserPasswordByEmail(String email, String newPassword) {
+    public boolean changeUserPasswordByEmail(String email, String newPassword) throws RemoteException {
         User user = usersRepository.findByEmail(email);
         if (user == null){
             log.warn("Email for user was not changed, user not found by email. Email: " + email);

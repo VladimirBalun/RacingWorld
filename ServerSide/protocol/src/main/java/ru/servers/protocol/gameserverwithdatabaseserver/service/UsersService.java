@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package ru.servers.databaseserver.data.service;
+package ru.servers.protocol.gameserverwithdatabaseserver.service;
 
-import ru.servers.databaseserver.data.entity.User;
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
 
-public interface UsersService {
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-    boolean addNewUser(User newUser);
+public interface UsersService extends Remote {
 
-    boolean removeUserByEmail(String email, User newUser);
+    boolean addNewUser(User newUser) throws RemoteException;
 
-    boolean changeUserPasswordByEmail(String email, String newPassword);
+    boolean removeUserByEmail(String email, User newUser) throws RemoteException;
+
+    boolean changeUserPasswordByEmail(String email, String newPassword) throws RemoteException;
 
 }

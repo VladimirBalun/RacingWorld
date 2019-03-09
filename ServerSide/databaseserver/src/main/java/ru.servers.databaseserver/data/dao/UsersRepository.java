@@ -16,7 +16,7 @@
 
 package ru.servers.databaseserver.data.dao;
 
-import ru.servers.databaseserver.data.entity.User;
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
 
 public interface UsersRepository {
 
