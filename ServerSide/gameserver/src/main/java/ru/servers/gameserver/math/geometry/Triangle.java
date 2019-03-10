@@ -47,4 +47,18 @@ public class Triangle {
         return Math.sqrt(perimeter * (perimeter-firstSide) * (perimeter-secondSide) * (perimeter-thirdSide));
     }
 
+    public boolean isInside(Vector2 vertex) {
+        double firstSide = (firstPoint.getX() - vertex.getX()) * (secondPoint.getY() - firstPoint.getY())
+                - (secondPoint.getX() - firstPoint.getX()) * (firstPoint.getY() - vertex.getY());
+        double secondSide = (secondPoint.getX() - vertex.getX()) * (thirdPoint.getY() - secondPoint.getY())
+                - (thirdPoint.getX() - secondPoint.getX()) * (secondPoint.getY() - vertex.getY());
+        double thirdSide = (thirdPoint.getX() - vertex.getX()) * (firstPoint.getY() - thirdPoint.getY())
+                - (firstPoint.getX() - thirdPoint.getX()) * (thirdPoint.getY() - vertex.getY());
+        if (firstSide <= 0 && secondSide <= 0 && thirdSide <= 0 ||
+                firstSide >= 0 && secondSide >= 0 && thirdSide >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
