@@ -19,7 +19,9 @@ cmake_minimum_required (VERSION 3.10)
 include(InstallRequiredSystemLibraries)
 
 install (TARGETS ${PROJECT_NAME} RUNTIME DESTINATION Bin)
+install (FILES ../../ServerSide/databaseserver/target/DatabaseServer.jar DESTINATION Bin)
 install (FILES ../../ServerSide/gameserver/target/GameServer.jar DESTINATION Bin)
+install (FILES ../../ServerSide/resourceserver/target/ResourceServer.jar DESTINATION Bin)
 install (DIRECTORY ../Resources DESTINATION ./)
 
 set (CPACK_GENERATOR NSIS)

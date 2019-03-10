@@ -4,6 +4,7 @@ set CURRENT_PATH=%cd%
 set SERVER_SIDE_PATH=%CURRENT_PATH%\..\ServerSide
 set GAME_SERVER_PATH=%SERVER_SIDE_PATH%\gameserver
 set DATABASE_SERVER_PATH=%SERVER_SIDE_PATH%\databaseserver
+set RESOURCE_SERVER_PATH=%SERVER_SIDE_PATH%\resourceserver
 set PROTOCOL_PATH=%SERVER_SIDE_PATH%\protocol
 
 echo Copyright 2018 Vladimir Balun - Script to build all the servers on Windows.
@@ -18,4 +19,8 @@ mvn clean compile assembly:single
 
 echo Building of the database server...
 cd %DATABASE_SERVER_PATH%
+mvn clean compile assembly:single
+
+echo Building of the resource server...
+cd %RESOURCE_SERVER_PATH%
 mvn clean compile assembly:single
