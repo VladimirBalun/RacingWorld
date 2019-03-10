@@ -22,13 +22,13 @@ import ru.servers.gameserver.math.algebra.vectors.Vector3;
 
 public class Matrix3x3Test {
 
-    private double[] firstMatrix = {
+    private final double[] firstMatrix = {
             1.0, 2.0, 3.0,
             1.0, 2.0, 3.0,
             1.0, 2.0, 3.0
     };
 
-    private double[] secondMatrix = {
+    private final double[] secondMatrix = {
             5.0, 5.0, 5.0,
             5.0, 5.0, 5.0,
             5.0, 5.0, 5.0
@@ -64,6 +64,17 @@ public class Matrix3x3Test {
                 10.0, 10.0, 10.0,
                 10.0, 10.0, 10.0,
                 10.0, 10.0, 10.0
+        }, matrix.toArray(), 0.1);
+    }
+
+    @Test // matrix [ m1[0][0] * m2[0][0] + m1[0][1] * m2[1][1], ... ]
+    public void multiplicationMatrixByMatrix(){
+        Matrix3x3 matrix = new Matrix3x3(firstMatrix);
+        matrix.mul(new Matrix3x3(secondMatrix));
+        Assert.assertArrayEquals(new double[]{
+                30.0, 30.0, 30.0,
+                30.0, 30.0, 30.0,
+                30.0, 30.0, 30.0
         }, matrix.toArray(), 0.1);
     }
 

@@ -22,14 +22,14 @@ import ru.servers.gameserver.math.algebra.vectors.Vector4;
 
 public class Matrix4x4Test {
 
-    private double[] firstMatrix = {
+    private final double[] firstMatrix = {
             1.0, 2.0, 3.0, 4.0,
             1.0, 2.0, 3.0, 4.0,
             1.0, 2.0, 3.0, 4.0,
             1.0, 2.0, 3.0, 4.0
     };
 
-    private double[] secondMatrix = {
+    private final double[] secondMatrix = {
             5.0, 5.0, 5.0, 5.0,
             5.0, 5.0, 5.0, 5.0,
             5.0, 5.0, 5.0, 5.0,
@@ -69,6 +69,18 @@ public class Matrix4x4Test {
                 10.0, 10.0, 10.0, 10.0,
                 10.0, 10.0, 10.0, 10.0,
                 10.0, 10.0, 10.0, 10.0
+        }, matrix.toArray(), 0.1);
+    }
+
+    @Test // matrix [ m1[0][0] * m2[0][0] + m1[0][1] * m2[1][1], ... ]
+    public void multiplicationMatrixByMatrix(){
+        Matrix4x4 matrix = new Matrix4x4(firstMatrix);
+        matrix.mul(new Matrix4x4(secondMatrix));
+        Assert.assertArrayEquals(new double[]{
+                50.0, 50.0, 50.0, 50.0,
+                50.0, 50.0, 50.0, 50.0,
+                50.0, 50.0, 50.0, 50.0,
+                50.0, 50.0, 50.0, 50.0
         }, matrix.toArray(), 0.1);
     }
 
