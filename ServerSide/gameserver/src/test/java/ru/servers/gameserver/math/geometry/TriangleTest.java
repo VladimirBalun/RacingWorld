@@ -47,4 +47,27 @@ public class TriangleTest {
         Assert.assertEquals(perimeter, triangle.getPerimeter(), 0.1);
     }
 
+    @Test  // Test1: Check vertex x in Triangle
+    public void checkingVertexOnNonExistingInTriange(){
+        Vector2 vertex = new Vector2(7.78,2.38);
+        Assert.assertEquals(false, triangle.isInside(vertex));
+    }
+
+    @Test  // Test2: Check vertex x in Triangle
+    public void checkingVertexOnExistingOnTriangeBorder(){
+        Vector2 vertex = new Vector2(0.0001,0);
+        Assert.assertEquals(true, triangle.isInside(vertex));
+    }
+
+    @Test  // Test3: Check vertex x in Triangle
+    public void checkingVertexOnExistingInTriange(){
+        Triangle triangle = new Triangle(
+                new Vector2(4.6, -1.02),  //              (6,3;4,38)
+                new Vector2(6.3, 4.38),   //                          (12,14;2,58)
+                new Vector2(12.14, 2.58)  // (4,6;-1,2)
+        );
+        Vector2 vertex = new Vector2(7.38,2.38);
+        Assert.assertEquals(true, triangle.isInside(vertex));
+    }
+
 }
