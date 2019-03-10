@@ -18,6 +18,7 @@ package ru.servers.databaseserver.data;
 
 import lombok.extern.log4j.Log4j;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -36,14 +37,17 @@ public final class Database {
 
     private Database() {
         try {
-            Properties props = new Properties();
-            try (InputStream in = Files.newInputStream(Paths.get("databaseserver/src/main/resources/database.properties"))){
-                props.load(in);
+            Properties properties = new Properties();
+            try (InputStream inputStream = Files.newInputStream(Paths.get("databaseserver/src/main/resources/database.properties"))){
+                properties.load(inputStream);
+            } catch (IOException e) {
+                throw new IOException("file with database properties was not read.");
             }
-            databaseURL = props.getProperty("db.url");
-            databaseUsername = props.getProperty("db.username");
-            databasePassword = props.getProperty("db.password");
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+
+            databaseURL = properties.getProperty("db.url");
+            databaseUsername = properties.getProperty("db.username");
+            databasePassword = properties.getProperty("db.password");
+            Class.forName(properties.getProperty("db.driver")).getDeclaredConstructor().newInstance();
         } catch (Exception e){
             log.error("Database connection failed. Cause:" + e.getMessage());
         }

@@ -33,6 +33,7 @@ public class GameServer implements Server {
 
     private boolean isListening;
     private DatagramSocket serverSocket;
+    private NetworkManager networkManager = new NetworkManager();
 
     public GameServer(int port) throws IOException {
         serverSocket = new DatagramSocket(port);
@@ -63,9 +64,8 @@ public class GameServer implements Server {
     }
 
     private void handleRequest(DatagramPacket packetFromClient) {
-        InetAddress clientAddress = packetFromClient.getAddress();
         int clientPort = packetFromClient.getPort();
-        NetworkManager networkManager = new NetworkManager();
+        InetAddress clientAddress = packetFromClient.getAddress();
 
         try {
             PacketFromServer packet = networkManager.onReceive(packetFromClient.getData());

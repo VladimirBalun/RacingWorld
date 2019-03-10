@@ -14,47 +14,39 @@
  * limitations under the License.
  */
 
-package ru.servers.databaseserver.network;
+package ru.servers.gameserver.network.connectors;
 
-import lombok.extern.log4j.Log4j;
-import ru.servers.databaseserver.data.service.UsersServiceImpl;
+import ru.servers.protocol.gameserverwithdatabaseserver.service.UsersService;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.util.Properties;
+import java.rmi.Naming;
+import java.util.*;
 
-@Log4j
-public class DatabaseServer implements Server {
+public class DatabaseServerConnector {
 
-    private final int serverPort;
     private final String serverAddress;
     private final String serverRMIHostName;
 
-    public DatabaseServer() throws RuntimeException, RemoteException {
+    private UsersService usersService;
+
+    public DatabaseServerConnector() throws Exception {
         Properties properties = new Properties();
-        try (InputStream inputStream = Files.newInputStream(Paths.get("databaseserver/src/main/resources/databaseServer.properties"))){
+        try (InputStream inputStream = Files.newInputStream(Paths.get("gameserver/src/main/resources/gameserver.properties"))){
             properties.load(inputStream);
         } catch (IOException e) {
             throw new RuntimeException("file with server properties was not read.");
         }
 
-        serverPort = Integer.valueOf(properties.getProperty("databaseServer.port"));
         serverAddress = properties.getProperty("databaseServer.address");
         serverRMIHostName = properties.getProperty("databaseServer.rmi.hostname");
-        log.info("Database server was initialized successfully");
+        usersService = (UsersService) Naming.lookup(properties.getProperty("databaseServer.usersService.path"));
     }
 
-    @Override
-    public void start() throws RemoteException {
-        System.setProperty(serverRMIHostName, serverAddress);
-        Registry registry = LocateRegistry.createRegistry(serverPort);
-        registry.rebind("UsersService", new UsersServiceImpl());
-        log.info("Database server was started successfully");
+    public UsersService getUsersService() {
+        return usersService;
     }
 
 }

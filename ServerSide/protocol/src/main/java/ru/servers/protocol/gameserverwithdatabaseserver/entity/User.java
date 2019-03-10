@@ -25,7 +25,6 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @EqualsAndHashCode
-@AllArgsConstructor
 public class User implements Serializable {
 
     private static final long serialVersionUID = -7742913639693472288L;
@@ -34,4 +33,8 @@ public class User implements Serializable {
     private String email;
     private String password;
 
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }

@@ -19,6 +19,7 @@ package ru.servers.gameserver.network;
 import lombok.extern.log4j.Log4j;
 import ru.servers.gameserver.ecs.ECS;
 import ru.servers.gameserver.ecs.ECSGameSystem;
+import ru.servers.gameserver.network.connectors.DatabaseServerConnector;
 import ru.servers.protocol.clientwithgameserver.ErrorPacket;
 import ru.servers.protocol.clientwithgameserver.PacketType;
 import ru.servers.protocol.clientwithgameserver.fromserver.LoginAnswerPacket;
@@ -28,7 +29,10 @@ import ru.servers.protocol.clientwithgameserver.fromserver.WorldActionPacket;
 import ru.servers.protocol.clientwithgameserver.toserver.LoginPacket;
 import ru.servers.protocol.clientwithgameserver.toserver.LogoutPacket;
 import ru.servers.protocol.clientwithgameserver.toserver.PlayerActionPacket;
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
+import ru.servers.protocol.gameserverwithdatabaseserver.service.UsersService;
 
+import java.rmi.RemoteException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -37,6 +41,16 @@ import java.util.concurrent.TimeUnit;
 public class NetworkManager {
 
     private ECS gameSystem = new ECSGameSystem();
+    private DatabaseServerConnector databaseServerConnector;
+
+    public NetworkManager(){
+        try {
+            databaseServerConnector = new DatabaseServerConnector();
+        } catch (Exception e) {
+            log.error("Connection with database server was not set: Cause: " + e.getMessage());
+            System.exit(1);
+        }
+    }
 
     public PacketFromServer onReceive(byte[] buffer) {
         try {
@@ -50,21 +64,28 @@ public class NetworkManager {
                 default:
                     throw new IllegalArgumentException("incorrect packet type");
             }
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | RemoteException e) {
             log.debug("Invalid packet. Cause: " + e.getMessage());
             return new ErrorPacket();
         }
     }
 
-    private LoginAnswerPacket handleLoginPacket(byte[] buffer) throws IllegalArgumentException {
+    private LoginAnswerPacket handleLoginPacket(byte[] buffer) throws IllegalArgumentException, RemoteException {
         LoginPacket loginPacket = new LoginPacket(buffer);
         log.debug("Login packet was received. Packet: " + loginPacket.toString());
 
-        // TODO: add handling of request
+        UsersService usersService = databaseServerConnector.getUsersService();
+        boolean loginResult = usersService.addNewUser(new User(loginPacket.getEmail(), loginPacket.getPassword()));
         LoginAnswerPacket loginAnswerPacket = new LoginAnswerPacket();
         loginAnswerPacket.setPacketNumber(loginPacket.getPacketNumber());
-        loginAnswerPacket.setToken(111);
-        loginAnswerPacket.setResultLogin(true);
+        if (loginResult) {
+            loginAnswerPacket.setToken(111); // Temp token
+            loginAnswerPacket.setResultLogin(true);
+        } else {
+            loginAnswerPacket.setToken(0);
+            loginAnswerPacket.setResultLogin(false);
+        }
+
         return loginAnswerPacket;
     }
 

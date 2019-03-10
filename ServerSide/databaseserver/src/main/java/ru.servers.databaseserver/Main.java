@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j;
 import ru.servers.databaseserver.network.DatabaseServer;
 import ru.servers.databaseserver.network.Server;
 
-import java.io.IOException;
+import java.rmi.RemoteException;
 
 
 @Log4j
@@ -30,9 +30,9 @@ public class Main {
         try {
             log.info("Copyright 2018 Vladimir Balun - Database server.");
             log.info("Initialization of the database server...");
-            Server server = new DatabaseServer(18018);
-            server.startServer(2);
-        } catch (IOException | InterruptedException e) {
+            Server server = new DatabaseServer();
+            server.start();
+        } catch (RuntimeException | RemoteException e) {
             log.error("Database server was not started. Cause: " + e.getMessage());
         }
     }

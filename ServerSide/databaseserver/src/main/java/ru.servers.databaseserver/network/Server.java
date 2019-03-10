@@ -16,12 +16,10 @@
 
 package ru.servers.databaseserver.network;
 
-import java.io.IOException;
+import java.rmi.RemoteException;
 
 public interface Server {
 
-    void startServer(int maxCountConnections) throws IOException, InterruptedException;
-
-    void stopServer() throws IOException;
+    void start() throws RemoteException;
 
 }
