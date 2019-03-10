@@ -10,6 +10,7 @@
     <modules>
         <module>gameserver</module>
         <module>databaseserver</module>
+        <module>resourceserver</module>
         <module>protocol</module>
     </modules>
 
