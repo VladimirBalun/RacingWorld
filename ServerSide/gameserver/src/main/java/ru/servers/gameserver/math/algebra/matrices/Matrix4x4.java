@@ -30,6 +30,12 @@ public class Matrix4x4 {
 
     private static final byte SIZE_ROW = 4;
     private static final byte SIZE_MATRIX = SIZE_ROW * SIZE_ROW;
+
+    private static final byte FIRST_ROW = 0;
+    private static final byte SECOND_ROW = 4;
+    private static final byte THIRD_ROW = 8;
+    private static final byte FOURTH_ROW = 12;
+
     private double[] matrix = new double[SIZE_MATRIX];
 
     public void transpose() {
@@ -68,6 +74,28 @@ public class Matrix4x4 {
             matrix[i + 1] *= number;
             matrix[i + 2] *= number;
             matrix[i + 3] *= number;
+        }
+    }
+
+    public void mul(Matrix4x4 another) {
+        double[] copyMatrix = matrix.clone();
+        for (byte i = 0; i < SIZE_MATRIX; i+= SIZE_ROW) {
+            matrix[i] = copyMatrix[i] * another.matrix[FIRST_ROW] +
+                    + copyMatrix[i + 1] * another.matrix[SECOND_ROW] +
+                    + copyMatrix[i + 2] * another.matrix[THIRD_ROW] +
+                    + copyMatrix[i + 3] * another.matrix[FOURTH_ROW];
+            matrix[i + 1] = copyMatrix[i] * another.matrix[FIRST_ROW + 1] +
+                    + copyMatrix[i + 1] * another.matrix[SECOND_ROW + 1] +
+                    + copyMatrix[i + 2] * another.matrix[THIRD_ROW + 1] +
+                    + copyMatrix[i + 3] * another.matrix[FOURTH_ROW + 1];
+            matrix[i + 2] = copyMatrix[i] * another.matrix[FIRST_ROW + 2] +
+                    + copyMatrix[i + 1] * another.matrix[SECOND_ROW + 2] +
+                    + copyMatrix[i + 2] * another.matrix[THIRD_ROW + 2] +
+                    + copyMatrix[i + 3] * another.matrix[FOURTH_ROW + 2];
+            matrix[i + 3] = copyMatrix[i] * another.matrix[FIRST_ROW + 3] +
+                    + copyMatrix[i + 1] * another.matrix[SECOND_ROW + 3] +
+                    + copyMatrix[i + 2] * another.matrix[THIRD_ROW + 3] +
+                    + copyMatrix[i + 3] * another.matrix[FOURTH_ROW + 3];
         }
     }
 

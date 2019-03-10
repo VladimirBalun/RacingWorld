@@ -30,6 +30,11 @@ public class Matrix3x3 {
 
     private static final byte SIZE_ROW = 3;
     private static final byte SIZE_MATRIX = SIZE_ROW * SIZE_ROW;
+
+    private static final byte FIRST_ROW = 0;
+    private static final byte SECOND_ROW = 3;
+    private static final byte THIRD_ROW = 6;
+
     private double[] matrix = new double[SIZE_MATRIX];
 
     public void transpose() {
@@ -55,6 +60,21 @@ public class Matrix3x3 {
             matrix[i] -= another.matrix[i];
             matrix[i + 1] -= another.matrix[i + 1];
             matrix[i + 2] -= another.matrix[i + 2];
+        }
+    }
+
+    public void mul(Matrix3x3 another) {
+        double[] copyMatrix = matrix.clone();
+        for (byte i = 0; i < SIZE_MATRIX; i+= SIZE_ROW) {
+            matrix[i] = copyMatrix[i] * another.matrix[FIRST_ROW] +
+                    + copyMatrix[i + 1] * another.matrix[SECOND_ROW] +
+                    + copyMatrix[i + 2] * another.matrix[THIRD_ROW];
+            matrix[i + 1] = copyMatrix[i] * another.matrix[FIRST_ROW + 1] +
+                    + copyMatrix[i + 1] * another.matrix[SIZE_ROW + 1] +
+                    + copyMatrix[i + 2] * another.matrix[THIRD_ROW + 1];
+            matrix[i + 2] = copyMatrix[i] * another.matrix[FIRST_ROW + 2] +
+                    + copyMatrix[i + 1] * another.matrix[SECOND_ROW + 2] +
+                    + copyMatrix[i + 2] * another.matrix[THIRD_ROW + 2];
         }
     }
 
