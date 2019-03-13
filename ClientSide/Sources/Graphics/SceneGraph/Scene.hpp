@@ -36,6 +36,8 @@ namespace Graphics { namespace SceneGraph {
         GLvoid render() noexcept;
         GLvoid update() noexcept;
     private:
+        GLvoid renderNode(Node* node, Tools::ShaderProgram& shader) noexcept;
+    private:
         Node* mRootNode = nullptr;
         HDC& mWindowContext;
         Light mSceneLight;

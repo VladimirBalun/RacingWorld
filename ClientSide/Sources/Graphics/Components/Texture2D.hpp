@@ -20,11 +20,11 @@
 
 namespace Graphics { namespace Components {
 
-    class Texture
+    class Texture2D
     {
     public:
-        explicit Texture() noexcept = default;
-        explicit Texture(const unsigned char* imageData, GLuint width, GLuint height) noexcept;
+        explicit Texture2D() noexcept = default;
+        explicit Texture2D(const unsigned char* imageData, GLuint width, GLuint height) noexcept;
         GLuint getID() const noexcept;
         GLuint getWidth() const noexcept;
         GLuint getHeight() const noexcept;

@@ -18,7 +18,7 @@
 
 #include "../OpenGL.hpp"
 #include "../Tools/BmpReader.hpp"
-#include "../Components/Texture.hpp"
+#include "../Components/Texture2D.hpp"
 #include "../../Utils/Configuration.hpp"
 #include "../../Utils/StringOperations.hpp"
 
@@ -34,11 +34,11 @@ namespace Graphics { namespace Managers {
     {
     public:
         GLvoid initializeTextures() noexcept;
-        const Components::Texture& getTexture(ETextureType meshType) noexcept;
+        const Components::Texture2D& getTexture(ETextureType meshType) noexcept;
     private:
-        Components::Texture createTexture(Memory::Allocators::LinearAllocator& allocator, const char* textureName) const noexcept;
+        Components::Texture2D createTexture(Memory::Allocators::LinearAllocator& allocator, const char* textureName) const noexcept;
     private:
-        Components::Texture mTextures[COUNT_TEXTURE_TYPES];
+        Components::Texture2D mTextures[COUNT_TEXTURE_TYPES];
     };
 
 } }

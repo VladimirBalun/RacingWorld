@@ -16,22 +16,27 @@
 
 #include "Light.hpp"
 
-const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getPosition() const 
+GLvoid Graphics::SceneGraph::Light::move(Math::Vector3f&& alignment) noexcept 
+{
+    mPosition.add(alignment);
+}
+
+const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getPosition() const noexcept
 {
     return mPosition;
 }
 
-const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getAmbientColor() const
+const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getAmbientColor() const noexcept
 {
     return mAmbientColor;
 }
 
-const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getDiffuseColor() const
+const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getDiffuseColor() const noexcept
 {
     return mDiffuseColor;
 }
 
-const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getSpecularColor() const
+const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getSpecularColor() const noexcept
 {
     return mSpecularColor;
 }

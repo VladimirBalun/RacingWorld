@@ -22,7 +22,7 @@ GLvoid Graphics::Managers::TextureManager::initializeTextures() noexcept
     mTextures[FONT_TEXTURE] = createTexture(mTexturesAllocator, "Font.bmp");
 }
 
-Graphics::Components::Texture Graphics::Managers::TextureManager::createTexture(Memory::Allocators::LinearAllocator& allocator, const char* textureName) const noexcept
+Graphics::Components::Texture2D Graphics::Managers::TextureManager::createTexture(Memory::Allocators::LinearAllocator& allocator, const char* textureName) const noexcept
 {
     const char* texturesPath = Configuration::getTexturesPath();
     char* texturePath = Utils::createStringFromStrings(strlen(texturesPath) + strlen(textureName) + 1,
@@ -31,10 +31,10 @@ Graphics::Components::Texture Graphics::Managers::TextureManager::createTexture(
     GLuint textureWidth = 0;
     GLuint textureHeight = 0;
     unsigned char* data = Tools::BmpReader::read(texturePath, textureWidth, textureHeight, allocator);
-    return Components::Texture(data, textureWidth, textureHeight);
+    return Components::Texture2D(data, textureWidth, textureHeight);
 }
 
-const Graphics::Components::Texture& Graphics::Managers::TextureManager::getTexture(ETextureType meshType) noexcept
+const Graphics::Components::Texture2D& Graphics::Managers::TextureManager::getTexture(ETextureType meshType) noexcept
 {
     return mTextures[meshType];
 }

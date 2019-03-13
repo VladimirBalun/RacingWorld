@@ -19,6 +19,7 @@
 GLvoid Graphics::Managers::MeshManager::initializeMeshes() noexcept
 {
     mMeshes[CUBE] = createMesh(mMeshesAllocator, "Cube.obj");
+    mMeshes[GROUND_POLYGON] = createMesh(mMeshesAllocator, "GroundPolygon.obj");
 }
 
 Graphics::Components::Mesh Graphics::Managers::MeshManager::createMesh(Memory::Allocators::LinearAllocator& allocator, const char* modelName) const noexcept

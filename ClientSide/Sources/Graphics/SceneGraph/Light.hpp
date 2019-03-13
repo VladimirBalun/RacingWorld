@@ -24,18 +24,19 @@ namespace Graphics { namespace SceneGraph {
     class Light
     {
     public:
-        Light(const Math::Vector3<GLfloat>& position, const Math::Vector3<GLfloat>& ambient,
-            const Math::Vector3<GLfloat>& diffuse, const Math::Vector3<GLfloat>& specular = { 1.0, 1.0f, 1.0f })
+        explicit Light(const Math::Vector3<GLfloat>& position, const Math::Vector3<GLfloat>& ambient,
+            const Math::Vector3<GLfloat>& diffuse, const Math::Vector3<GLfloat>& specular = { 1.0, 1.0f, 1.0f }) noexcept
             : mPosition(position), mAmbientColor(ambient), mDiffuseColor(diffuse), mSpecularColor(specular) {}
-        const Math::Vector3<GLfloat>& getPosition() const;
-        const Math::Vector3<GLfloat>& getAmbientColor() const;
-        const Math::Vector3<GLfloat>& getDiffuseColor() const;
-        const Math::Vector3<GLfloat>& getSpecularColor() const;
+        GLvoid move(Math::Vector3f&& alignment) noexcept;
+        const Math::Vector3f& getPosition() const noexcept;
+        const Math::Vector3f& getAmbientColor() const noexcept;
+        const Math::Vector3f& getDiffuseColor() const noexcept;
+        const Math::Vector3f& getSpecularColor() const noexcept;
     private:
-        Math::Vector3<GLfloat> mPosition;
-        Math::Vector3<GLfloat> mAmbientColor;
-        Math::Vector3<GLfloat> mDiffuseColor;
-        Math::Vector3<GLfloat> mSpecularColor;
+        Math::Vector3f mPosition;
+        Math::Vector3f mAmbientColor;
+        Math::Vector3f mDiffuseColor;
+        Math::Vector3f mSpecularColor;
     };
 
 } }

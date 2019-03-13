@@ -27,6 +27,7 @@ namespace Graphics { namespace Managers {
     enum EMeshType 
     {
         CUBE,
+        GROUND_POLYGON,
         COUNT_MESH_TYPES // Used for setting size of meshes array 
     };
 

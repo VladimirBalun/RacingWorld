@@ -26,11 +26,13 @@ Graphics::SceneGraph::Scene::Scene(HDC& windowContext) noexcept :
 
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_MULTISAMPLE);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.3f, 0.7f, 0.9f, 1.0f);
     glViewport(0, 0, Configuration::Window::windowWidth, Configuration::Window::windowHeight);
 
-    mRootNode = SceneGraphBuilder::build(mMeshManager, mSceneGraphAllocator);
+    SceneGraphBuilder sceneGraphBuilder(mMeshManager, mSceneGraphAllocator);
+    mRootNode = sceneGraphBuilder.build();
 }
 
 GLvoid Graphics::SceneGraph::Scene::render() noexcept
@@ -48,15 +50,23 @@ GLvoid Graphics::SceneGraph::Scene::render() noexcept
     shader.setUniformVector3f("light.diffuseColor", mSceneLight.getDiffuseColor());
     shader.setUniformVector3f("light.specularColor", mSceneLight.getSpecularColor());
 
-    if (mRootNode->isExistChildren())
+    renderNode(mRootNode, shader);
+
+    glFinish();
+    SwapBuffers(mWindowContext);
+}
+
+GLvoid Graphics::SceneGraph::Scene::renderNode(Node* node, Tools::ShaderProgram& shader) noexcept
+{
+    if (node->isExistChildren())
     {
-        mRootNode->childrenForEach([&shader](Node* child)
+        node->childrenForEach([&](Node* child)
         {
             if (child->isExistMesh())
             {
                 shader.setUniformMatrix4x4f("modelMatrix", child->getTransformation());
                 const Components::Mesh& mesh = child->getMesh();
-                if (mesh.isExistMaterial()) 
+                if (mesh.isExistMaterial())
                 {
                     const Components::Material& material = mesh.getMaterial();
                     shader.setUniformf("material.shininess", material.getShininess());
@@ -66,11 +76,11 @@ GLvoid Graphics::SceneGraph::Scene::render() noexcept
                 }
                 mesh.draw();
             }
+
+            if (child->isExistChildren())
+                renderNode(child, shader);
         });
     }
-
-    glFinish();
-    SwapBuffers(mWindowContext);
 }
 
 GLvoid Graphics::SceneGraph::Scene::update() noexcept

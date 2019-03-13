@@ -18,23 +18,32 @@
 
 #define COUNT_MODELS 10
 
-Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::build(Managers::MeshManager& meshManager, Memory::Allocators::LinearAllocator& allocator) noexcept
+Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::build() noexcept
 {
-    void* memoryForRootNode = allocator.allocate(sizeof(Node));
-    Node* rootNode = new (memoryForRootNode) Node;
+    void* memoryForRootNode = mAllocator.allocate(sizeof(Node));
+    Node* rootGroup = new (memoryForRootNode) Node();
+    rootGroup->addChild(buildCubes());
+    rootGroup->addChild(buildGround());
+    return rootGroup;
+}
+
+Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::buildCubes() noexcept
+{
+    void* memoryForGroupNode = mAllocator.allocate(sizeof(Node));
+    Node* groupNode = new (memoryForGroupNode) Node();
 
     // TODO: temp geomerty for rendering
     Math::Vector3f cubePositions[COUNT_MODELS] = {
         Math::Vector3f(0.0f,  0.0f,  0.0f),
-        Math::Vector3f(2.0f,  5.0f,  -15.0f),
-        Math::Vector3f(-1.5f, -2.2f, -2.5f),
-        Math::Vector3f(-3.8f, -2.0f, -12.3f),
-        Math::Vector3f(2.4f,  -0.4f, -3.5f),
-        Math::Vector3f(-1.7f, 3.0f,  -7.5f),
-        Math::Vector3f(1.3f,  -2.0f, -2.5f),
-        Math::Vector3f(1.5f,  2.0f,  -2.5f),
-        Math::Vector3f(1.5f,  0.2f,  -1.5f),
-        Math::Vector3f(-1.3f, 1.0f,  -1.5f)
+        Math::Vector3f(2.0f,  0.0f,  -5.0f),
+        Math::Vector3f(-1.5f, 0.0f, -2.5f),
+        Math::Vector3f(-3.8f, 0.0f, -7.3f),
+        Math::Vector3f(2.4f,  0.0f, -3.5f),
+        Math::Vector3f(-1.7f, 0.0f,  -7.5f),
+        Math::Vector3f(1.3f,  0.0f, -2.5f),
+        Math::Vector3f(1.5f,  0.0f,  -2.5f),
+        Math::Vector3f(1.5f,  0.0f,  -1.5f),
+        Math::Vector3f(-1.3f, 0.0f,  -1.5f)
     };
 
     // TODO: temp material for geometry
@@ -45,19 +54,55 @@ Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::build(Manag
         0.4f
     );
 
-    Components::Mesh& mesh = meshManager.getMesh(Managers::CUBE);
+    Components::Mesh& mesh = mMeshManager.getMesh(Managers::CUBE);
     mesh.setMaterial(goldMaterial);
 
     for (std::uint8_t i = 0; i < COUNT_MODELS; i++)
     {
-        Math::Matrix4x4f cubeTransofrmation;
+        Math::Matrix4x4f cubeTransofrmation{};
         Math::setTranslationMatrix(cubeTransofrmation, cubePositions[i]);
-        void* memoryForCubeNode = allocator.allocate(sizeof(Node));
+        void* memoryForCubeNode = mAllocator.allocate(sizeof(Node));
         Node* cubeNode = new (memoryForCubeNode) Node();
         cubeNode->setMesh(mesh);
         cubeNode->setTransformation(cubeTransofrmation);
-        rootNode->addChild(cubeNode);
+        groupNode->addChild(cubeNode);
     }
 
-    return rootNode;
+    return groupNode;
+}
+
+Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::buildGround() noexcept
+{
+    void* memoryForGroupNode = mAllocator.allocate(sizeof(Node));
+    Node* groupNode = new (memoryForGroupNode) Node();
+
+    // TODO: temp material for geometry
+    Components::Material groundMaterial(
+        { 0.0f ,0.05f, 0.0 },
+        { 0.4f, 0.5f, 0.4f },
+        { 0.04f, 0.7f, 0.04f },
+        0.078125f
+    );
+ 
+    Components::Mesh& mesh = mMeshManager.getMesh(Managers::GROUND_POLYGON);
+    mesh.setMaterial(groundMaterial);
+
+    Math::Matrix4x4f scaleTransformation{};
+    Math::setScaleMatrix(scaleTransformation, { 5.0f, 0.0f, 5.0f });
+    for (GLfloat x = -5.0; x < 10; x++)
+    {
+        for (GLfloat z = 5.0; z > -10; z--)
+        {
+            Math::Matrix4x4f grounTransformation{};
+            Math::setTranslationMatrix(grounTransformation, { x, -0.5f, z });
+            grounTransformation.mul(scaleTransformation);
+            void* memoryForGroundPolygon = mAllocator.allocate(sizeof(Node));
+            Node* groundNode = new (memoryForGroundPolygon) Node();
+            groundNode->setMesh(mesh);
+            groundNode->setTransformation(grounTransformation);
+            groupNode->addChild(groundNode);
+        }
+    }
+
+    return groupNode;
 }
