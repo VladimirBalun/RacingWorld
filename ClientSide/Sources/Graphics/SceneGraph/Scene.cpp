@@ -16,6 +16,9 @@
 
 #include "Scene.hpp"
 
+ GLfloat deltaTime = 0;
+ GLfloat previousTime = 0;
+
 Graphics::SceneGraph::Scene::Scene(HDC& windowContext) noexcept :
     mWindowContext(windowContext),
     mSceneGraphAllocator(ONE_VIRTUAL_PAGE),
@@ -85,16 +88,20 @@ GLvoid Graphics::SceneGraph::Scene::renderNode(Node* node, Tools::ShaderProgram&
 
 GLvoid Graphics::SceneGraph::Scene::update() noexcept
 {
+    GLfloat currentTime = Utils::getCurrentTimeMS();
+    deltaTime = currentTime - previousTime;
+    mSceneCamera.setSpeed(deltaTime);
+    previousTime = currentTime;
+
     Input::KeyboardState& keyboard = WindowSystem::WindowEventListener::getInstance().getKeyboardState();
-    const GLfloat cameraSpeed = 0.001f;
     if (keyboard.isPressedKeyW())
-        mSceneCamera.moveForward(cameraSpeed);
+        mSceneCamera.moveForward();
     if (keyboard.isPressedKeyS())
-        mSceneCamera.moveBackward(cameraSpeed);
+        mSceneCamera.moveBackward();
     if (keyboard.isPressedKeyA())
-        mSceneCamera.moveLeft(cameraSpeed);
+        mSceneCamera.moveLeft();
     if (keyboard.isPressedKeyD())
-        mSceneCamera.moveRight(cameraSpeed);
+        mSceneCamera.moveRight();
 
     Input::MouseState& mouse = WindowSystem::WindowEventListener::getInstance().getMouseState();
     const int xDisplacementOffset = mouse.getAndUnsetXDisplacementOffset();

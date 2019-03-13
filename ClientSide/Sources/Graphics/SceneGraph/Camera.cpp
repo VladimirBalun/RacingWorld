@@ -21,35 +21,40 @@
 #define PITCH_MIN_ANGLE -89.0f
 #define PITCH_MAX_ANGLE 89.0f
 
-GLvoid Graphics::SceneGraph::Camera::moveLeft(GLfloat speed) noexcept
+GLvoid Graphics::SceneGraph::Camera::setSpeed(GLfloat speed) noexcept
+{
+    mSpeed = speed / 1000;
+}
+
+GLvoid Graphics::SceneGraph::Camera::moveLeft() noexcept
 {
     Math::Vector3f rightDirection = Math::cross(mForwardDirection, mUpDirection);
     rightDirection.normalize();
-    rightDirection.mul(speed);
+    rightDirection.mul(mSpeed);
     mPosition.sub(rightDirection);
 }
 
-GLvoid Graphics::SceneGraph::Camera::moveRight(GLfloat speed) noexcept
+GLvoid Graphics::SceneGraph::Camera::moveRight() noexcept
 {
     Math::Vector3f rightDirection = Math::cross(mForwardDirection, mUpDirection);
     rightDirection.normalize();
-    rightDirection.mul(speed);
+    rightDirection.mul(mSpeed);
     mPosition.add(rightDirection);
 }
 
-GLvoid Graphics::SceneGraph::Camera::moveForward(GLfloat speed) noexcept
+GLvoid Graphics::SceneGraph::Camera::moveForward() noexcept
 {
-    mPosition.add(mForwardDirection * speed);
+    mPosition.add(mForwardDirection * mSpeed);
 }
 
-GLvoid Graphics::SceneGraph::Camera::moveBackward(GLfloat speed) noexcept
+GLvoid Graphics::SceneGraph::Camera::moveBackward() noexcept
 {
-    mPosition.sub(mForwardDirection * speed);
+    mPosition.sub(mForwardDirection * mSpeed);
 }
 
 GLvoid Graphics::SceneGraph::Camera::turn(GLint xOffset, GLint yOffset) noexcept
 {
-    GLfloat sensitivity = 0.05f; // TODO: need speed calculation by FPS
+    GLfloat sensitivity = 0.05f;
     mYawAngle += xOffset * sensitivity;
     mPitchAngle += yOffset * sensitivity;
 
