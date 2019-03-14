@@ -34,7 +34,7 @@ Memory::Allocators::PoolAllocator::PoolAllocator(std::size_t countVirtualPages, 
 
 void* Memory::Allocators::PoolAllocator::allocate(std::size_t size, std::size_t alignment) noexcept
 {
-    ASSERT(mChunkSize != size, "Empty chunk size for allocation.");
+    ASSERT(mChunkSize == size, "Empty chunk size for allocation.");
     if (mOffset + mChunkSize > mSize)
         return nullptr;
 

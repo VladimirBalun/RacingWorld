@@ -48,6 +48,22 @@ void* Memory::MemoryManager::getMemoryPage() noexcept
     return nullptr;
 }
 
+void Memory::MemoryManager::showVirtualPagesDump() noexcept
+{
+    printf("..::Vurtual pages dump::..\n");
+    printf("Free page: |   |\n");
+    printf("Used page: | # |\n");
+    printf("Count virtual pages: %i\n\n|", COUNT_ALLOCATED_PAGES);
+    for (std::uint8_t i = 1; i < COUNT_ALLOCATED_PAGES; i++)
+    {
+        if (!mUsedPages[i])
+            printf("   |");
+        else
+            printf(" # |");
+    }
+    printf("\n\n");
+}
+
 void Memory::MemoryManager::returnMemoryPage(void* pointer) noexcept
 {
     std::lock_guard<std::mutex> lock(mMutex);
