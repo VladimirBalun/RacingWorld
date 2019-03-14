@@ -26,7 +26,7 @@ Graphics::Components::Texture2D Graphics::Managers::TextureManager::createTextur
 {
     const char* texturesPath = Configuration::getTexturesPath();
     char* texturePath = Utils::createStringFromStrings(strlen(texturesPath) + strlen(textureName) + 1,
-        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2), texturesPath, textureName);
+        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1), texturesPath, textureName);
     
     GLuint textureWidth = 0;
     GLuint textureHeight = 0;

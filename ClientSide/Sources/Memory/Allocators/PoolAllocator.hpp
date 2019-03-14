@@ -25,7 +25,7 @@ namespace Memory { namespace Allocators {
     {
     public:
         explicit PoolAllocator(std::size_t countVirtualPages, std::size_t chunkSize);
-        void* allocate(std::size_t size, std::size_t alignment = 0) noexcept;
+        void* allocate(std::size_t size) noexcept;
         void deallocate(void* pointer) noexcept;
         void reset() noexcept;
         ~PoolAllocator();

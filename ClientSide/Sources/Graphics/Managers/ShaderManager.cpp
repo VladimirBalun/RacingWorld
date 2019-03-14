@@ -29,9 +29,9 @@ Graphics::Tools::ShaderProgram Graphics::Managers::ShaderManager::createShader(M
     const std::size_t legthShadersPath = strlen(shadersPath);
 
     char* vertexShaderPath = Utils::createStringFromStrings(legthShadersPath + strlen(vShaderName) + 1,
-        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2), shadersPath, vShaderName);
+        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1), shadersPath, vShaderName);
     char* fragmentShaderPath = Utils::createStringFromStrings(legthShadersPath + strlen(fShaderName) + 1,
-        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2), shadersPath, fShaderName);
+        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1), shadersPath, fShaderName);
 
     return Tools::ShaderProgram(allocator, vertexShaderPath, fragmentShaderPath);
 }

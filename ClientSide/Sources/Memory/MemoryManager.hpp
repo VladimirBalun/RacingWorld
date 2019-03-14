@@ -33,7 +33,7 @@ namespace Memory {
     class MemoryManager : public INonCopyable
     {
     public:
-        void* getMemoryPage() noexcept;
+        void* getMemoryPages(std::uint8_t countVirtualPages = 1) noexcept;
         void showVirtualPagesDump() noexcept;
         void returnMemoryPage(void* pointer) noexcept;
         static MemoryManager& getInstance();

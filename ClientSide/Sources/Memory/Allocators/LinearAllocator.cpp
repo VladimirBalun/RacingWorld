@@ -17,14 +17,14 @@
 #include "LinearAllocator.hpp"
 
 Memory::Allocators::LinearAllocator::LinearAllocator(size_t countVirtualPages)
-    : Allocator<LinearAllocator>(countVirtualPages)
+    : Allocator<LinearAllocator>(countVirtualPages * VIRTUAL_PAGE_SIZE)
 {
     ASSERT(countVirtualPages != 0, "Empty size of memory for allocation.");
-    mBasePointer = MemoryManager::getInstance().getMemoryPage();
+    mBasePointer = MemoryManager::getInstance().getMemoryPages(countVirtualPages);
     ASSERT(mBasePointer, "Memory was not allocated.");
 }
 
-void* Memory::Allocators::LinearAllocator::allocate(std::size_t size, std::size_t alignment) noexcept
+void* Memory::Allocators::LinearAllocator::allocate(std::size_t size) noexcept
 {
     std::size_t allocatedPointer = reinterpret_cast<std::size_t>(mBasePointer) + mOffset;
     mOffset += size;
@@ -43,5 +43,11 @@ void Memory::Allocators::LinearAllocator::reset() noexcept
 
 Memory::Allocators::LinearAllocator::~LinearAllocator()
 {
-    MemoryManager::getInstance().returnMemoryPage(mBasePointer);
+    std::uint8_t countAllocatedPages = mSize / VIRTUAL_PAGE_SIZE;
+    std::size_t baseAddress = reinterpret_cast<std::size_t>(mBasePointer);
+    for (std::uint8_t i = 0; i < countAllocatedPages; i++)
+    {
+        std::size_t address = baseAddress + (i * VIRTUAL_PAGE_SIZE);
+        MemoryManager::getInstance().returnMemoryPage(reinterpret_cast<void*>(address));
+    }
 }

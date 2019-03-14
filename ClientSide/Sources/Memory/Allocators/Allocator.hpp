@@ -40,7 +40,7 @@ namespace Memory { namespace Allocators {
         std::size_t getFullMemorySize() const noexcept;
         std::size_t getUsedMemorySize() const noexcept;
         std::size_t getFreeMemorySize() const noexcept;
-        void* allocate(std::size_t size, std::size_t alignment) noexcept;
+        void* allocate(std::size_t size) noexcept;
         void deallocate(void* pointer) noexcept;
         void reset() noexcept;
     protected:
@@ -52,7 +52,7 @@ namespace Memory { namespace Allocators {
     template<class AllocatorType>
     std::size_t Allocator<AllocatorType>::getFullMemorySize() const noexcept
     {
-        return mSize * VIRTUAL_PAGE_SIZE;
+        return mSize;
     }
 
     template<class AllocatorType>
@@ -68,9 +68,9 @@ namespace Memory { namespace Allocators {
     }
 
     template<class AllocatorType>
-    void* Allocator<AllocatorType>::allocate(std::size_t size, std::size_t alignment) noexcept
+    void* Allocator<AllocatorType>::allocate(std::size_t size) noexcept
     {
-        return static_cast<AllocatorType*>(this)->allocate(size, alignment);
+        return static_cast<AllocatorType*>(this)->allocate(size);
     }
 
     template<class AllocatorType>

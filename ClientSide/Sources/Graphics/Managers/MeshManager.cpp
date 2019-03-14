@@ -26,7 +26,7 @@ Graphics::Components::Mesh Graphics::Managers::MeshManager::createMesh(Memory::A
 {
     const char* modelsPath = Configuration::getModelsPath();
     char* modelPath = Utils::createStringFromStrings(strlen(modelsPath) + strlen(modelName) + 1,
-        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2), modelsPath, modelName);
+        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1), modelsPath, modelName);
     return Tools::ObjParser::parse(modelPath, allocator);
 }
 
