@@ -34,9 +34,12 @@ Memory::Allocators::PoolAllocator::PoolAllocator(std::size_t countVirtualPages, 
 
 void* Memory::Allocators::PoolAllocator::allocate(std::size_t size) noexcept
 {
-    ASSERT(mChunkSize == size, "Empty chunk size for allocation.");
-    if (mOffset + mChunkSize > mSize)
+    ASSERT(mChunkSize == size, "Chunk size is not equal allocated size.");
+    if (mOffset + mChunkSize > mSize) 
+    {
+        LOG_WARNING("Memory is over in pool allocator");
         return nullptr;
+    }
 
     mOffset += mChunkSize;
     Chunk* freeChunk = mChunksHead;

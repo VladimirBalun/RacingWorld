@@ -27,6 +27,10 @@
 #define THREE_VIRTUAL_PAGES 3
 #define FOUR_VIRTUAL_PAGES  4
 #define FIVE_VIRTUAL_PAGES  5
+#define SIX_VIRTUAL_PAGES   6
+#define SEVEN_VIRTUAL_PAGES 7
+#define EIGHT_VIRTUAL_PAGES 8
+#define NINE_VIRTUAL_PAGES  9
 
 namespace Memory { namespace Allocators {
 

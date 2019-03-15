@@ -202,5 +202,4 @@ template<typename Type>
 List<Type>::~List()
 {
     clear();
-    mAllocator.reset();
 }

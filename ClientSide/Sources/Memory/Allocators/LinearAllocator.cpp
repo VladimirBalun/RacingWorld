@@ -26,6 +26,13 @@ Memory::Allocators::LinearAllocator::LinearAllocator(size_t countVirtualPages)
 
 void* Memory::Allocators::LinearAllocator::allocate(std::size_t size) noexcept
 {
+    if (mOffset + size > mSize)
+    {
+        Memory::MemoryManager::getInstance().showVirtualPagesDump();
+        LOG_WARNING("Memory is over in linear allocator");
+        return nullptr;
+    }
+
     std::size_t allocatedPointer = reinterpret_cast<std::size_t>(mBasePointer) + mOffset;
     mOffset += size;
     return reinterpret_cast<void*>(allocatedPointer);

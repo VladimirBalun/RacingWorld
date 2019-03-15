@@ -20,14 +20,14 @@
 #include "../OpenGL.hpp"
 #include "../Managers/MeshManager.hpp"
 #include "../Managers/ShaderManager.hpp"
-#include "../../Memory/Allocators/LinearAllocator.hpp"
+#include "../../Memory/Allocators/PoolAllocator.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
     class SceneGraphBuilder 
     {
     public:
-        explicit SceneGraphBuilder(Managers::MeshManager& meshManager, Memory::Allocators::LinearAllocator& allocator) noexcept
+        explicit SceneGraphBuilder(Managers::MeshManager& meshManager, Memory::Allocators::PoolAllocator& allocator) noexcept
             : mMeshManager(meshManager), mAllocator(allocator) {}
         Node* build() noexcept;
     private:
@@ -35,7 +35,7 @@ namespace Graphics { namespace SceneGraph {
         Node* buildGround() noexcept;
     private:
         Managers::MeshManager& mMeshManager;
-        Memory::Allocators::LinearAllocator& mAllocator;
+        Memory::Allocators::PoolAllocator& mAllocator;
     };
 
 } }

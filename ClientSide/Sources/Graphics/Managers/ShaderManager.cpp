@@ -18,7 +18,7 @@
 
 GLvoid Graphics::Managers::ShaderManager::initializeShaders() noexcept
 {
-    Memory::Allocators::LinearAllocator shadersAllocator(ONE_VIRTUAL_PAGE);
+    Memory::Allocators::LinearAllocator shadersAllocator(TWO_VIRTUAL_PAGES);
     mShaderPrograms[BASE_SHADER] = createShader(shadersAllocator, "BaseShader.vert", "BaseShader.frag");
     mShaderPrograms[FONT_SHADER] = createShader(shadersAllocator, "FontShader.vert", "FontShader.frag");
 }
