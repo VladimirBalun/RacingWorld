@@ -33,7 +33,8 @@ namespace Memory {
     class MemoryManager : public INonCopyable
     {
     public:
-        void* getMemoryPage() noexcept;
+        void* getMemoryPages(std::uint8_t countVirtualPages = 1) noexcept;
+        void showVirtualPagesDump() noexcept;
         void returnMemoryPage(void* pointer) noexcept;
         static MemoryManager& getInstance();
     private:
@@ -41,6 +42,7 @@ namespace Memory {
         ~MemoryManager();
         MemoryManager(MemoryManager const&) = delete;
         MemoryManager& operator = (MemoryManager const&) = delete;
+        
     private:
         std::mutex mMutex;
         void* mVirtualPages[COUNT_ALLOCATED_PAGES] = { NULL };

@@ -19,9 +19,9 @@
 Graphics::Tools::ShaderProgram::ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName)
 {
     const char* vShaderSourceCode = Utils::readFile(vShaderFileName,
-        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2));
+        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1));
     const char* fShaderSourceCode = Utils::readFile(fShaderFileName,
-        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1, std::placeholders::_2));
+        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1));
 
     if (!vShaderSourceCode)
         EventSystem::EventManager::getInstance().notifyGlobalError("Vertex shader was not read.");

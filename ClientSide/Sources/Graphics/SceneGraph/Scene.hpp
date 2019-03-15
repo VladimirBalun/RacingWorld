@@ -26,7 +26,7 @@
 #include "../Managers/TextureManager.hpp"
 #include "../../Utils/Time.hpp"
 #include "../../WindowSystem/WindowEventListener.hpp"
-#include "../../Memory/Allocators/LinearAllocator.hpp"
+#include "../../Memory/Allocators/PoolAllocator.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
@@ -45,7 +45,7 @@ namespace Graphics { namespace SceneGraph {
         Camera mSceneCamera;
         Managers::MeshManager mMeshManager;
         Managers::ShaderManager mShaderManager;
-        Memory::Allocators::LinearAllocator mSceneGraphAllocator;
+        Memory::Allocators::PoolAllocator mSceneGraphAllocator;
     };
 
 } }

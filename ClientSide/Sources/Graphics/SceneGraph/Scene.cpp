@@ -21,7 +21,7 @@
 
 Graphics::SceneGraph::Scene::Scene(HDC& windowContext) noexcept :
     mWindowContext(windowContext),
-    mSceneGraphAllocator(ONE_VIRTUAL_PAGE),
+    mSceneGraphAllocator(EIGHT_VIRTUAL_PAGES, sizeof(Node)),
     mSceneLight({ 1.2f, 1.0f, 2.0f }, { 0.2f, 0.2f, 0.2f }, { 0.5f, 0.5f, 0.5f }) 
 {
     mShaderManager.initializeShaders();

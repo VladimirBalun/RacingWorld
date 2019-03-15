@@ -32,20 +32,48 @@ Memory::MemoryManager::MemoryManager()
         mVirtualPages[i] = reinterpret_cast<void*>(basePointerAddress + (VIRTUAL_PAGE_SIZE * i));
 }
 
-void* Memory::MemoryManager::getMemoryPage() noexcept
+void* Memory::MemoryManager::getMemoryPages(std::uint8_t countVirtualPages) noexcept
 {
     std::lock_guard<std::mutex> lock(mMutex);
     for (std::uint8_t i = 1; i < COUNT_ALLOCATED_PAGES; i++)
     {
-        if (!mUsedPages[i])
+        bool isExistEmptyPlace = true;
+        for (std::uint8_t j = 0; j < countVirtualPages; j++) 
         {
-            mUsedPages[i] = true;
+            if (mUsedPages[i + j])
+            {
+                isExistEmptyPlace = false;
+                break;
+            }
+        }
+        if (isExistEmptyPlace)
+        {
+            for (std::uint8_t j = 0; j < countVirtualPages; j++)
+                mUsedPages[i + j] = true;
             return mVirtualPages[i];
         }
     }
 
     ASSERT(false, "Out of memory. Memory manager doesn't have more pages.");
     return nullptr;
+}
+
+void Memory::MemoryManager::showVirtualPagesDump() noexcept
+{
+#ifdef _DEBUG
+    printf("..::Vurtual pages dump::..\n");
+    printf("Free page: |   |\n");
+    printf("Used page: | # |\n");
+    printf("Count virtual pages: %i\n\n|", COUNT_ALLOCATED_PAGES);
+    for (std::uint8_t i = 1; i < COUNT_ALLOCATED_PAGES; i++)
+    {
+        if (!mUsedPages[i])
+            printf("   |");
+        else
+            printf(" # |");
+    }
+    printf("\n\n");
+#endif // _DEBUG
 }
 
 void Memory::MemoryManager::returnMemoryPage(void* pointer) noexcept

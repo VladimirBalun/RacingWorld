@@ -27,6 +27,10 @@
 #define THREE_VIRTUAL_PAGES 3
 #define FOUR_VIRTUAL_PAGES  4
 #define FIVE_VIRTUAL_PAGES  5
+#define SIX_VIRTUAL_PAGES   6
+#define SEVEN_VIRTUAL_PAGES 7
+#define EIGHT_VIRTUAL_PAGES 8
+#define NINE_VIRTUAL_PAGES  9
 
 namespace Memory { namespace Allocators {
 
@@ -40,7 +44,7 @@ namespace Memory { namespace Allocators {
         std::size_t getFullMemorySize() const noexcept;
         std::size_t getUsedMemorySize() const noexcept;
         std::size_t getFreeMemorySize() const noexcept;
-        void* allocate(std::size_t size, std::size_t alignment) noexcept;
+        void* allocate(std::size_t size) noexcept;
         void deallocate(void* pointer) noexcept;
         void reset() noexcept;
     protected:
@@ -52,7 +56,7 @@ namespace Memory { namespace Allocators {
     template<class AllocatorType>
     std::size_t Allocator<AllocatorType>::getFullMemorySize() const noexcept
     {
-        return mSize * VIRTUAL_PAGE_SIZE;
+        return mSize;
     }
 
     template<class AllocatorType>
@@ -68,9 +72,9 @@ namespace Memory { namespace Allocators {
     }
 
     template<class AllocatorType>
-    void* Allocator<AllocatorType>::allocate(std::size_t size, std::size_t alignment) noexcept
+    void* Allocator<AllocatorType>::allocate(std::size_t size) noexcept
     {
-        return static_cast<AllocatorType*>(this)->allocate(size, alignment);
+        return static_cast<AllocatorType*>(this)->allocate(size);
     }
 
     template<class AllocatorType>

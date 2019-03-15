@@ -34,7 +34,7 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
     Math::Vector3i faceElementIndexes[MAX_COUNT_FACE_ELEMENT_INDEXES]; // (0) - vertex, (1) - texture coordinate, (2) - normal
 
     char* buffer = Utils::readFile(objFileName, std::bind(&Memory::Allocators::LinearAllocator::allocate,
-        &allocator, std::placeholders::_1, std::placeholders::_2));
+        &allocator, std::placeholders::_1));
     if (!buffer)
         EventSystem::EventManager::getInstance().notifyGlobalError("Model was not read.");
 
