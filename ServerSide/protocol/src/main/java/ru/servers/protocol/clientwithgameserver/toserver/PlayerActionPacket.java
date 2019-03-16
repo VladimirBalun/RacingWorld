@@ -21,6 +21,8 @@ import lombok.ToString;
 import ru.servers.protocol.clientwithgameserver.common.Primitives;
 import ru.servers.protocol.clientwithgameserver.NetworkPacket;
 
+import java.nio.ByteBuffer;
+
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class PlayerActionPacket extends NetworkPacket implements PacketFromClient {
@@ -57,6 +59,26 @@ public class PlayerActionPacket extends NetworkPacket implements PacketFromClien
         if (bufferFromRequest.length < SIZE_PACKET){
             throw new IllegalArgumentException("incorrect size of the player action packet.");
         }
+    }
+
+    public int getToken() {
+        return ByteBuffer.wrap(buffer, POSITION_TOKEN, SIZE_TOKEN).getInt();
+    }
+
+    public boolean getWKeyStatus() {
+        return ByteBuffer.wrap(buffer, POSITION_W_KEY_STATE, SIZE_W_KEY_STATE).get() > 0;
+    }
+
+    public boolean getSKeyStatus() {
+        return ByteBuffer.wrap(buffer, POSITION_S_KEY_STATE, SIZE_S_KEY_STATE).get() > 0;
+    }
+
+    public boolean getAKeyStatus() {
+        return ByteBuffer.wrap(buffer, POSITION_A_KEY_STATE, SIZE_A_KEY_STATE).get() > 0;
+    }
+
+    public boolean getDKeyStatus() {
+        return ByteBuffer.wrap(buffer, POSITION_D_KEY_STATE, SIZE_D_KEY_STATE).get() > 0;
     }
 
 }
