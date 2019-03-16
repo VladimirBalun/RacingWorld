@@ -20,7 +20,7 @@ GLvoid Graphics::Managers::MeshManager::initializeMeshes() noexcept
 {
     mMeshes[TREE] = createMesh("Tree/Tree.obj");
     mMeshes[CUBE] = createMesh("Cube.obj");
-    mMeshes[GROUND_POLYGON] = createMesh("GroundPolygon.obj");
+    mMeshes[GROUND_POLYGON] = createMesh("Ground/Ground.obj");
 }
 
 Graphics::Components::Mesh Graphics::Managers::MeshManager::createMesh(const char* modelName) noexcept
