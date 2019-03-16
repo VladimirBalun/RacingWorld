@@ -19,6 +19,7 @@
 #include "../Components/Mesh.hpp"
 #include "../../Utils/FileSystem.hpp"
 #include "../../EventSystem/EventManager.hpp"
+#include "../../Utils/DataStructures/Vector.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {
@@ -26,14 +27,19 @@ namespace Graphics { namespace Tools {
     class ObjParser 
     {
     public:
-        static Components::Mesh parse(const char* objFileName, Memory::Allocators::LinearAllocator& allocator) noexcept;
+        explicit ObjParser(Memory::Allocators::LinearAllocator& meshAllocator) noexcept
+            : mMeshAllocator(meshAllocator), mStringsAllocator(1000) {}
+        Components::Mesh parse(const char* objFileName) noexcept;
     private:
-        static void parseVertices(const char* line, Math::Vector3f* vertices) noexcept;
-        static void parseTextureCoordinates(const char* line, Math::Vector2f* textureCoordinates) noexcept;
-        static void parseNormals(const char* line, Math::Vector3f* normals) noexcept;
-        static void parseFaceElementIndexes(const char* line, Math::Vector3i* faceElementIndexes) noexcept;
-        static Components::Mesh createMesh(const Math::Vector3f* vertices, const Math::Vector2f* textureCoordinates,
-            const Math::Vector3f* normals, const Math::Vector3i* faceElementIndexes, std::size_t countFaceElementIndexes, Memory::Allocators::LinearAllocator& allocator) noexcept;
+        void parseVertices(char* line, Vector<Math::Vector3f>& vertices) noexcept;
+        void parseTextureCoordinates(const char* line, Vector<Math::Vector2f>& textureCoordinates) noexcept;
+        void parseNormals(const char* line, Vector<Math::Vector3f>& normals) noexcept;
+        void parseFaceElementIndexes(const char* line, Vector<Math::Vector3i>& faceElementIndexes) noexcept;
+        Components::Mesh createMesh(const Vector<Math::Vector3f>& vertices, const Vector<Math::Vector2f>& textureCoordinates,
+            const Vector<Math::Vector3f>& normals, const Vector<Math::Vector3i>& faceElementIndexes) noexcept;
+    private:
+        Memory::Allocators::LinearAllocator& mMeshAllocator;
+        Memory::Allocators::LinearAllocator mStringsAllocator;
     };
 
 } }

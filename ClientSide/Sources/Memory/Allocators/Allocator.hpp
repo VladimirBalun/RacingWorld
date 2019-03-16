@@ -42,8 +42,10 @@ namespace Memory { namespace Allocators {
         explicit Allocator(std::size_t totalSize) 
             : INonCopyable(), mSize(totalSize) {}
         std::size_t getFullMemorySize() const noexcept;
+        std::size_t getCountVirtualPages() const noexcept;
         std::size_t getUsedMemorySize() const noexcept;
         std::size_t getFreeMemorySize() const noexcept;
+        void* getBasePinter() const noexcept;
         void* allocate(std::size_t size) noexcept;
         void deallocate(void* pointer) noexcept;
         void reset() noexcept;
@@ -53,10 +55,17 @@ namespace Memory { namespace Allocators {
         void* mBasePointer = nullptr;
     };
 
+
     template<class AllocatorType>
     std::size_t Allocator<AllocatorType>::getFullMemorySize() const noexcept
     {
         return mSize;
+    }
+
+    template<class AllocatorType>
+    std::size_t Allocator<AllocatorType>::getCountVirtualPages() const noexcept
+    {
+        return mSize / VIRTUAL_PAGE_SIZE;
     }
 
     template<class AllocatorType>
@@ -69,6 +78,12 @@ namespace Memory { namespace Allocators {
     std::size_t Allocator<AllocatorType>::getFreeMemorySize() const noexcept
     {
         return mSize - mOffset;
+    }
+
+    template<class AllocatorType>
+    void* Allocator<AllocatorType>::getBasePinter() const noexcept
+    {
+        return mBasePointer;
     }
 
     template<class AllocatorType>
@@ -89,20 +104,43 @@ namespace Memory { namespace Allocators {
         static_cast<AllocatorType*>(this)->reset();
     }
 
-    #ifdef _DEBUG
+ #ifdef _DEBUG
 
-    template<typename AllocatorType>
-    __forceinline void showAllocatorMemoryState(const Allocator<AllocatorType>& allocator) 
+    template<class AllocatorType>
+    void showAllocatorMemoryState(const Allocator<AllocatorType>& allocator) 
     {
-        printf("Memory state of alllocator\n"
+        printf("\nMemory state of alllocator\n"
+            " - Count virtual pages: %zu\n"
             " - Full size of memory: %zu bytes\n"
             " - Used memory: %zu bytes\n"
-            " - Free memory: %zu bytes\n",
-            allocator.getFullMemorySize(), 
+            " - Free memory: %zu bytes\n\n",
+            allocator.getCountVirtualPages(),
+            allocator.getFullMemorySize(),
             allocator.getUsedMemorySize(),
             allocator.getFreeMemorySize());
+        printf("Memory dump of allocator");
+        void* baseAddress = allocator.getBasePinter();
+        MemoryManager& memoryManager = MemoryManager::getInstance();
+        std::size_t startPageIndex = memoryManager.getVirtualPageIndex(baseAddress);
+        if (startPageIndex != 0) 
+        {
+            for (size_t i = startPageIndex; i < startPageIndex + allocator.getCountVirtualPages(); i++)
+                memoryManager.showVirtualPageDump(i);
+        }
+        else 
+        {
+            fprintf(stderr, "Could not show memory dump for current allocator:"
+                    " - Page with address [%p] was not found.", baseAddress);
+        }
     }
 
-    #endif // _DEBUG
+#else // _DEBUG
+
+    template<class AllocatorType>
+    void showAllocatorMemoryState(const Allocator<AllocatorType>& allocator)
+    {
+    }
+
+#endif // ! _DEBUG
 
 } }

@@ -31,6 +31,7 @@ namespace Graphics { namespace SceneGraph {
             : mMeshManager(meshManager), mAllocator(allocator) {}
         Node* build() noexcept;
     private:
+        Node* buildTree() noexcept;
         Node* buildCubes() noexcept;
         Node* buildGround() noexcept;
     private:

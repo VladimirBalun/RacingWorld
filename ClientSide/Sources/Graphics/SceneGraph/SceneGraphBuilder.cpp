@@ -24,7 +24,35 @@ Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::build() noe
     Node* rootGroup = new (memoryForRootNode) Node();
     rootGroup->addChild(buildCubes());
     rootGroup->addChild(buildGround());
+    rootGroup->addChild(buildTree());
     return rootGroup;
+}
+
+Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::buildTree() noexcept
+{
+    void* memoryForGroupNode = mAllocator.allocate(sizeof(Node));
+    Node* groupNode = new (memoryForGroupNode) Node();
+
+    // TODO: temp material for geometry
+    Components::Material groundMaterial(
+        { 0.0f ,0.05f, 0.0 },
+        { 0.4f, 0.5f, 0.4f },
+        { 0.04f, 0.7f, 0.04f },
+        0.078125f
+    );
+
+    Math::Matrix4x4f scaleTransformation{};
+    Math::setScaleMatrix(scaleTransformation, { 0.3f, 0.3f, 0.3f });
+    Math::Matrix4x4f grounTransformation{};
+    Math::setTranslationMatrix(grounTransformation, { 1.0f,  -0.52f,  1.0f });
+    grounTransformation.mul(scaleTransformation);
+    void* memoryForGroundPolygon = mAllocator.allocate(sizeof(Node));
+    Node* treeNode = new (memoryForGroundPolygon) Node();
+    treeNode->setMesh(mMeshManager.getMesh(Managers::TREE));
+    treeNode->setTransformation(grounTransformation);
+    groupNode->addChild(treeNode);
+
+    return groupNode;
 }
 
 Graphics::SceneGraph::Node* Graphics::SceneGraph::SceneGraphBuilder::buildCubes() noexcept

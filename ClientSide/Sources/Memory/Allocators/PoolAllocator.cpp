@@ -19,6 +19,7 @@
 Memory::Allocators::PoolAllocator::PoolAllocator(std::size_t countVirtualPages, std::size_t chunkSize)
     : Allocator<PoolAllocator>(countVirtualPages * VIRTUAL_PAGE_SIZE), mChunkSize(chunkSize)
 {
+  
     ASSERT(chunkSize != 0, "Empty chunk size for allocation.");
     ASSERT(countVirtualPages != 0, "Empty count of virtual pages for allocation.");
     mBasePointer = MemoryManager::getInstance().getMemoryPages(countVirtualPages);
@@ -30,6 +31,7 @@ Memory::Allocators::PoolAllocator::PoolAllocator(std::size_t countVirtualPages, 
         newFreeChunk->next = mChunksHead;
         mChunksHead = newFreeChunk;
     }
+
 }
 
 void* Memory::Allocators::PoolAllocator::allocate(std::size_t size) noexcept
@@ -38,6 +40,7 @@ void* Memory::Allocators::PoolAllocator::allocate(std::size_t size) noexcept
     if (mOffset + mChunkSize > mSize) 
     {
         LOG_WARNING("Memory is over in pool allocator");
+        showAllocatorMemoryState<PoolAllocator>(*this);
         return nullptr;
     }
 
@@ -72,9 +75,9 @@ void Memory::Allocators::PoolAllocator::reset() noexcept
 
 Memory::Allocators::PoolAllocator::~PoolAllocator()
 {
-    std::uint8_t countAllocatedPages = mSize / VIRTUAL_PAGE_SIZE;
+    std::size_t countAllocatedPages = mSize / VIRTUAL_PAGE_SIZE;
     std::size_t baseAddress = reinterpret_cast<std::size_t>(mBasePointer);
-    for (std::uint8_t i = 0; i < countAllocatedPages; i++) 
+    for (std::size_t i = 0; i < countAllocatedPages; i++)
     {
         std::size_t address = baseAddress + (i * VIRTUAL_PAGE_SIZE);
         MemoryManager::getInstance().returnMemoryPage(reinterpret_cast<void*>(address));

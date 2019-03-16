@@ -18,16 +18,18 @@
 
 GLvoid Graphics::Managers::MeshManager::initializeMeshes() noexcept
 {
-    mMeshes[CUBE] = createMesh(mMeshesAllocator, "Cube.obj");
-    mMeshes[GROUND_POLYGON] = createMesh(mMeshesAllocator, "GroundPolygon.obj");
+    mMeshes[TREE] = createMesh("Tree/Tree.obj");
+    mMeshes[CUBE] = createMesh("Cube.obj");
+    mMeshes[GROUND_POLYGON] = createMesh("GroundPolygon.obj");
 }
 
-Graphics::Components::Mesh Graphics::Managers::MeshManager::createMesh(Memory::Allocators::LinearAllocator& allocator, const char* modelName) const noexcept
+Graphics::Components::Mesh Graphics::Managers::MeshManager::createMesh(const char* modelName) noexcept
 {
     const char* modelsPath = Configuration::getModelsPath();
     char* modelPath = Utils::createStringFromStrings(strlen(modelsPath) + strlen(modelName) + 1,
-        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1), modelsPath, modelName);
-    return Tools::ObjParser::parse(modelPath, allocator);
+        std::bind(&Memory::Allocators::LinearAllocator::allocate, &mMeshesAllocator, std::placeholders::_1), modelsPath, modelName);
+    Tools::ObjParser objParser(mMeshesAllocator);
+    return objParser.parse(modelPath);
 }
 
 Graphics::Components::Mesh& Graphics::Managers::MeshManager::getMesh(EMeshType meshType) noexcept

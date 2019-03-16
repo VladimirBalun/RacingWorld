@@ -27,6 +27,7 @@ namespace Graphics { namespace Managers {
     enum EMeshType 
     {
         CUBE,
+        TREE,
         GROUND_POLYGON,
         COUNT_MESH_TYPES // Used for setting size of meshes array 
     };
@@ -35,12 +36,12 @@ namespace Graphics { namespace Managers {
     {
     public:
         explicit MeshManager() noexcept
-            : mMeshesAllocator(ONE_VIRTUAL_PAGE) {}
+            : mMeshesAllocator(1000) {}
         GLvoid initializeMeshes() noexcept;
         Components::Mesh& getMesh(EMeshType meshType) noexcept;
         ~MeshManager();
     private:
-        Components::Mesh createMesh(Memory::Allocators::LinearAllocator& allocator, const char* modelName) const noexcept;
+        Components::Mesh createMesh(const char* modelName) noexcept;
     private:
         Components::Mesh mMeshes[COUNT_MESH_TYPES];
         Memory::Allocators::LinearAllocator mMeshesAllocator;

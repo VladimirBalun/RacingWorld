@@ -24,7 +24,7 @@ template<typename Type>
 class Vector 
 {
 public:
-    explicit Vector(std::uint8_t countVirtualPages = 1) noexcept;
+    explicit Vector(std::size_t countVirtualPages = 1) noexcept;
     void push(const Type& value) noexcept;
     void pop() noexcept;
     void clear() noexcept;
@@ -32,6 +32,7 @@ public:
     Type& getFront() noexcept;
     Type& at(std::size_t index) noexcept;
     Type& operator [] (std::size_t index) noexcept;
+    Type* getData() noexcept;
     const Type& getBack() const noexcept;
     const Type& getFront() const noexcept;
     const Type& at(std::size_t index) const noexcept;
@@ -47,7 +48,7 @@ private:
 };
 
 template<typename Type>
-Vector<Type>::Vector(std::uint8_t countVirtualPages) noexcept
+Vector<Type>::Vector(std::size_t countVirtualPages) noexcept
     : mAllocator(countVirtualPages)
 {
     std::size_t countElements = mAllocator.getFullMemorySize() / sizeof(Type);
@@ -102,6 +103,12 @@ template<typename Type>
 Type& Vector<Type>::operator [] (std::size_t index) noexcept
 {
     return mArray[index];
+}
+
+template<typename Type>
+Type* Vector<Type>::getData() noexcept
+{
+    return mArray;
 }
 
 template<typename Type>
