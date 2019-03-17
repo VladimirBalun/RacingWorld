@@ -32,6 +32,8 @@ namespace Math {
         Vector4() noexcept = default;
         Vector4(const Vector4& anotherVector) noexcept;
         Vector4(const Type* array) noexcept;
+		Vector4(Type x, Type y, Type z) noexcept
+			: mX(x), mY(y), mZ(z), mW(1) {}
         Vector4(Type x, Type y, Type z, Type w) noexcept
             : mX(x), mY(y), mZ(z), mW(w) {}
 
