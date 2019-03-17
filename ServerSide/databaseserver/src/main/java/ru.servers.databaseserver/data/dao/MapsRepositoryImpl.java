@@ -18,41 +18,54 @@ package ru.servers.databaseserver.data.dao;
 
 import lombok.extern.log4j.Log4j;
 import ru.servers.databaseserver.data.Database;
-import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
-
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.Map;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 @Log4j
-public class UsersRepositoryImpl implements UsersRepository {
+public class MapsRepositoryImpl implements  MapsRepository{
 
     @Override
-    public User findByEmail(String email) {
-        final String sqlQuery = String.format("SELECT * FROM users WHERE email ='%s'" , email);
-        return find(sqlQuery);
+    public boolean save(Map newMap) {
+        final String sqlQuery = String.format("INSERT INTO maps (name) VALUES ('%s')", newMap.getName());
+        return SQLExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
-    public User findById(int id){
-        final String sqlQuery = String.format("SELECT * FROM users WHERE id = %d" , id);
-        return find(sqlQuery);
+    public boolean removeByName(String nameMap) {
+        final String sqlQuery = String.format("DELETE FROM maps WHERE name = '%s'", nameMap);
+        return SQLExecutor.executeSQLQuery(sqlQuery);
     }
 
-    private User find(String sqlQuery){
+    @Override
+    public boolean removeById(int id) {
+        final String sqlQuery = String.format("DELETE FROM maps WHERE id = %d", id);
+        return SQLExecutor.executeSQLQuery(sqlQuery);
+    }
+
+    @Override
+    public boolean updateNameById(int id, Map newMap) {
+        final String sqlQuery = String.format("UPDATE maps SET name='%s' WHERE id = %d", newMap.getName(), id);
+        return SQLExecutor.executeSQLQuery(sqlQuery);
+    }
+
+    @Override
+    public Map findById(int id){
+        final String sqlQuery = String.format("SELECT * FROM maps WHERE id =%d" , id);
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);
             try (Statement statement = connection.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(sqlQuery);
-                User user = new User();
+                Map map = new Map();
                 while (resultSet.next()) {
-                    user.setId(resultSet.getInt("id"));
-                    user.setEmail(resultSet.getString("email"));
-                    user.setPassword(resultSet.getString("password"));
+                    map.setId(resultSet.getInt("id"));
+                    map.setName(resultSet.getString("name"));
                 }
                 connection.commit();
-                return user;
+                return map;
             } catch (SQLException e){
                 connection.rollback();
                 log.warn("SQL request execution error. Cause: " + e.getMessage());
@@ -61,25 +74,6 @@ public class UsersRepositoryImpl implements UsersRepository {
             log.warn("SQL request execution error. Cause: " + e.getMessage());
         }
         return null;
-    }
-
-
-    @Override
-    public boolean save(User newUser) {
-        final String sqlQuery = String.format("INSERT INTO users (email, password) VALUES ('%s', '%s')", newUser.getEmail(), newUser.getPassword());
-        return SQLExecutor.executeSQLQuery(sqlQuery);
-    }
-
-    @Override
-    public boolean removeByEmail(String email) {
-        final String sqlQuery = String.format("DELETE FROM users WHERE email = '%s'", email);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
-    }
-
-    @Override
-    public boolean updateByEmail(String email, User newUser) {
-        final String sqlQuery = String.format("UPDATE users SET email='%s', password='%s' WHERE email='%s'", newUser.getEmail(), newUser.getPassword(), email);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
     }
 
 }

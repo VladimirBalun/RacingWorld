@@ -18,41 +18,35 @@ package ru.servers.databaseserver.data.dao;
 
 import lombok.extern.log4j.Log4j;
 import ru.servers.databaseserver.data.Database;
-import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
-
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 
 @Log4j
-public class UsersRepositoryImpl implements UsersRepository {
+public class RacingRepositoryImpl implements RacingRepository {
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
-    public User findByEmail(String email) {
-        final String sqlQuery = String.format("SELECT * FROM users WHERE email ='%s'" , email);
-        return find(sqlQuery);
-    }
-
-    @Override
-    public User findById(int id){
-        final String sqlQuery = String.format("SELECT * FROM users WHERE id = %d" , id);
-        return find(sqlQuery);
-    }
-
-    private User find(String sqlQuery){
+    public Racing findById(int id) {
+        final String sqlQuery = String.format("SELECT * FROM racings WHERE id ='%d'" , id);
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);
             try (Statement statement = connection.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(sqlQuery);
-                User user = new User();
+                Racing racing = new Racing();
                 while (resultSet.next()) {
-                    user.setId(resultSet.getInt("id"));
-                    user.setEmail(resultSet.getString("email"));
-                    user.setPassword(resultSet.getString("password"));
+                    racing.setId(resultSet.getInt("id"));
+                    racing.setStartTime(resultSet.getTimestamp("start_time"));
+                    racing.setMap(new MapsRepositoryImpl().findById(resultSet.getInt("id_map")));
+                    racing.setCountPlayers(resultSet.getInt("count_players"));
+                    racing.setTotalTime(resultSet.getTimestamp("total_time"));
                 }
                 connection.commit();
-                return user;
+                return racing;
             } catch (SQLException e){
                 connection.rollback();
                 log.warn("SQL request execution error. Cause: " + e.getMessage());
@@ -63,23 +57,24 @@ public class UsersRepositoryImpl implements UsersRepository {
         return null;
     }
 
+    @Override
+    public boolean save(Racing newRacing) {
+        final String sqlQuery = String.format("INSERT INTO racings (start_time, id_map, count_players, total_time) VALUES ('%s', %d, %d, '%s')",
+                sdf.format(newRacing.getStartTime()), newRacing.getMap().getId(), newRacing.getCountPlayers(), sdf.format(newRacing.getTotalTime()));
+        return SQLExecutor.executeSQLQuery(sqlQuery);
+
+    }
 
     @Override
-    public boolean save(User newUser) {
-        final String sqlQuery = String.format("INSERT INTO users (email, password) VALUES ('%s', '%s')", newUser.getEmail(), newUser.getPassword());
+    public boolean removeById(int id) {
+        final String sqlQuery = String.format("DELETE FROM racings WHERE id = %d", id);
         return SQLExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
-    public boolean removeByEmail(String email) {
-        final String sqlQuery = String.format("DELETE FROM users WHERE email = '%s'", email);
+    public boolean updateById(int id, Racing newRacing) {
+        final String sqlQuery = String.format("UPDATE racings SET start_time ='%s', id_map =%d, count_players = %d, total_time = '%s' WHERE id = %d",
+                sdf.format(newRacing.getStartTime()), newRacing.getMap().getId(), newRacing.getCountPlayers(), sdf.format(newRacing.getTotalTime()), id);
         return SQLExecutor.executeSQLQuery(sqlQuery);
     }
-
-    @Override
-    public boolean updateByEmail(String email, User newUser) {
-        final String sqlQuery = String.format("UPDATE users SET email='%s', password='%s' WHERE email='%s'", newUser.getEmail(), newUser.getPassword(), email);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
-    }
-
 }

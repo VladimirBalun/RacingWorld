@@ -18,41 +18,51 @@ package ru.servers.databaseserver.data.dao;
 
 import lombok.extern.log4j.Log4j;
 import ru.servers.databaseserver.data.Database;
-import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
-
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.PlayingUser;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 @Log4j
-public class UsersRepositoryImpl implements UsersRepository {
+public class PlayingUsersRepositoryImpl implements  PlayingUsersRepository {
+
 
     @Override
-    public User findByEmail(String email) {
-        final String sqlQuery = String.format("SELECT * FROM users WHERE email ='%s'" , email);
-        return find(sqlQuery);
+    public boolean save(PlayingUser newPlayingUser) {
+        final String sqlQuery = String.format("INSERT INTO playing_users (id_user, id_running_racing) VALUES (%d, %d)",
+                newPlayingUser.getUser().getId(), newPlayingUser.getRunningRaces().getId());
+        return SQLExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
-    public User findById(int id){
-        final String sqlQuery = String.format("SELECT * FROM users WHERE id = %d" , id);
-        return find(sqlQuery);
+    public boolean removeById(int id) {
+        final String sqlQuery = String.format("DELETE FROM playing_users WHERE id = %d", id);
+        return SQLExecutor.executeSQLQuery(sqlQuery);
     }
 
-    private User find(String sqlQuery){
+    @Override
+    public boolean updateById(int id, PlayingUser newPlayingUser) {
+        final String sqlQuery = String.format("UPDATE playing_users SET id_user = %d, id_running_racing = %d WHERE id = %d",
+                newPlayingUser.getUser().getId(), newPlayingUser.getRunningRaces().getId(), id);
+        return SQLExecutor.executeSQLQuery(sqlQuery);
+    }
+
+    @Override
+    public PlayingUser findById(int id) {
+        final String sqlQuery = String.format("SELECT * FROM racings WHERE id = %d" , id);
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);
             try (Statement statement = connection.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(sqlQuery);
-                User user = new User();
+                PlayingUser playingUser = new PlayingUser();
                 while (resultSet.next()) {
-                    user.setId(resultSet.getInt("id"));
-                    user.setEmail(resultSet.getString("email"));
-                    user.setPassword(resultSet.getString("password"));
+                    playingUser.setId(resultSet.getInt("id"));
+                    playingUser.setUser(new UsersRepositoryImpl().findById(resultSet.getInt("id_user")));
+                    playingUser.setRunningRaces(new RunningRacesRepositoryImpl().findById(resultSet.getInt("id_running_racing")));
                 }
                 connection.commit();
-                return user;
+                return playingUser;
             } catch (SQLException e){
                 connection.rollback();
                 log.warn("SQL request execution error. Cause: " + e.getMessage());
@@ -61,25 +71,6 @@ public class UsersRepositoryImpl implements UsersRepository {
             log.warn("SQL request execution error. Cause: " + e.getMessage());
         }
         return null;
-    }
-
-
-    @Override
-    public boolean save(User newUser) {
-        final String sqlQuery = String.format("INSERT INTO users (email, password) VALUES ('%s', '%s')", newUser.getEmail(), newUser.getPassword());
-        return SQLExecutor.executeSQLQuery(sqlQuery);
-    }
-
-    @Override
-    public boolean removeByEmail(String email) {
-        final String sqlQuery = String.format("DELETE FROM users WHERE email = '%s'", email);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
-    }
-
-    @Override
-    public boolean updateByEmail(String email, User newUser) {
-        final String sqlQuery = String.format("UPDATE users SET email='%s', password='%s' WHERE email='%s'", newUser.getEmail(), newUser.getPassword(), email);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
     }
 
 }

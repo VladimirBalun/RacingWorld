@@ -16,18 +16,15 @@
 
 package ru.servers.databaseserver.data.dao;
 
-import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.RunningRaces;
 
-public interface UsersRepository {
+public interface RunningRacesRepository {
 
-    User findByEmail(String email);
+    RunningRaces findById(int id);
 
-    User findById(int id);
+    boolean save(RunningRaces newRunningRaces);
 
-    boolean save(User newUser);
+    boolean updateById(int id, RunningRaces newRunningRaces);
 
-    boolean removeByEmail(String email);
-
-    boolean updateByEmail(String email, User newUser);
-
+    boolean removeById(int id);
 }

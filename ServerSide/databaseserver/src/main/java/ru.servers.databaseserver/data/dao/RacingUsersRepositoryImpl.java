@@ -18,41 +18,30 @@ package ru.servers.databaseserver.data.dao;
 
 import lombok.extern.log4j.Log4j;
 import ru.servers.databaseserver.data.Database;
-import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
-
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.RacingUser;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 @Log4j
-public class UsersRepositoryImpl implements UsersRepository {
+public class RacingUsersRepositoryImpl implements RacingUsersRepository {
 
     @Override
-    public User findByEmail(String email) {
-        final String sqlQuery = String.format("SELECT * FROM users WHERE email ='%s'" , email);
-        return find(sqlQuery);
-    }
-
-    @Override
-    public User findById(int id){
-        final String sqlQuery = String.format("SELECT * FROM users WHERE id = %d" , id);
-        return find(sqlQuery);
-    }
-
-    private User find(String sqlQuery){
+    public RacingUser findById(int id) {
+        final String sqlQuery = String.format("SELECT * FROM racings WHERE id ='%d'" , id);
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);
             try (Statement statement = connection.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(sqlQuery);
-                User user = new User();
+                RacingUser racingUser = new RacingUser();
                 while (resultSet.next()) {
-                    user.setId(resultSet.getInt("id"));
-                    user.setEmail(resultSet.getString("email"));
-                    user.setPassword(resultSet.getString("password"));
+                    racingUser.setId(resultSet.getInt("id"));
+                    racingUser.setRacing(new RacingRepositoryImpl().findById(resultSet.getInt("id_racing")));
+                    racingUser.setUser(new UsersRepositoryImpl().findById(resultSet.getInt("id_user")));
                 }
                 connection.commit();
-                return user;
+                return racingUser;
             } catch (SQLException e){
                 connection.rollback();
                 log.warn("SQL request execution error. Cause: " + e.getMessage());
@@ -63,22 +52,23 @@ public class UsersRepositoryImpl implements UsersRepository {
         return null;
     }
 
-
     @Override
-    public boolean save(User newUser) {
-        final String sqlQuery = String.format("INSERT INTO users (email, password) VALUES ('%s', '%s')", newUser.getEmail(), newUser.getPassword());
+    public boolean save(RacingUser newRacingUser) {
+        final String sqlQuery = String.format("INSERT INTO users_racings (id_user, id_racing) VALUES (%d, %d)",
+                newRacingUser.getUser().getId(), newRacingUser.getRacing().getId());
         return SQLExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
-    public boolean removeByEmail(String email) {
-        final String sqlQuery = String.format("DELETE FROM users WHERE email = '%s'", email);
+    public boolean updateById(int id, RacingUser newRacingUser) {
+        final String sqlQuery = String.format("UPDATE users_racings SET id_user = %d, id_racing =%d WHERE id = %d",
+                newRacingUser.getUser().getId(), newRacingUser.getRacing().getId(), id);
         return SQLExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
-    public boolean updateByEmail(String email, User newUser) {
-        final String sqlQuery = String.format("UPDATE users SET email='%s', password='%s' WHERE email='%s'", newUser.getEmail(), newUser.getPassword(), email);
+    public boolean removeById(int id) {
+        final String sqlQuery = String.format("DELETE FROM users_racings WHERE id = %d", id);
         return SQLExecutor.executeSQLQuery(sqlQuery);
     }
 
