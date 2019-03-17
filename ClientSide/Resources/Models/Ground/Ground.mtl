@@ -1,0 +1,7 @@
+newmtl Grass
+Ka 0.5882 0.5882 0.5882
+Kd 0.5882 0.5882 0.5882
+Ks 0.0900 0.0900 0.0900
+Ns 10.0000
+map_Ka Grass.bmp
+map_Kd Grass.bmp
