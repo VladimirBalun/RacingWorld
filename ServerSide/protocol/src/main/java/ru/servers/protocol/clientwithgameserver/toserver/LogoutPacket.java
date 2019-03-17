@@ -21,6 +21,8 @@ import lombok.ToString;
 import ru.servers.protocol.clientwithgameserver.common.Primitives;
 import ru.servers.protocol.clientwithgameserver.NetworkPacket;
 
+import java.nio.ByteBuffer;
+
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class LogoutPacket extends NetworkPacket implements PacketFromClient {
@@ -42,5 +44,8 @@ public class LogoutPacket extends NetworkPacket implements PacketFromClient {
         }
     }
 
+    public int getToken() {
+        return ByteBuffer.wrap(buffer, POSITION_TOKEN, SIZE_TOKEN).getInt();
+    }
 
 }
