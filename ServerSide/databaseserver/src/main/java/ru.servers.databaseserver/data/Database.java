@@ -43,7 +43,6 @@ public final class Database {
             } catch (IOException e) {
                 throw new IOException("file with database properties was not read.");
             }
-
             databaseURL = properties.getProperty("db.url");
             databaseUsername = properties.getProperty("db.username");
             databasePassword = properties.getProperty("db.password");

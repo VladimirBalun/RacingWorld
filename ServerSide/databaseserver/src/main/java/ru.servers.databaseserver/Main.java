@@ -36,5 +36,4 @@ public class Main {
             log.error("Database server was not started. Cause: " + e.getMessage());
         }
     }
-
 }

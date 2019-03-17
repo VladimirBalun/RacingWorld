@@ -25,7 +25,7 @@ public interface UsersService extends Remote {
 
     boolean addNewUser(User newUser) throws RemoteException;
 
-    boolean removeUserByEmail(String email, User newUser) throws RemoteException;
+    boolean removeUserByEmail(String email) throws RemoteException;
 
     boolean changeUserPasswordByEmail(String email, String newPassword) throws RemoteException;
 

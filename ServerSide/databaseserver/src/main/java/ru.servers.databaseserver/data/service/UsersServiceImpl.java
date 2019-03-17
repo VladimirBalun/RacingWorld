@@ -48,12 +48,12 @@ public class UsersServiceImpl extends UnicastRemoteObject implements UsersServic
     }
 
     @Override
-    public boolean removeUserByEmail(String email, User newUser) throws RemoteException {
+    public boolean removeUserByEmail(String email) throws RemoteException {
         boolean deletingResult = usersRepository.removeByEmail(email);
         if (deletingResult) {
-            log.debug("User was deleted. User: " + newUser.toString());
+            log.debug("User was deleted by email: " + email);
         } else {
-            log.warn("User was not deleted. User: " + newUser.toString());
+            log.warn("User was not deleted by email: "  + email);
         }
         return deletingResult;
     }
