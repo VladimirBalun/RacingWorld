@@ -30,21 +30,21 @@ public class WorldActionPacket extends NetworkPacket implements PacketFromServer
     // [0] - protocol type
     // [1...4] - packet number
     // [5] - count players
-    // for (byte i = 0; i < countPlayers; i++)
-    //   [(START_POSITION_PLAYER_POSITION * i)...((START_POSITION_PLAYER_POSITION + VECTOR_SIZE) * i)] - position
-    //   [(START_POSITION_PLAYER_DIRECTION * i)...((START_POSITION_PLAYER_DIRECTION + VECTOR_SIZE) * i)] - direction
+    // for (byte i = 0; i < count players; i++)
+    //   [(START_POSITION_PLAYER_POSITION + (PLAYER_LOCATION_SIZE * i))...((START_POSITION_PLAYER_POSITION + (PLAYER_LOCATION_SIZE * i) + VECTOR_SIZE)] - position
+    //   [(START_POSITION_PLAYER_DIRECTION + (PLAYER_LOCATION_SIZE * i))...((START_POSITION_PLAYER_POSITION + (PLAYER_LOCATION_SIZE * i) + VECTOR_SIZE)] - direction
 
     private final byte countPlayers;
 
-    private final static byte POSITION_TOKEN = 5;
-    private final static byte SIZE_TOKEN = Primitives.INT_SIZE;
+    private final static byte POSITION_COUNT_PLAYERS = 5;
+    private final static byte SIZE_COUNT_PLAYERS = Primitives.BYTE_SIZE;
 
     private final static byte START_POSITION_PLAYER_POSITION = 6;
     private final static byte START_POSITION_PLAYER_DIRECTION = 18;
-    private final static byte VECTOR_SIZE = Primitives.FLOAT_SIZE * 4;
+    private final static byte VECTOR_SIZE = Primitives.FLOAT_SIZE * 3;
     private final static byte PLAYER_LOCATION_SIZE = VECTOR_SIZE * 2;
 
-    public final static byte SIZE_PACKET_WITHOUT_PLAYERS = SIZE_NETWORK_PACKET + SIZE_TOKEN;
+    public final static byte SIZE_PACKET_WITHOUT_PLAYERS = SIZE_NETWORK_PACKET + SIZE_COUNT_PLAYERS;
 
     public WorldActionPacket(int countPlayers) {
         super(new byte[SIZE_PACKET_WITHOUT_PLAYERS + (countPlayers * PLAYER_LOCATION_SIZE)]);
