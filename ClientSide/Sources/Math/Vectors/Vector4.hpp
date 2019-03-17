@@ -241,7 +241,7 @@ namespace Math {
     template<class Type>
     Vector4<Type> operator * (const Vector4<Type>& vector, Type scalar) noexcept
     {
-        return Vector4<Type>(vector.getX() * scalar, vector.getY() * scalar, vector.mZ * scalar);
+        return Vector4<Type>(vector.getX() * scalar, vector.getY() * scalar, vector.getZ() * scalar);
     }
 
     template<class Type>
