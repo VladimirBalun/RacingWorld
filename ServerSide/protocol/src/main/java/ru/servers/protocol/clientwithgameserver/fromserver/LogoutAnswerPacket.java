@@ -31,7 +31,7 @@ public class LogoutAnswerPacket extends NetworkPacket implements PacketFromServe
     // [1...4] - packet number
     // [5] - result of logout
 
-    private final static byte POSITION_RESULT_LOGOUT = 9;
+    private final static byte POSITION_RESULT_LOGOUT = 5;
     private final static byte SIZE_RESULT_LOGOUT = Primitives.BYTE_SIZE;
 
     public final static byte SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_RESULT_LOGOUT;
@@ -39,6 +39,14 @@ public class LogoutAnswerPacket extends NetworkPacket implements PacketFromServe
     public LogoutAnswerPacket() {
         super(new byte[SIZE_PACKET]);
         buffer[POSITION_PACKET_TYPE] = PacketType.LOGOUT_ANSWER_PACKET;
+    }
+
+    public void setResultLogout(boolean resultInitialization){
+        buffer[POSITION_RESULT_LOGOUT] = (byte) (resultInitialization ? 1 : 0);
+    }
+
+    public boolean getResultLogout(){
+        return buffer[POSITION_RESULT_LOGOUT] != 0;
     }
 
     @Override
