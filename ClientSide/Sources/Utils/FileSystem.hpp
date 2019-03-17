@@ -26,6 +26,7 @@
 namespace Utils {
 
     char* readFile(const char* fileName, std::function<void*(std::size_t, std::size_t)> allocateFunction) noexcept;
+	bool writeFile(const char* fileName, const char* data) noexcept;
 
     bool createFile(const char* fileName) noexcept;
     bool removeFile(const char* fileName) noexcept;

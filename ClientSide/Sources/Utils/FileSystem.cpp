@@ -38,6 +38,21 @@ char* Utils::readFile(const char* fullFileName, std::function<void*(std::size_t,
     return buffer;
 }
 
+bool Utils::writeFile(const char* fileName, const char* data) noexcept
+{
+	FILE * outputStream = NULL;
+	fopen_s(&outputStream, fileName, "a");
+	if (!outputStream) 
+	{
+		LOG_WARNING("File was not opened for writing.");
+		return false;
+	}
+
+	int countWritedBytes = fprintf(outputStream, "%s\n", data);
+	fclose(outputStream);
+	return countWritedBytes >= 0;
+}
+
 bool Utils::createFile(const char* fileName) noexcept
 {
     return CreateFile(fileName, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL) != INVALID_HANDLE_VALUE;
