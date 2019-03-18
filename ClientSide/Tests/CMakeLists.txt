@@ -18,7 +18,7 @@ cmake_minimum_required (VERSION 3.10)
 
 project (RacingWorldUnitTests)
 
-set (TESTS VectorsTest Vector2Test Vector3Test Vector4Test)
+set (TESTS VectorsTest Vector2Test Vector3Test Vector4Test Matrix2x2Test Matrix3x3Test Matrix4x4Test)
 
 foreach (TEST ${TESTS})
     add_executable (${TEST} ./Math/${TEST}.cpp)
@@ -30,5 +30,5 @@ foreach (TEST ${TESTS})
     set_target_properties (${TEST} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${PROJECT_BIN_DIR})
     set_target_properties (${TEST} PROPERTIES FOLDER "Tests")
 
-    add_test (NAME ${TEST} COMMAND ${TEST})
+    add_test (${TEST} ${TEST})
 endforeach ()
