@@ -32,7 +32,7 @@
                 title: "Forum page"
             }
         }
-    }
+    };
 
 </script>
 

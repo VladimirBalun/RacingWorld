@@ -16,7 +16,7 @@
 
 "use strict";
 
-module.exports.route = server => {
+module.exports.route = (server) => {
 
     server.get("/news", (request, response) => response.status(200).set({"Content-Type": "application/json; charset=utf-8"}).send({ data: "Test data"}));
     server.get("/news/:id", (request, response) => response.status(200).set({"Content-Type": "application/json; charset=utf-8"}).send({ data: "Test data"}));

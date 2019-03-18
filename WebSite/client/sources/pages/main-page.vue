@@ -32,7 +32,7 @@
                 title: "Main page"
             }
         }
-    }
+    };
 
 </script>
 

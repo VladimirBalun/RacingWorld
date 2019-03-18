@@ -16,13 +16,13 @@
 
 "use strict";
 
-import Vue from "vue"
-import VueResource from "vue-resource"
+import Vue from "vue";
+import VueResource from "vue-resource";
 
-import store from "./scripts/store"
-import router from "./scripts/router"
+import store from "./scripts/store";
+import router from "./scripts/router";
 
-import headerComponent from "./components/header-component"
+import headerComponent from "./components/header-component";
 
 Vue.use(VueResource);
 

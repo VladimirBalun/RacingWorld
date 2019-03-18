@@ -16,12 +16,12 @@
 
 "use strict";
 
-import Vue from "vue"
-import VueRouter from "vue-router"
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-import mainPage from "../pages/main-page"
-import newsPage from "../pages/news-page"
-import forumPage from "../pages/forum-page"
+import mainPage from "../pages/main-page";
+import newsPage from "../pages/news-page";
+import forumPage from "../pages/forum-page";
 
 Vue.use(VueRouter);
 

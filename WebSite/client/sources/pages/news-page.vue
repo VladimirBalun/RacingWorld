@@ -32,7 +32,7 @@
                 title: "News page"
             }
         }
-    }
+    };
 
 </script>
 
