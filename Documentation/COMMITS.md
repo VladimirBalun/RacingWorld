@@ -19,9 +19,9 @@ The commit message should be structured as follows:
 
 ---
 
-* In the body of a commit we write what has been changed and why.
+*   In the body of a commit we write what has been changed and why.
 
-* We use the following types of commits:
+*   We use the following types of commits:
 
 | Commit type | Description                                                | 
 |:-----------:|:----------------------------------------------------------:|
@@ -36,39 +36,34 @@ The commit message should be structured as follows:
 | style       | code style edits(tabs, indents, full stops, commas, etc.)  |
 | test        | adding tests                                               |
 
-- We write the description in the imperative mood, just like Git itself.
+*   We write the description in the imperative mood, just like Git itself.
 
 
     Merge branch 'fix/SECRETMRKT-749-fix-typos-in-titles'
     
-- The description consists only of lowercase letters and we do not download the description of 
+*   The description consists only of lowercase letters and we do not download the description of 
 the commit with punctuation marks.    
 
 ## Commit short examples
 
-* Commit message with description and breaking change in body
+*   Commit message with description and breaking change in body
 
+        feat: allow provided config object to extend other configs
+
+        BREAKING CHANGE: `extends` key in config file is now used for extending other config files
+
+*   Commit message with no body
+
+        docs: correct spelling of CHANGELOG
+
+*   Commit message with scope
+
+        feat(language): added russian language
     
-    feat: allow provided config object to extend other configs
+*   Commit message for a fix using an (optional) issue number.
 
-    BREAKING CHANGE: `extends` key in config file is now used for extending other config files
+        fix: minor typos in code
 
-* Commit message with no body
+        see the issue for details on the typos fixed
 
-
-    docs: correct spelling of CHANGELOG
-
-* Commit message with scope
-
-    
-    feat(language): added russian language
-    
-
-* Commit message for a fix using an (optional) issue number.
-
-
-    fix: minor typos in code
-
-    see the issue for details on the typos fixed
-
-    fixes issue #12
+        fixes issue #12

@@ -25,10 +25,6 @@ import java.io.IOException;
 @Log4j
 public class Main {
 
-    static String localhost    = "127.0.0.1";
-    static String RMI_HOSTNAME = "java.rmi.server.database";
-    static String SERVICE_PATH = "rmi://localhost/UsersService";
-
     public static void main(String[] args) {
         try {
             log.info("Copyright 2018 Vladimir Balun - Game server.");

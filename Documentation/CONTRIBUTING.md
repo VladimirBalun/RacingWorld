@@ -12,34 +12,34 @@ might not want to merge into the project.
 
 Adhering to the following process is the best way to get your work included in the project:
 
-1. Fork the project, clone your fork, and configure the remotes:
+1.  Fork the project, clone your fork, and configure the remotes:
 
-       git clone https://github.com/<your-username>/RacingWorld.git
-       cd RacingWorld
-       git remote add upstream https://github.com/twbs/RacingWorld.git
+        git clone https://github.com/<your-username>/RacingWorld.git
+        cd RacingWorld
+        git remote add upstream https://github.com/twbs/RacingWorld.git
 
-2. If you cloned a while ago, get the latest changes from upstream:
+2.  If you cloned a while ago, get the latest changes from upstream:
 
-       git checkout develop
-       git pull --rebase upstream develop
+        git checkout develop
+        git pull --rebase upstream develop
 
-3. Create a new topic branch (off the main project development branch) to contain your feature, change, or fix:
+3.  Create a new topic branch (off the main project development branch) to contain your feature, change, or fix:
 
-       git checkout -b <topic-branch-name>
+        git checkout -b <topic-branch-name>
 
-4. Commit your changes in logical chunks(but before commit read our
- <a href="./COMMITS_STYLE_CONVENTION.md">commits style guide</a>). Use Git's interactive rebase 
+4.  Commit your changes in logical chunks(but before commit read our
+ <a href="./COMMITS.md">commits style guide</a>). Use Git's interactive rebase 
  feature to tidy up your commits before making them public.
 
-5. Locally rebase the upstream development branch into your topic branch:
+5.  Locally rebase the upstream development branch into your topic branch:
 
-       git pull --rebase upstream develop
+        git pull --rebase upstream develop
 
-6. Push your topic branch up to your fork:
+6.  Push your topic branch up to your fork:
 
-       git push origin <topic-branch-name>
+        git push origin <topic-branch-name>
 
-7. Open a Pull Request with a clear title and description against the develop branch.               
+7.  Open a Pull Request with a clear title and description against the develop branch.               
 
 ## Feature requests
 

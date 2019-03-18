@@ -1,10 +1,10 @@
 {
   "name": "RacingWorld",
   "version": "0.1.0",
-  "description": "Web site fro game RacingWorld",
+  "description": "Web site for game RacingWorld",
   "main": "./scripts/index.js",
   "scripts": {
-    "dev": "webpack-dev-server --hot --open",
+    "dev": "webpack-dev-server",
     "build": "webpack"
   },
   "dependencies": {

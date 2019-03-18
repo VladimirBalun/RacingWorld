@@ -24,12 +24,12 @@
 
 <script>
 
-    'use strict';
+    "use strict";
 
     export default {
         data() {
             return {
-                title: 'Main page'
+                title: "Main page"
             }
         }
     }

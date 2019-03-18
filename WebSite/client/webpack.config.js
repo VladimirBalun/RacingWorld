@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-'use strict';
+"use strict";
 
-const path = require('path');
+const path = require("path");
 
-const PRODUCTION_MODE = 'production';
-const DEVELOPMENT_MODE = 'development';
+const PRODUCTION_MODE = "production";
+const DEVELOPMENT_MODE = "development";
 const NODE_ENV = process.env.NODE_ENV || DEVELOPMENT_MODE;
 
-const Webpack = require('webpack');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Webpack = require("webpack");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     entry: {
-        main: './sources/index.js'
+        main: "./sources/index.js"
     },
     output: {
-        path: path.resolve(__dirname, './build'),
-        publicPath: './',
-        filename: 'index.js'
+        path: path.resolve(__dirname, "./build"),
+        publicPath: "./",
+        filename: "index.js"
     },
     mode: NODE_ENV,
-    devtool: NODE_ENV === DEVELOPMENT_MODE ? 'eval' : null,
+    devtool: NODE_ENV === DEVELOPMENT_MODE ? "eval" : null,
     watch: NODE_ENV === DEVELOPMENT_MODE,
     watchOptions: {
         aggregateTimeout: 100
@@ -45,37 +45,42 @@ module.exports = {
     performance: {
         hints: false
     },
+    devServer: {
+        hot: true,
+        open: true,
+        publicPath: "/"
+    },
     module: {
         rules: [
             {
                 test: /\.vue$/,
-                loader: 'vue-loader',
+                loader: "vue-loader",
                 options: {
                     loaders: {
-                        scss: 'vue-style-loader!css-loader!sass-loader',
-                        sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
+                        scss: "vue-style-loader!css-loader!sass-loader",
+                        sass: "vue-style-loader!css-loader!sass-loader?indentedSyntax"
                     }
                 }
             },
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
+                use: "ts-loader",
                 exclude: /node_modules/
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
+                loader: "babel-loader",
                 include: [
-                    path.resolve('scripts'),
-                    path.resolve('node_modules/webpack-dev-server/client')
+                    path.resolve("scripts"),
+                    path.resolve("node_modules/webpack-dev-server/client")
                 ]
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
                 use: [{
-                    loader: 'file-loader',
+                    loader: "file-loader",
                     options: {
-                        name: '[name].[ext]',
+                        name: "[name].[ext]",
                     }
                 }],
             },
@@ -83,10 +88,10 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     {
-                        loader: 'vue-style-loader'
+                        loader: "vue-style-loader"
                     },
                     {
-                        loader: 'css-loader'
+                        loader: "css-loader"
                     }
                 ]
             }
@@ -99,21 +104,21 @@ module.exports = {
             DEVELOPMENT_MODE: JSON.stringify(DEVELOPMENT_MODE)
         }),
         new HtmlWebpackPlugin({
-            title: 'deep-nest-rest',
-            filename: 'index.html',
-            template: './sources/index.html',
+            title: "RacingWorld",
+            filename: "index.html",
+            template: "./sources/index.html",
             inject: true
         }),
         new VueLoaderPlugin(),
         new CopyWebpackPlugin([
-            {from: path.resolve(__dirname, './sources/index.css')}
+            {from: path.resolve(__dirname, "./sources/index.css")}
         ])
     ],
     resolve: {
-        extensions: ['.tsx', '.js', '.vue', '.json'],
+        extensions: [".tsx", ".js", ".vue", ".json"],
         alias: {
-            'vue$': 'vue/dist/vue.esm.js',
-            '@': path.resolve('src'),
+            "vue$": "vue/dist/vue.esm.js",
+            "@": path.resolve("src"),
         }
     }
 };

@@ -1,10 +1,10 @@
 # Installation guide
 
 RacingWorld is divided into two large parts:
- * ServerSide(Java) - it is only represents two servers(game and for authorization) for Linux or Windows. They come already
+ *   ServerSide(Java) - it is only represents two servers(game and for authorization) for Linux or Windows. They come already
  assembled, but if you want to build them manually, you can use the script <i>Scripts/BuildServerSide.sh</i> or
  <i>Scripts/BuildServerSide.bat</i> depending on your OS.
- * ClientSide(C/C++) - it is the game, written only for Windows, using the <i>Visual Studio 2017</i> compiler.
+ *   ClientSide(C/C++) - it is the game, written only for Windows, using the <i>Visual Studio 2017</i> compiler.
 
 ## Building of the RacingWorld
 
@@ -12,8 +12,8 @@ RacingWorld is divided into two large parts:
 
 Firs of all you need install on your computer necessary programs:
 
-* <a href="https://cmake.org/download/">CMake</a>
-* <a href="https://visualstudio.microsoft.com/en/?rr=https%3A%2F%2Fyandex.ru%2F">Visual Studio 2017</a>
+*   <a href="https://cmake.org/download/">CMake</a>
+*   <a href="https://visualstudio.microsoft.com/en/?rr=https%3A%2F%2Fyandex.ru%2F">Visual Studio 2017</a>
 
 ### How to build client side
 
