@@ -29,11 +29,11 @@ namespace Network { namespace Endianness {
     class BigEndian
     {
     public:
-        BigEndian(Type value = Type());
-        BigEndian(const BigEndian& another);
-        BigEndian(const LittleEndian<Type>& another);
-        BigEndian& operator = (const BigEndian& another);
-        operator const Type() const;
+        BigEndian(Type value = Type()) noexcept;
+        BigEndian(const BigEndian& another) noexcept;
+        BigEndian(const LittleEndian<Type>& another) noexcept;
+        BigEndian& operator = (const BigEndian& another) noexcept;
+        operator const Type() const noexcept;
     private:
         unsigned char bytes[sizeof(Type)];
     };
@@ -51,28 +51,28 @@ namespace Network { namespace Endianness {
     using int64be_t = BigEndian<std::int64_t>;
 
     template<typename Type>
-    BigEndian<Type>::BigEndian(Type value)
+    BigEndian<Type>::BigEndian(Type value) noexcept
     {
         for (std::uint8_t i = 0; i < sizeof(Type); i++)
             bytes[sizeof(Type) - 1 - i] = value >> (i << 3);
     }
 
     template<typename Type>
-    BigEndian<Type>::BigEndian(const BigEndian& another)
+    BigEndian<Type>::BigEndian(const BigEndian& another) noexcept
     {
         for (std::uint8_t i = 0; i < sizeof(Type); i++)
             bytes[i] = another.bytes[i];
     }
 
     template<typename Type>
-    BigEndian<Type>::BigEndian(const LittleEndian<Type>& another)
+    BigEndian<Type>::BigEndian(const LittleEndian<Type>& another) noexcept
     {
         for (std::uint8_t i = 0; i < sizeof(Type); i++)
             bytes[i] = another.bytes[sizeof(Type) - 1 - i];
     }
 
     template<typename Type>
-    BigEndian<Type>& BigEndian<Type>::operator = (const BigEndian& another)
+    BigEndian<Type>& BigEndian<Type>::operator = (const BigEndian& another) noexcept
     {
         for (std::uint8_t i = 0; i < sizeof(Type); i++)
             bytes[i] = another.bytes[i];
@@ -80,7 +80,7 @@ namespace Network { namespace Endianness {
     }
 
     template<typename Type>
-    BigEndian<Type>::operator const Type() const
+    BigEndian<Type>::operator const Type() const noexcept
     {
         Type value = Type();
         for (std::uint8_t i = 0; i < sizeof(Type); i++)

@@ -25,7 +25,7 @@ namespace Input {
     class KeyboardState
     {
     public:
-        explicit KeyboardState();
+        explicit KeyboardState() noexcept;
         void pressKeyW() noexcept;
         void releaseKeyW() noexcept;
         void pressKeyS() noexcept;

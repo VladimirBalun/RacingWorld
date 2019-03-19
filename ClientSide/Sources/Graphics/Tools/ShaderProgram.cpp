@@ -16,7 +16,7 @@
 
 #include "ShaderProgram.hpp"
 
-Graphics::Tools::ShaderProgram::ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName)
+Graphics::Tools::ShaderProgram::ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName) noexcept
 {
     const char* vShaderSourceCode = Utils::readFile(vShaderFileName,
         std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1));

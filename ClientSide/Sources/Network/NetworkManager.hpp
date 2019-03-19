@@ -29,9 +29,9 @@ namespace Network {
     class NetworkManager : Memory::INonCopyable
     {
     public:
-        explicit NetworkManager()
+        explicit NetworkManager() noexcept
             : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
-        bool login();
+        bool login() noexcept;
     private:
         UDPConnection mConnection;
         std::int32_t mCurrentToken = 0;

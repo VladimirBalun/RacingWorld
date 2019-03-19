@@ -16,12 +16,12 @@
 
 #include "Scene.hpp"
 
- GLfloat deltaTime = 0;
- GLfloat previousTime = 0;
+static GLuint64 deltaTime = 0;
+static GLuint64 previousTime = 0;
 
 Graphics::SceneGraph::Scene::Scene(HDC& windowContext) noexcept :
     mWindowContext(windowContext),
-    mSceneGraphAllocator(EIGHT_VIRTUAL_PAGES, sizeof(Node)),
+    mSceneGraphAllocator(9, sizeof(Node)),
     mSceneLight({ 1.2f, 1.0f, 2.0f }, { 0.2f, 0.2f, 0.2f }, { 0.5f, 0.5f, 0.5f }) 
 {
     mShaderManager.initializeShaders();
@@ -88,9 +88,9 @@ GLvoid Graphics::SceneGraph::Scene::renderNode(Node* node, Tools::ShaderProgram&
 
 GLvoid Graphics::SceneGraph::Scene::update() noexcept
 {
-    GLfloat currentTime = Utils::getCurrentTimeMS();
+    const GLuint64 currentTime = Utils::getCurrentTimeMS();
     deltaTime = currentTime - previousTime;
-    mSceneCamera.setSpeed(deltaTime);
+    mSceneCamera.setSpeed(static_cast<GLfloat>(deltaTime));
     previousTime = currentTime;
 
     Input::KeyboardState& keyboard = WindowSystem::WindowEventListener::getInstance().getKeyboardState();
@@ -104,11 +104,11 @@ GLvoid Graphics::SceneGraph::Scene::update() noexcept
         mSceneCamera.moveRight();
 
     Input::MouseState& mouse = WindowSystem::WindowEventListener::getInstance().getMouseState();
-    const int xDisplacementOffset = mouse.getAndUnsetXDisplacementOffset();
-    const int yDisplacementOffset = mouse.getAndUnsetYDisplacementOffset();
+    const GLint xDisplacementOffset = mouse.getAndUnsetXDisplacementOffset();
+    const GLint yDisplacementOffset = mouse.getAndUnsetYDisplacementOffset();
     if (xDisplacementOffset != 0 || yDisplacementOffset != 0)
         mSceneCamera.turn(xDisplacementOffset, yDisplacementOffset);
-    const int wheelOffset = mouse.getAndUnsetWheelOffset();
+    const GLint wheelOffset = mouse.getAndUnsetWheelOffset();
     if (wheelOffset != 0) 
         mSceneCamera.scale(wheelOffset);
 }

@@ -16,11 +16,8 @@
 
 #include "Time.hpp"
 
-float Utils::getCurrentTimeMS()
+std::uint64_t Utils::getCurrentTimeMS()
 {
-    static FILETIME filetime;
-    GetSystemTimeAsFileTime(&filetime);
-    DWORD nowWindows = filetime.dwLowDateTime + (filetime.dwHighDateTime << 32ULL);
-    DWORD nowUnix = nowWindows - 116444736000000000ULL;
-    return static_cast<float>(nowUnix / 10000ULL);
+    const auto currentTime = std::chrono::system_clock::now().time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(currentTime).count();
 }

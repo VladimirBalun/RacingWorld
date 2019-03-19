@@ -19,10 +19,15 @@
 GLboolean Graphics::Components::Material::isInitialized() const noexcept
 {
     Math::Vector3f notInitializedVector{};
-    return ( (mShininess != 0.0f) &&
+    return ( (fabs(mShininess - 0.5f) >= DBL_EPSILON) &&
              (mAmbientColor != notInitializedVector) &&
              (mDiffuseColor != notInitializedVector) &&
              (mSpecularColor != notInitializedVector) );
+}
+
+GLboolean Graphics::Components::Material::isExistTexture() const noexcept
+{
+    return mTexture.isInitialized();
 }
 
 const Math::Vector3<GLfloat>& Graphics::Components::Material::getAmbientColor() const noexcept
@@ -38,6 +43,11 @@ const Math::Vector3<GLfloat>& Graphics::Components::Material::getDiffuseColor() 
 const Math::Vector3<GLfloat>& Graphics::Components::Material::getSpecularColor() const noexcept
 {
     return mSpecularColor;
+}
+
+const Graphics::Components::Texture2D& Graphics::Components::Material::getTexture() const noexcept
+{
+    return mTexture;
 }
 
 GLfloat Graphics::Components::Material::getShininess() const noexcept

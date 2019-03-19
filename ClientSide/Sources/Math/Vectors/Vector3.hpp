@@ -39,7 +39,7 @@ namespace Math {
         Type getY() const noexcept;
         Type getZ() const noexcept;
         std::size_t getLength() const noexcept;
-        void toArray(Type* array) const;
+        void toArray(Type* array) const noexcept;
 
         void setX(Type x) noexcept;
         void setY(Type y) noexcept;
@@ -116,7 +116,7 @@ namespace Math {
     }
 
     template<class Type>
-    void Vector3<Type>::toArray(Type* array) const
+    void Vector3<Type>::toArray(Type* array) const noexcept
     {
         array[0] = mX;
         array[1] = mY;

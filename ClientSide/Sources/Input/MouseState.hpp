@@ -26,7 +26,7 @@ namespace Input {
     class MouseState 
     {
     public:
-        explicit MouseState();
+        explicit MouseState() noexcept;
         void setPosition(int xPos, int yPos) noexcept;
         int getAndUnsetXDisplacementOffset() noexcept;
         int getAndUnsetYDisplacementOffset() noexcept;

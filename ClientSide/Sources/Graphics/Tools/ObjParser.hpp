@@ -16,7 +16,9 @@
 
 #pragma once
 
+#include "MtlParser.hpp"
 #include "../Components/Mesh.hpp"
+#include "../Components/Material.hpp"
 #include "../../Utils/FileSystem.hpp"
 #include "../../EventSystem/EventManager.hpp"
 #include "../../Utils/DataStructures/Vector.hpp"

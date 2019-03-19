@@ -29,11 +29,11 @@ namespace Network { namespace Endianness {
     class LittleEndian
     {
     public:
-        LittleEndian(Type value = Type());
-        LittleEndian(const LittleEndian& another);
-        LittleEndian(const BigEndian<Type>& another);
-        LittleEndian& operator = (const LittleEndian& another);
-        operator const Type() const;
+        LittleEndian(Type value = Type()) noexcept;
+        LittleEndian(const LittleEndian& another) noexcept;
+        LittleEndian(const BigEndian<Type>& another) noexcept;
+        LittleEndian& operator = (const LittleEndian& another) noexcept;
+        operator const Type() const noexcept;
     private:
         unsigned char bytes[sizeof(Type)];
     };
@@ -51,28 +51,28 @@ namespace Network { namespace Endianness {
     using int64le_t = LittleEndian<std::int64_t>;
 
     template<typename Type>
-    LittleEndian<Type>::LittleEndian(Type value)
+    LittleEndian<Type>::LittleEndian(Type value) noexcept
     {
         for (std::uint8_t i = 0; i < sizeof(Type); i++)
             bytes[sizeof(Type) - 1 - i] = value >> (i << 3);
     }
 
     template<typename Type>
-    LittleEndian<Type>::LittleEndian(const LittleEndian& another)
+    LittleEndian<Type>::LittleEndian(const LittleEndian& another) noexcept
     {
         for (std::uint8_t i = 0; i < sizeof(Type); i++)
             bytes[i] = another.bytes[i];
     }
 
     template<typename Type>
-    LittleEndian<Type>::LittleEndian(const BigEndian<Type>& another)
+    LittleEndian<Type>::LittleEndian(const BigEndian<Type>& another) noexcept
     {
         for (std::uint8_t i = 0; i < sizeof(Type); i++)
             bytes[i] = another.bytes[sizeof(Type) - 1 - i];
     }
 
     template<typename Type>
-    LittleEndian<Type>& LittleEndian<Type>::operator = (const LittleEndian& another)
+    LittleEndian<Type>& LittleEndian<Type>::operator = (const LittleEndian& another) noexcept
     {
         for (std::uint8_t i = 0; i < sizeof(Type); i++)
             bytes[i] = another.bytes[i];
@@ -80,7 +80,7 @@ namespace Network { namespace Endianness {
     }
 
     template<typename Type>
-    LittleEndian<Type>::operator const Type() const
+    LittleEndian<Type>::operator const Type() const noexcept
     {
         Type value = Type();
         for (std::uint8_t i = 0; i < sizeof(Type); i++)

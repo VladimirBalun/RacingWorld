@@ -16,7 +16,7 @@
 
 #include "KeyboardState.hpp"
 
-Input::KeyboardState::KeyboardState()
+Input::KeyboardState::KeyboardState() noexcept
 {
 #ifdef _DEBUG
     if ( !mIsPressedKeyW.is_lock_free() ||

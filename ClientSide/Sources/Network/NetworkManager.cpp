@@ -16,7 +16,7 @@
 
 #include "NetworkManager.hpp"
 
-bool Network::NetworkManager::login() 
+bool Network::NetworkManager::login() noexcept
 {
     auto packetToServer = mPacketBuilder.createPacketToServer<Protocol::LoginPacket>();
     packetToServer->setPacketNumber(mPacketNumber++);

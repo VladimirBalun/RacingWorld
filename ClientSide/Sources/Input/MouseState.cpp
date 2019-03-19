@@ -16,7 +16,7 @@
 
 #include "MouseState.hpp"
 
-Input::MouseState::MouseState()
+Input::MouseState::MouseState() noexcept
 {
 #ifdef _DEBUG
     if (!mXPosition.is_lock_free() || !mYPosition.is_lock_free())

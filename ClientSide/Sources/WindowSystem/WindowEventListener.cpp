@@ -16,7 +16,7 @@
 
 #include "WindowEventListener.hpp"
 
-WindowSystem::WindowEventListener& WindowSystem::WindowEventListener::getInstance()
+WindowSystem::WindowEventListener& WindowSystem::WindowEventListener::getInstance() noexcept
 {
     static WindowEventListener windowEventListener;
     return windowEventListener;

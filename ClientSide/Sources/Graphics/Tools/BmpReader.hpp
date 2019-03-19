@@ -26,7 +26,7 @@ namespace Graphics { namespace Tools {
     class BmpReader 
     {
     public:
-        static unsigned char* read(const char* bmpFileName, GLuint& width, GLuint& height, Memory::Allocators::LinearAllocator& allocator);
+        static unsigned char* read(const char* bmpFileName, GLuint& width, GLuint& height, Memory::Allocators::LinearAllocator& allocator) noexcept;
     };
 
 } }

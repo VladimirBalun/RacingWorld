@@ -28,7 +28,7 @@ namespace Network {
     class UDPConnection 
     {
     public:
-        explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port);
+        explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port) noexcept;
         void sendBuffer(char* buffer, std::size_t size) noexcept;
         void receiveBuffer(char* buffer) noexcept;
         ~UDPConnection();

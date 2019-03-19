@@ -18,20 +18,22 @@
 
 Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFileName) noexcept
 {
-    Vector<Math::Vector3f> vertices{200};
-    Vector<Math::Vector2f> textureCoordinates{200};
-    Vector<Math::Vector3f> normals{200};
-    Vector<Math::Vector3i> faceElementIndexes{400}; // (0) - vertex, (1) - texture coordinate, (2) - normal
+    char* buffer = Utils::readFile(objFileName, std::bind(&Memory::Allocators::LinearAllocator::allocate,
+        &mStringsAllocator, std::placeholders::_1));
+    if (!buffer)
+        EventSystem::EventManager::getInstance().notifyGlobalError("Model was not read.");
+
+    MaterialsData materialsData;
+
+    Vector<Math::Vector3f> vertices{ 200 };
+    Vector<Math::Vector2f> textureCoordinates{ 200 };
+    Vector<Math::Vector3f> normals{ 200 };
+    Vector<Math::Vector3i> faceElementIndexes{ 400 }; // (0) - vertex, (1) - texture coordinate, (2) - normal
 
     // indexes start from 1
     vertices.push(Math::Vector3f());
     textureCoordinates.push(Math::Vector2f());
     normals.push(Math::Vector3f());
-
-    char* buffer = Utils::readFile(objFileName, std::bind(&Memory::Allocators::LinearAllocator::allocate,
-        &mStringsAllocator, std::placeholders::_1));
-    if (!buffer)
-        EventSystem::EventManager::getInstance().notifyGlobalError("Model was not read.");
 
     char* symbolIterator = buffer;
     while (*symbolIterator != '\0')

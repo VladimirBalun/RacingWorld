@@ -16,11 +16,11 @@
 
 #pragma once
 
+#include <chrono>
 #include <cstdint>
-#include <Windows.h>
 
 namespace Utils {
 
-    float getCurrentTimeMS();
+    std::uint64_t getCurrentTimeMS();
 
 }

@@ -33,7 +33,7 @@ namespace Graphics { namespace SceneGraph {
     class Scene
     {
     public:
-        explicit Scene(HDC& windowContext) noexcept; 
+        explicit Scene(HDC& windowContext) noexcept;
         GLvoid render() noexcept;
         GLvoid update() noexcept;
     private:

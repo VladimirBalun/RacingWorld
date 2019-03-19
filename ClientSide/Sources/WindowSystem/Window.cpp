@@ -16,7 +16,11 @@
 
 #include "Window.hpp"
 
-WindowSystem::Window::Window(HINSTANCE& instance, int cmdShow)
+#define COUNT_COLOR_BITS   32
+#define COUNT_DEPTH_BITS   32
+#define COUNT_STENCIL_BITS 16
+
+WindowSystem::Window::Window(HINSTANCE& instance, int cmdShow) noexcept
     : mAppInstance(instance), mCmdShow(cmdShow)
 {
     EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
@@ -40,7 +44,7 @@ WindowSystem::Window::Window(HINSTANCE& instance, int cmdShow)
         eventManager.notifyGlobalError("Window class was not registered.");
 }
 
-void WindowSystem::Window::showWindow(LPCSTR windowTitle, bool fullscreen)
+void WindowSystem::Window::showWindow(LPCSTR windowTitle, bool fullscreen) noexcept
 {
     mWindowHandle = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE, "RacingWorld", windowTitle, WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZE | WS_CLIPSIBLINGS |WS_CLIPCHILDREN,
         0, 0, Configuration::Window::windowWidth, Configuration::Window::windowHeight, NULL, NULL, mAppInstance, NULL);
@@ -84,7 +88,7 @@ void WindowSystem::Window::onEvent(const char* message) const noexcept
     exit(EXIT_FAILURE);
 }
 
-void WindowSystem::Window::initFullScreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP)
+void WindowSystem::Window::initFullScreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP) noexcept
 {
     DEVMODE dmScreenSettings;
     memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
@@ -100,7 +104,7 @@ void WindowSystem::Window::initFullScreen(DWORD windowWidth, DWORD windowHeight,
     }
 }
 
-void WindowSystem::Window::initOpenGLContext() 
+void WindowSystem::Window::initOpenGLContext() noexcept
 {
     PIXELFORMATDESCRIPTOR pixelFormat;
     memset(&pixelFormat, 0, sizeof(PIXELFORMATDESCRIPTOR));
@@ -108,9 +112,9 @@ void WindowSystem::Window::initOpenGLContext()
     pixelFormat.nVersion = 1;
     pixelFormat.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
     pixelFormat.iPixelType = PFD_TYPE_RGBA;
-    pixelFormat.cColorBits = 32;
-    pixelFormat.cDepthBits = 32;
-    pixelFormat.cStencilBits = 16; 
+    pixelFormat.cColorBits = COUNT_COLOR_BITS;
+    pixelFormat.cDepthBits = COUNT_DEPTH_BITS;
+    pixelFormat.cStencilBits = COUNT_STENCIL_BITS;
     pixelFormat.iLayerType = PFD_MAIN_PLANE;;
 
     mWindowContext = GetDC(mWindowHandle);

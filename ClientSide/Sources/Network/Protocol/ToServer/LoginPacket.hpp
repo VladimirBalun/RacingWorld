@@ -28,9 +28,9 @@ namespace Network { namespace Protocol {
     class LoginPacket : public NetworkPacket<LoginPacket>, public IPacketToServer
     {
     public:
-        explicit LoginPacket() : NetworkPacket(LOGIN_PACKET) {}
-        void setEmail(const char* email);
-        void setPassword(const char* password);
+        explicit LoginPacket() noexcept : NetworkPacket(LOGIN_PACKET) {}
+        void setEmail(const char* email) noexcept;
+        void setPassword(const char* password) noexcept;
         void setPacketNumber(std::int32_t number) noexcept;
         void setEmailSize(std::int16_t emailSize) noexcept;
         void setPasswordSize(std::int8_t passwordSize) noexcept;
@@ -44,13 +44,13 @@ namespace Network { namespace Protocol {
 
     #pragma pack(pop)
 
-    inline void LoginPacket::setEmail(const char* email)
+    inline void LoginPacket::setEmail(const char* email) noexcept
     {
         for (std::uint16_t i = 0; i < Configuration::Game::MAX_SIZE_EMAIL; i++)
             mEmail[i] = email[i];
     }
 
-    inline void LoginPacket::setPassword(const char* password)
+    inline void LoginPacket::setPassword(const char* password) noexcept
     {
         for (std::uint8_t i = 0; i < Configuration::Game::MAX_SIZE_PASSWORD; i++)
             mPassword[i] = password[i];

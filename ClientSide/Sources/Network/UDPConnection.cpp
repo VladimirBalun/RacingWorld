@@ -16,7 +16,7 @@
 
 #include "UDPConnection.hpp"
 
-Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t port)
+Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t port) noexcept
 {
     WSADATA socketData;
     if (WSAStartup(MAKEWORD(2, 2), &socketData) != 0)

@@ -31,10 +31,10 @@ namespace WindowSystem {
     {
         WindowEventListener() = default;
         ~WindowEventListener() = default;
-        WindowEventListener(const WindowEventListener&) = delete; 
+        WindowEventListener(const WindowEventListener&) = delete;
         WindowEventListener& operator = (const WindowEventListener&) = delete;
     public:
-        static WindowEventListener& getInstance();
+        static WindowEventListener& getInstance() noexcept;
         static LRESULT CALLBACK onWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept;
         Input::KeyboardState& getKeyboardState() noexcept;
         Input::MouseState& getMouseState() noexcept;

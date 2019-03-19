@@ -28,8 +28,8 @@ namespace Graphics { namespace Tools {
     class ShaderProgram 
     {
     public:
-        explicit ShaderProgram() = default;
-        explicit ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName);
+        explicit ShaderProgram() noexcept = default;
+        explicit ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName) noexcept;
         GLvoid use() const noexcept;
         GLvoid destroy() const noexcept;
         GLuint getProgramID() const noexcept;

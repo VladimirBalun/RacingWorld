@@ -21,7 +21,7 @@ PFNGLTEXIMAGE3DPROC __glTexImage3D = nullptr;
 PFNGLTEXSUBIMAGE3DPROC __glTexSubImage3D = nullptr;
 PFNGLCOPYTEXSUBIMAGE3DPROC __glCopyTexSubImage3D = nullptr;
 
-static GLboolean initOpenGL_1_2()
+static GLboolean initOpenGL_1_2() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glDrawRangeElements = reinterpret_cast<PFNGLDRAWRANGEELEMENTSPROC>(wglGetProcAddress("glDrawRangeElements"))) != nullptr) & result;
@@ -78,7 +78,7 @@ PFNGLLOADTRANSPOSEMATRIXDPROC __glLoadTransposeMatrixd = nullptr;
 PFNGLMULTTRANSPOSEMATRIXFPROC __glMultTransposeMatrixf = nullptr;
 PFNGLMULTTRANSPOSEMATRIXDPROC __glMultTransposeMatrixd = nullptr;
 
-static GLboolean initOpenGL_1_3()
+static GLboolean initOpenGL_1_3() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glActiveTexture = reinterpret_cast<PFNGLACTIVETEXTUREPROC>(wglGetProcAddress("glActiveTexture"))) != nullptr) & result;
@@ -178,7 +178,7 @@ PFNGLWINDOWPOS3SVPROC __glWindowPos3sv = nullptr;
 PFNGLBLENDCOLORPROC __glBlendColor = nullptr;
 PFNGLBLENDEQUATIONPROC __glBlendEquation = nullptr;
 
-static GLboolean initOpenGL_1_4()
+static GLboolean initOpenGL_1_4() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glBlendFuncSeparate = reinterpret_cast<PFNGLBLENDFUNCSEPARATEPROC>(wglGetProcAddress("glBlendFuncSeparate"))) != nullptr) & result;
@@ -251,7 +251,7 @@ PFNGLUNMAPBUFFERPROC __glUnmapBuffer = nullptr;
 PFNGLGETBUFFERPARAMETERIVPROC __glGetBufferParameteriv = nullptr;
 PFNGLGETBUFFERPOINTERVPROC __glGetBufferPointerv = nullptr;
 
-static GLboolean initOpenGL_1_5()
+static GLboolean initOpenGL_1_5() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glGenQueries = reinterpret_cast<PFNGLGENQUERIESPROC>(wglGetProcAddress("glGenQueries"))) != nullptr) & result;
@@ -370,7 +370,7 @@ PFNGLVERTEXATTRIB4UIVPROC __glVertexAttrib4uiv = nullptr;
 PFNGLVERTEXATTRIB4USVPROC __glVertexAttrib4usv = nullptr;
 PFNGLVERTEXATTRIBPOINTERPROC __glVertexAttribPointer = nullptr;
 
-static GLboolean initOpenGL_2_0()
+static GLboolean initOpenGL_2_0() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glBlendEquationSeparate = reinterpret_cast<PFNGLBLENDEQUATIONSEPARATEPROC>(wglGetProcAddress("glBlendEquationSeparate"))) != nullptr) & result;
@@ -476,7 +476,7 @@ PFNGLUNIFORMMATRIX4X2FVPROC __glUniformMatrix4x2fv = nullptr;
 PFNGLUNIFORMMATRIX3X4FVPROC __glUniformMatrix3x4fv = nullptr;
 PFNGLUNIFORMMATRIX4X3FVPROC __glUniformMatrix4x3fv = nullptr;
 
-static GLboolean initOpenGL_2_1()
+static GLboolean initOpenGL_2_1() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glUniformMatrix2x3fv = reinterpret_cast<PFNGLUNIFORMMATRIX2X3FVPROC>(wglGetProcAddress("glUniformMatrix2x3fv"))) != nullptr) & result;
@@ -573,7 +573,7 @@ PFNGLDELETEVERTEXARRAYSPROC __glDeleteVertexArrays = nullptr;
 PFNGLGENVERTEXARRAYSPROC __glGenVertexArrays = nullptr;
 PFNGLISVERTEXARRAYPROC __glIsVertexArray = nullptr;
 
-static GLboolean initOpenGL_3_0()
+static GLboolean initOpenGL_3_0() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glColorMaski = reinterpret_cast<PFNGLCOLORMASKIPROC>(wglGetProcAddress("glColorMaski"))) != nullptr) & result;
@@ -676,7 +676,7 @@ PFNGLGETACTIVEUNIFORMBLOCKIVPROC __glGetActiveUniformBlockiv = nullptr;
 PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC __glGetActiveUniformBlockName = nullptr;
 PFNGLUNIFORMBLOCKBINDINGPROC __glUniformBlockBinding = nullptr;
 
-static GLboolean initOpenGL_3_1()
+static GLboolean initOpenGL_3_1() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glDrawArraysInstanced = reinterpret_cast<PFNGLDRAWARRAYSINSTANCEDPROC>(wglGetProcAddress("glDrawArraysInstanced"))) != nullptr) & result;
@@ -714,7 +714,7 @@ PFNGLTEXIMAGE3DMULTISAMPLEPROC __glTexImage3DMultisample = nullptr;
 PFNGLGETMULTISAMPLEFVPROC __glGetMultisamplefv = nullptr;
 PFNGLSAMPLEMASKIPROC __glSampleMaski = nullptr;
 
-static GLboolean initOpenGL_3_2()
+static GLboolean initOpenGL_3_2() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glDrawElementsBaseVertex = reinterpret_cast<PFNGLDRAWELEMENTSBASEVERTEXPROC>(wglGetProcAddress("glDrawElementsBaseVertex"))) != nullptr) & result;
@@ -798,7 +798,7 @@ PFNGLCOLORP4UIVPROC __glColorP4uiv = nullptr;
 PFNGLSECONDARYCOLORP3UIPROC __glSecondaryColorP3ui = nullptr;
 PFNGLSECONDARYCOLORP3UIVPROC __glSecondaryColorP3uiv = nullptr;
 
-static GLboolean initOpenGL_3_3()
+static GLboolean initOpenGL_3_3() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glBindFragDataLocationIndexed = reinterpret_cast<PFNGLBINDFRAGDATALOCATIONINDEXEDPROC>(wglGetProcAddress("glBindFragDataLocationIndexed"))) != nullptr) & result;
@@ -909,7 +909,7 @@ PFNGLBEGINQUERYINDEXEDPROC __glBeginQueryIndexed = nullptr;
 PFNGLENDQUERYINDEXEDPROC __glEndQueryIndexed = nullptr;
 PFNGLGETQUERYINDEXEDIVPROC __glGetQueryIndexediv = nullptr;
 
-static GLboolean initOpenGL_4_0()
+static GLboolean initOpenGL_4_0() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glMinSampleShading = reinterpret_cast<PFNGLMINSAMPLESHADINGPROC>(wglGetProcAddress("glMinSampleShading"))) != nullptr) & result;
@@ -1050,7 +1050,7 @@ PFNGLDEPTHRANGEINDEXEDPROC __glDepthRangeIndexed = nullptr;
 PFNGLGETFLOATI_VPROC __glGetFloati_v = nullptr;
 PFNGLGETDOUBLEI_VPROC __glGetDoublei_v = nullptr;
 
-static GLboolean initOpenGL_4_1()
+static GLboolean initOpenGL_4_1() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glReleaseShaderCompiler = reinterpret_cast<PFNGLRELEASESHADERCOMPILERPROC>(wglGetProcAddress("glReleaseShaderCompiler"))) != nullptr) & result;
@@ -1157,7 +1157,7 @@ PFNGLTEXSTORAGE3DPROC __glTexStorage3D = nullptr;
 PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC __glDrawTransformFeedbackInstanced = nullptr;
 PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC __glDrawTransformFeedbackStreamInstanced = nullptr;
 
-static GLboolean initOpenGL_4_2()
+static GLboolean initOpenGL_4_2() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glDrawArraysInstancedBaseInstance = reinterpret_cast<PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC>(wglGetProcAddress("glDrawArraysInstancedBaseInstance"))) != nullptr) & result;
@@ -1219,7 +1219,7 @@ PFNGLGETOBJECTLABELPROC __glGetObjectLabel = nullptr;
 PFNGLOBJECTPTRLABELPROC __glObjectPtrLabel = nullptr;
 PFNGLGETOBJECTPTRLABELPROC __glGetObjectPtrLabel = nullptr;
 
-static GLboolean initOpenGL_4_3()
+static GLboolean initOpenGL_4_3() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glClearBufferData = reinterpret_cast<PFNGLCLEARBUFFERDATAPROC>(wglGetProcAddress("glClearBufferData"))) != nullptr) & result;
@@ -1278,7 +1278,7 @@ PFNGLBINDSAMPLERSPROC __glBindSamplers = nullptr;
 PFNGLBINDIMAGETEXTURESPROC __glBindImageTextures = nullptr;
 PFNGLBINDVERTEXBUFFERSPROC __glBindVertexBuffers = nullptr;
 
-static GLboolean initOpenGL_4_4()
+static GLboolean initOpenGL_4_4() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glBufferStorage = reinterpret_cast<PFNGLBUFFERSTORAGEPROC>(wglGetProcAddress("glBufferStorage"))) != nullptr) & result;
@@ -1416,7 +1416,7 @@ PFNGLGETNHISTOGRAMPROC __glGetnHistogram = nullptr;
 PFNGLGETNMINMAXPROC __glGetnMinmax = nullptr;
 PFNGLTEXTUREBARRIERPROC __glTextureBarrier = nullptr;
 
-static GLboolean initOpenGL_4_5()
+static GLboolean initOpenGL_4_5() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glClipControl = reinterpret_cast<PFNGLCLIPCONTROLPROC>(wglGetProcAddress("glClipControl"))) != nullptr) & result;
@@ -1549,7 +1549,7 @@ PFNGLMULTIDRAWARRAYSINDIRECTCOUNTPROC __glMultiDrawArraysIndirectCount = nullptr
 PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTPROC __glMultiDrawElementsIndirectCount = nullptr;
 PFNGLPOLYGONOFFSETCLAMPPROC __glPolygonOffsetClamp = nullptr;
 
-static GLboolean initOpenGL_4_6()
+static GLboolean initOpenGL_4_6() noexcept
 {
     GLboolean result = GL_TRUE;
     result = ((glSpecializeShader = reinterpret_cast<PFNGLSPECIALIZESHADERPROC>(wglGetProcAddress("glSpecializeShader"))) != nullptr) & result;
@@ -1559,7 +1559,7 @@ static GLboolean initOpenGL_4_6()
     return result;
 }
 
-GLvoid initOpenGL()
+GLvoid initOpenGL() noexcept
 {
     if (!initOpenGL_1_2())
         LOG_DEBUG("Opengl version of 1.2 was not initialized.");

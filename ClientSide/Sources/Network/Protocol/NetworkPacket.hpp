@@ -33,8 +33,8 @@ namespace Network { namespace Protocol {
     class NetworkPacket
     {
     public:
-        explicit NetworkPacket() = default;
-        explicit NetworkPacket(std::uint8_t type) : mPacketType(type) {}
+        explicit NetworkPacket() noexcept = default;
+        explicit NetworkPacket(std::uint8_t type) noexcept : mPacketType(type) {}
         char* toBuffer() noexcept;
     protected:
         Endianness::int8be_t mPacketType = 0;

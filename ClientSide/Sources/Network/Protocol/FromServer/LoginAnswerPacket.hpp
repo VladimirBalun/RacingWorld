@@ -27,7 +27,7 @@ namespace Network { namespace Protocol {
     class LoginAnswerPacket : NetworkPacket<LoginAnswerPacket>, public IPacketFromServer
     {
     public:
-        explicit LoginAnswerPacket() = default;
+        explicit LoginAnswerPacket() noexcept = default;
         std::int32_t getPacketNumber() const noexcept;
         std::int32_t getToken() const noexcept;
         bool getResultLogin() const noexcept;

@@ -17,13 +17,14 @@
 #pragma once
 
 #include "../Components/Material.hpp"
+#include "../../Utils/FileSystem.hpp"
 #include "../../Utils/DataStructures/Vector.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {
 
     // DOD design
-    struct Materials 
+    struct MaterialsData
     {
         Vector<const char*> name;
         Vector<Components::Material> material;
@@ -34,7 +35,7 @@ namespace Graphics { namespace Tools {
     public:
         explicit MtlParser() noexcept
             : mStringsAllocator(30) {}
-        void parseMaterials(const char* mtlFileName, Materials& materials);
+        void parseMaterials(const char* mtlFileName, MaterialsData& materials);
     private:
         Memory::Allocators::LinearAllocator mStringsAllocator;
     };

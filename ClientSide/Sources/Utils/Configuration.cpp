@@ -24,7 +24,7 @@ const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
 const std::string Configuration::Player::PLAYER_EMAIL = u8"player@gmail.com";
 const std::string Configuration::Player::PLAYER_PASSWORD = u8"difficult_password";
 
-const char* Configuration::getShadersPath()
+const char* Configuration::getShadersPath() noexcept
 {
     static char path[MAX_PATH] = { 0 };
     if (!*path) 
@@ -36,7 +36,7 @@ const char* Configuration::getShadersPath()
     return path;
 }
 
-const char* Configuration::getTexturesPath()
+const char* Configuration::getTexturesPath() noexcept
 {
     static char path[MAX_PATH] = { 0 };
     if (!*path)
@@ -48,7 +48,7 @@ const char* Configuration::getTexturesPath()
     return path;
 }
 
-const char* Configuration::getModelsPath()
+const char* Configuration::getModelsPath() noexcept
 {
     static char path[MAX_PATH] = { 0 };
     if (!*path)

@@ -54,7 +54,7 @@ GLvoid Graphics::SceneGraph::Camera::moveBackward() noexcept
 
 GLvoid Graphics::SceneGraph::Camera::turn(GLint xOffset, GLint yOffset) noexcept
 {
-    GLfloat sensitivity = 0.05f;
+    static const GLfloat sensitivity = 0.05f;
     mYawAngle += xOffset * sensitivity;
     mPitchAngle += yOffset * sensitivity;
 
@@ -63,9 +63,9 @@ GLvoid Graphics::SceneGraph::Camera::turn(GLint xOffset, GLint yOffset) noexcept
     if (mPitchAngle < -89.0f)
         mPitchAngle = -89.0f;
 
-    GLfloat pitchAnglePerRadians = Math::radians(mPitchAngle);
-    GLfloat yawAnglePerRadians = Math::radians(mYawAngle);
-    GLfloat pitchAngleCosine = cos(pitchAnglePerRadians);
+    const GLfloat pitchAnglePerRadians = Math::radians(mPitchAngle);
+    const GLfloat yawAnglePerRadians = Math::radians(mYawAngle);
+    const GLfloat pitchAngleCosine = cos(pitchAnglePerRadians);
     mForwardDirection.setX(pitchAngleCosine * cos(yawAnglePerRadians));
     mForwardDirection.setY(sin(pitchAnglePerRadians));
     mForwardDirection.setZ(pitchAngleCosine * sin(yawAnglePerRadians));

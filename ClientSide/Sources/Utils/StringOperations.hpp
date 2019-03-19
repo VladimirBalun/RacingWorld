@@ -24,14 +24,14 @@
 namespace Utils {
 
     template<typename ... SourceStrings, typename = std::enable_if_t<(std::is_convertible_v<SourceStrings, const char *> && ...)>>
-    void concatenateStringsToString(char* destinationString, std::size_t lenghtDestinationString, SourceStrings ... sourceStrings)
+    void concatenateStringsToString(char* destinationString, std::size_t lenghtDestinationString, SourceStrings ... sourceStrings) noexcept
     {
         for (const char* currentString : { sourceStrings ... })
             strcat_s(destinationString, lenghtDestinationString, currentString);
     }
 
     template<typename ... SourceStrings, typename = std::enable_if_t<(std::is_convertible_v<SourceStrings, const char *> && ...)>>
-    void concatenateStringsToEmptyString(char* destinationString, std::size_t lenghtDestinationString, SourceStrings ... sourceStrings)
+    void concatenateStringsToEmptyString(char* destinationString, std::size_t lenghtDestinationString, SourceStrings ... sourceStrings) noexcept
     {
         std::fill(destinationString, destinationString + lenghtDestinationString, 0);
         for (const char* currentString : { sourceStrings ... })
@@ -39,7 +39,7 @@ namespace Utils {
     }
 
     template<typename ... SourceStrings, typename = std::enable_if_t<(std::is_convertible_v<SourceStrings, const char *> && ...)>>
-    char* createStringFromStrings(std::size_t lengthString, std::function<void*(std::size_t, std::size_t)> allocateFunction, SourceStrings ... sourceStrings)
+    char* createStringFromStrings(std::size_t lengthString, std::function<void*(std::size_t, std::size_t)> allocateFunction, SourceStrings ... sourceStrings) noexcept
     {
         char* newString = reinterpret_cast<char*>(allocateFunction(lengthString, 0));
         Utils::concatenateStringsToEmptyString(newString, lengthString, sourceStrings ...);

@@ -25,7 +25,7 @@
 
 #include "../Utils/Debug.hpp"
 
-GLvoid initOpenGL();
+GLvoid initOpenGL() noexcept;
 
 // GL_VERSION_1_2
 #define glDrawRangeElements __glDrawRangeElements

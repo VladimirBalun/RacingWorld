@@ -40,7 +40,7 @@ namespace Math {
         Vector4<Type> mul(const Vector4<Type>& vector) noexcept;
         void toArray(Type* array) const;
 
-        Matrix4x4& operator = (const Type (&array)[MATRIX_SIZE]);
+        Matrix4x4& operator = (const Type (&array)[MATRIX_SIZE]) noexcept;
         Matrix4x4& operator = (const Matrix4x4& anotherMatrix) noexcept;
         Matrix4x4& operator = (Matrix4x4&& anotherMatrix) noexcept;
         Type operator [] (std::uint8_t index) const noexcept;
@@ -212,7 +212,7 @@ namespace Math {
     }
 
     template<class Type>
-    Matrix4x4<Type>& Matrix4x4<Type>::operator = (const Type (&array)[MATRIX_SIZE])
+    Matrix4x4<Type>& Matrix4x4<Type>::operator = (const Type (&array)[MATRIX_SIZE]) noexcept
     {
         for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
         {

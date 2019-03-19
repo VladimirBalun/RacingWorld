@@ -22,7 +22,7 @@
 #define HEIGHT_POSITION 22
 
 // TODO: at the moment read only 24x bit bmp images, need to add reading other formats
-unsigned char* Graphics::Tools::BmpReader::read(const char* bmpFileName, GLuint& width, GLuint& height, Memory::Allocators::LinearAllocator& allocator)
+unsigned char* Graphics::Tools::BmpReader::read(const char* bmpFileName, GLuint& width, GLuint& height, Memory::Allocators::LinearAllocator& allocator) noexcept
 {
     FILE* inputStream;
     fopen_s(&inputStream, bmpFileName, "rb");

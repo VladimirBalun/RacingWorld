@@ -32,8 +32,8 @@ namespace Math {
         Vector4() noexcept = default;
         Vector4(const Vector4& anotherVector) noexcept;
         Vector4(const Type* array) noexcept;
-		Vector4(Type x, Type y, Type z) noexcept
-			: mX(x), mY(y), mZ(z), mW(1) {}
+        Vector4(Type x, Type y, Type z) noexcept
+            : mX(x), mY(y), mZ(z), mW(1) {}
         Vector4(Type x, Type y, Type z, Type w) noexcept
             : mX(x), mY(y), mZ(z), mW(w) {}
 
@@ -42,7 +42,7 @@ namespace Math {
         Type getZ() const noexcept;
         Type getW() const noexcept;
         std::size_t getLength() const noexcept;
-        void toArray(Type* array) const;
+        void toArray(Type* array) const noexcept;
 
         void setX(Type x) noexcept;
         void setY(Type y) noexcept;
@@ -129,7 +129,7 @@ namespace Math {
     }
 
     template<class Type>
-    void Vector4<Type>::toArray(Type* array) const
+    void Vector4<Type>::toArray(Type* array) const noexcept
     {
         array[0] = mX;
         array[1] = mY;

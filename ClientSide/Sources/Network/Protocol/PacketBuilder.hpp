@@ -24,7 +24,7 @@ namespace Network { namespace Protocol {
     class PacketBuilder 
     {
     public:
-        explicit PacketBuilder()
+        explicit PacketBuilder() noexcept
             : mPacketsToServerAllocator(ONE_VIRTUAL_PAGE), mPacketsFromServerAllocator(ONE_VIRTUAL_PAGE) {}
         template<typename PacketType>
         PacketType* createPacketToServer() noexcept;

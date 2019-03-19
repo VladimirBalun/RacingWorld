@@ -16,7 +16,16 @@
 
 #include "MtlParser.hpp"
 
-void Graphics::Tools::MtlParser::parseMaterials(const char* mtlFileName, Materials& materials)
+void Graphics::Tools::MtlParser::parseMaterials(const char* mtlFileName, MaterialsData& materials)
 {
+    char* buffer = Utils::readFile(mtlFileName, std::bind(&Memory::Allocators::LinearAllocator::allocate,
+        &mStringsAllocator, std::placeholders::_1));
+    if (!buffer)
+        EventSystem::EventManager::getInstance().notifyGlobalError("Materials for model was not read.");
 
+    char* symbolIterator = buffer;
+    while (*symbolIterator != '\0')
+    {
+        symbolIterator++;
+    }
 }

@@ -49,7 +49,7 @@ struct Configuration
         static const std::uint16_t SERVER_PORT = 17017;
     };
 
-    static const char* getShadersPath();
-    static const char* getTexturesPath();
-    static const char* getModelsPath();
+    static const char* getShadersPath() noexcept;
+    static const char* getTexturesPath() noexcept;
+    static const char* getModelsPath() noexcept;
 };

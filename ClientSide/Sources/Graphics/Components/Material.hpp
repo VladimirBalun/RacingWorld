@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "Texture2D.hpp"
 #include "../OpenGL.hpp"
 #include "../../Math/Vectors/Vector3.hpp"
 
@@ -24,20 +25,26 @@ namespace Graphics { namespace Components {
     class Material 
     {
     public:
-        Material() noexcept = default;
-        Material(const Math::Vector3<GLfloat>& ambient, const Math::Vector3<GLfloat>& diffuse, const Math::Vector3<GLfloat>& specular, GLfloat shininess = 32.0f) noexcept
+        explicit Material() noexcept = default;
+        explicit Material(const Math::Vector3<GLfloat>& ambient, const Math::Vector3<GLfloat>& diffuse,
+            const Math::Vector3<GLfloat>& specular, GLfloat shininess = 32.0f) noexcept
             : mAmbientColor(ambient), mDiffuseColor(diffuse), mSpecularColor(specular), mShininess(shininess) {}
-
+        explicit Material(const Math::Vector3<GLfloat>& ambient, const Math::Vector3<GLfloat>& diffuse,
+            const Math::Vector3<GLfloat>& specular, const Texture2D& texture, GLfloat shininess = 32.0f) noexcept
+            : mAmbientColor(ambient), mDiffuseColor(diffuse), mSpecularColor(specular), mTexture(texture), mShininess(shininess) {}
         GLboolean isInitialized() const noexcept;
+        GLboolean isExistTexture() const noexcept;
         const Math::Vector3<GLfloat>& getAmbientColor() const noexcept;
         const Math::Vector3<GLfloat>& getDiffuseColor() const noexcept;
         const Math::Vector3<GLfloat>& getSpecularColor() const noexcept;
+        const Texture2D& getTexture() const noexcept;
         GLfloat getShininess() const noexcept;
     private:
         Math::Vector3<GLfloat> mAmbientColor;
         Math::Vector3<GLfloat> mDiffuseColor;
         Math::Vector3<GLfloat> mSpecularColor;
         GLfloat mShininess = 0.0F;
+        Texture2D mTexture;
     };
 
 } }
