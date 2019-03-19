@@ -17,7 +17,7 @@ public class ParallelepipedTest {
             new Vector3(5.0, 10.0, 6.0)      //     |/       |/           /
     };                                                //     *--------*           X
 
-    Parallelepiped parallelepiped = new Parallelepiped(points);
+    private Parallelepiped parallelepiped = new Parallelepiped(points);
 
     @Test // height * length * width
     public void gettingVolume(){
