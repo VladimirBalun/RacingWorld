@@ -144,8 +144,8 @@ namespace Math {
     template<typename Type>
     void setRotationMatrix(Matrix2x2<Type>& matrix, Type angle) noexcept
     {
-        Type angleSine = cos(angle);
-        Type angleCosine = cos(angle);
+        const Type angleSine = sin(angle);
+        const Type angleCosine = cos(angle);
         matrix = {
             angleCosine, -angleSine,
             angleSine, angleCosinus
@@ -155,8 +155,8 @@ namespace Math {
     template<typename Type>
     void setRotationMatrixByX(Matrix3x3<Type>& matrix, Type angle) noexcept
     {
-        Type angleSine = cos(angle);
-        Type angleCosine = cos(angle);
+        const Type angleSine = sin(angle);
+        const Type angleCosine = cos(angle);
         matrix = {
             1.0, 0.0, 0.0,
             0.0, angleCosine, -angleSine,
@@ -167,8 +167,8 @@ namespace Math {
     template<typename Type>
     void setRotationMatrixByY(Matrix3x3<Type>& matrix, Type angle) noexcept
     {
-        Type angleSine = cos(angle);
-        Type angleCosine = cos(angle);
+        const Type angleSine = sin(angle);
+        const Type angleCosine = cos(angle);
         matrix = {
             angleCosine, 0.0, angleSine,
             0.0, 1.0, 0.0,
@@ -179,8 +179,8 @@ namespace Math {
     template<typename Type>
     void setRotationMatrixByZ(Matrix3x3<Type>& matrix, Type angle) noexcept
     {
-        Type angleSine = cos(angle);
-        Type angleCosine = cos(angle);
+        const Type angleSine = sin(angle);
+        const Type angleCosine = cos(angle);
         matrix = {
             angleCosine, -angleSine, 0.0,
             angleSine, angleCosine, 0.0
@@ -191,8 +191,8 @@ namespace Math {
     template<typename Type>
     void setRotationMatrixByX(Matrix4x4<Type>& matrix, Type angle) noexcept
     {
-        Type angleSine = cos(angle);
-        Type angleCosine = cos(angle);
+        const Type angleSine = sin(angle);
+        const Type angleCosine = cos(angle);
         matrix = {
             1.0, 0.0, 0.0, 0.0,
             0.0, angleCosine, -angleSine, 0.0,
@@ -204,8 +204,8 @@ namespace Math {
     template<typename Type>
     void setRotationMatrixByY(Matrix4x4<Type>& matrix, Type angle) noexcept
     {
-        Type angleSine = cos(angle);
-        Type angleCosine = cos(angle);
+        const Type angleSine = sin(angle);
+        const Type angleCosine = cos(angle);
         matrix = {
             angleCosine, 0.0, angleSine, 0.0,
             0.0, 1.0, 0.0, 0.0,
@@ -217,8 +217,8 @@ namespace Math {
     template<typename Type>
     void setRotationMatrixByZ(Matrix4x4<Type>& matrix, Type angle) noexcept
     {
-        Type angleSine = cos(angle);
-        Type angleCosine = cos(angle);
+        const Type angleSine = sin(angle);
+        const Type angleCosine = cos(angle);
         matrix = {
             angleCosine, -angleSine, 0.0, 0.0,
             angleSine, angleCosine, 0.0, 0.0,
