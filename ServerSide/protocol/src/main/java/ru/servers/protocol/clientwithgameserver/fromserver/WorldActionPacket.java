@@ -18,9 +18,14 @@ package ru.servers.protocol.clientwithgameserver.fromserver;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+
 import ru.servers.protocol.clientwithgameserver.common.Primitives;
 import ru.servers.protocol.clientwithgameserver.NetworkPacket;
 import ru.servers.protocol.clientwithgameserver.PacketType;
+
+
+import java.nio.ByteBuffer;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
@@ -31,8 +36,8 @@ public class WorldActionPacket extends NetworkPacket implements PacketFromServer
     // [1...4] - packet number
     // [5] - count players
     // for (byte i = 0; i < count players; i++)
-    //   [(START_POSITION_PLAYER_POSITION + (PLAYER_LOCATION_SIZE * i))...((START_POSITION_PLAYER_POSITION + (PLAYER_LOCATION_SIZE * i) + VECTOR_SIZE)] - position
-    //   [(START_POSITION_PLAYER_DIRECTION + (PLAYER_LOCATION_SIZE * i))...((START_POSITION_PLAYER_POSITION + (PLAYER_LOCATION_SIZE * i) + VECTOR_SIZE)] - direction
+    //   [(START_POSITION_PLAYER_POSITION + (PLAYER_LOCATION_SIZE * i))...((START_POSITION_PLAYER_POSITION + (PLAYER_LOCATION_SIZE * i) + VECTOR_SIZE - 1)] - position
+    //   [(START_POSITION_PLAYER_DIRECTION + (PLAYER_LOCATION_SIZE * i))...((START_POSITION_PLAYER_DIRECTION + (PLAYER_LOCATION_SIZE * i) + VECTOR_SIZE - 1)] - direction
 
     private final byte countPlayers;
 
@@ -44,13 +49,56 @@ public class WorldActionPacket extends NetworkPacket implements PacketFromServer
     private final static byte VECTOR_SIZE = Primitives.FLOAT_SIZE * 3;
     private final static byte PLAYER_LOCATION_SIZE = VECTOR_SIZE * 2;
 
-    public final static byte SIZE_PACKET_WITHOUT_PLAYERS = SIZE_NETWORK_PACKET + SIZE_COUNT_PLAYERS;
+    private final static byte SIZE_PACKET_WITHOUT_PLAYERS = SIZE_NETWORK_PACKET + SIZE_COUNT_PLAYERS;
 
     public WorldActionPacket(int countPlayers) {
         super(new byte[SIZE_PACKET_WITHOUT_PLAYERS + (countPlayers * PLAYER_LOCATION_SIZE)]);
         this.countPlayers = (byte) countPlayers;
         buffer[POSITION_PACKET_TYPE] = PacketType.WORLD_ACTION_PACKET;
+        buffer[POSITION_COUNT_PLAYERS] = this.countPlayers;
     }
+
+    private void checkingNumberPlayer(int numberPlayer) {
+        if (countPlayers < numberPlayer){
+            throw new IllegalArgumentException("incorrect player number.");
+        }
+    }
+
+    public void setPositionPlayer(int numberPlayer, float xPos, float yPos, float zPos) {
+        checkingNumberPlayer(numberPlayer);
+        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1), xPos);
+        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE, yPos);
+        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE * 2, zPos);
+    }
+
+    public void setDirectionPlayer(int numberPlayer, float xDir, float yDir, float zDir){
+        checkingNumberPlayer(numberPlayer);
+        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1), xDir);
+        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE, yDir);
+        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE * 2, zDir);
+    }
+
+    /* TODO: 19.03.2019 add methods getPosition and getDirection after rendering module Math
+    public Vector3 getPositionPlayer(int numberPlayer){
+        return new Vector3(
+                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1)),
+                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE),
+                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE * 2),
+        );
+    }
+    public Vector3 getDirectionPlayer(int numberPlayer){
+        return new Vector3(
+                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1)),
+                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE),
+                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE * 2),
+        );
+    }
+    */
+
+    public int getCountPlayers(){
+        return buffer[POSITION_COUNT_PLAYERS];
+    }
+
 
     @Override
     public byte[] getBuffer() {
