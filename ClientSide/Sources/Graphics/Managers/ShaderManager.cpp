@@ -19,27 +19,23 @@
 GLvoid Graphics::Managers::ShaderManager::initializeShaders() noexcept
 {
     Memory::Allocators::LinearAllocator shadersAllocator(TWO_VIRTUAL_PAGES);
-    mShaderPrograms[BASE_SHADER] = createShader(shadersAllocator, "BaseShader.vert", "BaseShader.frag");
-    mShaderPrograms[FONT_SHADER] = createShader(shadersAllocator, "FontShader.vert", "FontShader.frag");
+    mShaderPrograms[BASE_SHADER] = createShader(shadersAllocator, u8"BaseShader.vert", u8"BaseShader.frag");
+    mShaderPrograms[FONT_SHADER] = createShader(shadersAllocator, u8"FontShader.vert", u8"FontShader.frag");
 }
 
 Graphics::Tools::ShaderProgram Graphics::Managers::ShaderManager::createShader(Memory::Allocators::LinearAllocator& allocator, const char* vShaderName, const char* fShaderName) const noexcept
 {
-    const char* shadersPath = Configuration::getShadersPath();
-    const std::size_t legthShadersPath = strlen(shadersPath);
-
-    char* vertexShaderPath = Utils::createStringFromStrings(legthShadersPath + strlen(vShaderName) + 1,
-        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1), shadersPath, vShaderName);
-    char* fragmentShaderPath = Utils::createStringFromStrings(legthShadersPath + strlen(fShaderName) + 1,
-        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1), shadersPath, fShaderName);
-
-    return Tools::ShaderProgram(allocator, vertexShaderPath, fragmentShaderPath);
+    String vShaderFullPath(Configuration::getShadersPath(), allocator);
+    String fShaderFullPath(Configuration::getShadersPath(), allocator);
+    vShaderFullPath.append(vShaderName);
+    fShaderFullPath.append(fShaderName);
+    return Tools::ShaderProgram(allocator, vShaderFullPath, fShaderFullPath);
 }
 
 GLvoid Graphics::Managers::ShaderManager::useShaderProgram(EShaderType shaderType) const noexcept
 {
     const Tools::ShaderProgram& shaderProgram = mShaderPrograms[shaderType];
-    assert(shaderProgram.isInitialized() && "Incorrect type of shader program.");
+    ASSERT(shaderProgram.isInitialized(), "Incorrect type of shader program.");
     shaderProgram.use();
 }
 
@@ -50,6 +46,6 @@ Graphics::Tools::ShaderProgram& Graphics::Managers::ShaderManager::getShader(ESh
 
 Graphics::Managers::ShaderManager::~ShaderManager()
 {
-    for (std::uint8_t i = 0; i < COUNT_SHADER_TYPES; i++)
+    for (GLubyte i = 0; i < COUNT_SHADER_TYPES; i++)
         mShaderPrograms[i].destroy();
 }

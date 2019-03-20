@@ -18,7 +18,9 @@
 
 #include "../Components/Material.hpp"
 #include "../../Utils/FileSystem.hpp"
+#include "../../Math/Vectors/Vector3.hpp"
 #include "../../Utils/DataStructures/Vector.hpp"
+#include "../../Utils/DataStructures/String.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {
@@ -33,11 +35,12 @@ namespace Graphics { namespace Tools {
     class MtlParser
     {
     public:
-        explicit MtlParser() noexcept
-            : mStringsAllocator(30) {}
-        void parseMaterials(const char* mtlFileName, MaterialsData& materials);
+        static void parse(const String& currentDirectory, const String& mtlFileName,
+            MaterialsData& materials, Memory::Allocators::LinearAllocator& allocator) noexcept;
     private:
-        Memory::Allocators::LinearAllocator mStringsAllocator;
+        static void parseMaterial(const String& currentDirectory, char* iterator, MaterialsData& materials) noexcept;
+        static GLfloat parserShininess(char* line) noexcept;
+        static void parseColor(char* line, Math::Vector3f& color) noexcept;
     };
 
 } }

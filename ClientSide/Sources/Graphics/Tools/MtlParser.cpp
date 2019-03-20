@@ -16,16 +16,45 @@
 
 #include "MtlParser.hpp"
 
-void Graphics::Tools::MtlParser::parseMaterials(const char* mtlFileName, MaterialsData& materials)
+void Graphics::Tools::MtlParser::parse(const String& currentDirectory, const String& mtlFileName,
+    MaterialsData& materials, Memory::Allocators::LinearAllocator& allocator) noexcept
 {
-    char* buffer = Utils::readFile(mtlFileName, std::bind(&Memory::Allocators::LinearAllocator::allocate,
-        &mStringsAllocator, std::placeholders::_1));
-    if (!buffer)
-        EventSystem::EventManager::getInstance().notifyGlobalError("Materials for model was not read.");
-
-    char* symbolIterator = buffer;
-    while (*symbolIterator != '\0')
+    const String buffer(Utils::readFile(mtlFileName, allocator), allocator);
+    if (!buffer) 
     {
-        symbolIterator++;
+        EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
+        eventManager.notifyGlobalError("Materials for model was not read.");
     }
+
+    char* symbolIterator = const_cast<char*>(buffer.getData());
+}
+
+void Graphics::Tools::MtlParser::parseMaterial(const String& currentDirectory, char* iterator, MaterialsData& materials) noexcept
+{
+    while (*iterator != '\0')
+    {
+        if (strncmp(iterator, "newmtl ", 7) == 0)
+        {
+
+        }
+        iterator++;
+    }
+}
+
+GLfloat Graphics::Tools::MtlParser::parserShininess(char* line) noexcept
+{
+    static GLfloat shininess = 0.0f;
+    sscanf_s(line, "%f", &shininess);
+    return shininess;
+}
+
+void Graphics::Tools::MtlParser::parseColor(char* line, Math::Vector3f& color) noexcept
+{
+    static GLfloat r = 0.0f;
+    static GLfloat g = 0.0f;
+    static GLfloat b = 0.0f;
+    sscanf_s(line, "%f %f %f", &r, &g, &b);
+    color.setX(r);
+    color.setY(g);
+    color.setZ(b);
 }

@@ -16,10 +16,10 @@
 
 #pragma once
 
-#include <cstring>
-
 #include "../Tools/ShaderProgram.hpp"
+#include "../../Utils/Debug.hpp"
 #include "../../Utils/Configuration.hpp"
+#include "../../Utils/DataStructures/String.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Managers {

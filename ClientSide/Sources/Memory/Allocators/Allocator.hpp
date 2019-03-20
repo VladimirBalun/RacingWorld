@@ -122,16 +122,8 @@ namespace Memory { namespace Allocators {
         void* baseAddress = allocator.getBasePinter();
         MemoryManager& memoryManager = MemoryManager::getInstance();
         std::size_t startPageIndex = memoryManager.getVirtualPageIndex(baseAddress);
-        if (startPageIndex != 0) 
-        {
-            for (size_t i = startPageIndex; i < startPageIndex + allocator.getCountVirtualPages(); i++)
-                memoryManager.showVirtualPageDump(i);
-        }
-        else 
-        {
-            fprintf(stderr, "Could not show memory dump for current allocator:"
-                    " - Page with address [%p] was not found.", baseAddress);
-        }
+        for (size_t i = startPageIndex; i < startPageIndex + allocator.getCountVirtualPages(); i++)
+            memoryManager.showVirtualPageDump(i);
     }
 
 #else // _DEBUG

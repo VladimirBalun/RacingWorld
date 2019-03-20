@@ -21,6 +21,7 @@
 #include "../Components/Texture2D.hpp"
 #include "../../Utils/Configuration.hpp"
 #include "../../Utils/StringOperations.hpp"
+#include "../../Utils/DataStructures/String.hpp"
 
 namespace Graphics { namespace Managers {
 

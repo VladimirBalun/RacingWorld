@@ -20,8 +20,8 @@
 #include "../Components/Mesh.hpp"
 #include "../Components/Material.hpp"
 #include "../../Utils/FileSystem.hpp"
+#include "../../Utils/StringOperations.hpp"
 #include "../../EventSystem/EventManager.hpp"
-#include "../../Utils/DataStructures/Vector.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {
@@ -30,9 +30,10 @@ namespace Graphics { namespace Tools {
     {
     public:
         explicit ObjParser(Memory::Allocators::LinearAllocator& meshAllocator) noexcept
-            : mMeshAllocator(meshAllocator), mStringsAllocator(1000) {}
+            : mMeshAllocator(meshAllocator), mStringsAllocator(1100) {}
         Components::Mesh parse(const char* objFileName) noexcept;
     private:
+        void parseMaterials(const String& currentDirectory, const char* buffer, MaterialsData& materialsData) noexcept;
         void parseVertices(char* line, Vector<Math::Vector3f>& vertices) noexcept;
         void parseTextureCoordinates(const char* line, Vector<Math::Vector2f>& textureCoordinates) noexcept;
         void parseNormals(const char* line, Vector<Math::Vector3f>& normals) noexcept;

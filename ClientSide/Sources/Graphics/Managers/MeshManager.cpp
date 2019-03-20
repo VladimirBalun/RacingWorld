@@ -19,17 +19,15 @@
 GLvoid Graphics::Managers::MeshManager::initializeMeshes() noexcept
 {
     mMeshes[TREE] = createMesh("Tree/Tree.obj");
-    mMeshes[CUBE] = createMesh("Cube.obj");
-    mMeshes[GROUND_POLYGON] = createMesh("Ground/Ground.obj");
+    mMeshes[CUBE] = createMesh(u8"Cube.obj");
+    mMeshes[GROUND_POLYGON] = createMesh(u8"Ground\\Ground.obj");
 }
 
 Graphics::Components::Mesh Graphics::Managers::MeshManager::createMesh(const char* modelName) noexcept
 {
-    const char* modelsPath = Configuration::getModelsPath();
-    char* modelPath = Utils::createStringFromStrings(strlen(modelsPath) + strlen(modelName) + 1,
-        std::bind(&Memory::Allocators::LinearAllocator::allocate, &mMeshesAllocator, std::placeholders::_1), modelsPath, modelName);
-    Tools::ObjParser objParser(mMeshesAllocator);
-    return objParser.parse(modelPath);
+    String modelFullPath(Configuration::getModelsPath(), mMeshesAllocator);
+    modelFullPath.append(modelName);
+    return Tools::ObjParser(mMeshesAllocator).parse(modelFullPath);
 }
 
 Graphics::Components::Mesh& Graphics::Managers::MeshManager::getMesh(EMeshType meshType) noexcept
@@ -39,6 +37,6 @@ Graphics::Components::Mesh& Graphics::Managers::MeshManager::getMesh(EMeshType m
 
 Graphics::Managers::MeshManager::~MeshManager()
 {
-    for (std::uint8_t i = 0; i < COUNT_MESH_TYPES; i++)
+    for (GLubyte i = 0; i < COUNT_MESH_TYPES; i++)
         mMeshes[i].destroy();
 }

@@ -19,85 +19,86 @@
 #include "../INonCopyable.hpp"
 #include "../Allocators/PoolAllocator.hpp"
 
-namespace Memory { namespace SmartPointers {
+template<typename Type>
+class UniquePtr : public Memory::INonCopyable
+{
+public:
+    explicit UniquePtr(Memory::Allocators::PoolAllocator& allocator)
+        : mAllocator(allocator) {}
+    explicit UniquePtr(Type* pointer, Memory::Allocators::PoolAllocator& allocator)
+        : mPointer(pointer), mAllocator(allocator) {}
+    explicit UniquePtr(UniquePtr&& another);
+    UniquePtr& operator = (UniquePtr&& another);
+    Type operator * () const;
+    Type* operator -> () const;
+    Type* get() const;
+    Type* release();
+    Type* reset(Type* pointer = nullptr);
+    ~UniquePtr();
+private:
+    Type* mPointer = nullptr;
+    Memory::Allocators::PoolAllocator& mAllocator;
+};
 
-    template<typename Type>
-    class UniquePtr : public INonCopyable
-    {
-    public:
-        explicit UniquePtr(Type* pointer, PoolAllocator& allocator)
-            : mPointer(pointer), mAllocator(allocator) {}
-        explicit UniquePtr(UniquePtr&& another);
-        UniquePtr& operator = (UniquePtr&& another);
-        Type operator * () const;
-        Type* operator -> () const;
-        Type* get() const;
-        Type* release();
-        Type* reset(Type* pointer = nullptr);
-        ~UniquePtr();
-    private:
-        Type* mPointer;
-        PoolAllocator& mAllocator;
-    };
+template<typename Type>
+UniquePtr<Type>::UniquePtr(UniquePtr&& another)
+{
+    mPointer = another.mPointer;
+    another.mPointer = nullptr;
+    mAllocator = another.mAllocator;
+}
 
-    template<typename Type>
-    UniquePtr<Type>::UniquePtr(UniquePtr&& another)
+template<typename Type>
+UniquePtr<Type>& UniquePtr<Type>::operator = (UniquePtr&& another)
+{
+    if (this != &another) 
     {
+        if (mPointer)
+            mAllocator.deallocate(mPointer);
         mPointer = another.mPointer;
         another.mPointer = nullptr;
         mAllocator = another.mAllocator;
     }
+    return *this;
+}
 
-    template<typename Type>
-    UniquePtr<Type>& UniquePtr<Type>::operator = (UniquePtr&& another)
-    {
-        if (mPointer)
-            mAllocator.deallocate(mPointer);
-        mPointer = another.mPointer;
-        another.mPointer = nullptr;
-        mAllocator = another.mAllocator;
-        return *this;
-    }
+template<typename Type>
+Type UniquePtr<Type>::operator * () const
+{
+    return *mPointer;
+}
 
-    template<typename Type>
-    Type UniquePtr<Type>::operator * () const
-    {
-        return *mPointer;
-    }
+template<typename Type>
+Type* UniquePtr<Type>::operator -> () const
+{
+    return mPointer;
+}
 
-    template<typename Type>
-    Type* UniquePtr<Type>::operator -> () const
-    {
-        return mPointer;
-    }
+template<typename Type>
+Type* UniquePtr<Type>::get() const
+{
+    return mPointer;
+}
 
-    template<typename Type>
-    Type* UniquePtr<Type>::get() const
-    {
-        return mPointer;
-    }
+template<typename Type>
+Type* UniquePtr<Type>::release()
+{
+    Type* tmp = mPointer;
+    mPointer = nullptr;
+    return tmp;
+}
 
-    template<typename Type>
-    Type* UniquePtr<Type>::release()
-    {
-        Type* tmp = mPointer;
-        mPointer = nullptr;
-        return tmp;
-    }
+template<typename Type>
+Type* UniquePtr<Type>::reset(Type* pointer)
+{
+    if (mPointer)
+        mAllocator.deallocate(mPointer);
+    mPointer = pointer;
+}
 
-    template<typename Type>
-    Type* UniquePtr<Type>::reset(Type* pointer)
-    {
-        if (mPointer)
-            mAllocator.deallocate(mPointer);
-        mPointer = pointer;
-    }
-
-    template<typename Type>
-    UniquePtr<Type>::~UniquePtr()
-    {
-        if (mPointer)
-            mAllocator.deallocate(mPointer);
-    }
-
-} }
+template<typename Type>
+UniquePtr<Type>::~UniquePtr()
+{
+    if (mPointer)
+        mAllocator.deallocate(mPointer);
+}

@@ -16,7 +16,7 @@
 
 #include "FileSystem.hpp"
 
-char* Utils::readFile(const char* fullFileName, std::function<void*(std::size_t, std::size_t)> allocateFunction) noexcept
+char* Utils::readFile(const char* fullFileName, Memory::Allocators::LinearAllocator& allocator) noexcept
 {
     FILE* inputStream = NULL;
     fopen_s(&inputStream, fullFileName, "rb");
@@ -30,7 +30,7 @@ char* Utils::readFile(const char* fullFileName, std::function<void*(std::size_t,
     long fileSize = std::ftell(inputStream) + 1;
     std::rewind(inputStream);
 
-    char* buffer = reinterpret_cast<char*>(allocateFunction(fileSize, 0));
+    char* buffer = reinterpret_cast<char*>(allocator.allocate(fileSize));
     std::size_t countReadSymbols = std::fread(buffer, sizeof(char), fileSize, inputStream);
     buffer[countReadSymbols] = '\0';
     std::fclose(inputStream);

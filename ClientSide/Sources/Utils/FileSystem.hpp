@@ -18,15 +18,14 @@
 
 #include <cstdio>
 #include <Windows.h>
-#include <functional>
 
 #include "Debug.hpp"
-#include "../Memory/Allocators/Allocator.hpp"
+#include "../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Utils {
 
-    char* readFile(const char* fileName, std::function<void*(std::size_t, std::size_t)> allocateFunction) noexcept;
-	bool writeFile(const char* fileName, const char* data) noexcept;
+    char* readFile(const char* fileName, Memory::Allocators::LinearAllocator& allocator) noexcept;
+    bool writeFile(const char* fileName, const char* data) noexcept;
 
     bool createFile(const char* fileName) noexcept;
     bool removeFile(const char* fileName) noexcept;

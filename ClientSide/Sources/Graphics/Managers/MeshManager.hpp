@@ -20,6 +20,7 @@
 #include "../Components/Mesh.hpp"
 #include "../Tools/ObjParser.hpp"
 #include "../../Utils/Configuration.hpp"
+#include "../../Utils/DataStructures/String.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Managers {

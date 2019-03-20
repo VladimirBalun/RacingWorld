@@ -18,19 +18,18 @@
 
 GLvoid Graphics::Managers::TextureManager::initializeTextures() noexcept 
 {
-    Memory::Allocators::LinearAllocator mTexturesAllocator(ONE_VIRTUAL_PAGE);
-    mTextures[FONT_TEXTURE] = createTexture(mTexturesAllocator, "Font.bmp");
+    Memory::Allocators::LinearAllocator texturesAllocator(ONE_VIRTUAL_PAGE);
+    mTextures[FONT_TEXTURE] = createTexture(texturesAllocator, u8"Font.bmp");
 }
 
 Graphics::Components::Texture2D Graphics::Managers::TextureManager::createTexture(Memory::Allocators::LinearAllocator& allocator, const char* textureName) const noexcept
 {
-    const char* texturesPath = Configuration::getTexturesPath();
-    char* texturePath = Utils::createStringFromStrings(strlen(texturesPath) + strlen(textureName) + 1,
-        std::bind(&Memory::Allocators::LinearAllocator::allocate, &allocator, std::placeholders::_1), texturesPath, textureName);
+    String fullTexturePath(Configuration::getTexturesPath(), allocator);
+    fullTexturePath.append(textureName);
     
     GLuint textureWidth = 0;
     GLuint textureHeight = 0;
-    unsigned char* data = Tools::BmpReader::read(texturePath, textureWidth, textureHeight, allocator);
+    unsigned char* data = Tools::BmpReader::read(fullTexturePath, textureWidth, textureHeight, allocator);
     return Components::Texture2D(data, textureWidth, textureHeight);
 }
 
