@@ -81,7 +81,7 @@ inline char String::operator [] (std::size_t index) const noexcept
 
 inline char String::at(std::size_t index) const noexcept
 {
-    ASSERT(strlen(mString) > index ,"String does not contain symbol with current id")
+    ASSERT(strlen(mString) > index, "String does not contain symbol with current id");
     return mString[index];
 }
 
