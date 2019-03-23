@@ -1,4 +1,9 @@
 ServerSide/.idea/*
+ServerSide/*.iml
+ServerSide/databaseserver/*.iml
+ServerSide/gameserver/*.iml
+ServerSide/protocol/*.iml
+ServerSide/resourceserver/*.iml
 
 ClientSide/Build/*
 ClientSide/Bin/*
