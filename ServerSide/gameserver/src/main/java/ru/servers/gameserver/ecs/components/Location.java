@@ -25,7 +25,7 @@ import ru.servers.gameserver.math.algebra.vectors.Vector3;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class Location implements Component, Cloneable {
+public class Location implements Component {
 
     private Vector3 position;
     private Vector3 direction;

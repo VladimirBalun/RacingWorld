@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class Speed implements Component, Cloneable {
+public class Speed implements Component {
 
     private final double MIN_SPEED;
     private final double MAX_SPEED;

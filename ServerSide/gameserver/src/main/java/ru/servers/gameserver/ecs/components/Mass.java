@@ -23,7 +23,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class Mass implements Component, Cloneable {
+public class Mass implements Component {
 
     private int mass; // kilograms
 

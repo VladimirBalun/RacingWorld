@@ -16,7 +16,7 @@
 
 package ru.servers.gameserver.ecs.components;
 
-public interface Component {
+public interface Component extends Cloneable {
 
     Component clone();
 

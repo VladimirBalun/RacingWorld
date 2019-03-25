@@ -10,7 +10,7 @@ import ru.servers.gameserver.math.algebra.vectors.Vector3;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Route implements Component, Cloneable {
+public class Route implements Component {
 
     private Vector3 route;
 
