@@ -1,15 +1,16 @@
 package ru.servers.gameserver.ecs.components;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.servers.gameserver.math.algebra.vectors.Vector3;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
-public class Route {
+@AllArgsConstructor
+public class Route implements Component, Cloneable {
 
     private Vector3 route;
 
