@@ -13,5 +13,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 "use strict";
+
+const newsdb = require("../dao/news-dao");
+
+const log4js = require("log4js");
+const log = log4js.getLogger(__filename);
+log.level = "debug";
+
+module.exports = {
+
+    getAllNews : () => {
+        try {
+            const news = newsdb.getAllNews();
+            log.debug(`Request getting all news has been processed`);
+            return news;
+        } catch (error) {
+            log.warn(`Request getting all records returned error - ${error}`);
+            return {"Result":"False"};
+        }
+    },
+
+    getNewsByID : (id) => {
+        try{
+            const news = newsdb.getNewsByID(id);
+            log.debug(`Request getting news with id-${id} has been processed`);
+            return news;
+        } catch (error) {
+            log.warn(`Request getting news with id-${id} returned error - ${error}`);
+            return {"Result":"False"};
+        }
+    },
+
+    insertNews : (requestBody) => {
+        try {
+            let data = {
+                title : requestBody.title,
+                description : requestBody.description,
+                date : new Date().toISOString().slice(0,10)
+            };
+            const result = newsdb.insertNews(data);
+            log.debug(`Request insert news into db has been processed`);
+            return result;
+        } catch (error) {
+            log.warn(`Request insert news into db returned error - ${error}`);
+            return {"Result":"False"};
+        }
+    },
+
+    removeNews : (id) => {
+        try {
+            const result = newsdb.removeNews(id);
+            log.debug(`Request remove news from db has been processed`);
+            return result;
+        } catch (error) {
+            log.warn(`Request remove news from db returned error - ${error}`);
+            return {"Result":"False"};
+        }
+    }
+};

@@ -16,11 +16,13 @@
 
 "use strict";
 
+const news = require("./data/service/news-service");
+
 module.exports.route = (server) => {
 
-    server.get("/news", (request, response) => response.status(200).set({"Content-Type": "application/json; charset=utf-8"}).send({ data: "Test data"}));
-    server.get("/news/:id", (request, response) => response.status(200).set({"Content-Type": "application/json; charset=utf-8"}).send({ data: "Test data"}));
-    server.post("/news", (request, response) => response.status(200).set({"Content-Type": "application/json; charset=utf-8"}).send({ data: "Test data"}));
-    server.delete("/news/:id", (request, response) => response.status(200).set({"Content-Type": "application/json; charset=utf-8"}).send({ data: "Test data"}));
+    server.get("/news", async (request, response) => response.status(200).json(await news.getAllNews()));
+    server.get("/news/:id", async (request, response) => response.status(200).json(await news.getNewsByID(request.params.id)));
+    server.post("/news", async (request, response) => response.status(200).json(await news.insertNews(request.body)));
+    server.delete("/news/:id", async (request, response) => response.status(200).json(await news.removeNews(request.params.id)));
 
 };

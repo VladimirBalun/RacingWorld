@@ -4,13 +4,14 @@
   "version": "0.1.0",
   "scripts": {
     "start": "node ./sources/server.js",
-    "start-with-watch": "nodemon ./sources/server.js"
+    "rs": "nodemon ./sources/server.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "log4js": "^3.0.6",
     "mongodb": "^3.1.13",
+    "mysql": "^2.16.0",
     "nodemon": "^1.18.10",
     "underscore": "^1.9.1"
   },
