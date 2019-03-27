@@ -1,9 +1,15 @@
 ServerSide/.idea/*
+
 ServerSide/*.iml
 ServerSide/databaseserver/*.iml
 ServerSide/gameserver/*.iml
 ServerSide/protocol/*.iml
 ServerSide/resourceserver/*.iml
+
+ServerSide/databaseserver/target/*
+ServerSide/gameserver/target/*
+ServerSide/protocol/target/*
+ServerSide/resourceserver/target/*
 
 ClientSide/Build/*
 ClientSide/Bin/*
@@ -12,5 +18,8 @@ ClientSide/Libs/*
 WebSite/.idea/*
 WebSite/client/.idea/*
 WebSite/server/.idea/*
+
+WebSite/client/build/*
+
 WebSite/client/node_modules/*
 WebSite/server/node_modules/*
