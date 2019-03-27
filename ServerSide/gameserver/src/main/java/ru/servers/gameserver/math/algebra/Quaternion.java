@@ -16,13 +16,16 @@
 
 package ru.servers.gameserver.math.algebra;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import ru.servers.gameserver.math.algebra.vectors.Vector3;
 
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class Quaternion {

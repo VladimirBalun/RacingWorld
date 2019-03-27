@@ -22,7 +22,6 @@ import ru.servers.gameserver.math.algebra.vectors.Vectors;
 
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor

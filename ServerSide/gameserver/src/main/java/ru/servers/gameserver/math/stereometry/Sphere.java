@@ -1,12 +1,15 @@
 package ru.servers.gameserver.math.stereometry;
 
-import lombok.*;
 import ru.servers.gameserver.math.algebra.vectors.Vector3;
 import ru.servers.gameserver.math.algebra.vectors.Vectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor

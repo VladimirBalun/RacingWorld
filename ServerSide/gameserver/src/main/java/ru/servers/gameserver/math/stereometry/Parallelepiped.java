@@ -1,14 +1,20 @@
 package ru.servers.gameserver.math.stereometry;
 
-import lombok.*;
 import ru.servers.gameserver.math.algebra.vectors.Vector3;
 import ru.servers.gameserver.math.algebra.vectors.Vectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
+@NoArgsConstructor
 public class Parallelepiped {
 
     private Vector3[] points;
