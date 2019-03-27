@@ -16,6 +16,7 @@
 
 package ru.servers.gameserver.network.connectors;
 
+import ru.servers.protocol.gameserverwithdatabaseserver.service.RacingService;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.UsersService;
 
 import java.io.IOException;
@@ -27,26 +28,27 @@ import java.util.*;
 
 public class DatabaseServerConnector {
 
-    private final String serverAddress;
-    private final String serverRMIHostName;
-
     private UsersService usersService;
+    private RacingService racingService;
 
     public DatabaseServerConnector() throws Exception {
         Properties properties = new Properties();
         try (InputStream inputStream = Files.newInputStream(Paths.get("gameserver/src/main/resources/gameserver.properties"))){
             properties.load(inputStream);
         } catch (IOException e) {
-            throw new RuntimeException("file with server properties was not read.");
+            throw new IOException("file with server properties was not read.");
         }
 
-        serverAddress = properties.getProperty("databaseServer.address");
-        serverRMIHostName = properties.getProperty("databaseServer.rmi.hostname");
         usersService = (UsersService) Naming.lookup(properties.getProperty("databaseServer.usersService.path"));
+        racingService = (RacingService) Naming.lookup(properties.getProperty("databaseServer.racesService.path"));
     }
 
     public UsersService getUsersService() {
         return usersService;
+    }
+
+    public RacingService getRacesService(){
+        return racingService;
     }
 
 }
