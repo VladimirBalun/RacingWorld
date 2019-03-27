@@ -33,7 +33,7 @@ const connection = mysql.createConnection({
 connection.connect((error) => {
     if (error) {
         log.fatal(`Error, connection with database was not set. Cause: ${error}`);
-        System.exit(1);
+        process.exit(1);
     }
 });
 

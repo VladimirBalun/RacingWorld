@@ -26,7 +26,7 @@ module.exports = {
     getAllNews : () => {
         try {
             const news = newsdb.getAllNews();
-            log.debug(`Request getting all news has been processed`);
+            log.debug("Request getting all news has been processed");
             return news;
         } catch (error) {
             log.warn(`Request getting all records returned error - ${error}`);
@@ -53,7 +53,7 @@ module.exports = {
                 date : new Date().toISOString().slice(0,10)
             };
             const result = newsdb.insertNews(data);
-            log.debug(`Request insert news into db has been processed`);
+            log.debug("Request insert news into db has been processed");
             return result;
         } catch (error) {
             log.warn(`Request insert news into db returned error - ${error}`);
@@ -64,7 +64,7 @@ module.exports = {
     removeNews : (id) => {
         try {
             const result = newsdb.removeNews(id);
-            log.debug(`Request remove news from db has been processed`);
+            log.debug(`Request remove news with id-${id} from db has been processed`);
             return result;
         } catch (error) {
             log.warn(`Request remove news from db returned error - ${error}`);

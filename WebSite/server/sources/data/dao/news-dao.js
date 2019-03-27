@@ -21,7 +21,7 @@ const connection = require("./database");
 
 module.exports = {
 
-    getAllNews : () =>{
+    getAllNews : () => {
         return new Promise((resolve, reject) => {
             const sql = "SELECT * FROM news";
             connection.query(sql, (err, result) => {
@@ -34,7 +34,7 @@ module.exports = {
         });
     },
 
-    getNewsByID : (id) =>{
+    getNewsByID : (id) => {
         return new Promise((resolve,reject) => {
             const sql = "SELECT * FROM news WHERE id = ?";
             connection.query(sql, id, (err, result) => {
@@ -50,7 +50,7 @@ module.exports = {
     insertNews : (data) => {
         return new Promise((resolve, reject) => {
             const sql = "INSERT INTO news SET ?";
-            connection.query(sql, data, err => {
+            connection.query(sql, data, (err) => {
                 if (err){
                     reject({"result": "false"});
                 } else {
@@ -64,7 +64,7 @@ module.exports = {
     removeNews : (id) => {
         return new Promise((resolve, reject) => {
             const sql = "DELETE FROM news WHERE id = ?";
-            connection.query(sql, id, err =>{
+            connection.query(sql, id, (err) => {
                 if (err){
                     reject({"result": "false"});
                 } else {
