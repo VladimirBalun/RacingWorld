@@ -16,7 +16,11 @@
 
 package ru.servers.gameserver.physic;
 
-public class Constants {
+public final class ConstantsUtil {
+
+    private ConstantsUtil() {
+        throw new UnsupportedOperationException("instance for class ConstantsUtil can not be created");
+    }
 
     public static double GRAVITATIONAL_ACCELERATION = 9.80665;
 

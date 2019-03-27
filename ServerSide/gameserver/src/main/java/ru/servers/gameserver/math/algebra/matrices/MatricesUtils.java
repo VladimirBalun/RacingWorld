@@ -3,7 +3,11 @@ package ru.servers.gameserver.math.algebra.matrices;
 import ru.servers.gameserver.math.CoordinateAxis;
 import ru.servers.gameserver.math.algebra.vectors.Vector3;
 
-public class Matrices {
+public final class MatricesUtil {
+
+    private MatricesUtil() {
+        throw new UnsupportedOperationException("instance for class MatricesUtil can not be created");
+    }
 
     public static Matrix2x2 getIdentity2x2(){
         return new Matrix2x2(new double[] {

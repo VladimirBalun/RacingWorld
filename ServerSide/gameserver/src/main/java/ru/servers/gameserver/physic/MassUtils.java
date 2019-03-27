@@ -18,7 +18,11 @@ package ru.servers.gameserver.physic;
 
 import ru.servers.gameserver.math.algebra.vectors.Vector2;
 
-public class Mass {
+public final class MassUtil {
+
+    private MassUtil() {
+        throw new UnsupportedOperationException("instance for class MassUtil can not be created");
+    }
 
     public static Vector2 getMassCenter(Vector2... points) throws IllegalArgumentException {
         int count_vertexes = points.length;

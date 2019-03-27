@@ -21,7 +21,7 @@ import org.junit.Test;
 import ru.servers.gameserver.math.algebra.vectors.Vector2;
 import ru.servers.gameserver.math.geometry.Rectangle;
 
-public class MassTest {
+public class MassUtilTest {
 
     @Test // (x+x[1]+x[2]+x[3]+x[4]) / 4, (y + ...) / 4
     public void gettingCenterOfMassOfRectangle(){
@@ -31,13 +31,13 @@ public class MassTest {
                 new Vector2(4.0, 4.0), //
                 new Vector2(4.0, 2.0)  // (2;2)      (4;2)
         );
-        Vector2 massCenter = Mass.getMassCenter(rectangle.toVectorArray());
+        Vector2 massCenter = MassUtil.getMassCenter(rectangle.toVectorArray());
         Assert.assertEquals(new Vector2(3.0, 3.0), massCenter);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void gettingCenterOfMassWithNullCountVertexes(){
-        Mass.getMassCenter();
+        MassUtil.getMassCenter();
     }
 
 }
