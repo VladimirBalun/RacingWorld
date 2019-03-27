@@ -17,13 +17,15 @@
 package ru.servers.databaseserver.data.service;
 
 import lombok.extern.log4j.Log4j;
-import ru.servers.databaseserver.data.dao.UsersRepository;
-import ru.servers.databaseserver.data.dao.UsersRepositoryImpl;
+import ru.servers.databaseserver.data.dao.*;
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.RacingUser;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.UsersService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 @Log4j
 public class UsersServiceImpl extends UnicastRemoteObject implements UsersService {
@@ -31,6 +33,8 @@ public class UsersServiceImpl extends UnicastRemoteObject implements UsersServic
     private static final long serialVersionUID = -6625973424919523876L;
 
     private UsersRepository usersRepository = new UsersRepositoryImpl();
+    private RacingRepository racingRepository = new RacingRepositoryImpl();
+    private RacingUsersRepository racingUsersRepository = new RacingUsersRepositoryImpl();
 
     public UsersServiceImpl() throws RemoteException {
         super();
@@ -70,4 +74,20 @@ public class UsersServiceImpl extends UnicastRemoteObject implements UsersServic
         return usersRepository.updateByEmail(email, user);
     }
 
+    @Override
+    public ArrayList<Racing> getAllRacingById(int id) {
+        ArrayList<RacingUser> racingUser = racingUsersRepository.getRacingsUserByUserId(id);
+        ArrayList<Racing> racings = new ArrayList<>();
+        if (racingUser == null){
+            log.warn("No active races found for this user");
+        } else {
+            racingRepository.getAllRacings().forEach(Racing -> {
+                racingUser.forEach(RacingUser -> {
+                    if (RacingUser.getRacing().getId() == Racing.getId())
+                        racings.add(Racing);
+                });
+            });
+        }
+        return racings;
+    }
 }

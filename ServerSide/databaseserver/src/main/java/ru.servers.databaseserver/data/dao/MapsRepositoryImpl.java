@@ -53,8 +53,18 @@ public class MapsRepositoryImpl implements  MapsRepository{
     }
 
     @Override
-    public Map findById(int id){
+    public Map findById(int id) {
         final String sqlQuery = String.format("SELECT * FROM maps WHERE id =%d" , id);
+        return find(sqlQuery);
+    }
+
+    @Override
+    public Map findByName(String mapName) {
+        final String sqlQuery = String.format("SELECT * FROM maps WHERE name =%s" , mapName);
+        return find(sqlQuery);
+    }
+
+    private Map find(String sqlQuery) {
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);
             try (Statement statement = connection.createStatement()) {

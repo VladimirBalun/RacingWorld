@@ -29,4 +29,6 @@ public interface MapsRepository {
     boolean updateNameById(int id, Map newMap);
 
     Map findById(int id);
+
+    Map findByName(String mapName);
 }

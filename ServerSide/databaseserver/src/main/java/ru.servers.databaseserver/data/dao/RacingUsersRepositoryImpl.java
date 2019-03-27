@@ -23,13 +23,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 @Log4j
 public class RacingUsersRepositoryImpl implements RacingUsersRepository {
 
     @Override
     public RacingUser findById(int id) {
-        final String sqlQuery = String.format("SELECT * FROM racings WHERE id ='%d'" , id);
+        final String sqlQuery = String.format("SELECT * FROM users_racings WHERE id ='%d'" , id);
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);
             try (Statement statement = connection.createStatement()) {
@@ -70,6 +71,33 @@ public class RacingUsersRepositoryImpl implements RacingUsersRepository {
     public boolean removeById(int id) {
         final String sqlQuery = String.format("DELETE FROM users_racings WHERE id = %d", id);
         return SQLExecutor.executeSQLQuery(sqlQuery);
+    }
+
+    @Override
+    public ArrayList<RacingUser> getRacingsUserByUserId(int userID) {
+        final String sqlQuery = String.format("SELECT * FROM users_racings WHERE id_user ='%d'" , userID);
+        try (Connection connection = Database.getInstance().getConnection()) {
+            connection.setAutoCommit(false);
+            try (Statement statement = connection.createStatement()) {
+                ArrayList<RacingUser> racingsUser = new ArrayList<>();
+                ResultSet resultSet = statement.executeQuery(sqlQuery);
+                while (resultSet.next()) {
+                    RacingUser racingUser = new RacingUser();
+                    racingUser.setId(resultSet.getInt("id"));
+                    racingUser.setUser(new UsersRepositoryImpl().findById(resultSet.getInt("id_user")));
+                    racingUser.setRacing(new RacingRepositoryImpl().findById(resultSet.getInt("id_racing")));
+                    racingsUser.add(racingUser);
+                }
+                connection.commit();
+                return racingsUser;
+            } catch (SQLException e){
+                connection.rollback();
+                log.warn("SQL request execution error. Cause: " + e.getMessage());
+            }
+        } catch (SQLException e) {
+            log.warn("SQL request execution error. Cause: " + e.getMessage());
+        }
+        return null;
     }
 
 }

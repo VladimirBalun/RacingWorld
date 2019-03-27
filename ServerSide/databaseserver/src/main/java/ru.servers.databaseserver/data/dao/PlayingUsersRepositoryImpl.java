@@ -42,6 +42,12 @@ public class PlayingUsersRepositoryImpl implements  PlayingUsersRepository {
     }
 
     @Override
+    public boolean removeUserByUserId(int id_user) {
+        final String sqlQuery = String.format("DELETE FROM playing_users WHERE id_user = %d", id_user);
+        return SQLExecutor.executeSQLQuery(sqlQuery);
+    }
+
+    @Override
     public boolean updateById(int id, PlayingUser newPlayingUser) {
         final String sqlQuery = String.format("UPDATE playing_users SET id_user = %d, id_running_racing = %d WHERE id = %d",
                 newPlayingUser.getUser().getId(), newPlayingUser.getRunningRaces().getId(), id);
@@ -50,7 +56,7 @@ public class PlayingUsersRepositoryImpl implements  PlayingUsersRepository {
 
     @Override
     public PlayingUser findById(int id) {
-        final String sqlQuery = String.format("SELECT * FROM racings WHERE id = %d" , id);
+        final String sqlQuery = String.format("SELECT * FROM playing_users WHERE id = %d" , id);
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);
             try (Statement statement = connection.createStatement()) {

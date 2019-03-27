@@ -24,6 +24,8 @@ public interface PlayingUsersRepository {
 
     boolean removeById(int id);
 
+    boolean removeUserByUserId(int id_user);
+
     boolean updateById(int id, PlayingUser newPlayingUser);
 
     PlayingUser findById(int id);

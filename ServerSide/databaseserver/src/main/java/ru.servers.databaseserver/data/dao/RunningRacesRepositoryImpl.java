@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 @Log4j
 public class RunningRacesRepositoryImpl implements RunningRacesRepository {
@@ -32,7 +33,7 @@ public class RunningRacesRepositoryImpl implements RunningRacesRepository {
 
     @Override
     public RunningRaces findById(int id) {
-        final String sqlQuery = String.format("SELECT * FROM racings WHERE id ='%d'" , id);
+        final String sqlQuery = String.format("SELECT * FROM running_racings WHERE id ='%d'" , id);
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);
             try (Statement statement = connection.createStatement()) {
@@ -73,6 +74,33 @@ public class RunningRacesRepositoryImpl implements RunningRacesRepository {
     public boolean removeById(int id) {
         final String sqlQuery = String.format("DELETE FROM running_racings WHERE id = %d", id);
         return SQLExecutor.executeSQLQuery(sqlQuery);
+    }
+
+    @Override
+    public ArrayList<RunningRaces> getAllRacings() {
+        final String sqlQuery = "SELECT * FROM running_racings";
+        try (Connection connection = Database.getInstance().getConnection()) {
+            connection.setAutoCommit(false);
+            try (Statement statement = connection.createStatement()) {
+                ArrayList<RunningRaces> runningRacesList = new ArrayList<>();
+                ResultSet resultSet = statement.executeQuery(sqlQuery);
+                while (resultSet.next()) {
+                    RunningRaces runningRaces = new RunningRaces();
+                    runningRaces.setId(resultSet.getInt("id"));
+                    runningRaces.setMap(new MapsRepositoryImpl().findById(resultSet.getInt("id_map")));
+                    runningRaces.setStartTime(resultSet.getTimestamp("start_time"));
+                    runningRacesList.add(runningRaces);
+                }
+                connection.commit();
+                return runningRacesList;
+            } catch (SQLException e){
+                connection.rollback();
+                log.warn("SQL request execution error. Cause: " + e.getMessage());
+            }
+        } catch (SQLException e) {
+            log.warn("SQL request execution error. Cause: " + e.getMessage());
+        }
+        return null;
     }
 
 }

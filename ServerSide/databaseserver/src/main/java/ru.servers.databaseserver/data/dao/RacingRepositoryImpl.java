@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 @Log4j
 public class RacingRepositoryImpl implements RacingRepository {
@@ -77,4 +78,35 @@ public class RacingRepositoryImpl implements RacingRepository {
                 sdf.format(newRacing.getStartTime()), newRacing.getMap().getId(), newRacing.getCountPlayers(), sdf.format(newRacing.getTotalTime()), id);
         return SQLExecutor.executeSQLQuery(sqlQuery);
     }
+
+    @Override
+    public ArrayList<Racing> getAllRacings() {
+        final String sqlQuery = "SELECT * FROM racings";
+        try (Connection connection = Database.getInstance().getConnection()) {
+            connection.setAutoCommit(false);
+            try (Statement statement = connection.createStatement()) {
+                ArrayList<Racing> racingList = new ArrayList<>();
+                ResultSet resultSet = statement.executeQuery(sqlQuery);
+                while (resultSet.next()) {
+                    Racing racing = new Racing();
+                    racing.setId(resultSet.getInt("id"));
+                    racing.setMap(new MapsRepositoryImpl().findById(resultSet.getInt("id_map")));
+                    racing.setCountPlayers(resultSet.getInt("count_players"));
+                    racing.setStartTime(resultSet.getTimestamp("start_time"));
+                    racing.setTotalTime(resultSet.getTimestamp("total_time"));
+                    racingList.add(racing);
+                }
+                connection.commit();
+                return racingList;
+            } catch (SQLException e){
+                connection.rollback();
+                log.warn("SQL request execution error. Cause: " + e.getMessage());
+            }
+        } catch (SQLException e) {
+            log.warn("SQL request execution error. Cause: " + e.getMessage());
+        }
+        return null;
+    }
+
+
 }

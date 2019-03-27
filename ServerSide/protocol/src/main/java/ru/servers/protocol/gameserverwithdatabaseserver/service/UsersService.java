@@ -16,10 +16,13 @@
 
 package ru.servers.protocol.gameserverwithdatabaseserver.service;
 
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
 
+import java.lang.reflect.Array;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public interface UsersService extends Remote {
 
@@ -29,4 +32,5 @@ public interface UsersService extends Remote {
 
     boolean changeUserPasswordByEmail(String email, String newPassword) throws RemoteException;
 
+    ArrayList<Racing> getAllRacingById(int id);
 }

@@ -17,10 +17,12 @@
 package ru.servers.databaseserver.data.service;
 
 import lombok.extern.log4j.Log4j;
-import ru.servers.databaseserver.data.dao.RacingRepository;
-import ru.servers.databaseserver.data.dao.RacingRepositoryImpl;
-import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
+import ru.servers.databaseserver.data.dao.*;
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.*;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.RacingService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Log4j
 public class RacingServiceImpl implements RacingService {
@@ -47,5 +49,24 @@ public class RacingServiceImpl implements RacingService {
             log.warn("Racing was not deleted by id: "  + id);
         }
         return deletingResult;
+    }
+
+
+    @Override
+    public Racing getRacingByID(int id) {
+        Racing racing = racingRepository.findById(id);
+        if (racing == null){
+            log.warn("Racing was not find by id. Id: " + id);
+        }
+        return racing;
+    }
+
+    @Override
+    public List<Racing> getAllRacings() {
+        ArrayList<Racing> racings = racingRepository.getAllRacings();
+        if (racings == null){
+            log.warn("There is no completed race");
+        }
+        return racings;
     }
 }

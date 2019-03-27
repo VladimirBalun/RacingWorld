@@ -18,6 +18,8 @@ package ru.servers.databaseserver.data.dao;
 
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.RacingUser;
 
+import java.util.ArrayList;
+
 public interface RacingUsersRepository {
 
     RacingUser findById(int id);
@@ -27,4 +29,6 @@ public interface RacingUsersRepository {
     boolean updateById(int id, RacingUser newRacingUser);
 
     boolean removeById(int id);
+
+    ArrayList<RacingUser> getRacingsUserByUserId(int userID);
 }
