@@ -1,18 +1,19 @@
 package ru.servers.protocol.gameserverwithdatabaseserver.service;
 
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
-import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
 
-import java.util.List;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 
-public interface RacingService {
+public interface RacingService extends Remote {
 
-    boolean addNewRacing(Racing newRacing);
+    boolean addNewRacing(Racing newRacing) throws RemoteException;
 
-    boolean removeRacingById(int id);
+    boolean removeRacingById(int id) throws RemoteException;
 
-    Racing getRacingByID(int id);
+    Racing getRacingByID(int id) throws RemoteException;
 
-    List<Racing> getAllRacings();
+    ArrayList<Racing> getAllRacings() throws RemoteException;
 
 }

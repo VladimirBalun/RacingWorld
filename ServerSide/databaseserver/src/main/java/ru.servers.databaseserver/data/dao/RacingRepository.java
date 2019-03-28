@@ -17,7 +17,6 @@
 package ru.servers.databaseserver.data.dao;
 
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
-
 import java.util.ArrayList;
 
 public interface RacingRepository {

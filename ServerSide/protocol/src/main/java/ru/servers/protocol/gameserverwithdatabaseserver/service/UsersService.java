@@ -18,7 +18,6 @@ package ru.servers.protocol.gameserverwithdatabaseserver.service;
 
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;

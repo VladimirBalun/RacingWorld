@@ -17,20 +17,20 @@
 package ru.servers.databaseserver.data.service;
 
 import lombok.extern.log4j.Log4j;
-import ru.servers.databaseserver.data.dao.*;
-import ru.servers.protocol.gameserverwithdatabaseserver.entity.*;
+import ru.servers.databaseserver.data.dao.RacingRepository;
+import ru.servers.databaseserver.data.dao.RacingRepositoryImpl;
+import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.RacingService;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.List;
-
 @Log4j
 public class RacingServiceImpl implements RacingService {
 
     private RacingRepository racingRepository = new RacingRepositoryImpl();
 
     @Override
-    public boolean addNewRacing(Racing newRacing) {
+    public boolean addNewRacing(Racing newRacing) throws RemoteException {
         boolean addingResult = racingRepository.save(newRacing);
         if (addingResult) {
             log.debug("New racing was added. Racing: " + newRacing.toString());
@@ -41,7 +41,7 @@ public class RacingServiceImpl implements RacingService {
     }
 
     @Override
-    public boolean removeRacingById(int id) {
+    public boolean removeRacingById(int id) throws RemoteException {
         boolean deletingResult = racingRepository.removeById(id);
         if (deletingResult) {
             log.debug("Racing was deleted by id: " + id);
@@ -53,7 +53,7 @@ public class RacingServiceImpl implements RacingService {
 
 
     @Override
-    public Racing getRacingByID(int id) {
+    public Racing getRacingByID(int id) throws RemoteException {
         Racing racing = racingRepository.findById(id);
         if (racing == null){
             log.warn("Racing was not find by id. Id: " + id);
@@ -62,7 +62,7 @@ public class RacingServiceImpl implements RacingService {
     }
 
     @Override
-    public List<Racing> getAllRacings() {
+    public ArrayList<Racing> getAllRacings() throws RemoteException {
         ArrayList<Racing> racings = racingRepository.getAllRacings();
         if (racings == null){
             log.warn("There is no completed race");

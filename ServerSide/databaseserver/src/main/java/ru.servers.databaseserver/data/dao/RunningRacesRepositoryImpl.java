@@ -60,20 +60,20 @@ public class RunningRacesRepositoryImpl implements RunningRacesRepository {
     public boolean save(RunningRaces newRunningRaces) {
         final String sqlQuery = String.format("INSERT INTO running_racings (start_time, id_map) VALUES ('%s', %d)",
                 sdf.format(newRunningRaces.getStartTime()), newRunningRaces.getMap().getId());
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean updateById(int id, RunningRaces newRunningRaces) {
         final String sqlQuery = String.format("UPDATE running_racings SET start_time ='%s', id_map =%d WHERE id = %d",
                 sdf.format(newRunningRaces.getStartTime()), newRunningRaces.getMap().getId(), id);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean removeById(int id) {
         final String sqlQuery = String.format("DELETE FROM running_racings WHERE id = %d", id);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override

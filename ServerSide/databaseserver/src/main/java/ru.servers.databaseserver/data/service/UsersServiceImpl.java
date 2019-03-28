@@ -22,7 +22,6 @@ import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.RacingUser;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.UsersService;
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;

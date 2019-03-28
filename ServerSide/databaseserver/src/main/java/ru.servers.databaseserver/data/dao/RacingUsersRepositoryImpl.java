@@ -57,20 +57,20 @@ public class RacingUsersRepositoryImpl implements RacingUsersRepository {
     public boolean save(RacingUser newRacingUser) {
         final String sqlQuery = String.format("INSERT INTO users_racings (id_user, id_racing) VALUES (%d, %d)",
                 newRacingUser.getUser().getId(), newRacingUser.getRacing().getId());
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean updateById(int id, RacingUser newRacingUser) {
         final String sqlQuery = String.format("UPDATE users_racings SET id_user = %d, id_racing =%d WHERE id = %d",
                 newRacingUser.getUser().getId(), newRacingUser.getRacing().getId(), id);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean removeById(int id) {
         final String sqlQuery = String.format("DELETE FROM users_racings WHERE id = %d", id);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override

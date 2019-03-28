@@ -18,15 +18,14 @@ package ru.servers.databaseserver.data.dao;
 
 import lombok.extern.log4j.Log4j;
 import ru.servers.databaseserver.data.Database;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 @Log4j
-class SQLExecutor {
+class SqlExecutor {
 
-    static boolean executeSQLQuery(String sqlQuery) {
+    public static boolean executeSQLQuery(String sqlQuery) {
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);
             try (Statement statement = connection.createStatement()) {

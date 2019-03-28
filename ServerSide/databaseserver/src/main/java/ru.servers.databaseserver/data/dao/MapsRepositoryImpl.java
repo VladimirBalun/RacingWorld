@@ -31,25 +31,25 @@ public class MapsRepositoryImpl implements  MapsRepository{
     @Override
     public boolean save(Map newMap) {
         final String sqlQuery = String.format("INSERT INTO maps (name) VALUES ('%s')", newMap.getName());
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean removeByName(String nameMap) {
         final String sqlQuery = String.format("DELETE FROM maps WHERE name = '%s'", nameMap);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean removeById(int id) {
         final String sqlQuery = String.format("DELETE FROM maps WHERE id = %d", id);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean updateNameById(int id, Map newMap) {
         final String sqlQuery = String.format("UPDATE maps SET name='%s' WHERE id = %d", newMap.getName(), id);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override

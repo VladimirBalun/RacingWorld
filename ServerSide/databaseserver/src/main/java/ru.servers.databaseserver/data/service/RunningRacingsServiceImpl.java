@@ -17,12 +17,19 @@
 package ru.servers.databaseserver.data.service;
 
 import lombok.extern.log4j.Log4j;
-import ru.servers.databaseserver.data.dao.*;
+import ru.servers.databaseserver.data.dao.MapsRepository;
+import ru.servers.databaseserver.data.dao.MapsRepositoryImpl;
+import ru.servers.databaseserver.data.dao.PlayingUsersRepository;
+import ru.servers.databaseserver.data.dao.RunningRacesRepository;
+import ru.servers.databaseserver.data.dao.RunningRacesRepositoryImpl;
+import ru.servers.databaseserver.data.dao.PlayingUsersRepositoryImpl;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.Map;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.PlayingUser;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.RunningRaces;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.RunningRacingsService;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -34,7 +41,7 @@ public class RunningRacingsServiceImpl implements RunningRacingsService {
 
 
     @Override
-    public boolean startRacing(String mapName) {
+    public boolean startRacing(String mapName) throws RemoteException {
         Map map = mapsRepository.findByName(mapName);
         RunningRaces newRunningRaces = new RunningRaces(new Date(), map);
         boolean startResult = runningRacesRepository.save(newRunningRaces);
@@ -47,7 +54,7 @@ public class RunningRacingsServiceImpl implements RunningRacingsService {
     }
 
     @Override
-    public boolean addUserToRacing(int racingID, User user) {
+    public boolean addUserToRacing(int racingID, User user) throws RemoteException {
         RunningRaces runningRaces = runningRacesRepository.findById(racingID);
         PlayingUser playingUser = new PlayingUser(user, runningRaces);
         boolean addingResult = playingUsersRepository.save(playingUser);
@@ -60,7 +67,7 @@ public class RunningRacingsServiceImpl implements RunningRacingsService {
     }
 
     @Override
-    public boolean removeUserFromRacingByID(int userID) {
+    public boolean removeUserFromRacingByID(int userID) throws RemoteException {
         boolean deletingResult = playingUsersRepository.removeUserByUserId(userID);
         if (deletingResult){
             log.debug("User was deleted by user id. User id: " + userID);
@@ -71,7 +78,7 @@ public class RunningRacingsServiceImpl implements RunningRacingsService {
     }
 
     @Override
-    public boolean stopRacingByID(int id) {
+    public boolean stopRacingByID(int id) throws RemoteException {
         boolean stopResult = runningRacesRepository.removeById(id);
         if (stopResult){
             log.debug("Racing was stopped. id racing: " + id);
@@ -82,7 +89,7 @@ public class RunningRacingsServiceImpl implements RunningRacingsService {
     }
 
     @Override
-    public RunningRaces getRunningRacingByID(int id){
+    public RunningRaces getRunningRacingByID(int id) throws RemoteException {
         RunningRaces runningRaces = runningRacesRepository.findById(id);
         if (runningRaces == null){
             log.warn("Running racing was not find by id. Id: " + id);
@@ -91,7 +98,7 @@ public class RunningRacingsServiceImpl implements RunningRacingsService {
     }
 
     @Override
-    public ArrayList<RunningRaces> getAllRunningRacing() {
+    public ArrayList<RunningRaces> getAllRunningRacing() throws RemoteException {
         ArrayList<RunningRaces> runningRaces = runningRacesRepository.getAllRacings();
         if (runningRaces == null){
             log.warn("There is no active race");

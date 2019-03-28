@@ -19,7 +19,6 @@ package ru.servers.databaseserver.data.dao;
 import lombok.extern.log4j.Log4j;
 import ru.servers.databaseserver.data.Database;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -67,19 +66,19 @@ public class UsersRepositoryImpl implements UsersRepository {
     @Override
     public boolean save(User newUser) {
         final String sqlQuery = String.format("INSERT INTO users (email, password) VALUES ('%s', '%s')", newUser.getEmail(), newUser.getPassword());
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean removeByEmail(String email) {
         final String sqlQuery = String.format("DELETE FROM users WHERE email = '%s'", email);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean updateByEmail(String email, User newUser) {
         final String sqlQuery = String.format("UPDATE users SET email='%s', password='%s' WHERE email='%s'", newUser.getEmail(), newUser.getPassword(), email);
-        return SQLExecutor.executeSQLQuery(sqlQuery);
+        return SqlExecutor.executeSQLQuery(sqlQuery);
     }
 
 }

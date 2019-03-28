@@ -2,11 +2,14 @@ package ru.servers.protocol.gameserverwithdatabaseserver.service;
 
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.Map;
 
-public interface MapsService {
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-    boolean addNewMap(Map newMap);
+public interface MapsService extends Remote {
 
-    boolean removeMapByName(String name);
+    boolean addNewMap(Map newMap) throws RemoteException;
 
-    boolean renameMapById(int id, String newName);
+    boolean removeMapByName(String name) throws RemoteException;
+
+    boolean renameMapById(int id, String newName) throws RemoteException;
 }
