@@ -33,5 +33,5 @@ public interface UsersService extends Remote {
 
     boolean isExist(String email, String password) throws RemoteException;
 
-    ArrayList<Racing> getAllRacingByUserId(int id) throws RemoteException;
+    ArrayList<Racing> getAllRacingsByUserId(int id) throws RemoteException;
 }

@@ -92,7 +92,7 @@ public class UsersServiceImpl extends UnicastRemoteObject implements UsersServic
     }
 
     @Override
-    public ArrayList<Racing> getAllRacingByUserId(int id) {
+    public ArrayList<Racing> getAllRacingsByUserId(int id) throws RemoteException {
         ArrayList<RacingUser> racingUser = racingUsersRepository.getRacingsUserByUserId(id);
         ArrayList<Racing> racings = new ArrayList<>();
         if (racingUser == null){
