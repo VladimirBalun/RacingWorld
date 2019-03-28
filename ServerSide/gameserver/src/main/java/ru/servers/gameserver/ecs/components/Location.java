@@ -16,7 +16,12 @@
 
 package ru.servers.gameserver.ecs.components;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import ru.servers.gameserver.math.algebra.vectors.Vector3;
 
 @Getter
