@@ -75,6 +75,23 @@ public class UsersServiceImpl extends UnicastRemoteObject implements UsersServic
     }
 
     @Override
+    public boolean isExist(String email, String password) throws RemoteException {
+        User user = usersRepository.findByEmail(email);
+        if (user == null) {
+            log.warn("User was not found by email: ".concat(email));
+            return false;
+        }
+        if (!user.getPassword().equals(password)) {
+            log.warn("User's password was not confirmed. Password: ".concat(password));
+            return false;
+        } else {
+            log.trace("User was found by email and password. Email: "
+                    .concat(email).concat("; password: ").concat(password));
+        }
+        return true;
+    }
+
+    @Override
     public ArrayList<Racing> getAllRacingByUserId(int id) {
         ArrayList<RacingUser> racingUser = racingUsersRepository.getRacingsUserByUserId(id);
         ArrayList<Racing> racings = new ArrayList<>();
