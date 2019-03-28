@@ -16,13 +16,7 @@
 
 "use strict";
 
-const news = require("./data/service/news-service");
+import Server from "./Server";
 
-module.exports.route = (server) => {
-
-    server.get("/news", async (request, response) => response.status(200).json(await news.getAllNews()));
-    server.get("/news/:id", async (request, response) => response.status(200).json(await news.getNewsByID(request.params.id)));
-    server.post("/news", async (request, response) => response.status(200).json(await news.insertNews(request.body)));
-    server.delete("/news/:id", async (request, response) => response.status(200).json(await news.removeNews(request.params.id)));
-
-};
+const server = new Server();
+server.start(8090);

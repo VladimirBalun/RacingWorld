@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "max-line-length": {
+      "options": [120]
+    },
+    "semicolon": [true]
+  }
+}

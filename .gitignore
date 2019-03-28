@@ -18,8 +18,11 @@ ClientSide/Libs/*
 WebSite/.idea/*
 WebSite/client/.idea/*
 WebSite/server/.idea/*
+WebSite/ts-server/.idea/*
 
 WebSite/client/build/*
+WebSite/ts-server/build/*
 
 WebSite/client/node_modules/*
 WebSite/server/node_modules/*
+WebSite/ts-server/node_modules/*

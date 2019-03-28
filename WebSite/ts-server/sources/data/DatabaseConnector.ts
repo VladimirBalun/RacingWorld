@@ -17,24 +17,22 @@
 "use strict";
 
 const mysql = require("mysql");
-const databaseConfiguration = require("../../../resources/configuration/database");
 
 const log4js = require("log4js");
 const log = log4js.getLogger(__filename);
 log.level = "debug";
 
-const connection = mysql.createConnection({
-    host : databaseConfiguration.host,
-    user : databaseConfiguration.user,
-    password : databaseConfiguration.password,
-    database: databaseConfiguration.database
-});
+class MySQLConnector {
 
-connection.connect((error) => {
-    if (error) {
-        log.fatal(`Error, connection with database was not set. Cause: ${error}`);
-        process.exit(1);
+    public static getDatabase() {
+        return mysql.createConnection({
+            host : "localhost",
+            user : "root",
+            password : "admin",
+            database: "RacingWorld"
+        });
     }
-});
 
-module.exports = connection;
+}
+
+export default MySQLConnector;
