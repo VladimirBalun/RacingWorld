@@ -75,7 +75,7 @@ public class UsersServiceImpl extends UnicastRemoteObject implements UsersServic
     }
 
     @Override
-    public ArrayList<Racing> getAllRacingById(int id) {
+    public ArrayList<Racing> getAllRacingByUserId(int id) {
         ArrayList<RacingUser> racingUser = racingUsersRepository.getRacingsUserByUserId(id);
         ArrayList<Racing> racings = new ArrayList<>();
         if (racingUser == null){
