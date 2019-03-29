@@ -30,16 +30,15 @@
         data() {
             return {
                 title: "Main page"
-            }
+            };
         }
     };
 
 </script>
 
-<style scoped>
+<style scoped lang="sass">
 
-    h1 {
-        color: green;
-    }
+    h1
+        color: green
 
 </style>

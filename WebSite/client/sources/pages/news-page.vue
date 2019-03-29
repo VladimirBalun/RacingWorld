@@ -30,16 +30,15 @@
         data() {
             return {
                 title: "News page"
-            }
+            };
         }
     };
 
 </script>
 
-<style scoped>
+<style scoped lang="sass">
 
-    h1 {
-        color: red;
-    }
+    h1
+        color: red
 
 </style>

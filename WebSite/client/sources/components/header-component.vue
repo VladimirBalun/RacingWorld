@@ -17,17 +17,16 @@
 <template>
 
   <header>
-    <nav class="main-menu">
-      <router-link to="/" class="nav-button">RacingWorld</router-link>
-      <router-link to="/news" class="nav-button">News</router-link>
-      <router-link to="/forum" class="nav-button">Forum</router-link>
-    </nav>
+      <nav class="main-menu">
+          <router-link to="/" class="nav-button">RacingWorld</router-link>
+          <router-link to="/news" class="nav-button">News</router-link>
+          <router-link to="/forum" class="nav-button">Forum</router-link>
+      </nav>
 
-    <div class="input">
-      <a href="#" class="login">Login</a>
-      <span></span>
-      <a href="#">Sign up</a>
-    </div>
+      <div class="input">
+          <a href="#" class="login">Login</a>
+          <a href="#">Sign Up</a>
+      </div>
   </header>
 
 </template>
@@ -36,50 +35,37 @@
 
     "use strict";
 
-    export default {}
+    export default {};
 
 </script>
 
-<style scoped>
+<style scoped lang="sass">
 
-  header {
-    background: rgba(0,0,0,.9);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  header
+      background: rgba(0,0,0,.9)
+      display: flex
+      justify-content: space-between
+      align-items: center
+      padding: 0 15px 0 15px
 
   .main-menu a,
-  .input a {
-    display: inline-block;
-    color: #a3a3a3;
-    padding: 15px;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: 20px;
-    text-decoration: none;
-    transition: 0.3s;
-  }
+  .input a
+      display: inline-block
+      color: #a3a3a3
+      padding: 15px 10px 15px 10px
+      font-family: 'Roboto Condensed', sans-serif
+      font-size: 18px
+      text-decoration: none
+      transition: 0.3s
 
   .main-menu a:hover,
-  .input a:hover {
-    color: #ff0033;
-  }
+  .input a:hover
+      color: #ff0033
 
-  .login {
-    position: relative;
-  }
+  .login
+      position: relative
 
-  .login::before {
-    content: '/';
-    position: absolute;
-    top: 50%;
-    transform: translate(50%, -50%);
-    right: 0;
-    color: #a3a3a3;
-  }
-
-  .login:hover::before {
-    color: #a3a3a3;
-  }
+  .login:hover::before
+      color: #a3a3a3
 
 </style>

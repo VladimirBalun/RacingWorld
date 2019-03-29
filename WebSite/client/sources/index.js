@@ -26,11 +26,11 @@ import headerComponent from "./components/header-component";
 
 Vue.use(VueResource);
 
-new Vue({
+const vue = new Vue({
     el : "#app",
-    store: store,
-    router: router,
+    store,
+    router,
     components : {
-        headerComponent: headerComponent
+        headerComponent
     }
-});
+})();
