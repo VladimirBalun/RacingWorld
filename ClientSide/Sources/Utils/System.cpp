@@ -18,7 +18,24 @@
 
 int Utils::getCountProcessesors() noexcept
 {
-	SYSTEM_INFO	sysInfo;
-	GetSystemInfo(&sysInfo);
-	return sysInfo.dwNumberOfProcessors;
+    SYSTEM_INFO	sysInfo;
+    GetSystemInfo(&sysInfo);
+    return sysInfo.dwNumberOfProcessors;
+}
+
+bool Utils::is64Windows() noexcept
+{
+    bool is64Architecture = true;
+    if (FALSE == GetSystemWow64DirectoryW(nullptr, 0u))
+    {
+        const int lastError = GetLastError();
+        if (ERROR_CALL_NOT_IMPLEMENTED == lastError)
+            is64Architecture = false;
+    }
+    return is64Architecture;
+}
+
+bool Utils::is32Windows() noexcept
+{
+    return !is64Windows();
 }

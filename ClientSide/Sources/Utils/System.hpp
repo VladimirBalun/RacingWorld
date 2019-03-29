@@ -22,6 +22,11 @@
 #include "Debug.hpp"
 
 namespace Utils {
-	int getCountProcessesors() noexcept;
+
+    int getCountProcessesors() noexcept;
+
+    bool is64Windows() noexcept;
+
+    bool is32Windows() noexcept;
 
 }
