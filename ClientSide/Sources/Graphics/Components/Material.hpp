@@ -34,6 +34,9 @@ namespace Graphics { namespace Components {
             : mAmbientColor(ambient), mDiffuseColor(diffuse), mSpecularColor(specular), mTexture(texture), mShininess(shininess) {}
         GLboolean isInitialized() const noexcept;
         GLboolean isExistTexture() const noexcept;
+        GLvoid setAmbientColor(const Math::Vector3<GLfloat>& color) noexcept;
+        GLvoid setDiffuseColor(const Math::Vector3<GLfloat>& color) noexcept;
+        GLvoid setSpecularColor(const Math::Vector3<GLfloat>& color) noexcept;
         const Math::Vector3<GLfloat>& getAmbientColor() const noexcept;
         const Math::Vector3<GLfloat>& getDiffuseColor() const noexcept;
         const Math::Vector3<GLfloat>& getSpecularColor() const noexcept;

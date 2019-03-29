@@ -32,15 +32,16 @@ namespace Graphics { namespace Tools {
         Vector<Components::Material> material;
     };
 
+    // State machine
     class MtlParser
     {
     public:
-        static void parse(const String& currentDirectory, const String& mtlFileName,
+        static GLvoid parse(const String& currentDirectory, const String& mtlFileName,
             MaterialsData& materials, Memory::Allocators::LinearAllocator& allocator) noexcept;
     private:
-        static void parseMaterial(const String& currentDirectory, char* iterator, MaterialsData& materials) noexcept;
-        static GLfloat parserShininess(char* line) noexcept;
-        static void parseColor(char* line, Math::Vector3f& color) noexcept;
+        static String parseName(const char* iterator, Memory::Allocators::LinearAllocator& allocator) noexcept;
+        static Math::Vector3f parseColor(const char* iterator) noexcept;
+        static GLfloat parserShininess(const char* iterator) noexcept;
     };
 
 } }

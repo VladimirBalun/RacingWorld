@@ -30,6 +30,21 @@ GLboolean Graphics::Components::Material::isExistTexture() const noexcept
     return mTexture.isInitialized();
 }
 
+GLvoid Graphics::Components::Material::setAmbientColor(const Math::Vector3<GLfloat>& color) noexcept
+{
+    mAmbientColor = color;
+}
+
+GLvoid Graphics::Components::Material::setDiffuseColor(const Math::Vector3<GLfloat>& color) noexcept
+{
+    mDiffuseColor = color;
+}
+
+GLvoid Graphics::Components::Material::setSpecularColor(const Math::Vector3<GLfloat>& color) noexcept
+{
+    mSpecularColor = color;
+}
+
 const Math::Vector3<GLfloat>& Graphics::Components::Material::getAmbientColor() const noexcept
 {
     return mAmbientColor;
