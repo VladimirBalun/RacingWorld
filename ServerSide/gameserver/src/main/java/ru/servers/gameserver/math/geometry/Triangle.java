@@ -18,7 +18,7 @@ package ru.servers.gameserver.math.geometry;
 
 import lombok.*;
 import ru.servers.gameserver.math.algebra.vectors.Vector2;
-import ru.servers.gameserver.math.algebra.vectors.Vectors;
+import ru.servers.gameserver.math.algebra.vectors.VectorsUtil;
 
 @Getter
 @Setter
@@ -33,17 +33,17 @@ public class Triangle {
     private Vector2 thirdPoint;
 
     public double getPerimeter(){
-        double firstSide = Vectors.getLengthBetweenTwoVectors(firstPoint, secondPoint);
-        double secondSide = Vectors.getLengthBetweenTwoVectors(secondPoint, thirdPoint);
-        double thirdSide = Vectors.getLengthBetweenTwoVectors(thirdPoint, firstPoint);
+        double firstSide = VectorsUtil.getLengthBetweenTwoVectors(firstPoint, secondPoint);
+        double secondSide = VectorsUtil.getLengthBetweenTwoVectors(secondPoint, thirdPoint);
+        double thirdSide = VectorsUtil.getLengthBetweenTwoVectors(thirdPoint, firstPoint);
         return firstSide + secondSide + thirdSide;
     }
 
     public double getArea(){
         double perimeter = getPerimeter();
-        double firstSide = Vectors.getLengthBetweenTwoVectors(firstPoint, secondPoint);
-        double secondSide = Vectors.getLengthBetweenTwoVectors(secondPoint, thirdPoint);
-        double thirdSide = Vectors.getLengthBetweenTwoVectors(thirdPoint, firstPoint);
+        double firstSide = VectorsUtil.getLengthBetweenTwoVectors(firstPoint, secondPoint);
+        double secondSide = VectorsUtil.getLengthBetweenTwoVectors(secondPoint, thirdPoint);
+        double thirdSide = VectorsUtil.getLengthBetweenTwoVectors(thirdPoint, firstPoint);
         return Math.sqrt(perimeter * (perimeter-firstSide) * (perimeter-secondSide) * (perimeter-thirdSide));
     }
 

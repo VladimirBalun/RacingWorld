@@ -16,8 +16,12 @@
 
 package ru.servers.gameserver.math;
 
-public class Constants {
+public class ConstantsUtil {
 
+    private ConstantsUtil() {
+        throw new UnsupportedOperationException("instance for class ConstantsUtil can not be created");
+    }
+    
     public final static double DEGREES_TO_RADIANS = 0.0174532925199432957692369076848;
     public final static double RADIANS_TO_DEGREES = 57.295779513082320876798154814105;
 

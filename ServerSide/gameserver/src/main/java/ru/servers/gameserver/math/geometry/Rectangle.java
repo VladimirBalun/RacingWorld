@@ -18,7 +18,7 @@ package ru.servers.gameserver.math.geometry;
 
 import lombok.*;
 import ru.servers.gameserver.math.algebra.vectors.Vector2;
-import ru.servers.gameserver.math.algebra.vectors.Vectors;
+import ru.servers.gameserver.math.algebra.vectors.VectorsUtil;
 
 @Getter
 @Setter
@@ -43,8 +43,8 @@ public class Rectangle {
     }
 
     public double getLength(){
-        double firstDifference = Vectors.getLengthBetweenTwoVectors(leftTopPoint, rightTopPoint);
-        double secondDifference = Vectors.getLengthBetweenTwoVectors(leftTopPoint, leftBottomPoint);
+        double firstDifference = VectorsUtil.getLengthBetweenTwoVectors(leftTopPoint, rightTopPoint);
+        double secondDifference = VectorsUtil.getLengthBetweenTwoVectors(leftTopPoint, leftBottomPoint);
         return firstDifference > secondDifference ? firstDifference : secondDifference;
     }
 
@@ -53,8 +53,8 @@ public class Rectangle {
     }
 
     public double getWidth(){
-        double firstDifference = Vectors.getLengthBetweenTwoVectors(leftTopPoint, rightTopPoint);
-        double secondDifference = Vectors.getLengthBetweenTwoVectors(leftTopPoint, leftBottomPoint);
+        double firstDifference = VectorsUtil.getLengthBetweenTwoVectors(leftTopPoint, rightTopPoint);
+        double secondDifference = VectorsUtil.getLengthBetweenTwoVectors(leftTopPoint, leftBottomPoint);
         return firstDifference < secondDifference ? firstDifference : secondDifference;
     }
 

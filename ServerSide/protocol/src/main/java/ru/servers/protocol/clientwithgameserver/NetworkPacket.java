@@ -18,7 +18,7 @@ package ru.servers.protocol.clientwithgameserver;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.servers.protocol.clientwithgameserver.common.Primitives;
+import ru.servers.protocol.clientwithgameserver.common.PrimitivesUtil;
 
 import java.nio.ByteBuffer;
 
@@ -33,10 +33,10 @@ public class NetworkPacket {
     protected byte[] buffer;
 
     protected final static byte POSITION_PACKET_TYPE = 0;
-    protected final static byte SIZE_PACKET_TYPE = Primitives.BYTE_SIZE;
+    protected final static byte SIZE_PACKET_TYPE = PrimitivesUtil.BYTE_SIZE;
 
     protected final static byte POSITION_PACKET_NUMBER = 1;
-    protected final static byte SIZE_PACKET_NUMBER = Primitives.INT_SIZE;
+    protected final static byte SIZE_PACKET_NUMBER = PrimitivesUtil.INT_SIZE;
 
     protected final static byte SIZE_NETWORK_PACKET = SIZE_PACKET_TYPE + SIZE_PACKET_NUMBER;
 

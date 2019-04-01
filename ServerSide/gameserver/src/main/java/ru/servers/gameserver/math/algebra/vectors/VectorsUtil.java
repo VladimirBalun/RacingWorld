@@ -16,21 +16,25 @@
 
 package ru.servers.gameserver.math.algebra.vectors;
 
-import ru.servers.gameserver.math.Constants;
+import ru.servers.gameserver.math.ConstantsUtil;
 
-public class Vectors {
+public final class VectorsUtil {
+
+    private VectorsUtil() {
+        throw new UnsupportedOperationException("instance for class VectorsUtil can not be created");
+    }
 
     public static double getAngleBetweenVectors(Vector2 vector, Vector2 anotherVector){
         double scalar = vector.dot(anotherVector);
         double determinant = vector.getX()*anotherVector.getY() - vector.getY()*anotherVector.getX();
-        return Math.atan2(determinant, scalar) * Constants.RADIANS_TO_DEGREES;
+        return Math.atan2(determinant, scalar) * ConstantsUtil.RADIANS_TO_DEGREES;
     }
 
     public static double getAngleBetweenVectors(Vector3 vector, Vector3 anotherVector){
         double scalar = vector.dot(anotherVector);
         double lenVectorWithoutSqrt = vector.getX() + vector.getY() + vector.getZ();
         double lenAnotherVectorWithoutSqrt = anotherVector.getX() + anotherVector.getY() + anotherVector.getZ();
-        return Math.acos(scalar / Math.sqrt(lenVectorWithoutSqrt*lenAnotherVectorWithoutSqrt)) * Constants.RADIANS_TO_DEGREES;
+        return Math.acos(scalar / Math.sqrt(lenVectorWithoutSqrt*lenAnotherVectorWithoutSqrt)) * ConstantsUtil.RADIANS_TO_DEGREES;
     }
 
     public static double getLengthBetweenTwoVectors(Vector2 vector, Vector2 anotherVector){

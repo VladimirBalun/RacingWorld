@@ -18,7 +18,7 @@ package ru.servers.protocol.clientwithgameserver.fromserver;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.servers.protocol.clientwithgameserver.common.Primitives;
+import ru.servers.protocol.clientwithgameserver.common.PrimitivesUtil;
 import ru.servers.protocol.clientwithgameserver.NetworkPacket;
 import ru.servers.protocol.clientwithgameserver.PacketType;
 
@@ -35,10 +35,10 @@ public final class LoginAnswerPacket extends NetworkPacket implements PacketFrom
     // [9] - result of login
 
     private final static byte POSITION_TOKEN = 5;
-    private final static byte SIZE_TOKEN = Primitives.INT_SIZE;
+    private final static byte SIZE_TOKEN = PrimitivesUtil.INT_SIZE;
 
     private final static byte POSITION_RESULT_LOGIN = 9;
-    private final static byte SIZE_RESULT_LOGIN = Primitives.BYTE_SIZE;
+    private final static byte SIZE_RESULT_LOGIN = PrimitivesUtil.BYTE_SIZE;
 
     public final static byte SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_RESULT_LOGIN + SIZE_TOKEN;
 

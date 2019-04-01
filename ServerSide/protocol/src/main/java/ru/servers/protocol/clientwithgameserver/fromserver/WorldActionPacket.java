@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 
-import ru.servers.protocol.clientwithgameserver.common.Primitives;
+import ru.servers.protocol.clientwithgameserver.common.PrimitivesUtil;
 import ru.servers.protocol.clientwithgameserver.NetworkPacket;
 import ru.servers.protocol.clientwithgameserver.PacketType;
 
@@ -42,11 +42,11 @@ public class WorldActionPacket extends NetworkPacket implements PacketFromServer
     private final byte countPlayers;
 
     private final static byte POSITION_COUNT_PLAYERS = 5;
-    private final static byte SIZE_COUNT_PLAYERS = Primitives.BYTE_SIZE;
+    private final static byte SIZE_COUNT_PLAYERS = PrimitivesUtil.BYTE_SIZE;
 
     private final static byte START_POSITION_PLAYER_POSITION = 6;
     private final static byte START_POSITION_PLAYER_DIRECTION = 18;
-    private final static byte VECTOR_SIZE = Primitives.FLOAT_SIZE * 3;
+    private final static byte VECTOR_SIZE = PrimitivesUtil.FLOAT_SIZE * 3;
     private final static byte PLAYER_LOCATION_SIZE = VECTOR_SIZE * 2;
 
     private final static byte SIZE_PACKET_WITHOUT_PLAYERS = SIZE_NETWORK_PACKET + SIZE_COUNT_PLAYERS;
@@ -67,30 +67,30 @@ public class WorldActionPacket extends NetworkPacket implements PacketFromServer
     public void setPositionPlayer(int numberPlayer, float xPos, float yPos, float zPos) {
         checkingNumberPlayer(numberPlayer);
         ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1), xPos);
-        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE, yPos);
-        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE * 2, zPos);
+        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + PrimitivesUtil.FLOAT_SIZE, yPos);
+        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + PrimitivesUtil.FLOAT_SIZE * 2, zPos);
     }
 
     public void setDirectionPlayer(int numberPlayer, float xDir, float yDir, float zDir){
         checkingNumberPlayer(numberPlayer);
         ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1), xDir);
-        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE, yDir);
-        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE * 2, zDir);
+        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + PrimitivesUtil.FLOAT_SIZE, yDir);
+        ByteBuffer.wrap(buffer).putFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + PrimitivesUtil.FLOAT_SIZE * 2, zDir);
     }
 
     /* TODO: 19.03.2019 add methods getPosition and getDirection after rendering module Math
     public Vector3 getPositionPlayer(int numberPlayer){
         return new Vector3(
                 ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1)),
-                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE),
-                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE * 2),
+                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + PrimitivesUtil.FLOAT_SIZE),
+                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_POSITION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + PrimitivesUtil.FLOAT_SIZE * 2),
         );
     }
     public Vector3 getDirectionPlayer(int numberPlayer){
         return new Vector3(
                 ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1)),
-                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE),
-                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + Primitives.FLOAT_SIZE * 2),
+                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + PrimitivesUtil.FLOAT_SIZE),
+                ByteBuffer.wrap(buffer).getFloat(START_POSITION_PLAYER_DIRECTION + PLAYER_LOCATION_SIZE * (numberPlayer - 1) + PrimitivesUtil.FLOAT_SIZE * 2),
         );
     }
     */

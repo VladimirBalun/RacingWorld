@@ -18,7 +18,7 @@ package ru.servers.protocol.clientwithgameserver.toserver;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.servers.protocol.clientwithgameserver.common.Primitives;
+import ru.servers.protocol.clientwithgameserver.common.PrimitivesUtil;
 import ru.servers.protocol.clientwithgameserver.NetworkPacket;
 
 import java.nio.ByteBuffer;
@@ -33,7 +33,7 @@ public class LogoutPacket extends NetworkPacket implements PacketFromClient {
     // [5...8] - player token
 
     private final static byte POSITION_TOKEN = 5;
-    private final static byte SIZE_TOKEN = Primitives.INT_SIZE;
+    private final static byte SIZE_TOKEN = PrimitivesUtil.INT_SIZE;
 
     public final static short SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_TOKEN;
 

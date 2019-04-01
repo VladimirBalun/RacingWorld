@@ -19,17 +19,17 @@ package ru.servers.gameserver.math.algebra.vectors;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class VectorsTest {
+public class VectorsUtilTest {
 
     @Test // angle = atan(v1 * v2, det(v1 && v2)) * 57.29
     public void gettingAngleBetweenVectors2d(){
-        double angle = Vectors.getAngleBetweenVectors(new Vector2(1.0, 1.0), new Vector2(0.0, 1.0));
+        double angle = VectorsUtil.getAngleBetweenVectors(new Vector2(1.0, 1.0), new Vector2(0.0, 1.0));
         Assert.assertEquals(45.0, angle, 0.1);
     }
 
     @Test // angle = acos(v1 * v2 / (|v1| * |v2|)) * 57.29
     public void gettingAngleBetweenVectors3d(){
-        double angle = Vectors.getAngleBetweenVectors(new Vector3(1.0, 1.0, 1.0), new Vector3(0.5, 0.5, 0.5));
+        double angle = VectorsUtil.getAngleBetweenVectors(new Vector3(1.0, 1.0, 1.0), new Vector3(0.5, 0.5, 0.5));
         Assert.assertEquals(45.0, angle, 0.1);
     }
 

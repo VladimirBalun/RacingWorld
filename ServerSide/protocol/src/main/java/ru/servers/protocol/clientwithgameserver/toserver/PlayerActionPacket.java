@@ -18,7 +18,7 @@ package ru.servers.protocol.clientwithgameserver.toserver;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.servers.protocol.clientwithgameserver.common.Primitives;
+import ru.servers.protocol.clientwithgameserver.common.PrimitivesUtil;
 import ru.servers.protocol.clientwithgameserver.NetworkPacket;
 
 import java.nio.ByteBuffer;
@@ -37,19 +37,19 @@ public class PlayerActionPacket extends NetworkPacket implements PacketFromClien
     // [12] - D key state(is pressed or not)
 
     private final static byte POSITION_TOKEN = 5;
-    private final static byte SIZE_TOKEN = Primitives.INT_SIZE;
+    private final static byte SIZE_TOKEN = PrimitivesUtil.INT_SIZE;
 
     private final static byte POSITION_W_KEY_STATE = 9;
-    private final static byte SIZE_W_KEY_STATE = Primitives.BYTE_SIZE;
+    private final static byte SIZE_W_KEY_STATE = PrimitivesUtil.BYTE_SIZE;
 
     private final static byte POSITION_S_KEY_STATE = 10;
-    private final static byte SIZE_S_KEY_STATE = Primitives.BYTE_SIZE;
+    private final static byte SIZE_S_KEY_STATE = PrimitivesUtil.BYTE_SIZE;
 
     private final static byte POSITION_A_KEY_STATE = 11;
-    private final static byte SIZE_A_KEY_STATE = Primitives.BYTE_SIZE;
+    private final static byte SIZE_A_KEY_STATE = PrimitivesUtil.BYTE_SIZE;
 
     private final static byte POSITION_D_KEY_STATE = 12;
-    private final static byte SIZE_D_KEY_STATE = Primitives.BYTE_SIZE;
+    private final static byte SIZE_D_KEY_STATE = PrimitivesUtil.BYTE_SIZE;
 
     public final static short SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_TOKEN +
             SIZE_W_KEY_STATE + SIZE_S_KEY_STATE + SIZE_A_KEY_STATE + SIZE_D_KEY_STATE;

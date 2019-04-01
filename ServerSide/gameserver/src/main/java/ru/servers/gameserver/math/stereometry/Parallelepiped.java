@@ -1,7 +1,7 @@
 package ru.servers.gameserver.math.stereometry;
 
 import ru.servers.gameserver.math.algebra.vectors.Vector3;
-import ru.servers.gameserver.math.algebra.vectors.Vectors;
+import ru.servers.gameserver.math.algebra.vectors.VectorsUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,15 +32,15 @@ public class Parallelepiped {
     }
 
     public double getLength() {
-       return Vectors.getLengthBetweenTwoVectors(points[FIRST_POINT], points[MIDDLE_POINT]);
+       return VectorsUtil.getLengthBetweenTwoVectors(points[FIRST_POINT], points[MIDDLE_POINT]);
     }
 
     public double getWidth() {
-        return Vectors.getLengthBetweenTwoVectors(points[SECOND_POINT], points[MIDDLE_POINT]);
+        return VectorsUtil.getLengthBetweenTwoVectors(points[SECOND_POINT], points[MIDDLE_POINT]);
     }
 
     public double getHeight() {
-        return Vectors.getLengthBetweenTwoVectors(points[MIDDLE_POINT], points[THIRD_POINT]);
+        return VectorsUtil.getLengthBetweenTwoVectors(points[MIDDLE_POINT], points[THIRD_POINT]);
     }
 
     public boolean isInside(Vector3 vertex) {

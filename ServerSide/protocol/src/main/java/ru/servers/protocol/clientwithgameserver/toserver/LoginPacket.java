@@ -18,7 +18,7 @@ package ru.servers.protocol.clientwithgameserver.toserver;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.servers.protocol.clientwithgameserver.common.Primitives;
+import ru.servers.protocol.clientwithgameserver.common.PrimitivesUtil;
 import ru.servers.protocol.clientwithgameserver.NetworkPacket;
 
 import java.nio.ByteBuffer;
@@ -43,9 +43,9 @@ public final class LoginPacket extends NetworkPacket implements PacketFromClient
     private final static byte SIZE_PASSWORD = 32;
 
     private final static short POSITION_OF_SIZE_EMAIL = 259;
-    private final static byte SIZE_OF_EMAIL_SIZE = Primitives.SHORT_SIZE;
+    private final static byte SIZE_OF_EMAIL_SIZE = PrimitivesUtil.SHORT_SIZE;
     private final static short POSITION_OF_SIZE_PASSWORD = 293;
-    private final static byte SIZE_OF_PASSWORD_SIZE = Primitives.BYTE_SIZE;
+    private final static byte SIZE_OF_PASSWORD_SIZE = PrimitivesUtil.BYTE_SIZE;
 
     public final static short SIZE_PACKET = SIZE_NETWORK_PACKET + SIZE_EMAIL +
             SIZE_PASSWORD + SIZE_OF_EMAIL_SIZE + SIZE_OF_PASSWORD_SIZE;

@@ -19,6 +19,7 @@ package ru.servers.gameserver.math.algebra;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import ru.servers.gameserver.math.algebra.vectors.Vector3;
@@ -26,6 +27,7 @@ import ru.servers.gameserver.math.algebra.vectors.Vector3;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class Quaternion {

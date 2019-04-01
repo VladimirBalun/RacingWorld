@@ -19,14 +19,16 @@ package ru.servers.gameserver.math.algebra.vectors;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class Vector3 {
 
     private double x;
