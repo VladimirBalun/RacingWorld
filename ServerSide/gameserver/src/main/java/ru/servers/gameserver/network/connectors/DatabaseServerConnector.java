@@ -16,7 +16,9 @@
 
 package ru.servers.gameserver.network.connectors;
 
+import ru.servers.protocol.gameserverwithdatabaseserver.service.MapsService;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.RacingService;
+import ru.servers.protocol.gameserverwithdatabaseserver.service.RunningRacingsService;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.UsersService;
 
 import java.io.IOException;
@@ -30,6 +32,8 @@ public class DatabaseServerConnector {
 
     private UsersService usersService;
     private RacingService racingService;
+    private RunningRacingsService runningRacingsService;
+    private MapsService mapsService;
 
     public DatabaseServerConnector() throws Exception {
         Properties properties = new Properties();
@@ -41,6 +45,8 @@ public class DatabaseServerConnector {
 
         usersService = (UsersService) Naming.lookup(properties.getProperty("databaseServer.usersService.path"));
         racingService = (RacingService) Naming.lookup(properties.getProperty("databaseServer.racesService.path"));
+        runningRacingsService = (RunningRacingsService) Naming.lookup(properties.getProperty("databaseServer.runningRacingsService.path"));
+        mapsService = (MapsService) Naming.lookup(properties.getProperty("databaseServer.mapsService.path"));
     }
 
     public UsersService getUsersService() {
@@ -49,6 +55,14 @@ public class DatabaseServerConnector {
 
     public RacingService getRacesService(){
         return racingService;
+    }
+
+    public RunningRacingsService getRunningRacingsService(){
+        return runningRacingsService;
+    }
+
+    public MapsService getMapsService(){
+        return mapsService;
     }
 
 }
