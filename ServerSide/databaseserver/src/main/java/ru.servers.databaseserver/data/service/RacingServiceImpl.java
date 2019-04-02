@@ -23,7 +23,8 @@ import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.RacingService;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.List;
+
 @Log4j
 public class RacingServiceImpl implements RacingService {
 
@@ -62,11 +63,12 @@ public class RacingServiceImpl implements RacingService {
     }
 
     @Override
-    public ArrayList<Racing> getAllRacings() throws RemoteException {
-        ArrayList<Racing> racings = racingRepository.getAllRacings();
+    public List<Racing> getAllRacings() throws RemoteException {
+        List<Racing> racings = racingRepository.getAllRacings();
         if (racings == null){
             log.warn("There is no completed race");
         }
         return racings;
     }
+
 }

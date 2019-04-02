@@ -31,4 +31,5 @@ public interface MapsRepository {
     Map findById(int id);
 
     Map findByName(String mapName);
+
 }

@@ -25,6 +25,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 @Log4j
 public class RacingRepositoryImpl implements RacingRepository {
@@ -62,30 +63,30 @@ public class RacingRepositoryImpl implements RacingRepository {
     public boolean save(Racing newRacing) {
         final String sqlQuery = String.format("INSERT INTO racings (start_time, id_map, count_players, total_time) VALUES ('%s', %d, %d, '%s')",
                 sdf.format(newRacing.getStartTime()), newRacing.getMap().getId(), newRacing.getCountPlayers(), sdf.format(newRacing.getTotalTime()));
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
 
     }
 
     @Override
     public boolean removeById(int id) {
         final String sqlQuery = String.format("DELETE FROM racings WHERE id = %d", id);
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean updateById(int id, Racing newRacing) {
         final String sqlQuery = String.format("UPDATE racings SET start_time ='%s', id_map =%d, count_players = %d, total_time = '%s' WHERE id = %d",
                 sdf.format(newRacing.getStartTime()), newRacing.getMap().getId(), newRacing.getCountPlayers(), sdf.format(newRacing.getTotalTime()), id);
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
-    public ArrayList<Racing> getAllRacings() {
+    public List<Racing> getAllRacings() {
         final String sqlQuery = "SELECT * FROM racings";
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);
             try (Statement statement = connection.createStatement()) {
-                ArrayList<Racing> racingList = new ArrayList<>();
+                List<Racing> racingList = new ArrayList<>();
                 ResultSet resultSet = statement.executeQuery(sqlQuery);
                 while (resultSet.next()) {
                     Racing racing = new Racing();

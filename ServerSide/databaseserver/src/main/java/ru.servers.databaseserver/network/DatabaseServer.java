@@ -17,6 +17,9 @@
 package ru.servers.databaseserver.network;
 
 import lombok.extern.log4j.Log4j;
+import ru.servers.databaseserver.data.service.MapsServiceImpl;
+import ru.servers.databaseserver.data.service.RacingServiceImpl;
+import ru.servers.databaseserver.data.service.RunningRacingsServiceImpl;
 import ru.servers.databaseserver.data.service.UsersServiceImpl;
 
 import java.io.IOException;
@@ -53,7 +56,10 @@ public class DatabaseServer implements Server {
     public void start() throws RemoteException {
         System.setProperty(serverRMIHostName, serverAddress);
         Registry registry = LocateRegistry.createRegistry(serverPort);
+        registry.rebind("MapsService", new MapsServiceImpl());
         registry.rebind("UsersService", new UsersServiceImpl());
+        registry.rebind("RacesService", new RacingServiceImpl());
+        registry.rebind("RunningRacesService", new RunningRacingsServiceImpl());
         log.info("Database server was started successfully");
     }
 

@@ -66,19 +66,19 @@ public class UsersRepositoryImpl implements UsersRepository {
     @Override
     public boolean save(User newUser) {
         final String sqlQuery = String.format("INSERT INTO users (email, password) VALUES ('%s', '%s')", newUser.getEmail(), newUser.getPassword());
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean removeByEmail(String email) {
         final String sqlQuery = String.format("DELETE FROM users WHERE email = '%s'", email);
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean updateByEmail(String email, User newUser) {
         final String sqlQuery = String.format("UPDATE users SET email='%s', password='%s' WHERE email='%s'", newUser.getEmail(), newUser.getPassword(), email);
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
 }

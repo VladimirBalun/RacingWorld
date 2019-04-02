@@ -4,7 +4,7 @@ import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface RacingService extends Remote {
 
@@ -14,6 +14,6 @@ public interface RacingService extends Remote {
 
     Racing getRacingByID(int id) throws RemoteException;
 
-    ArrayList<Racing> getAllRacings() throws RemoteException;
+    List<Racing> getAllRacings() throws RemoteException;
 
 }

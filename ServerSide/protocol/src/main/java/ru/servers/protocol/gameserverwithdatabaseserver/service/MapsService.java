@@ -12,4 +12,5 @@ public interface MapsService extends Remote {
     boolean removeMapByName(String name) throws RemoteException;
 
     boolean renameMapById(int id, String newName) throws RemoteException;
+
 }

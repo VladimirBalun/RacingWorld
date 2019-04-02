@@ -29,4 +29,5 @@ public interface PlayingUsersRepository {
     boolean updateById(int id, PlayingUser newPlayingUser);
 
     PlayingUser findById(int id);
+
 }

@@ -18,12 +18,16 @@ package ru.servers.protocol.gameserverwithdatabaseserver.entity;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @EqualsAndHashCode
-public class RacingUser {
+public class RacingUser implements Serializable {
+
+    private static final long serialVersionUID = -3936414118155927610L;
 
     private int id;
     private User user;
@@ -33,4 +37,5 @@ public class RacingUser {
         this.user = user;
         this.racing = racing;
     }
+
 }

@@ -26,10 +26,13 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class Map implements Serializable {
 
+    private static final long serialVersionUID = 6377787069239027900L;
+
     private int id;
     private String name;
 
     public Map(String name){
         this.name = name;
     }
+
 }

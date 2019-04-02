@@ -60,4 +60,5 @@ public class MapsServiceImpl implements MapsService {
         log.debug("Id for map with id: '" + id + "' was changed on '" + newName + "'");
         return mapsRepository.updateNameById(id, map);
     }
+
 }

@@ -20,7 +20,7 @@ import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface UsersService extends Remote {
 
@@ -32,5 +32,6 @@ public interface UsersService extends Remote {
 
     boolean isExist(String email, String password) throws RemoteException;
 
-    ArrayList<Racing> getAllRacingsByUserId(int id) throws RemoteException;
+    List<Racing> getAllRacingsByUserId(int id) throws RemoteException;
+
 }

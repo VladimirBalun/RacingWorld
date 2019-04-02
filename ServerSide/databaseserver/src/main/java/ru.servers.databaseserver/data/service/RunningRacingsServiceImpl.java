@@ -30,15 +30,15 @@ import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.RunningRacingsService;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Log4j
 public class RunningRacingsServiceImpl implements RunningRacingsService {
+
     private MapsRepository mapsRepository = new MapsRepositoryImpl();
     private RunningRacesRepository runningRacesRepository = new RunningRacesRepositoryImpl();
     private PlayingUsersRepository playingUsersRepository = new PlayingUsersRepositoryImpl();
-
 
     @Override
     public boolean startRacing(String mapName) throws RemoteException {
@@ -98,8 +98,8 @@ public class RunningRacingsServiceImpl implements RunningRacingsService {
     }
 
     @Override
-    public ArrayList<RunningRaces> getAllRunningRacing() throws RemoteException {
-        ArrayList<RunningRaces> runningRaces = runningRacesRepository.getAllRacings();
+    public List<RunningRaces> getAllRunningRacing() throws RemoteException {
+        List<RunningRaces> runningRaces = runningRacesRepository.getAllRacings();
         if (runningRaces == null){
             log.warn("There is no active race");
         }

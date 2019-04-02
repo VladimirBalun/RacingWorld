@@ -28,6 +28,8 @@ import java.util.Date;
 @EqualsAndHashCode
 public class Racing implements Serializable {
 
+    private static final long serialVersionUID = -4932366834311350053L;
+
     private int id;
     private Date startTime;
     private Map map;
@@ -40,4 +42,5 @@ public class Racing implements Serializable {
         this.countPlayers = countPlayers;
         this.totalTime = totalTime;
     }
+
 }

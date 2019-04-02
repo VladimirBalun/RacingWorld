@@ -25,6 +25,7 @@ import ru.servers.protocol.gameserverwithdatabaseserver.service.UsersService;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
 
 @Log4j
 public class UsersServiceImpl extends UnicastRemoteObject implements UsersService {
@@ -91,9 +92,9 @@ public class UsersServiceImpl extends UnicastRemoteObject implements UsersServic
     }
 
     @Override
-    public ArrayList<Racing> getAllRacingsByUserId(int id) throws RemoteException {
-        ArrayList<RacingUser> racingUser = racingUsersRepository.getRacingsUserByUserId(id);
-        ArrayList<Racing> racings = new ArrayList<>();
+    public List<Racing> getAllRacingsByUserId(int id) throws RemoteException {
+        List<RacingUser> racingUser = racingUsersRepository.getRacingsUserByUserId(id);
+        List<Racing> racings = new ArrayList<>();
         if (racingUser == null){
             log.warn("No active races found for this user");
         } else {

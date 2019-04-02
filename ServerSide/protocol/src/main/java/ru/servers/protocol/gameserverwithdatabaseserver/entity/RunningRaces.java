@@ -17,6 +17,8 @@
 package ru.servers.protocol.gameserverwithdatabaseserver.entity;
 
 import lombok.*;
+
+import java.io.Serializable;
 import java.util.Date;
 
 @Getter
@@ -24,7 +26,9 @@ import java.util.Date;
 @ToString
 @NoArgsConstructor
 @EqualsAndHashCode
-public class RunningRaces {
+public class RunningRaces implements Serializable {
+
+    private static final long serialVersionUID = -4946862401529845768L;
 
     private int id;
     private Date startTime;
@@ -34,4 +38,5 @@ public class RunningRaces {
         this.startTime = startTime;
         this.map = map;
     }
+
 }

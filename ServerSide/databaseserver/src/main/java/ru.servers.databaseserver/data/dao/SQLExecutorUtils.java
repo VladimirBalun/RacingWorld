@@ -23,7 +23,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 @Log4j
-class SqlExecutor {
+final class SQLExecutorUtils {
+
+    private SQLExecutorUtils() {
+        throw new UnsupportedOperationException("instance for class SQLExecutorUtils can not be created");
+    }
 
     public static boolean executeSQLQuery(String sqlQuery) {
         try (Connection connection = Database.getInstance().getConnection()) {

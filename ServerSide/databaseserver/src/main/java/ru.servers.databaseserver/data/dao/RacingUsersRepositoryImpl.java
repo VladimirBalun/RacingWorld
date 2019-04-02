@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 @Log4j
 public class RacingUsersRepositoryImpl implements RacingUsersRepository {
@@ -57,29 +58,29 @@ public class RacingUsersRepositoryImpl implements RacingUsersRepository {
     public boolean save(RacingUser newRacingUser) {
         final String sqlQuery = String.format("INSERT INTO users_racings (id_user, id_racing) VALUES (%d, %d)",
                 newRacingUser.getUser().getId(), newRacingUser.getRacing().getId());
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean updateById(int id, RacingUser newRacingUser) {
         final String sqlQuery = String.format("UPDATE users_racings SET id_user = %d, id_racing =%d WHERE id = %d",
                 newRacingUser.getUser().getId(), newRacingUser.getRacing().getId(), id);
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean removeById(int id) {
         final String sqlQuery = String.format("DELETE FROM users_racings WHERE id = %d", id);
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
-    public ArrayList<RacingUser> getRacingsUserByUserId(int userID) {
+    public List<RacingUser> getRacingsUserByUserId(int userID) {
         final String sqlQuery = String.format("SELECT * FROM users_racings WHERE id_user ='%d'" , userID);
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);
             try (Statement statement = connection.createStatement()) {
-                ArrayList<RacingUser> racingsUser = new ArrayList<>();
+                List<RacingUser> racingsUser = new ArrayList<>();
                 ResultSet resultSet = statement.executeQuery(sqlQuery);
                 while (resultSet.next()) {
                     RacingUser racingUser = new RacingUser();

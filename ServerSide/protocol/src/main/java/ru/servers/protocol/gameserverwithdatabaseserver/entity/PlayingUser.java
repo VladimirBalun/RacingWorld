@@ -26,6 +26,8 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class PlayingUser implements Serializable {
 
+    private static final long serialVersionUID = -4284748608152638926L;
+
     private int id;
     private User user;
     private RunningRaces runningRaces;

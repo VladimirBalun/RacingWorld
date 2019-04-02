@@ -25,6 +25,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 @Log4j
 public class RunningRacesRepositoryImpl implements RunningRacesRepository {
@@ -60,24 +61,24 @@ public class RunningRacesRepositoryImpl implements RunningRacesRepository {
     public boolean save(RunningRaces newRunningRaces) {
         final String sqlQuery = String.format("INSERT INTO running_racings (start_time, id_map) VALUES ('%s', %d)",
                 sdf.format(newRunningRaces.getStartTime()), newRunningRaces.getMap().getId());
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean updateById(int id, RunningRaces newRunningRaces) {
         final String sqlQuery = String.format("UPDATE running_racings SET start_time ='%s', id_map =%d WHERE id = %d",
                 sdf.format(newRunningRaces.getStartTime()), newRunningRaces.getMap().getId(), id);
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean removeById(int id) {
         final String sqlQuery = String.format("DELETE FROM running_racings WHERE id = %d", id);
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
-    public ArrayList<RunningRaces> getAllRacings() {
+    public List<RunningRaces> getAllRacings() {
         final String sqlQuery = "SELECT * FROM running_racings";
         try (Connection connection = Database.getInstance().getConnection()) {
             connection.setAutoCommit(false);

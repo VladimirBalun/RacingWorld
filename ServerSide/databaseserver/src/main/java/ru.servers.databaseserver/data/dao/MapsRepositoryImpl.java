@@ -24,32 +24,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 @Log4j
 public class MapsRepositoryImpl implements  MapsRepository{
 
     @Override
     public boolean save(Map newMap) {
         final String sqlQuery = String.format("INSERT INTO maps (name) VALUES ('%s')", newMap.getName());
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean removeByName(String nameMap) {
         final String sqlQuery = String.format("DELETE FROM maps WHERE name = '%s'", nameMap);
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean removeById(int id) {
         final String sqlQuery = String.format("DELETE FROM maps WHERE id = %d", id);
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
     public boolean updateNameById(int id, Map newMap) {
         final String sqlQuery = String.format("UPDATE maps SET name='%s' WHERE id = %d", newMap.getName(), id);
-        return SqlExecutor.executeSQLQuery(sqlQuery);
+        return SQLExecutorUtils.executeSQLQuery(sqlQuery);
     }
 
     @Override
