@@ -37,7 +37,7 @@ public class DatabaseServerConnector {
 
     public DatabaseServerConnector() throws Exception {
         Properties properties = new Properties();
-        try (InputStream inputStream = Files.newInputStream(Paths.get("gameserver/src/main/resources/gameserver.properties"))){
+        try (InputStream inputStream = Files.newInputStream(Paths.get("serverside/src/main/resources/serverSide.properties"))){
             properties.load(inputStream);
         } catch (IOException e) {
             throw new IOException("file with server properties was not read.");
