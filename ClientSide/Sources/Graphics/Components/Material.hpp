@@ -26,28 +26,34 @@ namespace Graphics { namespace Components {
     {
     public:
         explicit Material() noexcept = default;
-        explicit Material(const Math::Vector3<GLfloat>& ambient, const Math::Vector3<GLfloat>& diffuse,
-            const Math::Vector3<GLfloat>& specular, GLfloat shininess = 32.0f) noexcept
+        explicit Material(const Math::Vector3f& ambient, const Math::Vector3f& diffuse,
+            const Math::Vector3f& specular, GLfloat shininess = 32.0f) noexcept
             : mAmbientColor(ambient), mDiffuseColor(diffuse), mSpecularColor(specular), mShininess(shininess) {}
-        explicit Material(const Math::Vector3<GLfloat>& ambient, const Math::Vector3<GLfloat>& diffuse,
-            const Math::Vector3<GLfloat>& specular, const Texture2D& texture, GLfloat shininess = 32.0f) noexcept
-            : mAmbientColor(ambient), mDiffuseColor(diffuse), mSpecularColor(specular), mTexture(texture), mShininess(shininess) {}
+        explicit Material(const Math::Vector3f& ambient, const Math::Vector3f& diffuse,
+            const Math::Vector3f& specular, const Texture2D& ambientTexture, const Texture2D& diffuseTexture, GLfloat shininess = 32.0f) noexcept
+            : mAmbientColor(ambient), mDiffuseColor(diffuse), mSpecularColor(specular), mAmbientTexture(ambientTexture), mDiffuseTexture(diffuseTexture), mShininess(shininess) {}
         GLboolean isInitialized() const noexcept;
-        GLboolean isExistTexture() const noexcept;
-        GLvoid setAmbientColor(const Math::Vector3<GLfloat>& color) noexcept;
-        GLvoid setDiffuseColor(const Math::Vector3<GLfloat>& color) noexcept;
-        GLvoid setSpecularColor(const Math::Vector3<GLfloat>& color) noexcept;
-        const Math::Vector3<GLfloat>& getAmbientColor() const noexcept;
-        const Math::Vector3<GLfloat>& getDiffuseColor() const noexcept;
-        const Math::Vector3<GLfloat>& getSpecularColor() const noexcept;
-        const Texture2D& getTexture() const noexcept;
+        GLboolean isExistAmbientTexture() const noexcept;
+        GLboolean isExistDiffuseTexture() const noexcept;
+        GLvoid setAmbientColor(const Math::Vector3f& color) noexcept;
+        GLvoid setDiffuseColor(const Math::Vector3f& color) noexcept;
+        GLvoid setSpecularColor(const Math::Vector3f& color) noexcept;
+        GLvoid setAmbientTexture(const Texture2D& ambientTexture) noexcept;
+        GLvoid setDiffuseTexture(const Texture2D& diffuseTexture) noexcept;
+        GLvoid setShininess(GLfloat shininess) noexcept;
+        const Math::Vector3f& getAmbientColor() const noexcept;
+        const Math::Vector3f& getDiffuseColor() const noexcept;
+        const Math::Vector3f& getSpecularColor() const noexcept;
+        const Texture2D& getAmbientTexture() const noexcept;
+        const Texture2D& getDiffuseTexture() const noexcept;
         GLfloat getShininess() const noexcept;
     private:
-        Math::Vector3<GLfloat> mAmbientColor;
-        Math::Vector3<GLfloat> mDiffuseColor;
-        Math::Vector3<GLfloat> mSpecularColor;
+        Math::Vector3f mAmbientColor{};
+        Math::Vector3f mDiffuseColor{};
+        Math::Vector3f mSpecularColor{};
         GLfloat mShininess = 0.0F;
-        Texture2D mTexture;
+        Texture2D mAmbientTexture{};
+        Texture2D mDiffuseTexture{};
     };
 
 } }

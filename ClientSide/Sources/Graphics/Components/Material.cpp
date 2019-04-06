@@ -25,24 +25,44 @@ GLboolean Graphics::Components::Material::isInitialized() const noexcept
              (mSpecularColor != notInitializedVector) );
 }
 
-GLboolean Graphics::Components::Material::isExistTexture() const noexcept
+GLboolean Graphics::Components::Material::isExistAmbientTexture() const noexcept
 {
-    return mTexture.isInitialized();
+    return mAmbientTexture.isInitialized();
 }
 
-GLvoid Graphics::Components::Material::setAmbientColor(const Math::Vector3<GLfloat>& color) noexcept
+GLboolean Graphics::Components::Material::isExistDiffuseTexture() const noexcept
+{
+    return mDiffuseTexture.isInitialized();
+}
+
+GLvoid Graphics::Components::Material::setAmbientColor(const Math::Vector3f& color) noexcept
 {
     mAmbientColor = color;
 }
 
-GLvoid Graphics::Components::Material::setDiffuseColor(const Math::Vector3<GLfloat>& color) noexcept
+GLvoid Graphics::Components::Material::setDiffuseColor(const Math::Vector3f& color) noexcept
 {
     mDiffuseColor = color;
 }
 
-GLvoid Graphics::Components::Material::setSpecularColor(const Math::Vector3<GLfloat>& color) noexcept
+GLvoid Graphics::Components::Material::setSpecularColor(const Math::Vector3f& color) noexcept
 {
     mSpecularColor = color;
+}
+
+GLvoid Graphics::Components::Material::setShininess(GLfloat shininess) noexcept
+{
+    mShininess = shininess;
+}
+
+GLvoid Graphics::Components::Material::setAmbientTexture(const Texture2D& ambientTexture) noexcept
+{
+    mAmbientTexture = ambientTexture;
+}
+
+GLvoid Graphics::Components::Material::setDiffuseTexture(const Texture2D& diffuseTexture) noexcept
+{
+    mDiffuseTexture = diffuseTexture;
 }
 
 const Math::Vector3<GLfloat>& Graphics::Components::Material::getAmbientColor() const noexcept
@@ -60,9 +80,14 @@ const Math::Vector3<GLfloat>& Graphics::Components::Material::getSpecularColor()
     return mSpecularColor;
 }
 
-const Graphics::Components::Texture2D& Graphics::Components::Material::getTexture() const noexcept
+const Graphics::Components::Texture2D& Graphics::Components::Material::getAmbientTexture() const noexcept
 {
-    return mTexture;
+    return mAmbientTexture;
+}
+
+const Graphics::Components::Texture2D& Graphics::Components::Material::getDiffuseTexture() const noexcept
+{
+    return mDiffuseTexture;
 }
 
 GLfloat Graphics::Components::Material::getShininess() const noexcept
