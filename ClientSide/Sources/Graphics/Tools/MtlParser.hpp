@@ -29,6 +29,7 @@ namespace Graphics { namespace Tools {
     // DOD design
     struct MaterialsData
     {
+        // TODO: need to calculate capacity for vectors
         Vector<const char*> name;
         Vector<Components::Material> material;
     };

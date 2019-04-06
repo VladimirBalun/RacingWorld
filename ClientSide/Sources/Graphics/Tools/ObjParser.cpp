@@ -16,6 +16,34 @@
 
 #include "ObjParser.hpp"
 
+#include <iostream>
+
+#define SPACE_LENGTH                   1 // _
+#define LETTER_LENGTH                  1 // ?
+#define MATERIAL_LIB_WORD_LENGTH       5 // mtlib
+#define VERTEX_WORD_LENGTH             1 // v
+#define NORMAL_WORD_LENGTH             2 // vn
+#define TEXTURE_COORDINATE_WORD_LENGTH 2 // vt
+#define FRAGMENT_WORD_LENGHT           1 // f
+
+#define MIN_NUMBER_LENGTH             6 // 0.0000
+#define MIN_FRAGMENT_LENGTH           5 // 0/0/0
+#define MIN_FILE_EXTENSION_LENGTH     LETTER_LENGTH + (LETTER_LENGTH * 3) // .???
+#define MIN_MATERIAL_LIB_LENGTH       LETTER_LENGTH + MIN_FILE_EXTENSION_LENGTH // ?.???
+#define MIN_2D_VECTOR_LENGTH          MIN_NUMBER_LENGTH + SPACE_LENGTH + MIN_NUMBER_LENGTH // 0.0000 0.0000
+#define MIN_3D_VECTOR_LENGTH          MIN_NUMBER_LENGTH + SPACE_LENGTH + MIN_NUMBER_LENGTH + SPACE_LENGTH + MIN_NUMBER_LENGTH // 0.0000 0.0000 0.0000
+#define MIN_TRIANGULAR_POLYGON_LENGTH MIN_FRAGMENT_LENGTH + SPACE_LENGTH + MIN_FRAGMENT_LENGTH + SPACE_LENGTH + MIN_FRAGMENT_LENGTH // 0/0/0 0/0/0 0/0/0
+
+struct ObjSizeParameter
+{
+    std::size_t countVertices = 0;
+    std::size_t countNormals = 0;
+    std::size_t countTextureCoordinates = 0;
+    std::size_t countFragments = 0;
+};
+
+static ObjSizeParameter getObjSizeParameters(const String& objFileData) noexcept;
+
 Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFileName) noexcept
 {
     const String buffer(Utils::readFile(objFileName, mStringsAllocator), mStringsAllocator);
@@ -26,12 +54,13 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
     }
 
     MaterialsData materialsData;
+    ObjSizeParameter objSizeParameter = getObjSizeParameters(buffer);
     const String currentDirectory(Utils::getPathWithoutFilename(objFileName, mStringsAllocator), mStringsAllocator);
 
-    Vector<Math::Vector3f> vertices{ 200 };
-    Vector<Math::Vector2f> textureCoordinates{ 200 };
-    Vector<Math::Vector3f> normals{ 200 };
-    Vector<Math::Vector3i> faceElementIndexes{ 400 }; // (0) - vertex, (1) - texture coordinate, (2) - normal
+    Vector<Math::Vector3f> vertices(objSizeParameter.countVertices);
+    Vector<Math::Vector2f> textureCoordinates(objSizeParameter.countTextureCoordinates);
+    Vector<Math::Vector3f> normals(objSizeParameter.countNormals);
+    Vector<Math::Vector3i> faceElementIndexes(objSizeParameter.countFragments * 3); // (0) - vertex, (1) - texture coordinate, (2) - normal
 
     // indexes start from 1
     vertices.push(Math::Vector3f());
@@ -41,34 +70,59 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
     char* iterator = const_cast<char*>(buffer.getData());
     while (*iterator != '\0')
     {
-        if (strncmp(iterator, "v ", 2) == 0)
+        if (strncmp(iterator, "v ", VERTEX_WORD_LENGTH + SPACE_LENGTH) == 0)
         {
-            parseVertices(iterator + 2, vertices);
-            iterator += 23;
+            iterator += VERTEX_WORD_LENGTH + SPACE_LENGTH;
+            parseVertices(iterator, vertices);
+            iterator += MIN_3D_VECTOR_LENGTH + SPACE_LENGTH;
         }
-        else if (strncmp(iterator, "vt ", 3) == 0)
+        else if (strncmp(iterator, "vt ", TEXTURE_COORDINATE_WORD_LENGTH + SPACE_LENGTH) == 0)
         {
-            parseTextureCoordinates(iterator + 3, textureCoordinates);
-            iterator += 15;
+            iterator += TEXTURE_COORDINATE_WORD_LENGTH + SPACE_LENGTH;
+            parseTextureCoordinates(iterator, textureCoordinates);
+            iterator += MIN_2D_VECTOR_LENGTH + SPACE_LENGTH;
         }
-        else if (strncmp(iterator, "vn ", 3) == 0)
+        else if (strncmp(iterator, "vn ", NORMAL_WORD_LENGTH + SPACE_LENGTH) == 0)
         {
-            parseNormals(iterator + 3, normals);
-            iterator += 23;
+            iterator += NORMAL_WORD_LENGTH + SPACE_LENGTH;
+            parseNormals(iterator, normals);
+            iterator += MIN_3D_VECTOR_LENGTH + SPACE_LENGTH;
         }
-        else if (strncmp(iterator, "f ", 2) == 0)
+        else if (strncmp(iterator, "f ", FRAGMENT_WORD_LENGHT + SPACE_LENGTH) == 0)
         {
-            parseFaceElementIndexes(iterator + 2, faceElementIndexes);
-            iterator += 17;
+            iterator += FRAGMENT_WORD_LENGHT + SPACE_LENGTH;
+            parseFaceElementIndexes(iterator, faceElementIndexes);
+            iterator += MIN_TRIANGULAR_POLYGON_LENGTH + SPACE_LENGTH;
         }
-        else if (strncmp(iterator, "mtlib ", 6) == 0)
+        else if (strncmp(iterator, "mtlib ", MATERIAL_LIB_WORD_LENGTH + SPACE_LENGTH) == 0)
         {
-            parseMaterials(iterator + 6, currentDirectory, materialsData);
+            iterator += MATERIAL_LIB_WORD_LENGTH + SPACE_LENGTH;
+            parseMaterials(iterator, currentDirectory, materialsData);
+            iterator += MIN_MATERIAL_LIB_LENGTH;
         }
         iterator++;
     }
 
     return createMesh(vertices, textureCoordinates, normals, faceElementIndexes);
+}
+
+ObjSizeParameter getObjSizeParameters(const String& objFileData) noexcept
+{
+    ObjSizeParameter objSizeParameter;
+    char* iterator = const_cast<char*>(objFileData.getData());
+    while ( (*iterator != '\0') && (*iterator != '\n') )
+    {
+        if (strncmp(iterator, "#vc ", 4) == 0)
+            sscanf_s(iterator + 4, "%u", &objSizeParameter.countVertices);
+        if (strncmp(iterator, "#vnc ", 5) == 0)
+            sscanf_s(iterator + 5, "%u", &objSizeParameter.countNormals);
+        if (strncmp(iterator, "#vtc ", 5) == 0)
+            sscanf_s(iterator + 5, "%u", &objSizeParameter.countTextureCoordinates);
+        if (strncmp(iterator, "#fc ", 4) == 0)
+            sscanf_s(iterator + 4, "%u", &objSizeParameter.countFragments);
+        iterator++;
+    }
+    return objSizeParameter;
 }
 
 void Graphics::Tools::ObjParser::parseMaterials(char* iterator, const String& currentDirectory, MaterialsData& materialsData) noexcept

@@ -1,10 +1,6 @@
-newmtl Grass
-Ka 0.5882 0.5882 0.5882
-Kd 0.5882 0.5882 0.5882
-Ks 0.0900 0.0900 0.0900
-Ns 10.0000
-map_Ka Grass.bmp
-map_Kd Grass.bmp
+#vc 4 #vnc 1 #fc 2
+
+mtlib Ground.mtl
 
 o Ground
 v -0.100000 0.000000 -0.100000

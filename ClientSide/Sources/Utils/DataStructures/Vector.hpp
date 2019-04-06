@@ -17,14 +17,13 @@
 #pragma once
 
 #include "../../Utils/Debug.hpp"
-#include "../../Memory/INonCopyable.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 
 template<typename Type>
-class Vector 
+class Vector
 {
 public:
-    explicit Vector(std::size_t countVirtualPages = 1) noexcept;
+    explicit Vector(std::size_t capacity = 1) noexcept;
     void push(const Type& value) noexcept;
     void pop() noexcept;
     void clear() noexcept;
@@ -48,13 +47,12 @@ private:
 };
 
 template<typename Type>
-Vector<Type>::Vector(std::size_t countVirtualPages) noexcept
-    : mAllocator(countVirtualPages)
+Vector<Type>::Vector(std::size_t capacity) noexcept
+    : mAllocator((capacity * sizeof(Type) < VIRTUAL_PAGE_SIZE) ? 1 : ceil(capacity * sizeof(Type) / VIRTUAL_PAGE_SIZE + 0.5))
 {
-    std::size_t countElements = mAllocator.getFullMemorySize() / sizeof(Type);
-    void* memoryForArray = mAllocator.allocate(countElements * sizeof(Type));
-    mArray = new (memoryForArray) Type[countElements];
-    mCapacity = countElements;
+    mCapacity = mAllocator.getFullMemorySize() / sizeof(Type);
+    void* memoryForArray = mAllocator.allocate(mCapacity * sizeof(Type));
+    mArray = new (memoryForArray) Type[mCapacity];
 }
 
 template<typename Type>
