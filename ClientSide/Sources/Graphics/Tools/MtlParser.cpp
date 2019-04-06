@@ -157,8 +157,8 @@ String Graphics::Tools::MtlParser::parseName(const char* iterator, Memory::Alloc
 
 Graphics::Components::Texture2D Graphics::Tools::MtlParser::parseTexture(const char* iterator, const String& currentDirectory, Memory::Allocators::LinearAllocator& allocator) noexcept
 {
-    std::size_t textureWidth = 0;
-    std::size_t textureHeight = 0;
+    GLuint textureWidth = 0;
+    GLuint textureHeight = 0;
     const String textureName(parseName(iterator, allocator));
     String texturePath(currentDirectory, allocator);
     texturePath.append(textureName);

@@ -70,7 +70,7 @@ LRESULT CALLBACK WindowSystem::WindowEventListener::handleWindowEvent(HWND windo
         PostQuitMessage(0);
         break;
     default:
-        return DefWindowProc(windowHandle, windowEvent, wParam, lParam);
+        return DefWindowProc(windowHandle, (UINT) windowEvent, wParam, lParam);
     }
 
     return 0;

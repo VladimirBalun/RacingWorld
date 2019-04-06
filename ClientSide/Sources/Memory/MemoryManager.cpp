@@ -76,15 +76,15 @@ void Memory::MemoryManager::showVirtualPagesState() noexcept
     for (std::size_t i = 0; i < COUNT_ALLOCATED_PAGES; i++)
     {
         if (!mUsedPages[i])
-            printf("#%i virtual page - %p[ * ]\n", i, mVirtualPages[i]);
+            printf("#%zu virtual page - %p[ * ]\n", i, mVirtualPages[i]);
         else
-            printf("#%i virtual page - %p[ $ ]\n", i, mVirtualPages[i]);
+            printf("#%zu virtual page - %p[ $ ]\n", i, mVirtualPages[i]);
     }
 }
 
 void Memory::MemoryManager::showVirtualPageDump(std::size_t index) noexcept
 {
-    printf("\n\n..::Vurtual page[%i] dump::..\n", index);
+    printf("\n\n..::Vurtual page[%zu] dump::..\n", index);
 
     std::uint8_t counter = 32;
     std::uint8_t* start = reinterpret_cast<std::uint8_t*>(mVirtualPages[index]);

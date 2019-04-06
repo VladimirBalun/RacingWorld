@@ -16,7 +16,7 @@
 
 #include "Mesh.hpp"
 
-Graphics::Components::Mesh::Mesh(const GLfloat* elements, GLsizei countElements) noexcept :
+Graphics::Components::Mesh::Mesh(const GLfloat* elements, GLuint countElements) noexcept :
     mElements(elements), mCountElements(countElements)
 {
     glGenVertexArrays(1, &mVAO);

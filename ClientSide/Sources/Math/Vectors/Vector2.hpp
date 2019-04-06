@@ -129,8 +129,8 @@ namespace Math {
         const std::size_t length = getLength();
         if (length != 0)
         {
-            mX /= length;
-            mY /= length;
+            mX /= static_cast<Type>(length);
+            mY /= static_cast<Type>(length);
         }
     }
 

@@ -48,7 +48,7 @@ private:
 
 template<typename Type>
 Vector<Type>::Vector(std::size_t capacity) noexcept
-    : mAllocator((capacity * sizeof(Type) < VIRTUAL_PAGE_SIZE) ? 1 : ceil(capacity * sizeof(Type) / VIRTUAL_PAGE_SIZE + 0.5))
+    : mAllocator((capacity * sizeof(Type) < VIRTUAL_PAGE_SIZE) ? 1 : static_cast<std::size_t>(ceil(capacity * sizeof(Type) / VIRTUAL_PAGE_SIZE + 0.5)))
 {
     mCapacity = mAllocator.getFullMemorySize() / sizeof(Type);
     void* memoryForArray = mAllocator.allocate(mCapacity * sizeof(Type));

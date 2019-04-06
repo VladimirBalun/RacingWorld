@@ -26,7 +26,7 @@ namespace Graphics { namespace Components {
     {
     public:
         explicit Mesh() noexcept = default;
-        explicit Mesh(const GLfloat* elements, GLsizei countElements) noexcept;
+        explicit Mesh(const GLfloat* elements, GLuint countElements) noexcept;
         GLvoid setMaterial(const Material& material) noexcept;
         const Material& getMaterial() const noexcept;
         GLboolean isExistMaterial() const noexcept;
@@ -42,7 +42,7 @@ namespace Graphics { namespace Components {
         GLuint mVBO = 0;
         GLuint mVAO = 0;
         Material mMaterial{};
-        GLsizei mCountElements = 0;
+        GLuint mCountElements = 0;
         const GLfloat* mElements = nullptr;
     };
 

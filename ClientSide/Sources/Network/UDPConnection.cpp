@@ -33,7 +33,7 @@ Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t port) noex
 
 void Network::UDPConnection::sendBuffer(char* buffer, std::size_t size) noexcept
 {
-    int statusCode = sendto(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, size);
+    int statusCode = sendto(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, (int) size);
     if (statusCode <= 0)
         LOG_WARNING("Error during sending of the packet.");
 }

@@ -36,10 +36,10 @@
 
 struct ObjSizeParameter
 {
-    std::size_t countVertices = 0;
-    std::size_t countNormals = 0;
-    std::size_t countTextureCoordinates = 0;
-    std::size_t countFragments = 0;
+    GLuint countVertices = 0;
+    GLuint countNormals = 0;
+    GLuint countTextureCoordinates = 0;
+    GLuint countFragments = 0;
 };
 
 static ObjSizeParameter getObjSizeParameters(const String& objFileData) noexcept;
@@ -135,7 +135,7 @@ void Graphics::Tools::ObjParser::parseMaterials(char* iterator, const String& cu
         materialFileNameLength++;
     }
     const String materialFileName(iterator, materialFileNameLength, mStringsAllocator);
-    const GLuint lengthMaterialFullFileName = strlen(currentDirectory) + materialFileNameLength;
+    const GLuint lengthMaterialFullFileName = static_cast<GLuint>(strlen(currentDirectory) + materialFileNameLength);
     String materialFullFileName(currentDirectory, mStringsAllocator);
     materialFullFileName.append(materialFileName);
     MtlParser::parse(currentDirectory, materialFullFileName, materialsData, mStringsAllocator);
@@ -185,7 +185,7 @@ void Graphics::Tools::ObjParser::parseFaceElementIndexes(const char* iterator, V
 Graphics::Components::Mesh Graphics::Tools::ObjParser::createMesh(const Vector<Math::Vector3f>& vertices, const Vector<Math::Vector2f>& textureCoordinates,
     const Vector<Math::Vector3f>& normals, const Vector<Math::Vector3i>& faceElementIndexes) noexcept
 {
-    const GLuint memorySizeForMeshElements = faceElementIndexes.getSize() * (Components::Mesh::SIZE_ELEMENT * sizeof(GLfloat));
+    const GLuint memorySizeForMeshElements = static_cast<GLuint>(faceElementIndexes.getSize() * (Components::Mesh::SIZE_ELEMENT * sizeof(GLfloat)));
     GLfloat* meshElements = reinterpret_cast<GLfloat*>(mMeshAllocator.allocate(memorySizeForMeshElements));
     GLuint innerAlignmentForElements = 0;
     for (GLuint i = 0; i < faceElementIndexes.getSize(); i++)
@@ -199,5 +199,5 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::createMesh(const Vector<M
         innerAlignmentForElements += Components::Mesh::SIZE_ELEMENT;
     }
 
-    return Components::Mesh(meshElements, faceElementIndexes.getSize());
+    return Components::Mesh(meshElements, static_cast<GLuint>(faceElementIndexes.getSize()));
 }
