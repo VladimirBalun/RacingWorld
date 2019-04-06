@@ -17,6 +17,7 @@
 #pragma once
 
 #include "../OpenGL.hpp"
+#include "../../Utils/DataStructures/String.hpp"
 
 namespace Graphics { namespace Components {
 
@@ -24,7 +25,7 @@ namespace Graphics { namespace Components {
     {
     public:
         explicit Texture2D() noexcept = default;
-        explicit Texture2D(const unsigned char* imageData, GLuint width, GLuint height) noexcept;
+        explicit Texture2D(const String& imageData, GLuint width, GLuint height) noexcept;
         GLuint getID() const noexcept;
         GLuint getWidth() const noexcept;
         GLuint getHeight() const noexcept;

@@ -27,7 +27,6 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
 
     MaterialsData materialsData;
     const String currentDirectory(Utils::getPathWithoutFilename(objFileName, mStringsAllocator), mStringsAllocator);
-    parseMaterials(currentDirectory, buffer, materialsData);
 
     Vector<Math::Vector3f> vertices{ 200 };
     Vector<Math::Vector2f> textureCoordinates{ 200 };
@@ -39,88 +38,88 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
     textureCoordinates.push(Math::Vector2f());
     normals.push(Math::Vector3f());
 
-    char* symbolIterator = const_cast<char*>(buffer.getData());
-    while (*symbolIterator != '\0')
+    char* iterator = const_cast<char*>(buffer.getData());
+    while (*iterator != '\0')
     {
-        if (strncmp(symbolIterator, "v ", 2) == 0)
+        if (strncmp(iterator, "v ", 2) == 0)
         {
-            parseVertices(symbolIterator + 2, vertices);
-            symbolIterator += 23;
+            parseVertices(iterator + 2, vertices);
+            iterator += 23;
         }
-        else if (strncmp(symbolIterator, "vt ", 3) == 0)
+        else if (strncmp(iterator, "vt ", 3) == 0)
         {
-            parseTextureCoordinates(symbolIterator + 3, textureCoordinates);
-            symbolIterator += 15;
+            parseTextureCoordinates(iterator + 3, textureCoordinates);
+            iterator += 15;
         }
-        else if (strncmp(symbolIterator, "vn ", 3) == 0)
+        else if (strncmp(iterator, "vn ", 3) == 0)
         {
-            parseNormals(symbolIterator + 3, normals);
-            symbolIterator += 23;
+            parseNormals(iterator + 3, normals);
+            iterator += 23;
         }
-        else if (strncmp(symbolIterator, "f ", 2) == 0)
+        else if (strncmp(iterator, "f ", 2) == 0)
         {
-            parseFaceElementIndexes(symbolIterator + 2, faceElementIndexes);
-            symbolIterator += 17;
+            parseFaceElementIndexes(iterator + 2, faceElementIndexes);
+            iterator += 17;
         }
-        symbolIterator++;
+        else if (strncmp(iterator, "mtlib ", 6) == 0)
+        {
+            parseMaterials(iterator + 6, currentDirectory, materialsData);
+        }
+        iterator++;
     }
 
     return createMesh(vertices, textureCoordinates, normals, faceElementIndexes);
 }
 
-void Graphics::Tools::ObjParser::parseMaterials(const String& currentDirectory, const char* buffer, MaterialsData& materialsData) noexcept
+void Graphics::Tools::ObjParser::parseMaterials(char* iterator, const String& currentDirectory, MaterialsData& materialsData) noexcept
 {
-    char* symbolIterator = const_cast<char*>(buffer);
-    while (*symbolIterator != '\r')
+    std::size_t materialFileNameLength = 0;
+    const char* tmpIterator = iterator;
+    while ( (*tmpIterator != ' ') && (*tmpIterator != '\r') &&  (*tmpIterator != '\n') )
     {
-        if (strncmp(symbolIterator, "mtlib ", 6) == 0)
-        {
-            const char* startPosition = symbolIterator + 6;
-            const char* endPosition = strchr(startPosition, '\r');
-            const GLuint lengthMaterialFileName = (GLuint) (endPosition - startPosition);
-            const String materialFileName(startPosition, lengthMaterialFileName, mStringsAllocator);
-            const GLuint lengthMaterialFullFileName = strlen(currentDirectory) + lengthMaterialFileName;
-            String materialFullFileName(currentDirectory, mStringsAllocator);
-            materialFullFileName.append(materialFileName);
-            MtlParser::parse(currentDirectory, materialFullFileName, materialsData, mStringsAllocator);
-            return;
-        }
-        symbolIterator++;
+        tmpIterator++;
+        materialFileNameLength++;
     }
+    const String materialFileName(iterator, materialFileNameLength, mStringsAllocator);
+    const GLuint lengthMaterialFullFileName = strlen(currentDirectory) + materialFileNameLength;
+    String materialFullFileName(currentDirectory, mStringsAllocator);
+    materialFullFileName.append(materialFileName);
+    MtlParser::parse(currentDirectory, materialFullFileName, materialsData, mStringsAllocator);
+    return;
 }
 
-void Graphics::Tools::ObjParser::parseVertices(char* line, Vector<Math::Vector3f>& vertices) noexcept
+void Graphics::Tools::ObjParser::parseVertices(char* iterator, Vector<Math::Vector3f>& vertices) noexcept
 {
-    static GLfloat xPos = 0.0f;
-    static GLfloat yPos = 0.0f;
-    static GLfloat zPos = 0.0f;
-    sscanf_s(line, "%f %f %f", &xPos, &yPos, &zPos);
+    GLfloat xPos = 0.0f;
+    GLfloat yPos = 0.0f;
+    GLfloat zPos = 0.0f;
+    sscanf_s(iterator, "%f %f %f", &xPos, &yPos, &zPos);
     vertices.push({ xPos, yPos, zPos });
 }
 
-void Graphics::Tools::ObjParser::parseTextureCoordinates(const char* line, Vector<Math::Vector2f>& textureCoordinates) noexcept
+void Graphics::Tools::ObjParser::parseTextureCoordinates(const char* iterator, Vector<Math::Vector2f>& textureCoordinates) noexcept
 {
-    static GLfloat vPos = 0.0f;
-    static GLfloat uPos = 0.0f;
-    sscanf_s(line, "%f %f", &vPos, &uPos);
+    GLfloat vPos = 0.0f;
+    GLfloat uPos = 0.0f;
+    sscanf_s(iterator, "%f %f", &vPos, &uPos);
     textureCoordinates.push({ vPos, uPos });
 }
 
-void Graphics::Tools::ObjParser::parseNormals(const char* line, Vector<Math::Vector3f>& normals) noexcept
+void Graphics::Tools::ObjParser::parseNormals(const char* iterator, Vector<Math::Vector3f>& normals) noexcept
 {
-    static GLfloat xPos = 0.0f;
-    static GLfloat yPos = 0.0f;
-    static GLfloat zPos = 0.0f;
-    sscanf_s(line, "%f %f %f", &xPos, &yPos, &zPos);
+    GLfloat xPos = 0.0f;
+    GLfloat yPos = 0.0f;
+    GLfloat zPos = 0.0f;
+    sscanf_s(iterator, "%f %f %f", &xPos, &yPos, &zPos);
     normals.push({ xPos, yPos, zPos });
 }
 
-void Graphics::Tools::ObjParser::parseFaceElementIndexes(const char* line, Vector<Math::Vector3i>& faceElementIndexes) noexcept
+void Graphics::Tools::ObjParser::parseFaceElementIndexes(const char* iterator, Vector<Math::Vector3i>& faceElementIndexes) noexcept
 {
-    static GLint vertexIndex[3] = { 0 };
-    static GLint normalIndex[3] = { 0 };
-    static GLint textureCoordinateIndex[3] = { 0 };
-    sscanf_s(line, "%i/%i/%i %i/%i/%i %i/%i/%i", 
+    GLint vertexIndex[3] = { 0 };
+    GLint normalIndex[3] = { 0 };
+    GLint textureCoordinateIndex[3] = { 0 };
+    sscanf_s(iterator, "%i/%i/%i %i/%i/%i %i/%i/%i",
         &vertexIndex[0], &textureCoordinateIndex[0], &normalIndex[0],
         &vertexIndex[1], &textureCoordinateIndex[1], &normalIndex[1],
         &vertexIndex[2], &textureCoordinateIndex[2], &normalIndex[2]);

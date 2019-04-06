@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "BmpReader.hpp"
 #include "../Components/Material.hpp"
 #include "../../Utils/FileSystem.hpp"
 #include "../../Math/Vectors/Vector3.hpp"
@@ -40,8 +41,9 @@ namespace Graphics { namespace Tools {
             MaterialsData& materials, Memory::Allocators::LinearAllocator& allocator) noexcept;
     private:
         static String parseName(const char* iterator, Memory::Allocators::LinearAllocator& allocator) noexcept;
+        static Components::Texture2D parseTexture(const char* iterator, const String& currentDirectory, Memory::Allocators::LinearAllocator& allocator) noexcept;
         static Math::Vector3f parseColor(const char* iterator) noexcept;
-        static GLfloat parserShininess(const char* iterator) noexcept;
+        static GLfloat parseShininess(const char* iterator) noexcept;
     };
 
 } }

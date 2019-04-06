@@ -23,7 +23,6 @@
 #include "../OpenGL.hpp"
 #include "../Managers/MeshManager.hpp"
 #include "../Managers/ShaderManager.hpp"
-#include "../Managers/TextureManager.hpp"
 #include "../../Utils/Time.hpp"
 #include "../../WindowSystem/WindowEventListener.hpp"
 #include "../../Memory/Allocators/PoolAllocator.hpp"

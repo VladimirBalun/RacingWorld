@@ -16,7 +16,7 @@
 
 #include "Texture2D.hpp"
 
-Graphics::Components::Texture2D::Texture2D(const unsigned char* imageData, GLuint width, GLuint height) noexcept
+Graphics::Components::Texture2D::Texture2D(const String& imageData, GLuint width, GLuint height) noexcept
     : mWidth(width), mHeight(height) 
 {
     glGenTextures(1, &mTextureID);

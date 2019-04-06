@@ -45,18 +45,6 @@ enum class ParserState
     MATERIAL_DIFFUSE_TEXTURE,
 };
 
-enum class ParserSignals
-{
-    ABSENT = 0,
-    FOUND_MATERIAL,
-    FOUND_MATERIAL_AMBIENT_COLOR,
-    FOUND_MATERIAL_DIFFUSE_COLOR,
-    FOUND_MATERIAL_SPECULAR_COLOR,
-    FOUND_MATERIAL_SHININESS,
-    FOUND_MATERIAL_AMBIENT_TEXTURE,
-    FOUND_MATERIAL_DIFFUSE_TEXTURE,
-};
-
 GLvoid Graphics::Tools::MtlParser::parse(const String& currentDirectory, const String& mtlFileName,
     MaterialsData& materials, Memory::Allocators::LinearAllocator& allocator) noexcept
 {
@@ -67,52 +55,90 @@ GLvoid Graphics::Tools::MtlParser::parse(const String& currentDirectory, const S
         eventManager.notifyGlobalError("Materials for model was not read.");
     }
 
+    // TODO: need to add transaction table
     ParserState parserState = ParserState::UNKNOWN;
     char* iterator = const_cast<char*>(buffer.getData());
     while (*iterator != '\0')
     {
         switch (parserState)
         {
+            case ParserState::UNKNOWN:
+                if (strncmp(iterator, "newmtl ", NEW_MATERIAL_WORD_LENGTH + SPACE_LENGTH) == 0)
+                {
+                    parserState = ParserState::NEW_MATERIAL;
+                    iterator += NEW_MATERIAL_WORD_LENGTH + SPACE_LENGTH;
+                }
+                else if (strncmp(iterator, "Ka ", AMBIENT_COLOR_WORD_LENGTH + SPACE_LENGTH) == 0)
+                {
+                    parserState = ParserState::MATERIAL_AMBIENT_COLOR;
+                    iterator += AMBIENT_COLOR_WORD_LENGTH + SPACE_LENGTH;
+                }
+                else if (strncmp(iterator, "Kd ", DIFFUSE_COLOR_WORD_LENGTH + SPACE_LENGTH) == 0)
+                {
+                    parserState = ParserState::MATERIAL_DIFFUSE_COLOR;
+                    iterator += DIFFUSE_COLOR_WORD_LENGTH + SPACE_LENGTH;
+                }
+                else if (strncmp(iterator, "Ks ", SPECULAR_COLOR_WORD_LENGTH + SPACE_LENGTH) == 0)
+                {
+                    parserState = ParserState::MATERIAL_SPECULAR_COLOR;
+                    iterator += SPECULAR_COLOR_WORD_LENGTH + SPACE_LENGTH;
+                }
+                else if (strncmp(iterator, "Ns ", SHININESS_WORD_LENGHT + SPACE_LENGTH) == 0)
+                {
+                    parserState = ParserState::MATERIAL_SHININESS;
+                    iterator += SHININESS_WORD_LENGHT + SPACE_LENGTH;
+                }
+                else if (strncmp(iterator, "map_Ka ", AMBIENT_TEXTURE_WORD_LENGTH + SPACE_LENGTH) == 0)
+                {
+                    parserState = ParserState::MATERIAL_AMBIENT_TEXTURE;
+                    iterator += AMBIENT_TEXTURE_WORD_LENGTH + SPACE_LENGTH;
+                }
+                else if (strncmp(iterator, "map_Kd ", DIFFUSE_TEXTURE_WORD_LENGTH + SPACE_LENGTH) == 0)
+                {
+                    parserState = ParserState::MATERIAL_DIFFUSE_TEXTURE;
+                    iterator += DIFFUSE_TEXTURE_WORD_LENGTH + SPACE_LENGTH;
+                }
+                else
+                {
+                    iterator += LETTER_LENGTH;
+                }
+                break;
             case ParserState::NEW_MATERIAL:
-            {
+                parserState = ParserState::UNKNOWN;
                 materials.material.push(Components::Material());
                 materials.name.push(parseName(iterator, allocator));
-                parserState = ParserState::UNKNOWN;
-                iterator += NEW_MATERIAL_WORD_LENGTH + SPACE_LENGTH + MIN_MATERIAL_NAME_LENGTH;
+                iterator += MIN_MATERIAL_NAME_LENGTH;
                 break;
-            }
             case ParserState::MATERIAL_AMBIENT_COLOR:
-            {
                 parserState = ParserState::UNKNOWN;
-                materials.material.getBack().setSpecularColor(parseColor(iterator));
-                iterator += AMBIENT_COLOR_WORD_LENGTH + SPACE_LENGTH + MIN_COLOR_LENGTH;
+                materials.material.getBack().setAmbientColor(parseColor(iterator));
+                iterator += MIN_COLOR_LENGTH;
                 break;
-            }
             case ParserState::MATERIAL_DIFFUSE_COLOR:
-            {
                 parserState = ParserState::UNKNOWN;
-                materials.material.getBack().setSpecularColor(parseColor(iterator));
-                iterator += DIFFUSE_COLOR_WORD_LENGTH + SPACE_LENGTH + MIN_COLOR_LENGTH;
+                materials.material.getBack().setDiffuseColor(parseColor(iterator));
+                iterator += MIN_COLOR_LENGTH;
                 break;
-            }
             case ParserState::MATERIAL_SPECULAR_COLOR:
-            {
                 parserState = ParserState::UNKNOWN;
                 materials.material.getBack().setSpecularColor(parseColor(iterator));
-                iterator += SPECULAR_COLOR_WORD_LENGTH + SPACE_LENGTH + MIN_COLOR_LENGTH;
+                iterator += MIN_COLOR_LENGTH;
                 break;
-            }
             case ParserState::MATERIAL_SHININESS:
-            {
-                parserShininess(iterator);
                 parserState = ParserState::UNKNOWN;
-                iterator += SHININESS_WORD_LENGHT + SPACE_LENGTH + MIN_SHININESS_LENGHT;
+                materials.material.getBack().setShininess(parseShininess(iterator));
+                iterator += MIN_SHININESS_LENGHT;
                 break;
-            }
-            case ParserState::UNKNOWN:
-            {
-                iterator += LETTER_LENGTH;
-            }
+            case ParserState::MATERIAL_AMBIENT_TEXTURE:
+                parserState = ParserState::UNKNOWN;
+                materials.material.getBack().setAmbientTexture(parseTexture(iterator, currentDirectory, allocator));
+                iterator += MIN_TEXTURE_NAME_LENGTH;
+                break;
+            case ParserState::MATERIAL_DIFFUSE_TEXTURE:
+                parserState = ParserState::UNKNOWN;
+                materials.material.getBack().setDiffuseTexture(parseTexture(iterator, currentDirectory, allocator));
+                iterator += MIN_TEXTURE_NAME_LENGTH;
+                break;
         }
     }
 }
@@ -121,7 +147,7 @@ String Graphics::Tools::MtlParser::parseName(const char* iterator, Memory::Alloc
 {
     std::size_t nameLength = 0;
     const char* tmpIterator = iterator;
-    while ( (*tmpIterator != ' ') || (*tmpIterator != '\n') )
+    while ( (*tmpIterator != ' ') && (*tmpIterator != '\r') && (*tmpIterator != '\n') )
     {
         tmpIterator++;
         nameLength++;
@@ -129,18 +155,29 @@ String Graphics::Tools::MtlParser::parseName(const char* iterator, Memory::Alloc
     return String(iterator, nameLength, allocator);
 }
 
-GLfloat Graphics::Tools::MtlParser::parserShininess(const char* iterator) noexcept
+Graphics::Components::Texture2D Graphics::Tools::MtlParser::parseTexture(const char* iterator, const String& currentDirectory, Memory::Allocators::LinearAllocator& allocator) noexcept
 {
-    static GLfloat shininess = 0.0f;
+    std::size_t textureWidth = 0;
+    std::size_t textureHeight = 0;
+    const String textureName(parseName(iterator, allocator));
+    String texturePath(currentDirectory, allocator);
+    texturePath.append(textureName);
+    const String imageData(reinterpret_cast<const char*>(BmpReader::read(texturePath, textureWidth, textureHeight, allocator)), allocator);
+    return Components::Texture2D(imageData, textureWidth, textureHeight);
+}
+
+GLfloat Graphics::Tools::MtlParser::parseShininess(const char* iterator) noexcept
+{
+    GLfloat shininess = 0.0f;
     sscanf_s(iterator, "%f", &shininess);
     return shininess;
 }
 
 Math::Vector3f Graphics::Tools::MtlParser::parseColor(const char* iterator) noexcept
 {
-    static GLfloat r = 0.0f;
-    static GLfloat g = 0.0f;
-    static GLfloat b = 0.0f;
+    GLfloat r = 0.0f;
+    GLfloat g = 0.0f;
+    GLfloat b = 0.0f;
     sscanf_s(iterator, "%f %f %f", &r, &g, &b);
     return Math::Vector3f(r, g, b);
 }

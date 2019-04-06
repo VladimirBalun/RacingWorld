@@ -51,9 +51,9 @@ namespace Graphics { namespace Components {
         Math::Vector3f mAmbientColor{};
         Math::Vector3f mDiffuseColor{};
         Math::Vector3f mSpecularColor{};
-        GLfloat mShininess = 0.0F;
         Texture2D mAmbientTexture{};
         Texture2D mDiffuseTexture{};
+        GLfloat mShininess = 0.0f;
     };
 
 } }

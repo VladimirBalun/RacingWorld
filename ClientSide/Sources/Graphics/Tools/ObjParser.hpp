@@ -33,7 +33,7 @@ namespace Graphics { namespace Tools {
             : mMeshAllocator(meshAllocator), mStringsAllocator(1100) {}
         Components::Mesh parse(const char* objFileName) noexcept;
     private:
-        void parseMaterials(const String& currentDirectory, const char* buffer, MaterialsData& materialsData) noexcept;
+        void parseMaterials(char* line, const String& currentDirectory, MaterialsData& materialsData) noexcept;
         void parseVertices(char* line, Vector<Math::Vector3f>& vertices) noexcept;
         void parseTextureCoordinates(const char* line, Vector<Math::Vector2f>& textureCoordinates) noexcept;
         void parseNormals(const char* line, Vector<Math::Vector3f>& normals) noexcept;

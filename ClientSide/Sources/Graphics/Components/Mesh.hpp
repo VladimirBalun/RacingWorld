@@ -41,7 +41,7 @@ namespace Graphics { namespace Components {
     private:
         GLuint mVBO = 0;
         GLuint mVAO = 0;
-        Material mMaterial;
+        Material mMaterial{};
         GLsizei mCountElements = 0;
         const GLfloat* mElements = nullptr;
     };
