@@ -31,7 +31,7 @@ void* Memory::StringsMemoryPool::getMemory() noexcept
     ASSERT((mAllocator.getFullMemorySize() - mAllocator.getFreeMemorySize()) > BLOCK_SIZE,
         "Not enought memory in the poll allocator for string allocation.");
     void* pointer = mAllocator.allocate(BLOCK_SIZE);
-    ASSERT(pointer, "Memory for string was not allocated.")
+    ASSERT(pointer, "Memory for string was not allocated.");
     return pointer;
 }
 
