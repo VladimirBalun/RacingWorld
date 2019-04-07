@@ -38,7 +38,8 @@ public final class Database {
     private Database() {
         try {
             Properties properties = new Properties();
-            try (InputStream inputStream = Files.newInputStream(Paths.get("databaseserver/src/main/resources/database.properties"))){
+            try (InputStream inputStream = Files.newInputStream(Paths
+                    .get("databaseserver/../src/main/resources/serverSide.properties"))){
                 properties.load(inputStream);
             } catch (IOException e) {
                 throw new IOException("file with database properties was not read.");
