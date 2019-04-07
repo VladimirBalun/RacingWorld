@@ -40,7 +40,8 @@ public class DatabaseServer implements Server {
 
     public DatabaseServer() throws RuntimeException, RemoteException {
         Properties properties = new Properties();
-        try (InputStream inputStream = Files.newInputStream(Paths.get("serverside/src/main/resources/serverSide.properties"))){
+        try (InputStream inputStream = Files.newInputStream(Paths
+                .get("databaseserver/../src/main/resources/serverSide.properties"))) {
             properties.load(inputStream);
         } catch (IOException e) {
             throw new RuntimeException("file with server properties was not read.");
