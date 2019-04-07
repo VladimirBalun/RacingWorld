@@ -30,7 +30,7 @@ namespace Graphics { namespace Tools {
     {
     public:
         explicit ObjParser(Memory::Allocators::LinearAllocator& meshAllocator) noexcept
-            : mMeshAllocator(meshAllocator), mStringsAllocator(1100) {}
+            : mMeshAllocator(meshAllocator), mStringsAllocator(1000) {}
         Components::Mesh parse(const char* objFileName) noexcept;
     private:
         void parseMaterials(char* line, const String& currentDirectory, MaterialsData& materialsData) noexcept;

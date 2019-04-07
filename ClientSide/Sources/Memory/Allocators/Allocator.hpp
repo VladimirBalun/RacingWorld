@@ -41,10 +41,10 @@ namespace Memory { namespace Allocators {
     public:
         explicit Allocator(std::size_t totalSize) 
             : INonCopyable(), mSize(totalSize) {}
-        std::size_t getFullMemorySize() const noexcept;
-        std::size_t getCountVirtualPages() const noexcept;
-        std::size_t getUsedMemorySize() const noexcept;
-        std::size_t getFreeMemorySize() const noexcept;
+        constexpr std::size_t getFullMemorySize() const noexcept;
+        constexpr std::size_t getCountVirtualPages() const noexcept;
+        constexpr std::size_t getUsedMemorySize() const noexcept;
+        constexpr std::size_t getFreeMemorySize() const noexcept;
         void* getBasePinter() const noexcept;
         void* allocate(std::size_t size) noexcept;
         void deallocate(void* pointer) noexcept;
@@ -57,25 +57,25 @@ namespace Memory { namespace Allocators {
 
 
     template<class AllocatorType>
-    std::size_t Allocator<AllocatorType>::getFullMemorySize() const noexcept
+    constexpr std::size_t Allocator<AllocatorType>::getFullMemorySize() const noexcept
     {
         return mSize;
     }
 
     template<class AllocatorType>
-    std::size_t Allocator<AllocatorType>::getCountVirtualPages() const noexcept
+    constexpr std::size_t Allocator<AllocatorType>::getCountVirtualPages() const noexcept
     {
         return mSize / VIRTUAL_PAGE_SIZE;
     }
 
     template<class AllocatorType>
-    std::size_t Allocator<AllocatorType>::getUsedMemorySize() const noexcept
+    constexpr std::size_t Allocator<AllocatorType>::getUsedMemorySize() const noexcept
     {
         return mOffset;
     }
 
     template<class AllocatorType>
-    std::size_t Allocator<AllocatorType>::getFreeMemorySize() const noexcept
+    constexpr std::size_t Allocator<AllocatorType>::getFreeMemorySize() const noexcept
     {
         return mSize - mOffset;
     }

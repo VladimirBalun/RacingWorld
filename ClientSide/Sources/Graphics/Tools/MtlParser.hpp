@@ -38,13 +38,19 @@ namespace Graphics { namespace Tools {
     class MtlParser
     {
     public:
-        static GLvoid parse(const String& currentDirectory, const String& mtlFileName,
-            MaterialsData& materials, Memory::Allocators::LinearAllocator& allocator) noexcept;
+        explicit MtlParser(const String& currentDirectory, const String& mtlFileName)
+            : mCurrentDirectory(currentDirectory), mMtlFileName(mtlFileName), mAllocator(1000) {}
+        GLvoid parse(MaterialsData& materials) noexcept;
     private:
-        static String parseName(const char* iterator, Memory::Allocators::LinearAllocator& allocator) noexcept;
-        static Components::Texture2D parseTexture(const char* iterator, const String& currentDirectory, Memory::Allocators::LinearAllocator& allocator) noexcept;
-        static Math::Vector3f parseColor(const char* iterator) noexcept;
-        static GLfloat parseShininess(const char* iterator) noexcept;
+        GLuint getCountMaterials(const String& mtlFileData) noexcept;
+        String parseName(const char* iterator) noexcept;
+        Components::Texture2D parseTexture(const char* iterator) noexcept;
+        Math::Vector3f parseColor(const char* iterator) noexcept;
+        GLfloat parseShininess(const char* iterator) noexcept;
+    private:
+        const String& mMtlFileName;
+        const String& mCurrentDirectory;
+        Memory::Allocators::LinearAllocator mAllocator;
     };
 
 } }

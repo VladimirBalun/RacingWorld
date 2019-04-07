@@ -45,10 +45,9 @@ enum class ParserState
     MATERIAL_DIFFUSE_TEXTURE,
 };
 
-GLvoid Graphics::Tools::MtlParser::parse(const String& currentDirectory, const String& mtlFileName,
-    MaterialsData& materials, Memory::Allocators::LinearAllocator& allocator) noexcept
+GLvoid Graphics::Tools::MtlParser::parse(MaterialsData& materials) noexcept
 {
-    const String buffer(Utils::readFile(mtlFileName, allocator), allocator);
+    const String buffer(Utils::readFile(mMtlFileName, mAllocator), mAllocator);
     if (!buffer) 
     {
         EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
@@ -57,6 +56,7 @@ GLvoid Graphics::Tools::MtlParser::parse(const String& currentDirectory, const S
 
     // TODO: need to add transaction table
     ParserState parserState = ParserState::UNKNOWN;
+    GLuint countMaterials = getCountMaterials(buffer);
     char* iterator = const_cast<char*>(buffer.getData());
     while (*iterator != '\0')
     {
@@ -106,7 +106,7 @@ GLvoid Graphics::Tools::MtlParser::parse(const String& currentDirectory, const S
             case ParserState::NEW_MATERIAL:
                 parserState = ParserState::UNKNOWN;
                 materials.material.push(Components::Material());
-                materials.name.push(parseName(iterator, allocator));
+                materials.name.push(parseName(iterator));
                 iterator += MIN_MATERIAL_NAME_LENGTH;
                 break;
             case ParserState::MATERIAL_AMBIENT_COLOR:
@@ -131,19 +131,32 @@ GLvoid Graphics::Tools::MtlParser::parse(const String& currentDirectory, const S
                 break;
             case ParserState::MATERIAL_AMBIENT_TEXTURE:
                 parserState = ParserState::UNKNOWN;
-                materials.material.getBack().setAmbientTexture(parseTexture(iterator, currentDirectory, allocator));
+                materials.material.getBack().setAmbientTexture(parseTexture(iterator));
                 iterator += MIN_TEXTURE_NAME_LENGTH;
                 break;
             case ParserState::MATERIAL_DIFFUSE_TEXTURE:
                 parserState = ParserState::UNKNOWN;
-                materials.material.getBack().setDiffuseTexture(parseTexture(iterator, currentDirectory, allocator));
+                materials.material.getBack().setDiffuseTexture(parseTexture(iterator));
                 iterator += MIN_TEXTURE_NAME_LENGTH;
                 break;
         }
     }
 }
 
-String Graphics::Tools::MtlParser::parseName(const char* iterator, Memory::Allocators::LinearAllocator& allocator) noexcept
+GLuint Graphics::Tools::MtlParser::getCountMaterials(const String& mtlFileData) noexcept
+{
+    GLuint countMaterials = 0;
+    char* iterator = const_cast<char*>(mtlFileData.getData());
+    while ((*iterator != '\0') && (*iterator != '\n'))
+    {
+        if (strncmp(iterator, "#mtlc ", 6) == 0)
+            sscanf_s(iterator + 6, "%u", &countMaterials);
+        iterator++;
+    }
+    return countMaterials;
+}
+
+String Graphics::Tools::MtlParser::parseName(const char* iterator) noexcept
 {
     std::size_t nameLength = 0;
     const char* tmpIterator = iterator;
@@ -152,17 +165,17 @@ String Graphics::Tools::MtlParser::parseName(const char* iterator, Memory::Alloc
         tmpIterator++;
         nameLength++;
     }
-    return String(iterator, nameLength, allocator);
+    return String(iterator, nameLength, mAllocator);
 }
 
-Graphics::Components::Texture2D Graphics::Tools::MtlParser::parseTexture(const char* iterator, const String& currentDirectory, Memory::Allocators::LinearAllocator& allocator) noexcept
+Graphics::Components::Texture2D Graphics::Tools::MtlParser::parseTexture(const char* iterator) noexcept
 {
     GLuint textureWidth = 0;
     GLuint textureHeight = 0;
-    const String textureName(parseName(iterator, allocator));
-    String texturePath(currentDirectory, allocator);
+    const String textureName(parseName(iterator));
+    String texturePath(mCurrentDirectory, mAllocator);
     texturePath.append(textureName);
-    const String imageData(reinterpret_cast<const char*>(BmpReader::read(texturePath, textureWidth, textureHeight, allocator)), allocator);
+    const String imageData(reinterpret_cast<const char*>(BmpReader::read(texturePath, textureWidth, textureHeight, mAllocator)), mAllocator);
     return Components::Texture2D(imageData, textureWidth, textureHeight);
 }
 

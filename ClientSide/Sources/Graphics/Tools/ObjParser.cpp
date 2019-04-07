@@ -138,8 +138,8 @@ void Graphics::Tools::ObjParser::parseMaterials(char* iterator, const String& cu
     const GLuint lengthMaterialFullFileName = static_cast<GLuint>(strlen(currentDirectory) + materialFileNameLength);
     String materialFullFileName(currentDirectory, mStringsAllocator);
     materialFullFileName.append(materialFileName);
-    MtlParser::parse(currentDirectory, materialFullFileName, materialsData, mStringsAllocator);
-    return;
+    MtlParser mtlParser(currentDirectory, materialFullFileName);
+    mtlParser.parse(materialsData);
 }
 
 void Graphics::Tools::ObjParser::parseVertices(char* iterator, Vector<Math::Vector3f>& vertices) noexcept

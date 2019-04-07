@@ -20,17 +20,18 @@
 #include <cassert>
 #include <Windows.h>
 
+#include "Memory.hpp"
 #include "./INonCopyable.hpp"
 #include "../Utils/Debug.hpp"
 #include "../EventSystem/EventManager.hpp"
 
-#define VIRTUAL_PAGE_SIZE 4096
+#define VIRTUAL_PAGE_SIZE     KILLOBYTES_4_SIZE
 #define COUNT_ALLOCATED_PAGES 7000
 
 namespace Memory {
 
     // Singleton
-    class MemoryManager : public INonCopyable
+    class MemoryManager : private INonCopyable
     {
     public:
         void* getMemoryPages(std::size_t countVirtualPages = 1) noexcept;
@@ -42,8 +43,6 @@ namespace Memory {
     private:
         MemoryManager();
         ~MemoryManager();
-        MemoryManager(MemoryManager const&) = delete;
-        MemoryManager& operator = (MemoryManager const&) = delete;
     private:
         std::mutex mMutex;
         void* mVirtualPages[COUNT_ALLOCATED_PAGES] = { NULL };
