@@ -17,8 +17,10 @@
 "use strict";
 
 import * as _ from "underscore";
-import * as express from "express";
+//import * as express from "express";
+import express from "express";
 import * as bodyParser from "body-parser";
+import * as mime from "mime";
 
 import * as log4js from "log4js";
 const log = log4js.getLogger(__filename);
@@ -38,44 +40,6 @@ class Server {
         this.route();
     }
 
-    private route (): void {
-        const router = express.Router();
-        const newsService = new NewsService();
-
-        router.get("/news", (request, response) => {
-            const news: News[] = newsService.getAllNews();
-            if (!_.isEmpty(news)) {
-                response.status(200).json(news);
-            } else {
-                response.status(404).json([]);
-            }
-        });
-
-        router.get("/news/:id", (request, response) => {
-            const id: number = request.params.id;
-            const news: News = newsService.getNewsByID(id);
-            if (!_.isEmpty(news)) {
-                response.status(200).json(news);
-            } else {
-                response.status(404).json({});
-            }
-        });
-
-        router.post("/news", (request, response) => {
-            const title: string = request.body.title;
-            const description: string = request.body.description;
-            const date: Date = request.body.date;
-            const addingResult: boolean = newsService.addNews(new News(title, description, date));
-            if (addingResult) {
-                response.status(201).json({ result: true });
-            } else {
-                response.status(400).json({ result: false });
-            }
-        });
-
-        this.express.use("/", router);
-    }
-
     public start(port: number): void {
         this.express.listen(port, (error) => {
             if (!error) {
@@ -85,6 +49,61 @@ class Server {
                 process.exit();
             }
         });
+    }
+
+    private route (): void {
+        const router = express.Router();
+        const newsService = new NewsService();
+
+        router.get("/news", async (request, response) => {
+            const news: News[] = await newsService.getAllNews();
+            if (!_.isEmpty(news)) {
+                response.status(200).json(news);
+            } else {
+                response.status(404).json([]);
+            }
+        });
+
+        router.get("/news/:id", async (request, response) => {
+            const id: number = request.params.id;
+            const news: News | any[] = await newsService.getNewsByID(id);
+            if (!_.isEmpty(news)) {
+                response.status(200).json(news);
+            } else {
+                response.status(404).json({});
+            }
+        });
+
+        router.post("/news", async (request, response) => {
+            const title: string = request.body.title;
+            const description: string = request.body.description;
+            const date: Date = request.body.date;
+            const addingResult: boolean = await newsService.addNews(new News(title, description, date));
+            if (addingResult) {
+                response.status(201).json({ result: true });
+            } else {
+                response.status(400).json({ result: false });
+            }
+        });
+
+        this.express.route("/news/:id")
+            .delete(async (request, response) => {
+                const id: number = request.params.id;
+                const removeResult : boolean = await newsService.removeNewsByID(id);
+                if (removeResult) {
+                    response.status(201).json({result: true});
+                } else {
+                    response.status(400).json({result: false});
+                }
+            });
+
+        this.express.use("/", router);
+    }
+
+    private getMime(request): string {
+        const url: string = request.url;
+        const mimeType: string = mime.getType(url);
+        return mimeType !== null || undefined ? mimeType : "application/octet-stream"
     }
 
 }

@@ -17,6 +17,8 @@
 "use strict";
 
 import Server from "./Server";
+import networkConfig from "../resources/configuration/network.json";
 
+const port: number = networkConfig.serverPort;
 const server = new Server();
-server.start(8090);
+server.start(port);

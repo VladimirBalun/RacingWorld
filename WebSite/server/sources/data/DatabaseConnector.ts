@@ -16,23 +16,30 @@
 
 "use strict";
 
-const mysql = require("mysql");
-
-const log4js = require("log4js");
-const log = log4js.getLogger(__filename);
-log.level = "debug";
+import * as mysql from "mysql"
+import databaseConf from "../../resources/configuration/database.json";
 
 class MySQLConnector {
 
     public static getDatabase() {
         return mysql.createConnection({
-            host : "localhost",
-            user : "root",
-            password : "admin",
-            database: "RacingWorld"
+            host : databaseConf.host,
+            user : databaseConf.user,
+            password : databaseConf.password,
+            database: databaseConf.database
         });
     }
 
+    public connectionQuery(sql:string, args?:any): Promise<{}> {
+        const connection = MySQLConnector.getDatabase();
+        return new Promise((resolve, reject) => {
+            connection.query(sql, args,(error: string, result: any)=> {
+                connection.end();
+                if(error){reject(error);}
+                resolve(result);
+            });
+        });
+    }
 }
 
 export default MySQLConnector;

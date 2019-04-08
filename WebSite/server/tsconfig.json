@@ -4,7 +4,9 @@
     "module": "commonjs",
     "sourceMap": true,
     "outDir": "./build",
-    "rootDir": "./"
+    "rootDir": "./",
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "include": [
     "./"

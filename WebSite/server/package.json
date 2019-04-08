@@ -3,19 +3,23 @@
   "description": "HTTP server for RacingWorld web site",
   "version": "0.1.0",
   "scripts": {
-    "start": "node ./sources/server.js",
-    "rs": "nodemon ./sources/server.js"
+    "start-dev": "nodemon ./build/sources/index.js",
+    "start-prod": "node ./build/sources/index.js",
+    "build": "tsc -w"
   },
   "dependencies": {
+    "@types/body-parser": "^1.17.0",
+    "@types/underscore": "^1.8.13",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "log4js": "^3.0.6",
-    "mongodb": "^3.1.13",
+    "mime": "^2.4.1",
     "mysql": "^2.16.0",
     "nodemon": "^1.18.10",
     "underscore": "^1.9.1"
   },
   "devDependencies": {
+    "@types/node": "^11.12.0",
     "mocha": "^6.0.1",
     "supertest": "^3.4.2"
   }

@@ -13,34 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 "use strict";
-
-import News from "../entity/News";
-import NewsDAO from "../dao/NewsDAOImplementation";
-import NewsServiceInterface from "./NewsServiceInterface";
-
-class NewsService implements NewsServiceInterface {
-
-    private newsDAO: NewsDAO = new NewsDAO();
-
-    addNews(news: News): boolean {
-        return this.newsDAO.insert(news);
-    }
-
-    getAllNews(): News[] {
-
-        return [];
-    }
-
-    getNewsByID(id: number): News {
-        return undefined;
-    }
-
-    removeNewsByID(id: number): boolean {
-        return false;
-    }
-    
-}
-
-export default NewsService;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const Server_1 = __importDefault(require("./Server"));
+const network_json_1 = __importDefault(require("../resources/configuration/network.json"));
+const port = network_json_1.default.serverPort;
+const server = new Server_1.default();
+server.start(port);
+//# sourceMappingURL=Index.js.map

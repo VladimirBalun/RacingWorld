@@ -20,13 +20,13 @@ import News from "../entity/News";
 
 interface NewsDAOInterface {
 
-    getAll(): News[];
+    getAll(): Promise<{id:number, title:string, description:string, date:Date}[]>;
 
-    getByID(id: number): News;
+    getByID(id: number): Promise<{id:number, title:string, description:string, date:Date}[]>;
 
-    insert(news: News): boolean;
+    insert(news: News): Promise<number>;
 
-    remove(id: number): boolean;
+    remove(id: number): Promise<boolean>;
 
 }
 

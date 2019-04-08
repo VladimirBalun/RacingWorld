@@ -20,13 +20,13 @@ import News from "../entity/News";
 
 interface NewsServiceInterface {
 
-    getAllNews(): News[];
+    getAllNews(): Promise<News[]>;
 
-    getNewsByID(id: number): News;
+    getNewsByID(id: number): Promise<News | any[]>;
 
-    addNews(news: News): boolean;
+    addNews(news: News): Promise<boolean>;
 
-    removeNewsByID(id: number): boolean;
+    removeNewsByID(id: number): Promise<boolean>;
 
 }
 
