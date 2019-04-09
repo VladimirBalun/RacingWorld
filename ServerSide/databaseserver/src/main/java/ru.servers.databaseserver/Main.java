@@ -22,7 +22,6 @@ import ru.servers.databaseserver.network.Server;
 
 import java.rmi.RemoteException;
 
-
 @Log4j
 public class Main {
 

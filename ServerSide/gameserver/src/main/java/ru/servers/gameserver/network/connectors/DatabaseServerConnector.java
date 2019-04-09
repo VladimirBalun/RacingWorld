@@ -23,8 +23,6 @@ import ru.servers.protocol.gameserverwithdatabaseserver.service.UsersService;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.rmi.Naming;
 import java.util.*;
 
@@ -37,8 +35,7 @@ public class DatabaseServerConnector {
 
     public DatabaseServerConnector() throws Exception {
         Properties properties = new Properties();
-        try (InputStream inputStream = Files.newInputStream(Paths
-                .get("gameserver/../src/main/resources/serverSide.properties"))){
+        try (InputStream inputStream = getClass().getResourceAsStream("/serverSide.properties")){
             properties.load(inputStream);
         } catch (IOException e) {
             throw new IOException("file with server properties was not read.");
