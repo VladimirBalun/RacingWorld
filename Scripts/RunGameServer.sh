@@ -7,7 +7,7 @@ readonly GAME_SERVER_PATH=$SERVER_SIDE_PATH/gameserver
 echo "Copyright 2018 Vladimir Balun - Script to run game server on Linux."
 
 if ! [ -x "$(command -v java)" ]; then
-  echo "Error: java is not installed."
+  echo "Error: Java is not installed."
   exit 1
 fi
 

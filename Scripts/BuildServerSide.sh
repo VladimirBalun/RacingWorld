@@ -10,7 +10,7 @@ readonly PROTOCOL_PATH=$SERVER_SIDE_PATH/protocol
 echo "Copyright 2018 Vladimir Balun - Script to build all the servers on Linux."
 
 if ! [ -x "$(command -v mvn)" ]; then
-  echo "Error: maven is not installed." >&2
+  echo "Error: Maven is not installed." >&2
   exit 1
 fi	
 

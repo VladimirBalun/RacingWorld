@@ -9,7 +9,7 @@ readonly DATABASE_SERVER_PATH=$SERVER_SIDE_PATH/databaseserver
 echo "Copyright 2018 Vladimir Balun - Script to testing all the servers on Linux."
 
 if ! [ -x "$(command -v mvn)" ]; then
-  echo "Error: maven is not installed." >&2
+  echo "Error: Maven is not installed." >&2
   exit 1
 fi	
 

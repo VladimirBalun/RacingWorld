@@ -9,7 +9,7 @@ readonly DATABASE_SERVER_PATH=$SERVER_SIDE_PATH/databaseserver
 echo "Copyright 2018 Vladimir Balun - Script to run all the servers on Linux."
 
 if ! [ -x "$(command -v java)" ]; then
-  echo "Error: java is not installed."
+  echo "Error: Java is not installed."
   exit 1
 fi	
 
