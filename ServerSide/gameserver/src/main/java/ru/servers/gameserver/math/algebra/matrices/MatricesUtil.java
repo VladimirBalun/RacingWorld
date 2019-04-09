@@ -33,15 +33,6 @@ public final class MatricesUtil {
         });
     }
 
-    public static Matrix4x4 getOrtho(double left, double right, double bottom, double top, double near, double far){
-        return new Matrix4x4(new double[] {
-                2 / (right-left), 0.0, 0.0, - (right+left) / (right-left),
-                0.0, 2 / (top-bottom), 0.0, (top+bottom) / (top-bottom),
-                0.0, 0.0, 2 / (far-near), - (far+near) / (far-near),
-                0.0, 0.0, 0.0, 0.0
-        });
-    }
-
     public static Matrix2x2 getRotation2x2(double angle){
         return new Matrix2x2(new double[] {
                 Math.cos(angle), -Math.sin(angle),

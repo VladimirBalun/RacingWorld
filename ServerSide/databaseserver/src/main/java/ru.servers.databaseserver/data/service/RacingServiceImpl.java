@@ -23,12 +23,19 @@ import ru.servers.protocol.gameserverwithdatabaseserver.entity.Racing;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.RacingService;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 @Log4j
-public class RacingServiceImpl implements RacingService {
+public class RacingServiceImpl extends UnicastRemoteObject implements RacingService {
+
+    private static final long serialVersionUID = -4386639613284615493L;
 
     private RacingRepository racingRepository = new RacingRepositoryImpl();
+
+    public RacingServiceImpl() throws RemoteException {
+        super();
+    }
 
     @Override
     public boolean addNewRacing(Racing newRacing) throws RemoteException {

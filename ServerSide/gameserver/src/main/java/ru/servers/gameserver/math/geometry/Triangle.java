@@ -16,7 +16,12 @@
 
 package ru.servers.gameserver.math.geometry;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import ru.servers.gameserver.math.algebra.vectors.Vector2;
 import ru.servers.gameserver.math.algebra.vectors.VectorsUtil;
 
@@ -54,7 +59,7 @@ public class Triangle {
                 - (thirdPoint.getX() - secondPoint.getX()) * (secondPoint.getY() - vertex.getY());
         double thirdSide = (thirdPoint.getX() - vertex.getX()) * (firstPoint.getY() - thirdPoint.getY())
                 - (firstPoint.getX() - thirdPoint.getX()) * (thirdPoint.getY() - vertex.getY());
-        return (firstSide <= 0 && secondSide <= 0 && thirdSide <= 0 ||
-                firstSide >= 0 && secondSide >= 0 && thirdSide >= 0);
+        return ( ((firstSide <= 0) && (secondSide <= 0) && (thirdSide <= 0)) ||
+                 ((firstSide >= 0) && (secondSide >= 0) && (thirdSide >= 0)) );
     }
 }

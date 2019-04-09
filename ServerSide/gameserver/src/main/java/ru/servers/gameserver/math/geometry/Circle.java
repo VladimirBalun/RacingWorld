@@ -16,7 +16,12 @@
 
 package ru.servers.gameserver.math.geometry;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import ru.servers.gameserver.math.algebra.vectors.Vector2;
 import ru.servers.gameserver.math.algebra.vectors.VectorsUtil;
 

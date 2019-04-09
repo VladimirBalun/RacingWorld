@@ -22,10 +22,19 @@ import ru.servers.databaseserver.data.dao.MapsRepositoryImpl;
 import ru.servers.protocol.gameserverwithdatabaseserver.entity.Map;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.MapsService;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
 @Log4j
-public class MapsServiceImpl implements MapsService {
+public class MapsServiceImpl extends UnicastRemoteObject implements MapsService {
+
+    private static final long serialVersionUID = -2633761088354304835L;
 
     private MapsRepository mapsRepository = new MapsRepositoryImpl();
+
+    public MapsServiceImpl() throws RemoteException {
+        super();
+    }
 
     @Override
     public boolean addNewMap(Map newMap) {

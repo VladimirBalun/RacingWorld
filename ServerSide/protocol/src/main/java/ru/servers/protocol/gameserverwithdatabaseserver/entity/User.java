@@ -16,7 +16,11 @@
 
 package ru.servers.protocol.gameserverwithdatabaseserver.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 @Getter

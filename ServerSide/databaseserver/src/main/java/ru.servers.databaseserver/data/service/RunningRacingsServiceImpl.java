@@ -30,15 +30,22 @@ import ru.servers.protocol.gameserverwithdatabaseserver.entity.User;
 import ru.servers.protocol.gameserverwithdatabaseserver.service.RunningRacingsService;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.List;
 
 @Log4j
-public class RunningRacingsServiceImpl implements RunningRacingsService {
+public class RunningRacingsServiceImpl extends UnicastRemoteObject implements RunningRacingsService {
+
+    private static final long serialVersionUID = 46395104933680006L;
 
     private MapsRepository mapsRepository = new MapsRepositoryImpl();
     private RunningRacesRepository runningRacesRepository = new RunningRacesRepositoryImpl();
     private PlayingUsersRepository playingUsersRepository = new PlayingUsersRepositoryImpl();
+
+    public RunningRacingsServiceImpl() throws RemoteException {
+        super();
+    }
 
     @Override
     public boolean startRacing(String mapName) throws RemoteException {

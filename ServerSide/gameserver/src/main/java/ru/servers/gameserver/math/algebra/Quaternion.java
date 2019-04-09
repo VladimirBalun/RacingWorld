@@ -37,23 +37,17 @@ public class Quaternion {
 
     public void add(Quaternion another){
         w += another.w;
-        vector.setX(vector.getX() + another.vector.getX());
-        vector.setY(vector.getY() + another.vector.getY());
-        vector.setZ(vector.getZ() + another.vector.getZ());
+        vector.add(another.vector);
     }
 
     public void sub(Quaternion another){
         w -= another.w;
-        vector.setX(vector.getX() - another.vector.getX());
-        vector.setY(vector.getY() - another.vector.getY());
-        vector.setZ(vector.getZ() - another.vector.getZ());
+        vector.sub(another.vector);
     }
 
     public void mul(double scalar){
         w *= scalar;
-        vector.setX(vector.getX() * scalar);
-        vector.setY(vector.getY() * scalar);
-        vector.setZ(vector.getZ() * scalar);
+        vector.mul(scalar);
     }
 
     public void mul(Quaternion another){
