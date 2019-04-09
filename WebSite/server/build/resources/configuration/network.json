@@ -1,5 +1,0 @@
-{
-    "serverPort": 8080,
-    "serverAddress": "127.0.0.1",
-    "fullServerAddress": "http://127.0.0.1:8080"
-}
