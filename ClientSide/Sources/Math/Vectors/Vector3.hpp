@@ -30,8 +30,10 @@ namespace Math {
         static const std::uint8_t VECTOR_SIZE = 3;
 
         Vector3() noexcept = default;
-        Vector3(const Vector3& anotherVector) noexcept;
-        Vector3(const Type* array) noexcept;
+        Vector3(const Vector3& anotherVector) noexcept
+            : mX(anotherVector.mX), mY(anotherVector.mY), mZ(anotherVector.mZ) {}
+        Vector3(const Type* array) noexcept
+            : mX(array[0]), mY(array[1]), mZ(array[2]) {}
         Vector3(Type x, Type y, Type z) noexcept
             : mX(x), mY(y), mZ(z) {}
 
@@ -74,22 +76,6 @@ namespace Math {
     using Vector3f = Vector3<float>;
     using Vector3d = Vector3<double>;
     using Vector3i = Vector3<int>;
-
-    template<class Type>
-    Vector3<Type>::Vector3(const Vector3& anotherVector) noexcept
-    {
-        mX = anotherVector.mX;
-        mY = anotherVector.mY;
-        mZ = anotherVector.mZ;
-    }
-
-    template<class Type>
-    Vector3<Type>::Vector3(const Type* array) noexcept
-    {
-        mX = array[0];
-        mY = array[1];
-        mZ = array[2];
-    }
 
     template<class Type>
     Type Vector3<Type>::getX() const noexcept

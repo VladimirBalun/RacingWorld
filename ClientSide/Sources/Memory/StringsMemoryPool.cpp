@@ -18,7 +18,7 @@
 
 #define BLOCK_SIZE BYTES_512_SIZE
 
-Memory::Allocators::PoolAllocator Memory::StringsMemoryPool::mAllocator{ KILLOBYTES_512_SIZE / VIRTUAL_PAGE_SIZE,  BLOCK_SIZE };
+Memory::Allocators::PoolAllocator Memory::StringsMemoryPool::mAllocator{ KILLOBYTES_256_SIZE / BYTES_512_SIZE,  BLOCK_SIZE };
 
 Memory::StringsMemoryPool& Memory::StringsMemoryPool::getInstance() noexcept
 {
@@ -28,7 +28,7 @@ Memory::StringsMemoryPool& Memory::StringsMemoryPool::getInstance() noexcept
 
 void* Memory::StringsMemoryPool::getMemory() noexcept
 {
-    ASSERT((mAllocator.getFullMemorySize() - mAllocator.getFreeMemorySize()) > BLOCK_SIZE,
+    ASSERT(mAllocator.getFreeMemorySize() > BLOCK_SIZE,
         "Not enought memory in the poll allocator for string allocation.");
     void* pointer = mAllocator.allocate(BLOCK_SIZE);
     ASSERT(pointer, "Memory for string was not allocated.");
@@ -41,23 +41,24 @@ void Memory::StringsMemoryPool::returnMemory(void* pointer) noexcept
     std::size_t allocatorFreeSize = mAllocator.getFreeMemorySize();
 #endif // _DEBUG
     mAllocator.deallocate(pointer);
+    //showAllocatorMemoryState(mAllocator);
 #ifdef _DEBUG
     ASSERT(allocatorFreeSize < mAllocator.getFreeMemorySize(), 
         "Memory of the string was not deallocated.");
 #endif // _DEBUG
 }
 
-constexpr std::size_t Memory::StringsMemoryPool::getMemoryBlockSize() const noexcept
+std::size_t Memory::StringsMemoryPool::getMemoryBlockSize() const noexcept
 {
     return BLOCK_SIZE;
 }
 
-constexpr std::size_t Memory::StringsMemoryPool::getCountAllMemoryBlocks() const noexcept
+std::size_t Memory::StringsMemoryPool::getCountAllMemoryBlocks() const noexcept
 {
     return mAllocator.getFullMemorySize() / BLOCK_SIZE;
 }
 
-constexpr std::size_t Memory::StringsMemoryPool::getCountFreeMemoryBlocks() const noexcept
+std::size_t Memory::StringsMemoryPool::getCountFreeMemoryBlocks() const noexcept
 {
     return (mAllocator.getFullMemorySize() - mAllocator.getFreeMemorySize()) / BLOCK_SIZE;
 }

@@ -25,8 +25,8 @@ GLvoid Graphics::Managers::ShaderManager::initializeShaders() noexcept
 
 Graphics::Tools::ShaderProgram Graphics::Managers::ShaderManager::createShader(Memory::Allocators::LinearAllocator& allocator, const char* vShaderName, const char* fShaderName) const noexcept
 {
-    String vShaderFullPath(Configuration::getShadersPath(), allocator);
-    String fShaderFullPath(Configuration::getShadersPath(), allocator);
+    String vShaderFullPath(Configuration::getShadersPath());
+    String fShaderFullPath(Configuration::getShadersPath());
     vShaderFullPath.append(vShaderName);
     fShaderFullPath.append(fShaderName);
     return Tools::ShaderProgram(allocator, vShaderFullPath, fShaderFullPath);

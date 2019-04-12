@@ -23,15 +23,15 @@
 namespace Memory {
 
     // Singleton
-    class StringsMemoryPool 
+    class StringsMemoryPool : private INonCopyable
     {
     public:
         static StringsMemoryPool& getInstance() noexcept;
         void* getMemory() noexcept;
         void returnMemory(void* pointer) noexcept;
-        constexpr std::size_t getMemoryBlockSize() const noexcept;
-        constexpr std::size_t getCountAllMemoryBlocks() const noexcept;
-        constexpr std::size_t getCountFreeMemoryBlocks() const noexcept;
+        std::size_t getMemoryBlockSize() const noexcept;
+        std::size_t getCountAllMemoryBlocks() const noexcept;
+        std::size_t getCountFreeMemoryBlocks() const noexcept;
     private:
         static Allocators::PoolAllocator mAllocator;
     };

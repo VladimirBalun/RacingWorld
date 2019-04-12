@@ -18,14 +18,14 @@
 
 GLvoid Graphics::Managers::MeshManager::initializeMeshes() noexcept
 {
-    mMeshes[TREE] = createMesh("Tree/Tree.obj");
+    mMeshes[TREE] = createMesh(u8"Tree\\Tree.obj");
     mMeshes[CUBE] = createMesh(u8"Cube.obj");
     mMeshes[GROUND_POLYGON] = createMesh(u8"Ground\\Ground.obj");
 }
 
 Graphics::Components::Mesh Graphics::Managers::MeshManager::createMesh(const char* modelName) noexcept
 {
-    String modelFullPath(Configuration::getModelsPath(), mMeshesAllocator);
+    String modelFullPath(Configuration::getModelsPath());
     modelFullPath.append(modelName);
     return Tools::ObjParser(mMeshesAllocator).parse(modelFullPath);
 }

@@ -16,10 +16,9 @@
 
 #pragma once
 
-#include <string>
 #include <Windows.h>
 
-#include "StringOperations.hpp"
+#include "DataStructures/String.hpp"
 #include "../Math/Vectors/Vector3.hpp"
 
 struct Configuration 
@@ -39,17 +38,17 @@ struct Configuration
 
     struct Player 
     {
-        static const std::string PLAYER_EMAIL;
-        static const std::string PLAYER_PASSWORD;
+        static const String PLAYER_EMAIL;
+        static const String PLAYER_PASSWORD;
     };
 
     struct Network 
     {
-        static const char* SERVER_ADDRESS;
+        static const String SERVER_ADDRESS;
         static const std::uint16_t SERVER_PORT = 17017;
     };
 
-    static const char* getShadersPath() noexcept;
-    static const char* getTexturesPath() noexcept;
-    static const char* getModelsPath() noexcept;
+    static const String& getShadersPath() noexcept;
+    static const String& getTexturesPath() noexcept;
+    static const String& getModelsPath() noexcept;
 };

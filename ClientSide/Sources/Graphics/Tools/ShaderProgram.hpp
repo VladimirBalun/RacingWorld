@@ -21,6 +21,7 @@
 #include "../../Math/Vectors.hpp"
 #include "../../Math/Matrices.hpp"
 #include "../../EventSystem/EventManager.hpp"
+#include "../../Utils/DataStructures/String.hpp"
 #include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {
@@ -29,7 +30,7 @@ namespace Graphics { namespace Tools {
     {
     public:
         explicit ShaderProgram() noexcept = default;
-        explicit ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName) noexcept;
+        explicit ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const String& vShaderFileName, const String& fShaderFileName) noexcept;
         GLvoid use() const noexcept;
         GLvoid destroy() const noexcept;
         GLuint getProgramID() const noexcept;

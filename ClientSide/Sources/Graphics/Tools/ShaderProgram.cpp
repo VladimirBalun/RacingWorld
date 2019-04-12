@@ -16,10 +16,10 @@
 
 #include "ShaderProgram.hpp"
 
-Graphics::Tools::ShaderProgram::ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const char* vShaderFileName, const char* fShaderFileName) noexcept
+Graphics::Tools::ShaderProgram::ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const String& vShaderFileName, const String& fShaderFileName) noexcept
 {
-    const char* vShaderSourceCode = Utils::readFile(vShaderFileName, allocator);
-    const char* fShaderSourceCode = Utils::readFile(fShaderFileName, allocator);
+    const char* vShaderSourceCode = Utils::readFile(vShaderFileName.getData(), allocator);
+    const char* fShaderSourceCode = Utils::readFile(fShaderFileName.getData(), allocator);
 
     if (!vShaderSourceCode)
         EventSystem::EventManager::getInstance().notifyGlobalError("Vertex shader was not read.");

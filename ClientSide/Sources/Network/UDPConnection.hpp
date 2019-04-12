@@ -22,13 +22,14 @@
 #include <WS2tcpip.h>
 
 #include "../Utils/Debug.hpp"
+#include "../Utils/DataStructures/String.hpp"
 
 namespace Network {
 
     class UDPConnection 
     {
     public:
-        explicit UDPConnection(LPCSTR ipAddress, std::uint16_t port) noexcept;
+        explicit UDPConnection(const String& address, std::uint16_t port) noexcept;
         void sendBuffer(char* buffer, std::size_t size) noexcept;
         void receiveBuffer(char* buffer) noexcept;
         ~UDPConnection();

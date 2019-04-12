@@ -30,7 +30,7 @@ namespace Graphics { namespace Tools {
     struct MaterialsData
     {
         // TODO: need to calculate capacity for vectors
-        Vector<const char*> name;
+        Vector<String> name;
         Vector<Components::Material> material;
     };
 
@@ -42,7 +42,7 @@ namespace Graphics { namespace Tools {
             : mCurrentDirectory(currentDirectory), mMtlFileName(mtlFileName), mAllocator(1000) {}
         GLvoid parse(MaterialsData& materials) noexcept;
     private:
-        GLuint getCountMaterials(const String& mtlFileData) noexcept;
+        GLuint getCountMaterials(char* mtlFileData) noexcept;
         String parseName(const char* iterator) noexcept;
         Components::Texture2D parseTexture(const char* iterator) noexcept;
         Math::Vector3f parseColor(const char* iterator) noexcept;

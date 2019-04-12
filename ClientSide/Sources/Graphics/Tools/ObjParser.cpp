@@ -42,11 +42,11 @@ struct ObjSizeParameter
     GLuint countFragments = 0;
 };
 
-static ObjSizeParameter getObjSizeParameters(const String& objFileData) noexcept;
+static ObjSizeParameter getObjSizeParameters(char* objFileData) noexcept;
 
-Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFileName) noexcept
+Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const String& objFileName) noexcept
 {
-    const String buffer(Utils::readFile(objFileName, mStringsAllocator), mStringsAllocator);
+    char* buffer = Utils::readFile(objFileName.getData(), mStringsAllocator);
     if (!buffer)
     {
         EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
@@ -55,7 +55,7 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
 
     MaterialsData materialsData;
     ObjSizeParameter objSizeParameter = getObjSizeParameters(buffer);
-    const String currentDirectory(Utils::getPathWithoutFilename(objFileName, mStringsAllocator), mStringsAllocator);
+    const String currentDirectory(getPathWithoutFilename(objFileName));
 
     Vector<Math::Vector3f> vertices(objSizeParameter.countVertices);
     Vector<Math::Vector2f> textureCoordinates(objSizeParameter.countTextureCoordinates);
@@ -67,7 +67,7 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
     textureCoordinates.push(Math::Vector2f());
     normals.push(Math::Vector3f());
 
-    char* iterator = const_cast<char*>(buffer.getData());
+    char* iterator = buffer;
     while (*iterator != '\0')
     {
         if (strncmp(iterator, "v ", VERTEX_WORD_LENGTH + SPACE_LENGTH) == 0)
@@ -106,10 +106,10 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const char* objFile
     return createMesh(vertices, textureCoordinates, normals, faceElementIndexes);
 }
 
-ObjSizeParameter getObjSizeParameters(const String& objFileData) noexcept
+ObjSizeParameter getObjSizeParameters(char* objFileData) noexcept
 {
     ObjSizeParameter objSizeParameter;
-    char* iterator = const_cast<char*>(objFileData.getData());
+    char* iterator = objFileData;
     while ( (*iterator != '\0') && (*iterator != '\n') )
     {
         if (strncmp(iterator, "#vc ", 4) == 0)
@@ -134,10 +134,10 @@ void Graphics::Tools::ObjParser::parseMaterials(char* iterator, const String& cu
         tmpIterator++;
         materialFileNameLength++;
     }
-    const String materialFileName(iterator, materialFileNameLength, mStringsAllocator);
-    const GLuint lengthMaterialFullFileName = static_cast<GLuint>(strlen(currentDirectory) + materialFileNameLength);
-    String materialFullFileName(currentDirectory, mStringsAllocator);
-    materialFullFileName.append(materialFileName);
+    const String materialFileName(iterator, materialFileNameLength);
+    const GLuint lengthMaterialFullFileName = static_cast<GLuint>(currentDirectory.getLength() + materialFileNameLength);
+    String materialFullFileName(currentDirectory);
+    materialFullFileName.append(materialFileName.getData());
     MtlParser mtlParser(currentDirectory, materialFullFileName);
     mtlParser.parse(materialsData);
 }

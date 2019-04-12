@@ -183,7 +183,7 @@ namespace Math {
         const Type angleCosine = cos(angle);
         matrix = {
             angleCosine, -angleSine, 0.0,
-            angleSine, angleCosine, 0.0
+            angleSine, angleCosine, 0.0,
             0.0, 0.0, 1.0
         };
     }

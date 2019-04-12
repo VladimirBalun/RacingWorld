@@ -19,43 +19,49 @@
 std::uint16_t Configuration::Window::windowWidth = 800;
 std::uint16_t Configuration::Window::windowHeight = 600;
 
-const char* Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
+const String Configuration::Network::SERVER_ADDRESS("127.0.0.1");
 
-const std::string Configuration::Player::PLAYER_EMAIL = u8"player@gmail.com";
-const std::string Configuration::Player::PLAYER_PASSWORD = u8"difficult_password";
+const String Configuration::Player::PLAYER_EMAIL("player@gmail.com");
+const String Configuration::Player::PLAYER_PASSWORD("difficult_password");
 
-const char* Configuration::getShadersPath() noexcept
+const String& Configuration::getShadersPath() noexcept
 {
-    static char path[MAX_PATH] = { 0 };
-    if (!*path) 
+    static String shadersPath{};
+    if (shadersPath.isEmpty())
     {
-        GetCurrentDirectory(MAX_PATH, path);
-        Utils::getParentPathFromString(path);
-        Utils::concatenateStringsToString(path, MAX_PATH, "\\Resources", "\\Shaders\\");
+        char buffer[MAX_PATH] = { NULL };
+        GetCurrentDirectory(MAX_PATH, buffer);
+        shadersPath = getParentPath(buffer);
+        shadersPath.append("\\Resources");
+        shadersPath.append("\\Shaders\\");
     }
-    return path;
+    return shadersPath;
 }
 
-const char* Configuration::getTexturesPath() noexcept
+const String& Configuration::getTexturesPath() noexcept
 {
-    static char path[MAX_PATH] = { 0 };
-    if (!*path)
+    static String texturesPath{};
+    if (texturesPath.isEmpty())
     {
-        GetCurrentDirectory(MAX_PATH, path);
-        Utils::getParentPathFromString(path);
-        Utils::concatenateStringsToString(path, MAX_PATH, "\\Resources", "\\Textures\\");
+        char buffer[MAX_PATH] = { NULL };
+        GetCurrentDirectory(MAX_PATH, buffer);
+        texturesPath = getParentPath(buffer);
+        texturesPath.append("\\Resources");
+        texturesPath.append("\\Textures\\");
     }
-    return path;
+    return texturesPath;
 }
 
-const char* Configuration::getModelsPath() noexcept
+const String& Configuration::getModelsPath() noexcept
 {
-    static char path[MAX_PATH] = { 0 };
-    if (!*path)
+    static String modelsPath{};
+    if (modelsPath.isEmpty())
     {
-        GetCurrentDirectory(MAX_PATH, path);
-        Utils::getParentPathFromString(path);
-        Utils::concatenateStringsToString(path, MAX_PATH, "\\Resources", "\\Models\\");
+        char buffer[MAX_PATH] = { NULL };
+        GetCurrentDirectory(MAX_PATH, buffer);
+        modelsPath = getParentPath(buffer);
+        modelsPath.append("\\Resources");
+        modelsPath.append("\\Models\\");
     }
-    return path;
+    return modelsPath;
 }

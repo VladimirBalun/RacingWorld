@@ -47,7 +47,7 @@ enum class ParserState
 
 GLvoid Graphics::Tools::MtlParser::parse(MaterialsData& materials) noexcept
 {
-    const String buffer(Utils::readFile(mMtlFileName, mAllocator), mAllocator);
+    char* buffer = Utils::readFile(mMtlFileName.getData(), mAllocator);
     if (!buffer) 
     {
         EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
@@ -57,7 +57,7 @@ GLvoid Graphics::Tools::MtlParser::parse(MaterialsData& materials) noexcept
     // TODO: need to add transaction table
     ParserState parserState = ParserState::UNKNOWN;
     GLuint countMaterials = getCountMaterials(buffer);
-    char* iterator = const_cast<char*>(buffer.getData());
+    char* iterator = buffer;
     while (*iterator != '\0')
     {
         switch (parserState)
@@ -143,10 +143,10 @@ GLvoid Graphics::Tools::MtlParser::parse(MaterialsData& materials) noexcept
     }
 }
 
-GLuint Graphics::Tools::MtlParser::getCountMaterials(const String& mtlFileData) noexcept
+GLuint Graphics::Tools::MtlParser::getCountMaterials(char* mtlFileData) noexcept
 {
     GLuint countMaterials = 0;
-    char* iterator = const_cast<char*>(mtlFileData.getData());
+    char* iterator = mtlFileData;
     while ((*iterator != '\0') && (*iterator != '\n'))
     {
         if (strncmp(iterator, "#mtlc ", 6) == 0)
@@ -165,7 +165,7 @@ String Graphics::Tools::MtlParser::parseName(const char* iterator) noexcept
         tmpIterator++;
         nameLength++;
     }
-    return String(iterator, nameLength, mAllocator);
+    return String(iterator, nameLength);
 }
 
 Graphics::Components::Texture2D Graphics::Tools::MtlParser::parseTexture(const char* iterator) noexcept
@@ -173,9 +173,9 @@ Graphics::Components::Texture2D Graphics::Tools::MtlParser::parseTexture(const c
     GLuint textureWidth = 0;
     GLuint textureHeight = 0;
     const String textureName(parseName(iterator));
-    String texturePath(mCurrentDirectory, mAllocator);
-    texturePath.append(textureName);
-    const String imageData(reinterpret_cast<const char*>(BmpReader::read(texturePath, textureWidth, textureHeight, mAllocator)), mAllocator);
+    String texturePath(mCurrentDirectory);
+    texturePath.append(textureName.getData());
+    const String imageData(reinterpret_cast<const char*>(BmpReader::read(texturePath.getData(), textureWidth, textureHeight, mAllocator)));
     return Components::Texture2D(imageData, textureWidth, textureHeight);
 }
 

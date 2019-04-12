@@ -20,10 +20,10 @@ bool Network::NetworkManager::login() noexcept
 {
     auto packetToServer = mPacketBuilder.createPacketToServer<Protocol::LoginPacket>();
     packetToServer->setPacketNumber(mPacketNumber++);
-    packetToServer->setEmailSize(static_cast<std::int16_t>(Configuration::Player::PLAYER_EMAIL.size()));
-    packetToServer->setPasswordSize(static_cast<std::int8_t>(Configuration::Player::PLAYER_PASSWORD.size()));
-    packetToServer->setEmail(Configuration::Player::PLAYER_EMAIL.data());
-    packetToServer->setPassword(Configuration::Player::PLAYER_PASSWORD.data());
+    packetToServer->setEmailSize(static_cast<std::int16_t>(Configuration::Player::PLAYER_EMAIL.getLength()));
+    packetToServer->setPasswordSize(static_cast<std::int8_t>(Configuration::Player::PLAYER_PASSWORD.getLength()));
+    packetToServer->setEmail(Configuration::Player::PLAYER_EMAIL.getData());
+    packetToServer->setPassword(Configuration::Player::PLAYER_PASSWORD.getData());
     mConnection.sendBuffer(packetToServer->toBuffer(), sizeof(Protocol::LoginPacket));
 
     auto packetFromServer = mPacketBuilder.createPacketFromServer<Protocol::LoginAnswerPacket>();

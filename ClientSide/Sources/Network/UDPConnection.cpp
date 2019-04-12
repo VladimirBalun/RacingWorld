@@ -16,7 +16,7 @@
 
 #include "UDPConnection.hpp"
 
-Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t port) noexcept
+Network::UDPConnection::UDPConnection(const String& address, std::uint16_t port) noexcept
 {
     WSADATA socketData;
     if (WSAStartup(MAKEWORD(2, 2), &socketData) != 0)
@@ -28,7 +28,7 @@ Network::UDPConnection::UDPConnection(LPCSTR ipAddress, std::uint16_t port) noex
     memset((char*) &mSocketAddress, 0, sizeof(mSocketAddress));
     mSocketAddress.sin_family = AF_INET;
     mSocketAddress.sin_port = htons(port);
-    mSocketAddress.sin_addr.S_un.S_addr = inet_addr(ipAddress);
+    mSocketAddress.sin_addr.S_un.S_addr = inet_addr(address.getData());
 }
 
 void Network::UDPConnection::sendBuffer(char* buffer, std::size_t size) noexcept

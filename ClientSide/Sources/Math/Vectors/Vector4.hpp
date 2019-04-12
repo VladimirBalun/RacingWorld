@@ -30,8 +30,10 @@ namespace Math {
         static const std::uint8_t VECTOR_SIZE = 4;
 
         Vector4() noexcept = default;
-        Vector4(const Vector4& anotherVector) noexcept;
-        Vector4(const Type* array) noexcept;
+        Vector4(const Vector4& anotherVector) noexcept
+            : mX(anotherVector.mX), mY(anotherVector.mY), mZ(anotherVector.mZ), mW(anotherVector.mW) {}
+        Vector4(const Type* array) noexcept
+            : mX(array[0]), mY(array[1]), mZ(array[2]), mW(array[3]) {}
         Vector4(Type x, Type y, Type z) noexcept
             : mX(x), mY(y), mZ(z), mW(1) {}
         Vector4(Type x, Type y, Type z, Type w) noexcept
@@ -79,24 +81,6 @@ namespace Math {
     using Vector4f = Vector4<float>;
     using Vector4d = Vector4<double>;
     using Vector4i = Vector4<int>;
-
-    template<class Type>
-    Vector4<Type>::Vector4(const Vector4& anotherVector) noexcept
-    {
-        mX = anotherVector.mX;
-        mY = anotherVector.mY;
-        mZ = anotherVector.mZ;
-        mW = anotherVector.mW;
-    }
-
-    template<class Type>
-    Vector4<Type>::Vector4(const Type* array) noexcept
-    {
-        mX = array[0];
-        mY = array[1];
-        mZ = array[2];
-        mW = array[3];
-    }
 
     template<class Type>
     Type Vector4<Type>::getX() const noexcept
