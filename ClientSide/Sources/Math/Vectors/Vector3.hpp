@@ -24,6 +24,24 @@
 namespace Math {
 
     template<class Type>
+    class Vector3;
+
+    using Vector3f = Vector3<float>;
+    using Vector3d = Vector3<double>;
+    using Vector3i = Vector3<int>;
+    
+    template<class Type>
+    Vector3<Type> operator + (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
+    template<class Type>
+    Vector3<Type> operator - (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
+    template<class Type>
+    Vector3<Type> operator * (const Vector3<Type>& vector, Type scalar) noexcept;
+    template<class Type>
+    bool operator == (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
+    template<class Type>
+    bool operator != (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
+
+    template<class Type>
     class Vector3
     {
     public:
@@ -61,21 +79,6 @@ namespace Math {
         Type mY = 0;
         Type mZ = 0;
     };
-
-    template<class Type>
-    Vector3<Type> operator + (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
-    template<class Type>
-    Vector3<Type> operator - (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
-    template<class Type>
-    Vector3<Type> operator * (const Vector3<Type>& vector, Type scalar) noexcept;
-    template<class Type>
-    bool operator == (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
-    template<class Type>
-    bool operator != (const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept;
-
-    using Vector3f = Vector3<float>;
-    using Vector3d = Vector3<double>;
-    using Vector3i = Vector3<int>;
 
     template<class Type>
     Type Vector3<Type>::getX() const noexcept

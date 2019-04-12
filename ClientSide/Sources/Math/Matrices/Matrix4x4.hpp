@@ -21,16 +21,33 @@
 namespace Math {
 
     template<class Type>
+    class Matrix4x4;
+
+    using Matrix4x4f = Matrix4x4<float>;
+    using Matrix4x4d = Matrix4x4<double>;
+
+    template<typename Type>
+    const Matrix4x4<Type> operator - (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept;
+    template<typename Type>
+    Matrix4x4<Type> operator + (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept;
+    template<typename Type>
+    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, Type scalar) noexcept;
+    template<typename Type>
+    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, const Vector4<Type>& vector) noexcept;
+    template<typename Type>
+    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept;
+
+    template<class Type>
     class Matrix4x4 
     { 
     public:
         static const std::uint8_t ROW_SIZE = 4;
         static const std::uint8_t MATRIX_SIZE = ROW_SIZE * ROW_SIZE;
 
-        Matrix4x4() noexcept = default;
-        Matrix4x4(const Type (&array)[MATRIX_SIZE]) noexcept;
-        Matrix4x4(const Matrix4x4& anotherMatrix) noexcept;
-        Matrix4x4(Matrix4x4&& anotherMatrix) noexcept;
+        explicit Matrix4x4() noexcept = default;
+        explicit Matrix4x4(const Type (&array)[MATRIX_SIZE]) noexcept;
+        explicit Matrix4x4(const Matrix4x4& anotherMatrix) noexcept;
+        explicit Matrix4x4(Matrix4x4&& anotherMatrix) noexcept;
 
         void transpose() noexcept;
         void sub(const Matrix4x4& anotherMatrix) noexcept;
@@ -62,20 +79,6 @@ namespace Math {
             0, 0, 0, 1
         };
     };
-
-    template<typename Type>
-    const Matrix4x4<Type> operator - (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept;
-    template<typename Type>
-    Matrix4x4<Type> operator + (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept;
-    template<typename Type>
-    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, Type scalar) noexcept;
-    template<typename Type>
-    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, const Vector4<Type>& vector) noexcept;
-    template<typename Type>
-    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept;
-
-    using Matrix4x4f = Matrix4x4<float>;
-    using Matrix4x4d = Matrix4x4<double>;
 
     template<class Type>
     Matrix4x4<Type>::Matrix4x4(const Type (&array)[MATRIX_SIZE]) noexcept

@@ -21,6 +21,23 @@
 namespace Math {
 
     template<class Type>
+    class Matrix2x2;
+
+    using Matrix2x2f = Matrix2x2<float>;
+    using Matrix2x2d = Matrix2x2<double>;
+
+    template<class Type>
+    Matrix2x2<Type> operator + (const Matrix2x2<Type>& matrix, const Matrix2x2<Type>& anotherMatrix) noexcept;
+    template<class Type>
+    Matrix2x2<Type> operator - (const Matrix2x2<Type>& matrix, const Matrix2x2<Type>& anotherMatrix) noexcept;
+    template<class Type>
+    Matrix2x2<Type> operator * (const Matrix2x2<Type>& matrix, Type scalar) noexcept;
+    template<class Type>
+    Matrix2x2<Type> operator * (const Matrix2x2<Type>& matrix, const Vector2<Type>& vector) noexcept;
+    template<class Type>
+    Matrix2x2<Type> operator * (const Matrix2x2<Type>& matrix, const Matrix2x2<Type>& anotherMatrix) noexcept;
+
+    template<class Type>
     class Matrix2x2
     {
     public:
@@ -58,20 +75,6 @@ namespace Math {
             0, 1
         };
     };
-
-    template<class Type>
-    Matrix2x2<Type> operator + (const Matrix2x2<Type>& matrix, const Matrix2x2<Type>& anotherMatrix) noexcept;
-    template<class Type>
-    Matrix2x2<Type> operator - (const Matrix2x2<Type>& matrix, const Matrix2x2<Type>& anotherMatrix) noexcept;
-    template<class Type>
-    Matrix2x2<Type> operator * (const Matrix2x2<Type>& matrix, Type scalar) noexcept;
-    template<class Type>
-    Matrix2x2<Type> operator * (const Matrix2x2<Type>& matrix, const Vector2<Type>& vector) noexcept;
-    template<class Type>
-    Matrix2x2<Type> operator * (const Matrix2x2<Type>& matrix, const Matrix2x2<Type>& anotherMatrix) noexcept;
-
-    using Matrix2x2f = Matrix2x2<float>;
-    using Matrix2x2d = Matrix2x2<double>;
 
     template<class Type>
     Matrix2x2<Type>::Matrix2x2(const Type (&array)[MATRIX_SIZE]) noexcept

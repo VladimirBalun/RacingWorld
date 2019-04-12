@@ -21,6 +21,23 @@
 namespace Math {
 
     template<class Type>
+    class Matrix3x3;
+
+    using Matrix3x3f = Matrix3x3<float>;
+    using Matrix3x3d = Matrix3x3<double>;
+
+    template<class Type>
+    Matrix3x3<Type> operator + (const Matrix3x3<Type>& matrix, const Matrix3x3<Type>& anotherMatrix) noexcept;
+    template<class Type>
+    Matrix3x3<Type> operator - (const Matrix3x3<Type>& matrix, const Matrix3x3<Type>& anotherMatrix) noexcept;
+    template<class Type>
+    Matrix3x3<Type> operator * (const Matrix3x3<Type>& matrix, Type scalar) noexcept;
+    template<class Type>
+    Matrix3x3<Type> operator * (const Matrix3x3<Type>& matrix, const Vector3<Type>& vector) noexcept;
+    template<class Type>
+    Matrix3x3<Type> operator * (const Matrix3x3<Type>& matrix, const Matrix3x3<Type>& anotherMatrix) noexcept;
+
+    template<class Type>
     class Matrix3x3
     {
     public:
@@ -61,20 +78,6 @@ namespace Math {
             0, 0, 1
         };
     };
-
-    template<class Type>
-    Matrix3x3<Type> operator + (const Matrix3x3<Type>& matrix, const Matrix3x3<Type>& anotherMatrix) noexcept;
-    template<class Type>
-    Matrix3x3<Type> operator - (const Matrix3x3<Type>& matrix, const Matrix3x3<Type>& anotherMatrix) noexcept;
-    template<class Type>
-    Matrix3x3<Type> operator * (const Matrix3x3<Type>& matrix, Type scalar) noexcept;
-    template<class Type>
-    Matrix3x3<Type> operator * (const Matrix3x3<Type>& matrix, const Vector3<Type>& vector) noexcept;
-    template<class Type>
-    Matrix3x3<Type> operator * (const Matrix3x3<Type>& matrix, const Matrix3x3<Type>& anotherMatrix) noexcept;
-
-    using Matrix3x3f = Matrix3x3<float>;
-    using Matrix3x3d = Matrix3x3<double>;
 
     template<class Type>
     Matrix3x3<Type>::Matrix3x3(const Type (&array)[MATRIX_SIZE]) noexcept
