@@ -25,5 +25,6 @@ WebSite/server/.idea/*
 WebSite/client/build/*
 WebSite/server/build/*
 
+WebSite/node_modules/*
 WebSite/client/node_modules/*
 WebSite/server/node_modules/*
