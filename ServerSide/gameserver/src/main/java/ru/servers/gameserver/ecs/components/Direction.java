@@ -10,14 +10,14 @@ import ru.servers.gameserver.math.algebra.vectors.Vector3;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Route implements Component {
+public class Direction implements Component {
 
     private Vector3 route;
 
     @Override
-    public Route clone() {
+    public Direction clone() {
         try {
-            return (Route)super.clone();
+            return (Direction)super.clone();
         }
         catch (CloneNotSupportedException e) {
             throw new InternalError();
