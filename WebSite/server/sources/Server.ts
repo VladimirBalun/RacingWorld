@@ -17,17 +17,24 @@
 "use strict";
 
 import * as _ from "underscore";
-//import * as express from "express";
 import express from "express";
 import * as bodyParser from "body-parser";
 import * as mime from "mime";
-
 import * as log4js from "log4js";
+
 const log = log4js.getLogger(__filename);
 log.level = "debug";
 
 import News from "./data/entity/News";
 import NewsService from "./data/service/NewsServiceImplementation";
+
+enum statusCode{
+    OK = 200,
+    Created = 201,
+    BadRequest = 400,
+    NotFound = 404,
+}
+
 
 class Server {
 
@@ -58,19 +65,19 @@ class Server {
         router.get("/news", async (request, response) => {
             const news: News[] = await newsService.getAllNews();
             if (!_.isEmpty(news)) {
-                response.status(200).json(news);
+                response.status(statusCode.OK).json(news);
             } else {
-                response.status(404).json([]);
+                response.status(statusCode.NotFound).json([]);
             }
         });
 
         router.get("/news/:id", async (request, response) => {
             const id: number = request.params.id;
-            const news: News | any[] = await newsService.getNewsByID(id);
+            const news: News | Array<string> = await newsService.getNewsByID(id);
             if (!_.isEmpty(news)) {
-                response.status(200).json(news);
+                response.status(statusCode.OK).json(news);
             } else {
-                response.status(404).json({});
+                response.status(statusCode.NotFound).json({});
             }
         });
 
@@ -80,20 +87,20 @@ class Server {
             const date: Date = request.body.date;
             const addingResult: boolean = await newsService.addNews(new News(title, description, date));
             if (addingResult) {
-                response.status(201).json({ result: true });
+                response.status(statusCode.Created).json({ result: true });
             } else {
-                response.status(400).json({ result: false });
+                response.status(statusCode.BadRequest).json({ result: false });
             }
         });
 
         this.express.route("/news/:id")
             .delete(async (request, response) => {
                 const id: number = request.params.id;
-                const removeResult : boolean = await newsService.removeNewsByID(id);
+                const removeResult: boolean = await newsService.removeNewsByID(id);
                 if (removeResult) {
-                    response.status(201).json({result: true});
+                    response.status(statusCode.Created).json({result: true});
                 } else {
-                    response.status(400).json({result: false});
+                    response.status(statusCode.BadRequest).json({result: false});
                 }
             });
 

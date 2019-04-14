@@ -18,11 +18,13 @@
 
 import News from "../entity/News";
 
+type MySQLQueryResult = {id: number, title: string, description: string, date: Date};
+
 interface NewsDAOInterface {
 
-    getAll(): Promise<{id:number, title:string, description:string, date:Date}[]>;
+    getAll(): Promise<MySQLQueryResult[]>;
 
-    getByID(id: number): Promise<{id:number, title:string, description:string, date:Date}[]>;
+    getByID(id: number): Promise<MySQLQueryResult[]>;
 
     insert(news: News): Promise<number>;
 

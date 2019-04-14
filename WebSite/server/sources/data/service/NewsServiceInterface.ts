@@ -22,7 +22,7 @@ interface NewsServiceInterface {
 
     getAllNews(): Promise<News[]>;
 
-    getNewsByID(id: number): Promise<News | any[]>;
+    getNewsByID(id: number): Promise<News | Array<string>>;
 
     addNews(news: News): Promise<boolean>;
 

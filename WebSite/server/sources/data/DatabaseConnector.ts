@@ -18,22 +18,33 @@
 
 import * as mysql from "mysql"
 import databaseConf from "../../resources/configuration/database.json";
+import News from "./entity/News";
+
+type MySQLQueryResult = {id:number, title:string, description:string, date:Date};
+type MySQLQueryOkPacket = {fieldCount: number,
+    affectedRows: number, insertId: number,
+    serverStatus: number, warningCount: number,
+    message: string,
+    protocol41: boolean,
+    changedRows: number,
+};
+
 
 class MySQLConnector {
 
     public static getDatabase() {
         return mysql.createConnection({
+            database: databaseConf.database,
             host : databaseConf.host,
-            user : databaseConf.user,
             password : databaseConf.password,
-            database: databaseConf.database
+            user : databaseConf.user,
         });
     }
 
-    public connectionQuery(sql:string, args?:any): Promise<{}> {
+    public connectionQuery(sql: string, args?: number | News): Promise<{}> {
         const connection = MySQLConnector.getDatabase();
         return new Promise((resolve, reject) => {
-            connection.query(sql, args,(error: string, result: any)=> {
+            connection.query(sql, args,(error: string, result: Array<MySQLQueryResult> | MySQLQueryOkPacket)=> {
                 connection.end();
                 if(error){reject(error);}
                 resolve(result);

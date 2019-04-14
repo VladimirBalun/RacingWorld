@@ -21,7 +21,15 @@ import NewsDAOInterface from "./NewsDAOInterface";
 import MySQLConnector from "../DatabaseConnector";
 
 type MySQLQueryResult = {id:number, title:string, description:string, date:Date};
-type MySQLQuryOkPacket = {fieldCount: number,affectedRows: number, insertId: number, serverStatus: number, warningCount: number, message: string, protocol41: boolean, changedRows: number };
+type MySQLQueryOkPacket = {fieldCount: number,
+    affectedRows: number,
+    insertId: number,
+    serverStatus: number,
+    warningCount: number,
+    message: string,
+    protocol41: boolean,
+    changedRows: number,
+};
 
 class NewsDAO implements NewsDAOInterface {
 
@@ -32,7 +40,7 @@ class NewsDAO implements NewsDAOInterface {
     }
 
     public getAll(): Promise<MySQLQueryResult[]> {
-        const sql: string = "SELECT * FROM news";
+        const sql = "SELECT * FROM news";
         return this.database.connectionQuery(sql)
             .then((result: MySQLQueryResult[]) => {
                 return result;
@@ -43,9 +51,9 @@ class NewsDAO implements NewsDAOInterface {
     }
 
     public getByID(id: number): Promise<MySQLQueryResult[]> {
-        const sql: string = "SELECT * FROM news WHERE id = ?";
+        const sql = "SELECT * FROM news WHERE id = ?";
         return this.database.connectionQuery(sql, id)
-            .then((result: MySQLQueryResult[], ) => {
+            .then((result: MySQLQueryResult[]) => {
                 return result;
             })
             .catch((error: string) => {
@@ -54,10 +62,12 @@ class NewsDAO implements NewsDAOInterface {
     }
 
     public insert(news: News): Promise<number> {
-        const sql: string = "INSERT INTO news SET?";
+        const sql = "INSERT INTO news SET?";
+        const errorReturn = -1;
+        const defaultWarningCount = 0;
         return this.database.connectionQuery(sql, news)
-            .then((result: MySQLQuryOkPacket) => {
-                return result.warningCount === 0 ? result.insertId : -1;
+            .then((result: MySQLQueryOkPacket) => {
+                return result.warningCount === defaultWarningCount ? result.insertId : errorReturn;
             })
             .catch((error: string) => {
                 return false;
@@ -65,10 +75,11 @@ class NewsDAO implements NewsDAOInterface {
     }
 
     public remove(id: number): Promise<boolean> {
-        const sql: string = "DELETE FROM news WHERE id = ?";
+        const sql = "DELETE FROM news WHERE id = ?";
+        const defaultWarningCount = 0;
         return this.database.connectionQuery(sql, id)
-            .then((result: MySQLQuryOkPacket) => {
-                return result.warningCount === 0;
+            .then((result: MySQLQueryOkPacket) => {
+                return result.warningCount === defaultWarningCount;
             })
             .catch((error: string) => {
                 return false;
