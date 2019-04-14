@@ -29,6 +29,8 @@ public class ComponentManagerImpl implements ComponentManager {
         components.put(ComponentType.MASS_COMPONENT, new Mass());
         components.put(ComponentType.HEALTH_COMPONENT, new Health());
         components.put(ComponentType.LOCATION_COMPONENT, new Location());
+        components.put(ComponentType.DIRECTION_COMPONENT, new Direction());
+        components.put(ComponentType.SPEED_COMPONENT, new Speed());
     }
 
     @Override
