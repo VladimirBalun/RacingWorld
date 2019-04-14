@@ -20,15 +20,15 @@ import * as mysql from "mysql"
 import databaseConf from "../../resources/configuration/database.json";
 import News from "./entity/News";
 
-type MySQLQueryResult = {id:number, title:string, description:string, date:Date};
-type MySQLQueryOkPacket = {fieldCount: number,
+type MySQLQueryResult = {id: number, title: string, description: string, date: Date};
+type MySQLQueryOkPacket = {
+    fieldCount: number,
     affectedRows: number, insertId: number,
     serverStatus: number, warningCount: number,
     message: string,
     protocol41: boolean,
     changedRows: number,
 };
-
 
 class MySQLConnector {
 
