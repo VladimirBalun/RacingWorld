@@ -2,27 +2,24 @@ package ru.servers.gameserver.ecs.components;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Speed implements Component {
 
-    private final double MIN_SPEED;
-    private final double MAX_SPEED;
+    private double minSpeed;
+    private double maxSpeed;
     private double speed;
     private double acceleration;
 
-    public Speed(double MIN_SPEED, double MAX_SPEED, double speed, double acceleration) {
-        this.MIN_SPEED = MIN_SPEED;
-        this.MAX_SPEED = MAX_SPEED;
-        if (speed < MIN_SPEED) {
-            this.speed = MIN_SPEED;
-        }
-        if (speed > MAX_SPEED) {
-            this.speed = MAX_SPEED;
-        }
+    public Speed(double minSpeed, double maxSpeed, double speed, double acceleration) {
+        this.minSpeed = minSpeed;
+        this.maxSpeed = maxSpeed;
+        setSpeed(speed);
         this.acceleration = acceleration;
     }
 
@@ -36,11 +33,11 @@ public class Speed implements Component {
     }
 
     public void setSpeed(double speed) {
-        if (speed < MIN_SPEED) {
-            this.speed = MIN_SPEED;
+        if (speed < minSpeed) {
+            this.speed = minSpeed;
         }
-        if (speed > MAX_SPEED) {
-            this.speed = MAX_SPEED;
+        if (speed > maxSpeed) {
+            this.speed = maxSpeed;
         }
     }
 
