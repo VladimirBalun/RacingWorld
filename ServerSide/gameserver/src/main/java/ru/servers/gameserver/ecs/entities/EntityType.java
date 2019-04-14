@@ -17,5 +17,5 @@
 package ru.servers.gameserver.ecs.entities;
 
 public enum EntityType {
-    CAR_ENTITY
+    VEHICLE_ENTITY
 }

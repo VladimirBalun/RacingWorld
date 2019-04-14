@@ -29,7 +29,7 @@ import java.util.Map;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class Car implements Entity{
+public class Vehicle implements Entity{
 
     private Map<ComponentType, Component> components = new HashMap<>();
 

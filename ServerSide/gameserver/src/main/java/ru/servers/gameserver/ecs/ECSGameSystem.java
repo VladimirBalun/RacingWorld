@@ -38,7 +38,7 @@ public class ECSGameSystem implements ECS {
             return 0;
         }
 
-        int token = entityManager.createEntity(EntityType.CAR_ENTITY);
+        int token = entityManager.createEntity(EntityType.VEHICLE_ENTITY);
         Entity createdEntity = entityManager.getEntity(token);
         Health health = (Health) componentManager.getComponent(ComponentType.HEALTH_COMPONENT);
         Location location = (Location) componentManager.getComponent(ComponentType.LOCATION_COMPONENT);
