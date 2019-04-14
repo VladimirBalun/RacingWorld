@@ -19,23 +19,24 @@
 import News from "../entity/News";
 import NewsDAO from "../dao/NewsDAOImplementation";
 import NewsServiceInterface from "./NewsServiceInterface";
-import * as _ from "underscore"
+import * as _ from "underscore";
+import * as log4js from "log4js";
 
-const log4js = require("log4js");
 const log = log4js.getLogger(__filename);
 log.level = "debug";
 
-type Result = {id:number, title:string, description:string, date:Date};
+type Result = {id: number, title: string, description: string, date: Date};
 
 class NewsService implements NewsServiceInterface {
 
     private newsDAO: NewsDAO = new NewsDAO();
 
     public addNews(news: News): Promise<boolean> {
+        const errorID = 0;
         const resultFromQuery: Promise<number> = this.newsDAO.insert(news);
         return resultFromQuery
-            .then((result : number) => {
-                if (result > 0) {
+            .then((result: number) => {
+                if (result > errorID) {
                     log.debug(`Request insert news into db has been processed with id = ${result}`);
                     return true;
                 }
@@ -48,7 +49,7 @@ class NewsService implements NewsServiceInterface {
     }
 
     public getAllNews(): Promise<News[]> {
-        const resultFromQuery : Promise<Result[]> = this.newsDAO.getAll();
+        const resultFromQuery: Promise<Result[]> = this.newsDAO.getAll();
         return resultFromQuery
             .then((result: Result[]) => {
                 log.debug("Request getting all news has been processed");
@@ -62,7 +63,7 @@ class NewsService implements NewsServiceInterface {
             });
     }
 
-    public getNewsByID(id: number): Promise<News | any[]> {
+    public getNewsByID(id: number): Promise<News | Array<string>> {
         const resultFromQuery : Promise<Result[]> = this.newsDAO.getByID(id);
         return resultFromQuery
             .then((result: Result[]) => {
