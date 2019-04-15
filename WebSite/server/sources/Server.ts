@@ -21,6 +21,8 @@ import express from "express";
 import * as bodyParser from "body-parser";
 import * as mime from "mime";
 import * as log4js from "log4js";
+import * as fs from "fs";
+import * as path from "path";
 
 const log = log4js.getLogger(__filename);
 log.level = "debug";
@@ -91,6 +93,18 @@ class Server {
             } else {
                 response.status(statusCode.BadRequest).json({ result: false });
             }
+        });
+
+        router.get("/downloads/*", (request, response) => {
+            const filename = request.path.substring(request.path.lastIndexOf("/")+1);
+            fs.readFile(path.join(__dirname ,"../resources/webapp/" + filename), (error, data) =>{
+                if(error){
+                    response.status(statusCode.NotFound).send("<h1>404 Not Found</h1>");
+                }
+                else{
+                    response.status(statusCode.OK).set({"Content-type":this.getMime(request)}).send(data);
+                }
+            })
         });
 
         this.express.route("/news/:id")

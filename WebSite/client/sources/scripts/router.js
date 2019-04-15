@@ -22,6 +22,7 @@ import VueRouter from "vue-router";
 import mainPage from "../pages/main-page";
 import newsPage from "../pages/news-page";
 import forumPage from "../pages/forum-page";
+import downloadPage from "../pages/download-page"
 
 Vue.use(VueRouter);
 
@@ -38,6 +39,10 @@ const router = new VueRouter({
         {
             path: "/forum",
             component: forumPage
+        },
+        {
+            path: "/downloads",
+            component: downloadPage
         }
     ]
 });
