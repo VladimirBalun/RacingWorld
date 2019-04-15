@@ -21,6 +21,7 @@
           <router-link to="/" class="nav-button">RacingWorld</router-link>
           <router-link to="/news" class="nav-button">News</router-link>
           <router-link to="/forum" class="nav-button">Forum</router-link>
+          <router-link to="/downloads" class="nav-button">Downloads</router-link>
       </nav>
 
       <div class="input">
