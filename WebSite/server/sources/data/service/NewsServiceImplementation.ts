@@ -64,7 +64,7 @@ class NewsService implements NewsServiceInterface {
     }
 
     public getNewsByID(id: number): Promise<News | Array<string>> {
-        const resultFromQuery : Promise<Result[]> = this.newsDAO.getByID(id);
+        const resultFromQuery: Promise<Result[]> = this.newsDAO.getByID(id);
         return resultFromQuery
             .then((result: Result[]) => {
                 log.debug(`Request getting news with id-${id} has been processed`);
