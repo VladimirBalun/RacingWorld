@@ -15,55 +15,56 @@
 -->
 
 <template>
-  <div id="download-webpage">
-    <div class="main-container">
-      <section class="info">
-        <h2 hidden>Информация и системные требования</h2>
-        <h4><b>Минимальные системные требования</b></h4>
-          <ul>
-            <li>CPU: Pentium III or AMD K6</li>
-            <li>RAM: 100MB</li>
-            <li>OpenGL: Version 3.3</li>
-            <li>OS: Windows 7, Windows 8, Windows 10</li>
-            <li>Store: 500MB available space</li>
-            <li>Network: Broadband Internet connection</li>
-          </ul><br>
-          <h4><b>Рекомендуемые системные требования</b></h4>
-          <ul>
-            <li>CPU: Pentium III or AMD K6</li>
-            <li>RAM: 100MB</li>
-            <li>OpenGL: Version 3.3</li>
-            <li>OS: Windows 7, Windows 8, Windows 10</li>
-            <li>Store: 500MB available space</li>
-            <li>Network: Broadband Internet connection</li>
-          </ul>
-      </section>
-      <section class="download-logo">
-          <h2 hidden>Логотип и кнопки загрузки</h2>
-        <section class="logo">
-          <h2 hidden>Логотип продукта</h2>
-          <img src="//github.com/VladimirBalun/RacingWorld/raw/develop/RacingWorld.png" alt="Logo">
-        </section>
-        <section class="download-btns">
-          <h2 hidden>Кнопки для загрузки</h2>
-          <b>32-bit версия</b>
-          <div class="btn-container">
-            <div class="wrap-btn-container">
-              <div class="btn-bg"></div>
-              <button class="download-btn" @click="get32">Скачать</button>
-            </div>
-          </div>
-          <b>64-bit версия</b>
-            <div class="btn-container">
-              <div class="wrap-btn-container">
-                <div class="btn-bg"></div>
-                <button class="download-btn" @click="get64">Скачать</button>
-              </div>
-            </div>
-        </section>
-      </section>
+    <div id="download-webpage">
+        <div class="main-container">
+            <section class="info">
+                <h2 hidden>Информация и системные требования</h2>
+                <h4><b>Минимальные системные требования</b></h4>
+                <ul>
+                    <li>CPU: Pentium III or AMD K6</li>
+                    <li>RAM: 100MB</li>
+                    <li>OpenGL: Version 3.3</li>
+                    <li>OS: Windows 7, Windows 8, Windows 10</li>
+                    <li>Store: 500MB available space</li>
+                    <li>Network: Broadband Internet connection</li>
+                </ul>
+                <br>
+                <h4><b>Рекомендуемые системные требования</b></h4>
+                <ul>
+                    <li>CPU: Pentium III or AMD K6</li>
+                    <li>RAM: 100MB</li>
+                    <li>OpenGL: Version 3.3</li>
+                    <li>OS: Windows 7, Windows 8, Windows 10</li>
+                    <li>Store: 500MB available space</li>
+                    <li>Network: Broadband Internet connection</li>
+                </ul>
+            </section>
+            <section class="download-logo">
+                <h2 hidden>Логотип и кнопки загрузки</h2>
+                <section class="logo">
+                    <h2 hidden>Логотип продукта</h2>
+                    <img alt="Logo" src="//github.com/VladimirBalun/RacingWorld/raw/develop/RacingWorld.png">
+                </section>
+                <section class="download-btns">
+                    <h2 hidden>Кнопки для загрузки</h2>
+                    <b>32-bit версия</b>
+                    <section class="btn-container">
+                        <div class="wrap-btn-container">
+                            <div class="btn-bg"></div>
+                            <button class="download-btn">Скачать</button>
+                        </div>
+                    </section>
+                    <b>64-bit версия</b>
+                    <section class="btn-container">
+                        <div class="wrap-btn-container">
+                            <div class="btn-bg"></div>
+                            <button class="download-btn">Скачать</button>
+                        </div>
+                    </section>
+                </section>
+            </section>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -72,22 +73,9 @@
 
     export default {
         data() {
-            return {
-                downloadURL32: "/file32.exe",
-                downloadURL64: "/file64.exe"
-            }
-            },
-        methods: {
-            get32: function () {
-                return location.href = this.downloadURL32;
-            },
-            get64: function () {
-                return location.href = this.downloadURL64;
-            }
-        }
-
-
-        };
+            return {};
+        },
+    }
 
 </script>
 
@@ -97,7 +85,7 @@
         cursor: pointer
 
     button
-        outline: none!important
+        outline: none !important
         border: none
         background: transparent
 
