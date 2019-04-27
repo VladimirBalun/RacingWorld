@@ -39,8 +39,8 @@ public class OSMMinifier {
         }
     }
 
-    private String getStringFromDocument(Document doc) throws TransformerException {
-        DOMSource domSource = new DOMSource(doc);
+    private String getStringFromDocument(Document document) throws TransformerException {
+        DOMSource domSource = new DOMSource(document);
         StringWriter writer = new StringWriter();
         StreamResult result = new StreamResult(writer);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -49,7 +49,6 @@ public class OSMMinifier {
         return writer.toString();
     }
 
-    // Баг в коде в итоге пустая трока получилась
     private void attributesDelete(String attributeName, Document document) {
         NodeList nodeList = document.getElementsByTagName(attributeName);
         for (int i = 0; i < nodeList.getLength(); ++i) {
