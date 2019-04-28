@@ -27,6 +27,7 @@ public class OSMMinifier {
             DocumentBuilder builder = factory.newDocumentBuilder();
             InputSource inputSource = new InputSource(new StringReader(osmData));
             Document document = builder.parse(inputSource);
+            document.setXmlStandalone(true);
 
             attributesDelete("node", document);
             attributesDelete("way", document);
