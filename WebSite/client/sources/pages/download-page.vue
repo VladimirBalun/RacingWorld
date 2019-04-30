@@ -48,19 +48,9 @@
                 <section class="download-btns">
                     <h2 hidden>Кнопки для загрузки</h2>
                     <b>32-bit версия</b>
-                    <section class="btn-container">
-                        <div class="wrap-btn-container">
-                            <div class="btn-bg"></div>
-                            <button class="download-btn">Скачать</button>
-                        </div>
-                    </section>
+                    <button-component title="Скачать"></button-component>
                     <b>64-bit версия</b>
-                    <section class="btn-container">
-                        <div class="wrap-btn-container">
-                            <div class="btn-bg"></div>
-                            <button class="download-btn">Скачать</button>
-                        </div>
-                    </section>
+                    <button-component title="Скачать"></button-component>
                 </section>
             </section>
         </div>
@@ -68,10 +58,12 @@
 </template>
 
 <script>
-
     "use strict";
 
+    import ButtonComponent from "../components/button-component";
+
     export default {
+        components: {ButtonComponent},
         data() {
             return {};
         },
@@ -80,14 +72,6 @@
 </script>
 
 <style scoped lang="sass">
-
-    button:hover
-        cursor: pointer
-
-    button
-        outline: none !important
-        border: none
-        background: transparent
 
     #download-webpage
         display: flex
@@ -104,7 +88,7 @@
         transition: all 0.2s
         width: 1024px
         margin: 40px 0
-        padding: 40px 40px 20px 40px
+        padding: 40px
         display: -moz-box
         display: -ms-flexbox
         display: -webkit-box
@@ -150,61 +134,5 @@
         text-align: center
         line-height: 44px
         font-weight: 500
-
-    .btn-container
-        display: -moz-box
-        display: -ms-flexbox
-        display: -webkit-box
-        display: -webkit-flex
-        display: flex
-        flex-wrap: wrap
-        justify-content: center
-        padding: 5px 0 35px 0
-
-    .wrap-btn-container
-        width: 100%
-        display: block
-        position: relative
-        z-index: 1
-        border-radius: 25px
-        overflow: hidden
-        margin: 0 auto
-
-    .btn-bg
-        position: absolute
-        z-index: -1
-        width: 300%
-        height: 100%
-        background: #a64bf4
-        background: -o-linear-gradient(to right, #ff0100, #2c0000, #ff0100, #2c0000)
-        background: -moz-linear-gradient(to right, #ff0100, #2c0000, #ff0100, #2c0000)
-        background: -webkit-linear-gradient(to right, #ff0100, #2c0000, #ff0100, #2c0000)
-        background: linear-gradient(to right, #ff0100, #2c0000, #ff0100, #2c0000)
-        top: 0
-        left: -100%
-        -webkit-transition: all 0.4s
-        -o-transition: all 0.4s
-        -moz-transition: all 0.4s
-        transition: all 0.4s
-
-    .download-btn
-        font-size: 15px
-        color: #fff
-        line-height: 1.2
-        text-transform: uppercase
-        display: -webkit-box
-        display: -webkit-flex
-        display: -moz-box
-        display: -ms-flexbox
-        display: flex
-        justify-content: center
-        align-items: center
-        padding: 0 20px
-        width: 100%
-        height: 50px
-
-
-    .wrap-btn-container:hover .btn-bg
-        left: 0
 
 </style>
