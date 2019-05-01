@@ -56,8 +56,17 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     private int generateEntityID(){
-        // TODO: need to add better implementation
-        return entities.size() + 1;
+        if (entities.containsKey(entities.size())) {
+            int previousEntityID = -1;
+            for (int currentEntityID : entities.keySet()) {
+                if (currentEntityID - previousEntityID > 1) {
+                    return previousEntityID + 1;
+                } else {
+                    previousEntityID++;
+                }
+            }
+        }
+        return entities.size();
     }
 
 }
