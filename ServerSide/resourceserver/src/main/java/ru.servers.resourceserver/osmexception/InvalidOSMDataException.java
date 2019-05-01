@@ -1,13 +1,11 @@
-package ru.servers.osmexception;
+package ru.servers.resourceserver.osmexception;
 
-public class InvalidOSMDataException extends Exception {
+import org.xml.sax.SAXException;
 
-    public InvalidOSMDataException () {
-        super();
-    }
+public class InvalidOSMDataException extends SAXException {
 
-    public InvalidOSMDataException (String message) {
-        super(message);
+    public InvalidOSMDataException(String message, Exception e) {
+        super(message, e);
     }
 
 }
