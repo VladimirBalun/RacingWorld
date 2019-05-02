@@ -86,9 +86,7 @@ public class OSMMinifierTest {
 
     private String normalizationData(String osmData) {
         String normalizationData = osmData;
-        normalizationData = normalizationData.replaceAll("\\s", "");
-        normalizationData = normalizationData.replaceAll("\\t", "");
-        normalizationData = normalizationData.replaceAll("\\n", "");
+        normalizationData = normalizationData.replaceAll("[\\s\\n\\t]", "");
         return normalizationData;
     }
 }
