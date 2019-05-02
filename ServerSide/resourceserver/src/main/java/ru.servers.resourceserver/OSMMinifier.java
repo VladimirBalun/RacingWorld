@@ -39,7 +39,7 @@ public class OSMMinifier {
             return getStringFromDocument(document);
         } catch (SAXException | IOException | ParserConfigurationException | TransformerException e) {
             log.warn("Minification error. Cause: " + e.getMessage());
-            throw new InvalidOSMDataException("Minification error. Cause: " + e.getMessage(), e);
+            throw new InvalidOSMDataException("Minification error. Cause: " + e.getMessage());
         }
     }
 
