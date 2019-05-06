@@ -29,9 +29,11 @@ set (PROJECT_BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Build)
 set (PROJECT_BIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Bin)
 set (PROJECT_SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Sources)
 set (PROJECT_TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Tests)
+set (PROJECT_BENCHMARKS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Benchmarks)
 set (PROJECT_DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies)
 
 enable_testing()
 
 add_subdirectory (Sources)
 add_subdirectory (Tests)
+add_subdirectory (Benchmarks)

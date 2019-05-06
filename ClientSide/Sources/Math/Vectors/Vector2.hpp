@@ -20,6 +20,7 @@
 #include <cstdint>
 #include <utility>
 #include <iterator>
+#include <xmmintrin.h>
 
 namespace Math {
 
@@ -48,12 +49,29 @@ namespace Math {
         static const std::uint8_t VECTOR_SIZE = 2;
 
         Vector2() noexcept = default;
-        Vector2(const Vector2& anotherVector) noexcept
-            : mX(anotherVector.mX), mY(anotherVector.mY) {}
-        Vector2(const Type* array) noexcept
-            : mX(array[0]), mY(array[1]) {}
-        Vector2(Type x, Type y) noexcept
-            : mX(x), mY(y) {}
+		Vector2(Vector2&& anotherVector) noexcept
+		{
+			mElements = anotherVector.mElements;
+			anotherVector.mElements = nullptr;
+		}
+		Vector2(const Vector2& anotherVector) noexcept
+		{
+			static_assert(std::is_arithmetic_v<Type>, "The \"Type\" must be an integer or a floating point number.");
+			// We are using arithmetic types, so assignment and copy have no difference
+			for (int i = 0; i < VECTOR_SIZE; mElements[i] = anotherVector.mElements[i], i++) {}
+		}
+		Vector2(const Type* array) noexcept
+		{
+			static_assert(std::is_arithmetic_v<Type>, "The \"Type\" must be an integer or a floating point number.");
+			// We are using arithmetic types, so assignment and copy have no difference
+			for (int i = 0; i < VECTOR_SIZE; mElements[i] = array[i], i++) {}
+		}
+		Vector2(Type x, Type y) noexcept
+		{
+			static_assert(std::is_arithmetic_v<Type>, "The \"Type\" must be an integer or a floating point number.");
+			mElements[0] = x;
+			mElements[1] = y;
+		}
 
         Type getX() const noexcept;
         Type getY() const noexcept;
@@ -72,46 +90,44 @@ namespace Math {
         Vector2& operator += (const Vector2& anotherVector) noexcept;
         Vector2& operator -= (const Vector2& anotherVector) noexcept;
         Vector2& operator *= (Type scalar) noexcept;
-    private:        
-        Type mX = 0;
-        Type mY = 0;
+    private:
+		alignas(16) Type mElements[VECTOR_SIZE];
     };
 
     template<class Type>
     Type Vector2<Type>::getX() const noexcept
     {
-        return mX;
+        return mElements[0];
     }
 
     template<class Type>
     Type Vector2<Type>::getY() const noexcept
     {
-        return mY;
+		return mElements[1];
     }
 
     template<class Type>
     std::size_t Vector2<Type>::getLength() const noexcept
     {
-        return static_cast<std::size_t>(sqrt(mX*mX + mY*mY));
+        return static_cast<std::size_t>(sqrt(mElements[0]*mElements[0] + mElements[1]*mElements[1]));
     }
 
     template<class Type>
     void Vector2<Type>::toArray(Type* array) const noexcept
     {
-        array[0] = mX;
-        array[1] = mY;
+		for (int i = 0; i < VECTOR_SIZE; array[i] = mElements[i], i++) {}
     }
 
     template<class Type>
     void Vector2<Type>::setX(Type x) noexcept
     {
-        mX = x;
+        mElements[0] = x;
     }
 
     template<class Type>
     void Vector2<Type>::setY(Type y) noexcept
     {
-        mY = y;
+		mElements[1] = y;
     }
 
     template<class Type>
@@ -119,38 +135,31 @@ namespace Math {
     {
         const std::size_t length = getLength();
         if (length != 0)
-        {
-            mX /= static_cast<Type>(length);
-            mY /= static_cast<Type>(length);
-        }
+			for (int i = 0; i < VECTOR_SIZE; mElements[i] /= static_cast<Type>(length), i++) {}
     }
 
     template<class Type>
     void Vector2<Type>::add(const Vector2& anotherVector) noexcept
     {
-        mX += anotherVector.mX;
-        mY += anotherVector.mY;
+		for (int i = 0; i < VECTOR_SIZE; mElements[i] += anotherVector.mElements[i], i++) {}
     }
 
     template<class Type>
     void Vector2<Type>::sub(const Vector2& anotherVector) noexcept
     {
-        mX -= anotherVector.mX;
-        mY -= anotherVector.mY;
+		for (int i = 0; i < VECTOR_SIZE; mElements[i] -= anotherVector.mElements[i], i++) {}
     }
 
     template<class Type>
     void Vector2<Type>::mul(Type scalar) noexcept
     {
-        mX *= scalar;
-        mY *= scalar;
+		for (int i = 0; i < VECTOR_SIZE; mElements[i] *= scalar, i++) {}
     }
 
     template<class Type>
     Vector2<Type>& Vector2<Type>::operator = (const Vector2& anotherVector) noexcept
     {
-        mX = anotherVector.mX;
-        mY = anotherVector.mY;
+		for (int i = 0; i < VECTOR_SIZE; mElements[i] = anotherVector.mElements[i], i++) {}
         return *this;
     }
 
@@ -178,13 +187,29 @@ namespace Math {
     template<class Type>
     Vector2<Type> operator + (const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept
     {
-        return Vector2<Type>(vector.getX() + anotherVector.getX(), vector.getY() + anotherVector.getY());
+		if constexpr (sizeof(Type) == 8)
+		{
+			__m128 vector_as_128bit_num = *(reinterpret_cast<const __m128 *>(&vector.mElements));
+			__m128 avector_as_128bit_num = *(reinterpret_cast<const __m128 *>(&anotherVector.mElements));
+			__m128 result = _mm_add_ps(vector_as_128bit_num, avector_as_128bit_num);
+			return *(reinterpret_cast<Vector2<Type> *>(&result));
+		}
+		else
+	        return Vector2<Type>(vector.getX() + anotherVector.getX(), vector.getY() + anotherVector.getY());
     }
 
     template<class Type>
     Vector2<Type> operator - (const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept
     {
-        return Vector2<Type>(vector.getX() - anotherVector.getX(), vector.getY() - anotherVector.getY());
+		if constexpr (sizeof(Type) == 8)
+		{
+			__m128 vector_as_128bit_num = *(reinterpret_cast<const __m128 *>(&vector.mElements));
+			__m128 avector_as_128bit_num = *(reinterpret_cast<const __m128 *>(&anotherVector.mElements));
+			__m128 result = _mm_sub_ps(vector_as_128bit_num, avector_as_128bit_num);
+			return *(reinterpret_cast<Vector2<Type> *>(&result));
+		}
+		else
+	        return Vector2<Type>(vector.getX() - anotherVector.getX(), vector.getY() - anotherVector.getY());
     }
 
     template<class Type>
