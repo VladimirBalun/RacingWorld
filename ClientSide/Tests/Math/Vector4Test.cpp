@@ -24,11 +24,18 @@ TEST_CASE("Tests for Vector4", "[Vector4]")
 	SECTION("Addition of the vectors")
 	{
 		Math::Vector4i first(1, 3, 4, 1);
-		Math::Vector4i second(2, 4, 6, 0);
+		Math::Vector4i second(2, 4, 6, 1);
 		REQUIRE((first + second) == Math::Vector4i(3, 7, 10, 1));
 	}
 
 	SECTION("Subtraction of the vectors")
+	{
+		Math::Vector4i first(2, 3, 5, 1);
+		Math::Vector4i second(1, 2, 3, 0);
+		REQUIRE((first - second) == Math::Vector4i(1, 1, 2, 1));
+	}
+
+	SECTION("Subtraction of the vectors with a trick")
 	{
 		Math::Vector4i first(2, 3, 5, 1);
 		Math::Vector4i second(1, 2, 3, 1);
