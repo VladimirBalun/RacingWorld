@@ -48,7 +48,10 @@ namespace Math {
     public:
         static const std::uint8_t VECTOR_SIZE = 3;
 
-        Vector3() noexcept = default;
+		Vector3() noexcept
+		{
+			static_assert(std::is_arithmetic_v<Type>, "The \"Type\" must be an integer or a floating point number.");
+		}
 		Vector3(Vector3&& anotherVector) noexcept
 		{
 			mElements = anotherVector.mElements;
@@ -56,7 +59,6 @@ namespace Math {
 		}
 		Vector3(const Vector3& anotherVector) noexcept
 		{
-			static_assert(std::is_arithmetic_v<Type>, "The \"Type\" must be an integer or a floating point number.");
 			// We are using arithmetic types, so assignment and copy have no difference
 			for (int i = 0; i < VECTOR_SIZE; mElements[i] = anotherVector.mElements[i], i++) {}
 		}

@@ -28,21 +28,21 @@ void SIMDVectorsAdditionBenchmark()
 		arr2(new Math::Vector4f[ARR_SIZE]),
 		arr3(new Math::Vector4f[ARR_SIZE]);
 	double total_gen_time = 0;
-	double start = omp_get_wtime();
+	const double start = omp_get_wtime();
 	for (std::size_t i = 0; i < TIMES; i++)
 	{
 		if (i % 100 == 0)
 		{
-			double gen_start = omp_get_wtime();
-			fillFloatArray<Math::Vector4f>(arr1.get(), ARR_SIZE);
-			fillFloatArray<Math::Vector4f>(arr2.get(), ARR_SIZE);
-			double gen_finish = omp_get_wtime();
+			const double gen_start = omp_get_wtime();
+			fillArray<Math::Vector4f>(arr1.get(), ARR_SIZE);
+			fillArray<Math::Vector4f>(arr2.get(), ARR_SIZE);
+			const double gen_finish = omp_get_wtime();
 			total_gen_time += gen_finish - gen_start;
 		}
 		for (std::size_t j = 0; j < ARR_SIZE; j++)
 			arr3.get()[j] = std::move(arr1.get()[j] + arr2.get()[j]);
 	}
-	double finish = omp_get_wtime();
+	const double finish = omp_get_wtime();
 	std::cout << "Vector4f addition time is " << finish - start - total_gen_time << "\n";
 }
 
@@ -54,21 +54,21 @@ void SIMDVectorsSubtractionBenchmark()
 									arr2(new Math::Vector4f[ARR_SIZE]),
 									arr3(new Math::Vector4f[ARR_SIZE]);
 	double total_gen_time = 0;
-	double start = omp_get_wtime();
+	const double start = omp_get_wtime();
 	for (std::size_t i = 0; i < TIMES; i++)
 	{
 		if (i % 100 == 0)
 		{
-			double gen_start = omp_get_wtime();
-			fillFloatArray<Math::Vector4f>(arr1.get(), ARR_SIZE);
-			fillFloatArray<Math::Vector4f>(arr2.get(), ARR_SIZE);
-			double gen_finish = omp_get_wtime();
+			const double gen_start = omp_get_wtime();
+			fillArray<Math::Vector4f>(arr1.get(), ARR_SIZE);
+			fillArray<Math::Vector4f>(arr2.get(), ARR_SIZE);
+			const double gen_finish = omp_get_wtime();
 			total_gen_time += gen_finish - gen_start;
 		}
 		for (std::size_t j = 0; j < ARR_SIZE; j++)
 			arr3.get()[j] = std::move(arr2.get()[j] - arr1.get()[j]);
 	}
-	double finish = omp_get_wtime();
+	const double finish = omp_get_wtime();
 	std::cout << "Vector4f subtraction time is " << finish - start - total_gen_time << "\n";
 }
 
@@ -79,14 +79,14 @@ void SIMDVectorsScalarMultiplicationBenchmark()
 	std::unique_ptr<Math::Vector4f>	arr1(new Math::Vector4f[ARR_SIZE]), 
 									arr2(new Math::Vector4f[ARR_SIZE]);
 	double total_gen_time = 0;
-	double start = omp_get_wtime();
+	const double start = omp_get_wtime();
 	for (std::size_t i = 0; i < TIMES; i++)
 	{
 		if (i % 100 == 0)
 		{
-			double gen_start = omp_get_wtime();
-			fillFloatArray<Math::Vector4f>(arr1.get(), ARR_SIZE);
-			double gen_finish = omp_get_wtime();
+			const double gen_start = omp_get_wtime();
+			fillArray<Math::Vector4f>(arr1.get(), ARR_SIZE);
+			const double gen_finish = omp_get_wtime();
 			total_gen_time += gen_finish - gen_start;
 		}
 		for (std::size_t j = 0; j < ARR_SIZE; j++)
@@ -95,7 +95,7 @@ void SIMDVectorsScalarMultiplicationBenchmark()
 			arr2.get()[j] = std::move(arr1.get()[j] * scalar);
 		}
 	}
-	double finish = omp_get_wtime();
+	const double finish = omp_get_wtime();
 	std::cout << "Vector4f scalar multiplication time is " << finish - start - total_gen_time << "\n";
 }
 

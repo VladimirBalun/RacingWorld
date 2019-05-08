@@ -18,7 +18,7 @@
 #include <random>
 
 template <typename Type>
-void fillFloatArray(Type * array, std::size_t array_size)
+void fillArray(Type * array, std::size_t array_size)
 {
     std::random_device rd;
 
