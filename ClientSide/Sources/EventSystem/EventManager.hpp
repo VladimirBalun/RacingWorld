@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <array>
+#include <utility>
 #include <cstdint>
 
 #include "IEventSubscriber.hpp"
@@ -33,7 +35,7 @@ namespace EventSystem {
         void notifyGlobalError(const char* message) noexcept;
         void subscribeOnGlobalError(const IEventSubscriber& subscriber) noexcept;
     private:
-        const IEventSubscriber* m_global_error_subscribers[MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS] = { nullptr };
+        std::array<const IEventSubscriber*, MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS> m_global_error_subscribers{};
     };
 
 }

@@ -92,7 +92,7 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const std::string_v
         iterator++;
     }
 
-    return createMesh(vertices, texture_coordinates, normals, face_element_indexes);
+    return Components::Mesh(std::move(vertices), std::move(texture_coordinates), std::move(normals), std::move(face_element_indexes));
 }
 
 ObjFileSizeParameter getObjSizeParameters(const std::vector<char>& obj_file_data) noexcept
@@ -152,24 +152,4 @@ GLvoid Graphics::Tools::ObjParser::parseFaceElementIndexes(const char* iterator,
     face_element_indexes.emplace_back(vertexIndex[0], textureCoordinateIndex[0], normalIndex[0]);
     face_element_indexes.emplace_back(vertexIndex[1], textureCoordinateIndex[1], normalIndex[1]);
     face_element_indexes.emplace_back(vertexIndex[2], textureCoordinateIndex[2], normalIndex[2]);
-}
-
-Graphics::Components::Mesh Graphics::Tools::ObjParser::createMesh(const std::vector<Math::Vector3f>& vertices, const std::vector<Math::Vector2f>& texture_coordinates,
-    const std::vector<Math::Vector3f>& normals, const std::vector<Math::Vector3i>& face_element_indexes) noexcept
-{
-    const GLuint memorySizeForMeshElements = static_cast<GLuint>(face_element_indexes.size() * (Components::Mesh::SIZE_ELEMENT * sizeof(GLfloat)));
-    GLfloat* mesh_elements = new GLfloat[memorySizeForMeshElements];
-    GLuint inner_alignment_for_elements = 0;
-    for (GLuint i = 0; i < face_element_indexes.size(); i++)
-    {
-        GLint vertex_index = face_element_indexes.at(i).getX();
-        GLint texture_coordinate_index = face_element_indexes.at(i).getY();
-        GLint normal_index = face_element_indexes.at(i).getZ();
-        vertices[vertex_index].toArray(mesh_elements + inner_alignment_for_elements + Components::Mesh::ALIGNMENT_VERTEX);
-        texture_coordinates[texture_coordinate_index].toArray(mesh_elements + inner_alignment_for_elements + Components::Mesh::ALIGNMENT_TEXTURE_COORDINATE);
-        normals[normal_index].toArray(mesh_elements + inner_alignment_for_elements + Components::Mesh::ALIGNMENT_NORMAL);
-        inner_alignment_for_elements += Components::Mesh::SIZE_ELEMENT;
-    }
-
-    return Components::Mesh(mesh_elements, static_cast<GLuint>(face_element_indexes.size()));
 }

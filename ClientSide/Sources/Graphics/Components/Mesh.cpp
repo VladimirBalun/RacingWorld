@@ -16,9 +16,28 @@
 
 #include "Mesh.hpp"
 
-Graphics::Components::Mesh::Mesh(const GLfloat* elements, GLuint count_elements) noexcept :
-    m_elements(elements), m_count_elements(count_elements)
+static const std::uint8_t ALIGNMENT_VERTEX = 0;
+static const std::uint8_t ALIGNMENT_TEXTURE_COORDINATE = 3;
+static const std::uint8_t ALIGNMENT_NORMAL = 5;
+static constexpr std::uint8_t SIZE_ELEMENT = ALIGNMENT_NORMAL + 3;
+
+Graphics::Components::Mesh::Mesh(std::vector<Math::Vector3f>&& vertices, std::vector<Math::Vector2f>&& texture_coordinates,
+    std::vector<Math::Vector3f>&& normals, std::vector<Math::Vector3i>&& face_element_indexes) noexcept : m_count_elements(face_element_indexes.size())
 {
+    const std::size_t memory_size = static_cast<GLuint>(face_element_indexes.size() * (SIZE_ELEMENT * sizeof(GLfloat)));
+    m_elements = new GLfloat[memory_size];
+    GLuint inner_alignment_for_elements = 0;
+    for (GLuint i = 0; i < face_element_indexes.size(); i++)
+    {
+        GLint vertex_index = face_element_indexes.at(i).getX();
+        GLint texture_coordinate_index = face_element_indexes.at(i).getY();
+        GLint normal_index = face_element_indexes.at(i).getZ();
+        vertices[vertex_index].toArray(m_elements + inner_alignment_for_elements + ALIGNMENT_VERTEX);
+        texture_coordinates[texture_coordinate_index].toArray(m_elements + inner_alignment_for_elements + ALIGNMENT_TEXTURE_COORDINATE);
+        normals[normal_index].toArray(m_elements + inner_alignment_for_elements + ALIGNMENT_NORMAL);
+        inner_alignment_for_elements += SIZE_ELEMENT;
+    }
+
     glGenVertexArrays(1, &m_vao);
     glGenBuffers(1, &m_vbO);
 

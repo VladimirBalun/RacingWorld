@@ -35,9 +35,7 @@ namespace Graphics { namespace Tools {
         GLvoid parseVertices(const char* iterator, std::vector<Math::Vector3f>& vertices) noexcept;
         GLvoid parseTextureCoordinates(const char* iterator, std::vector<Math::Vector2f>& texture_coordinates) noexcept;
         GLvoid parseNormals(const char* iterator, std::vector<Math::Vector3f>& normals) noexcept;
-        GLvoid parseFaceElementIndexes(const char* iterator, std::vector<Math::Vector3i>& faceElementIndexes) noexcept;
-        Components::Mesh createMesh(const std::vector<Math::Vector3f>& vertices, const std::vector<Math::Vector2f>& texture_coordinates,
-            const std::vector<Math::Vector3f>& normals, const std::vector<Math::Vector3i>& faceElementIndexes) noexcept;
+        GLvoid parseFaceElementIndexes(const char* iterator, std::vector<Math::Vector3i>& face_element_indexes) noexcept;
     };
 
 } }
