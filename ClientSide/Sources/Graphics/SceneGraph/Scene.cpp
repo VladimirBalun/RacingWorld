@@ -61,19 +61,19 @@ GLvoid Graphics::SceneGraph::Scene::renderNode(std::shared_ptr<Node>& node, Tool
     {
         node->childrenForEach([&](std::shared_ptr<Node>& child)
         {
-            if (child->isExistMesh())
+            const std::optional<Components::Mesh> mesh = child->getMesh();
+            if (mesh.has_value())
             {
                 shader.setUniformMatrix4x4f("modelMatrix", child->getTransformation());
-                const Components::Mesh& mesh = child->getMesh();
-                if (mesh.isExistMaterial())
+                const std::optional<Components::Material> material = mesh->getMaterial();
+                if (material.has_value())
                 {
-                    const Components::Material& material = mesh.getMaterial();
-                    shader.setUniformf("material.shininess", material.getShininess());
-                    shader.setUniformVector3f("material.ambientColor", material.getAmbientColor());
-                    shader.setUniformVector3f("material.diffuseColor", material.getDiffuseColor());
-                    shader.setUniformVector3f("material.specularColor", material.getSpecularColor());
+                    shader.setUniformf("material.shininess", material->getShininess());
+                    shader.setUniformVector3f("material.ambientColor", material->getAmbientColor());
+                    shader.setUniformVector3f("material.diffuseColor", material->getDiffuseColor());
+                    shader.setUniformVector3f("material.specularColor", material->getSpecularColor());
                 }
-                mesh.draw();
+                mesh->draw();
             }
 
             if (child->isExistChildren())
@@ -82,11 +82,11 @@ GLvoid Graphics::SceneGraph::Scene::renderNode(std::shared_ptr<Node>& node, Tool
     }
 }
 
-static GLuint64 delta_time = 0;
-static GLuint64 previous_time = 0;
-
 GLvoid Graphics::SceneGraph::Scene::update() noexcept
 {
+    static GLuint64 delta_time = 0;
+    static GLuint64 previous_time = 0;
+
     const GLuint64 current_time = Utils::getCurrentTimeMS();
     delta_time = current_time - previous_time;
     m_scene_camera.setSpeed(static_cast<GLfloat>(delta_time));

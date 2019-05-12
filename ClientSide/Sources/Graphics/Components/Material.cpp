@@ -16,25 +16,6 @@
 
 #include "Material.hpp"
 
-GLboolean Graphics::Components::Material::isInitialized() const noexcept
-{
-    Math::Vector3f notInitializedVector{};
-    return ( (fabs(m_shininess - 0.5f) >= FLT_EPSILON) &&
-             (m_ambient_Color != notInitializedVector) &&
-             (m_diffuse_color != notInitializedVector) &&
-             (m_specular_color != notInitializedVector) );
-}
-
-GLboolean Graphics::Components::Material::isExistAmbientTexture() const noexcept
-{
-    return m_ambient_texture.isInitialized();
-}
-
-GLboolean Graphics::Components::Material::isExistDiffuseTexture() const noexcept
-{
-    return m_diffuse_texture.isInitialized();
-}
-
 GLvoid Graphics::Components::Material::setAmbientColor(const Math::Vector3f& color) noexcept
 {
     m_ambient_Color = color;
@@ -80,12 +61,12 @@ const Math::Vector3<GLfloat>& Graphics::Components::Material::getSpecularColor()
     return m_specular_color;
 }
 
-const Graphics::Components::Texture2D& Graphics::Components::Material::getAmbientTexture() const noexcept
+const std::optional<Graphics::Components::Texture2D>& Graphics::Components::Material::getAmbientTexture() const noexcept
 {
     return m_ambient_texture;
 }
 
-const Graphics::Components::Texture2D& Graphics::Components::Material::getDiffuseTexture() const noexcept
+const std::optional<Graphics::Components::Texture2D>& Graphics::Components::Material::getDiffuseTexture() const noexcept
 {
     return m_diffuse_texture;
 }

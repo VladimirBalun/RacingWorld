@@ -52,19 +52,9 @@ GLvoid Graphics::Components::Mesh::setMaterial(const Material& material) noexcep
     m_material = material;
 }
 
-const Graphics::Components::Material& Graphics::Components::Mesh::getMaterial() const noexcept
+const std::optional<Graphics::Components::Material>& Graphics::Components::Mesh::getMaterial() const noexcept
 {
     return m_material;
-}
-
-GLboolean Graphics::Components::Mesh::isExistMaterial() const noexcept
-{
-    return m_material.isInitialized();
-}
-
-GLboolean Graphics::Components::Mesh::isInitialized() const noexcept
-{
-    return m_elements != nullptr;
 }
 
 GLvoid Graphics::Components::Mesh::draw() const noexcept

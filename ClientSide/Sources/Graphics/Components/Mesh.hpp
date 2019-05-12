@@ -28,9 +28,7 @@ namespace Graphics { namespace Components {
         explicit Mesh() noexcept = default;
         explicit Mesh(const GLfloat* elements, GLuint count_elements) noexcept;
         GLvoid setMaterial(const Material& material) noexcept;
-        const Material& getMaterial() const noexcept;
-        GLboolean isExistMaterial() const noexcept;
-        GLboolean isInitialized() const noexcept;
+        const std::optional<Material>& getMaterial() const noexcept;
         GLvoid destroy() const noexcept;
         GLvoid draw() const noexcept;
     public:
@@ -41,9 +39,9 @@ namespace Graphics { namespace Components {
     private:
         GLuint m_vbO = 0;
         GLuint m_vao = 0;
-        Material m_material{};
         GLuint m_count_elements = 0;
         const GLfloat* m_elements = nullptr;
+        std::optional<Material> m_material{};
     };
 
 }}

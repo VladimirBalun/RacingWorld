@@ -32,13 +32,12 @@ namespace Graphics { namespace SceneGraph {
         GLvoid addChild(const std::shared_ptr<Node>& child) noexcept;
         GLvoid setMesh(const Components::Mesh& mesh) noexcept;
         GLvoid setTransformation(const Math::Matrix4x4<GLfloat>& transformation) noexcept;
-        const Components::Mesh& getMesh() noexcept;
-        GLboolean isExistMesh() const noexcept;
+        const std::optional<Components::Mesh>& getMesh() noexcept;
         GLboolean isExistChildren() const noexcept;
         Math::Matrix4x4<GLfloat>& getTransformation() noexcept;
         GLvoid childrenForEach(std::function<GLvoid(std::shared_ptr<Node>& child)> callback) noexcept;
     private:
-        Components::Mesh m_mesh{};
+        std::optional<Components::Mesh> m_mesh{};
         Math::Matrix4x4<GLfloat> m_transformation{};
         std::forward_list<std::shared_ptr<Node>> m_children{};
     };

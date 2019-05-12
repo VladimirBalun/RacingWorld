@@ -52,8 +52,3 @@ GLuint Graphics::Components::Texture2D::getHeight() const noexcept
 {
     return m_height;
 }
-
-GLboolean Graphics::Components::Texture2D::isInitialized() const noexcept
-{
-    return m_texture_idD != 0;
-}

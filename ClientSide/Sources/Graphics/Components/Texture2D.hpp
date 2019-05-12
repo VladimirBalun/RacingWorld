@@ -30,7 +30,6 @@ namespace Graphics { namespace Components {
         GLuint getID() const noexcept;
         GLuint getWidth() const noexcept;
         GLuint getHeight() const noexcept;
-        GLboolean isInitialized() const noexcept;
     private:
         GLuint m_width = 0;
         GLuint m_height = 0;

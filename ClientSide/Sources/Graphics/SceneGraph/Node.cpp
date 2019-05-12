@@ -36,14 +36,9 @@ GLvoid Graphics::SceneGraph::Node::setTransformation(const Math::Matrix4x4<GLflo
     m_transformation = transformation;
 }
 
-const Graphics::Components::Mesh& Graphics::SceneGraph::Node::getMesh() noexcept
+const std::optional<Graphics::Components::Mesh>& Graphics::SceneGraph::Node::getMesh() noexcept
 {
     return m_mesh;
-}
-
-GLboolean Graphics::SceneGraph::Node::isExistMesh() const noexcept
-{
-    return m_mesh.isInitialized();
 }
 
 GLboolean Graphics::SceneGraph::Node::isExistChildren() const noexcept
