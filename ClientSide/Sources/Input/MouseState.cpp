@@ -19,73 +19,73 @@
 Input::MouseState::MouseState() noexcept
 {
 #ifdef _DEBUG
-    if (!mXPosition.is_lock_free() || !mYPosition.is_lock_free())
+    if (!m_x_position.is_lock_free() || !m_y_position.is_lock_free())
         LOG_WARNING("Operations with 'int' are not lock free on current platform.");
-    if (!mIsPressedLeftButton.is_lock_free() || !mIsPressedRightButton.is_lock_free())
+    if (!m_is_pressed_left_button.is_lock_free() || !m_is_pressed_right_button.is_lock_free())
         LOG_WARNING("Operations with 'bool' are not lock free on current platform.");
 #endif // _DEBUG
 }
 
-void Input::MouseState::setPosition(int xPos, int yPos) noexcept
+void Input::MouseState::setPosition(int x_pos, int y_pos) noexcept
 {
-    mLastXPosition.store(mXPosition);
-    mLastYPosition.store(mYPosition);
-    mXPosition.store(xPos);
-    mYPosition.store(yPos);
+    m_last_x_position.store(m_x_position);
+    m_last_y_position.store(m_y_position);
+    m_x_position.store(x_pos);
+    m_y_position.store(y_pos);
 }
 
 int Input::MouseState::getAndUnsetXDisplacementOffset() noexcept
 {
-    int offset = mXPosition - mLastXPosition;
-    mLastXPosition.store(mXPosition);
+    const int offset = m_x_position.load() - m_last_x_position.load();
+    m_last_x_position.store(m_x_position);
     return offset;
 }
 
 int Input::MouseState::getAndUnsetYDisplacementOffset() noexcept
 {
-    int offset = mLastYPosition - mYPosition;
-    mLastYPosition.store(mYPosition);
+    const int offset = m_last_y_position.load() - m_y_position.load();
+    m_last_y_position.store(m_y_position);
     return offset;
 }
 
 void Input::MouseState::setWheelOffset(int value) noexcept
 {
-    mWheelOffset.fetch_add(value);
+    m_wheel_offset.fetch_add(value);
 }
 
 int Input::MouseState::getAndUnsetWheelOffset() noexcept
 {
-    int offset = mWheelOffset;
-    mWheelOffset.store(0);
+    const int offset = m_wheel_offset.load();
+    m_wheel_offset.store(0);
     return offset;
 }
 
 void Input::MouseState::pressLeftButton() noexcept
 {
-    mIsPressedLeftButton.store(true);
+    m_is_pressed_left_button.store(true);
 }
 
 void Input::MouseState::releaseLeftButton() noexcept
 {
-    mIsPressedLeftButton.store(false);
+    m_is_pressed_left_button.store(false);
 }
 
 void Input::MouseState::pressRightButton() noexcept
 {
-    mIsPressedRightButton.store(true);
+    m_is_pressed_right_button.store(true);
 }
 
 void Input::MouseState::releaseRightButton() noexcept
 {
-    mIsPressedRightButton.store(false);
+    m_is_pressed_right_button.store(false);
 }
 
 bool Input::MouseState::isPressedLeftButton() const noexcept
 {
-    return mIsPressedLeftButton.load();
+    return m_is_pressed_left_button.load();
 }
 
 bool Input::MouseState::isPressedRightButton() const noexcept
 {
-    return mIsPressedRightButton.load();
+    return m_is_pressed_right_button.load();
 }

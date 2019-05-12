@@ -35,22 +35,22 @@ namespace WindowSystem {
         WindowEventListener& operator = (const WindowEventListener&) = delete;
     public:
         static WindowEventListener& getInstance() noexcept;
-        static LRESULT CALLBACK onWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept;
+        static LRESULT CALLBACK onWindowEvent(HWND window_handle, std::size_t window_event, WPARAM w_param, LPARAM l_param) noexcept;
         Input::KeyboardState& getKeyboardState() noexcept;
         Input::MouseState& getMouseState() noexcept;
     private:
-        LRESULT CALLBACK handleWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept;
-        void onKeyboardKeyDownEvent(WPARAM wParam) noexcept;
-        void onKeyboardKeyUpEvent(WPARAM wParam) noexcept;
-        void onMouseWheelEvent(LPARAM lParam) noexcept;
-        void onMouseMoveEvent(LPARAM lParam) noexcept;
-        void onMouseLeftBtnUpEvent(LPARAM lParam) noexcept;
-        void onMouseRightBtnUpEvent(LPARAM lParam) noexcept;
-        void onMouseLeftBtnDownEvent(LPARAM lParam) noexcept;
-        void onMouseRightBtnDownEvent(LPARAM lParam) noexcept;
+        LRESULT CALLBACK handleWindowEvent(HWND window_handle, std::size_t window_event, WPARAM w_param, LPARAM l_param) noexcept;
+        void onKeyboardKeyDownEvent(WPARAM w_param) noexcept;
+        void onKeyboardKeyUpEvent(WPARAM w_param) noexcept;
+        void onMouseWheelEvent(LPARAM l_param) noexcept;
+        void onMouseMoveEvent(LPARAM l_param) noexcept;
+        void onMouseLeftBtnUpEvent(LPARAM l_param) noexcept;
+        void onMouseRightBtnUpEvent(LPARAM l_param) noexcept;
+        void onMouseLeftBtnDownEvent(LPARAM l_param) noexcept;
+        void onMouseRightBtnDownEvent(LPARAM l_param) noexcept;
     private:
-        Input::MouseState mMouseState;
-        Input::KeyboardState mKeyboardState;
+        Input::MouseState m_mouse_state{};
+        Input::KeyboardState m_keyboard_state{};
     };
 
 }

@@ -39,10 +39,10 @@ namespace Input {
         bool isPressedKeyA() const noexcept;
         bool isPressedKeyD() const noexcept;
     private:
-        std::atomic_bool mIsPressedKeyW = false;
-        std::atomic_bool mIsPressedKeyS = false;
-        std::atomic_bool mIsPressedKeyA = false;
-        std::atomic_bool mIisPressedKeyD = false;
+        std::atomic_bool m_is_pressed_key_w = false;
+        std::atomic_bool m_is_pressed_key_s = false;
+        std::atomic_bool m_is_pressed_key_a = false;
+        std::atomic_bool m_is_pressed_key_d = false;
     };
 
 }

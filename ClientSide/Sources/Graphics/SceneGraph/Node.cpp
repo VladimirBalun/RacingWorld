@@ -18,52 +18,48 @@
 
 GLvoid Graphics::SceneGraph::Node::removeChildren() noexcept
 {
-    while (mChild)
-        mChild = mChild->mNextNode;
+    m_children.clear();
 }
 
-GLvoid Graphics::SceneGraph::Node::addChild(Node* child) noexcept
+GLvoid Graphics::SceneGraph::Node::addChild(const std::shared_ptr<Node>& child) noexcept
 {
-    child->mNextNode = mChild;
-    mChild = child;
+    m_children.push_front(child);
 }
 
 GLvoid Graphics::SceneGraph::Node::setMesh(const Components::Mesh& mesh) noexcept
 {
-    mMesh = mesh;
+    m_mesh = mesh;
 }
 
 GLvoid Graphics::SceneGraph::Node::setTransformation(const Math::Matrix4x4<GLfloat>& transformation) noexcept
 {
-    mTransformation = transformation;
+    m_transformation = transformation;
 }
 
 const Graphics::Components::Mesh& Graphics::SceneGraph::Node::getMesh() noexcept
 {
-    return mMesh;
+    return m_mesh;
 }
 
 GLboolean Graphics::SceneGraph::Node::isExistMesh() const noexcept
 {
-    return mMesh.isInitialized();
+    return m_mesh.isInitialized();
 }
 
 GLboolean Graphics::SceneGraph::Node::isExistChildren() const noexcept
 {
-    return mChild != nullptr;
+    return !m_children.empty();
 }
 
 Math::Matrix4x4<GLfloat>& Graphics::SceneGraph::Node::getTransformation() noexcept 
 {
-    return mTransformation;
+    return m_transformation;
 }
 
-GLvoid Graphics::SceneGraph::Node::childrenForEach(std::function<GLvoid(Node* child)> callback) noexcept
+GLvoid Graphics::SceneGraph::Node::childrenForEach(std::function<GLvoid(std::shared_ptr<Node>& child)> callback) noexcept
 {
-    Node* iterator = mChild;
-    while (iterator)
+    for (auto& child : m_children) 
     {
-        callback(iterator);
-        iterator = iterator->mNextNode;
+        callback(child);
     }
 }

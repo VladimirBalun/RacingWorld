@@ -16,22 +16,22 @@
 
 #include "Mesh.hpp"
 
-Graphics::Components::Mesh::Mesh(const GLfloat* elements, GLuint countElements) noexcept :
-    mElements(elements), mCountElements(countElements)
+Graphics::Components::Mesh::Mesh(const GLfloat* elements, GLuint count_elements) noexcept :
+    m_elements(elements), m_count_elements(count_elements)
 {
-    glGenVertexArrays(1, &mVAO);
-    glGenBuffers(1, &mVBO);
+    glGenVertexArrays(1, &m_vao);
+    glGenBuffers(1, &m_vbO);
 
 #ifdef _DEBUG
-    if (mVAO == 0)
+    if (m_vao == 0)
         LOG_WARNING("ID for vertex array objects was not generated.");
-    if (mVBO == 0)
+    if (m_vbO == 0)
         LOG_WARNING("ID for vertex buffer object was not generated.");
 #endif // _DEBUG
 
-    glBindVertexArray(mVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(mCountElements * SIZE_ELEMENT * sizeof(GLfloat)), mElements, GL_STATIC_DRAW);
+    glBindVertexArray(m_vao);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbO);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(m_count_elements * SIZE_ELEMENT * sizeof(GLfloat)), m_elements, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, Math::Vector3f::VECTOR_SIZE, GL_FLOAT, GL_FALSE,
         SIZE_ELEMENT * sizeof(GLfloat), reinterpret_cast<void*>(ALIGNMENT_VERTEX * sizeof(GLfloat)));
@@ -49,33 +49,33 @@ Graphics::Components::Mesh::Mesh(const GLfloat* elements, GLuint countElements) 
 
 GLvoid Graphics::Components::Mesh::setMaterial(const Material& material) noexcept
 {
-    mMaterial = material;
+    m_material = material;
 }
 
 const Graphics::Components::Material& Graphics::Components::Mesh::getMaterial() const noexcept
 {
-    return mMaterial;
+    return m_material;
 }
 
 GLboolean Graphics::Components::Mesh::isExistMaterial() const noexcept
 {
-    return mMaterial.isInitialized();
+    return m_material.isInitialized();
 }
 
 GLboolean Graphics::Components::Mesh::isInitialized() const noexcept
 {
-    return mElements != nullptr;
+    return m_elements != nullptr;
 }
 
 GLvoid Graphics::Components::Mesh::draw() const noexcept
 {
-    glBindVertexArray(mVAO);
-    glDrawArrays(GL_TRIANGLES, 0, mCountElements);
+    glBindVertexArray(m_vao);
+    glDrawArrays(GL_TRIANGLES, 0, m_count_elements);
     glBindVertexArray(NULL);
 }
 
 GLvoid Graphics::Components::Mesh::destroy() const noexcept
 {
-    glDeleteBuffers(1, &mVBO);
-    glDeleteVertexArrays(1, &mVAO);
+    glDeleteBuffers(1, &m_vbO);
+    glDeleteVertexArrays(1, &m_vao);
 }

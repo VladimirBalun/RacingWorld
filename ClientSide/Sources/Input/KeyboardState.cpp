@@ -19,70 +19,70 @@
 Input::KeyboardState::KeyboardState() noexcept
 {
 #ifdef _DEBUG
-    if ( !mIsPressedKeyW.is_lock_free() ||
-         !mIsPressedKeyS.is_lock_free() ||
-         !mIsPressedKeyA.is_lock_free() ||
-         !mIisPressedKeyD.is_lock_free() )
+    if ( !m_is_pressed_key_w.is_lock_free() ||
+         !m_is_pressed_key_s.is_lock_free() ||
+         !m_is_pressed_key_a.is_lock_free() ||
+         !m_is_pressed_key_d.is_lock_free() )
         LOG_WARNING("Operations with 'bool' are not lock free on current platform.");
 #endif // _DEBUG
 }
 
 void Input::KeyboardState::pressKeyW() noexcept
 {
-    mIsPressedKeyW.store(true);
+    m_is_pressed_key_w.store(true);
 }
 
 void Input::KeyboardState::releaseKeyW() noexcept
 {
-    mIsPressedKeyW.store(false);
+    m_is_pressed_key_w.store(false);
 }
 
 void Input::KeyboardState::pressKeyS() noexcept
 {
-    mIsPressedKeyS.store(true);
+    m_is_pressed_key_s.store(true);
 }
 
 void Input::KeyboardState::releaseKeyS() noexcept
 {
-    mIsPressedKeyS.store(false);
+    m_is_pressed_key_s.store(false);
 }
 
 void Input::KeyboardState::pressKeyA() noexcept
 {
-    mIsPressedKeyA.store(true);
+    m_is_pressed_key_a.store(true);
 }
 
 void Input::KeyboardState::releaseKeyA() noexcept
 {
-    mIsPressedKeyA.store(false);
+    m_is_pressed_key_a.store(false);
 }
 
 void Input::KeyboardState::pressKeyD() noexcept
 {
-    mIisPressedKeyD.store(true);
+    m_is_pressed_key_d.store(true);
 }
 
 void Input::KeyboardState::releaseKeyD() noexcept
 {
-    mIisPressedKeyD.store(false);
+    m_is_pressed_key_d.store(false);
 }
 
 bool Input::KeyboardState::isPressedKeyW() const noexcept
 {
-    return mIsPressedKeyW.load();
+    return m_is_pressed_key_w.load();
 }
 
 bool Input::KeyboardState::isPressedKeyS() const noexcept
 {
-    return mIsPressedKeyS.load();
+    return m_is_pressed_key_s.load();
 }
 
 bool Input::KeyboardState::isPressedKeyA() const noexcept
 {
-    return mIsPressedKeyA.load();
+    return m_is_pressed_key_a.load();
 }
 
 bool Input::KeyboardState::isPressedKeyD() const noexcept
 {
-    return mIisPressedKeyD.load();
+    return m_is_pressed_key_d.load();
 }

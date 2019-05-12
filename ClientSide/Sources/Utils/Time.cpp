@@ -18,6 +18,6 @@
 
 std::uint64_t Utils::getCurrentTimeMS()
 {
-    const auto currentTime = std::chrono::system_clock::now().time_since_epoch();
-    return std::chrono::duration_cast<std::chrono::milliseconds>(currentTime).count();
+    const auto current_time = std::chrono::system_clock::now().time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(current_time).count();
 }

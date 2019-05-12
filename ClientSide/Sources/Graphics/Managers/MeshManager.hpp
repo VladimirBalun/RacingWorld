@@ -16,12 +16,12 @@
 
 #pragma once
 
+#include <array>
+
 #include "../OpenGL.hpp"
 #include "../Components/Mesh.hpp"
 #include "../Tools/ObjParser.hpp"
 #include "../../Utils/Configuration.hpp"
-#include "../../Utils/DataStructures/String.hpp"
-#include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Managers {
 
@@ -33,19 +33,16 @@ namespace Graphics { namespace Managers {
         COUNT_MESH_TYPES // Used for setting size of meshes array 
     };
 
-    class MeshManager : Memory::INonCopyable
+    class MeshManager
     {
     public:
-        explicit MeshManager() noexcept
-            : mMeshesAllocator(1000) {}
         GLvoid initializeMeshes() noexcept;
         Components::Mesh& getMesh(EMeshType meshType) noexcept;
         ~MeshManager();
     private:
-        Components::Mesh createMesh(const char* modelName) noexcept;
+        Components::Mesh createMesh(const std::string& model_name) noexcept;
     private:
-        Components::Mesh mMeshes[COUNT_MESH_TYPES];
-        Memory::Allocators::LinearAllocator mMeshesAllocator;
+        std::array<Components::Mesh, COUNT_MESH_TYPES> m_meshes;
     };
 
 } }

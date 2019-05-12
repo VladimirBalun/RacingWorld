@@ -16,7 +16,9 @@
 
 #pragma once
 
+#include <memory>
 #include <functional>
+#include <forward_list>
 
 #include "../Components/Mesh.hpp"
 #include "../../Math/Matrices/Matrix4x4.hpp"
@@ -27,20 +29,18 @@ namespace Graphics { namespace SceneGraph {
     {
     public:
         GLvoid removeChildren() noexcept;
-        GLvoid addChild(Node* child) noexcept;
+        GLvoid addChild(const std::shared_ptr<Node>& child) noexcept;
         GLvoid setMesh(const Components::Mesh& mesh) noexcept;
         GLvoid setTransformation(const Math::Matrix4x4<GLfloat>& transformation) noexcept;
-
         const Components::Mesh& getMesh() noexcept;
         GLboolean isExistMesh() const noexcept;
         GLboolean isExistChildren() const noexcept;
         Math::Matrix4x4<GLfloat>& getTransformation() noexcept;
-        GLvoid childrenForEach(std::function<GLvoid(Node* child)> callback) noexcept;
+        GLvoid childrenForEach(std::function<GLvoid(std::shared_ptr<Node>& child)> callback) noexcept;
     private:
-        Components::Mesh mMesh;
-        Node* mChild = nullptr;
-        Node* mNextNode = nullptr;
-        Math::Matrix4x4<GLfloat> mTransformation;
+        Components::Mesh m_mesh{};
+        Math::Matrix4x4<GLfloat> m_transformation{};
+        std::forward_list<std::shared_ptr<Node>> m_children{};
     };
 
 }}

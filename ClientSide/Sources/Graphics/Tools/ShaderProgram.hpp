@@ -16,13 +16,15 @@
 
 #pragma once
 
+#include <array>
+#include <string>
+#include <vector>
+
 #include "../OpenGL.hpp"
 #include "../../Utils/FileSystem.hpp"
 #include "../../Math/Vectors.hpp"
 #include "../../Math/Matrices.hpp"
 #include "../../EventSystem/EventManager.hpp"
-#include "../../Utils/DataStructures/String.hpp"
-#include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {
 
@@ -30,7 +32,7 @@ namespace Graphics { namespace Tools {
     {
     public:
         explicit ShaderProgram() noexcept = default;
-        explicit ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const String& vShaderFileName, const String& fShaderFileName) noexcept;
+        explicit ShaderProgram(const std::string& v_shader_fileName, const std::string& f_shader_fileName) noexcept;
         GLvoid use() const noexcept;
         GLvoid destroy() const noexcept;
         GLuint getProgramID() const noexcept;
@@ -39,12 +41,12 @@ namespace Graphics { namespace Tools {
         GLvoid setUniformVector3f(const char* name, const Math::Vector3<GLfloat>& vector) const noexcept;
         GLvoid setUniformMatrix4x4f(const char* name, const Math::Matrix4x4<GLfloat>& matrix) const noexcept;
     private:
-        GLuint compileShader(const char* shaderSourceCode, GLint shaderType) noexcept;
-        GLvoid linkShaders(GLuint vertexShader, GLuint fragmentShader) noexcept;
+        GLuint compileShader(const std::vector<char>& shader_source_code, GLint shader_type) noexcept;
+        GLvoid linkShaders(GLuint vertex_shader, GLuint fragment_shader) noexcept;
         GLint getAttributeLocation(const char* name) const noexcept;
         GLint getUniformLocation(const char* name) const noexcept;
     private:
-        GLuint mProgramID = 0;
+        GLuint m_program_id = 0;
     };
 
 }}

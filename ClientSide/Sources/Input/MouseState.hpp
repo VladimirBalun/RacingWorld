@@ -27,7 +27,7 @@ namespace Input {
     {
     public:
         explicit MouseState() noexcept;
-        void setPosition(int xPos, int yPos) noexcept;
+        void setPosition(int x_pos, int y_pos) noexcept;
         int getAndUnsetXDisplacementOffset() noexcept;
         int getAndUnsetYDisplacementOffset() noexcept;
         void setWheelOffset(int value) noexcept;
@@ -39,13 +39,13 @@ namespace Input {
         bool isPressedLeftButton() const noexcept;
         bool isPressedRightButton() const noexcept;
     private:
-        std::atomic_int mWheelOffset = 0;
-        std::atomic_int mXPosition = 0;
-        std::atomic_int mYPosition = 0;
-        std::atomic_int mLastXPosition = Configuration::Window::windowWidth / 2;
-        std::atomic_int mLastYPosition = Configuration::Window::windowHeight / 2;
-        std::atomic_bool mIsPressedLeftButton = false;
-        std::atomic_bool mIsPressedRightButton = false;
+        std::atomic_int m_wheel_offset = 0;
+        std::atomic_int m_x_position = 0;
+        std::atomic_int m_y_position = 0;
+        std::atomic_int m_last_x_position = Configuration::Window::window_width / 2;
+        std::atomic_int m_last_y_position = Configuration::Window::window_height / 2;
+        std::atomic_bool m_is_pressed_left_button = false;
+        std::atomic_bool m_is_pressed_right_button = false;
     };
 
 }

@@ -18,25 +18,25 @@
 
 GLvoid Graphics::SceneGraph::Light::move(Math::Vector3f&& alignment) noexcept 
 {
-    mPosition.add(alignment);
+    m_position.add(alignment);
 }
 
 const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getPosition() const noexcept
 {
-    return mPosition;
+    return m_position;
 }
 
 const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getAmbientColor() const noexcept
 {
-    return mAmbientColor;
+    return m_ambient_color;
 }
 
 const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getDiffuseColor() const noexcept
 {
-    return mDiffuseColor;
+    return m_diffuse_color;
 }
 
 const Math::Vector3<GLfloat>& Graphics::SceneGraph::Light::getSpecularColor() const noexcept
 {
-    return mSpecularColor;
+    return m_specular_color;
 }

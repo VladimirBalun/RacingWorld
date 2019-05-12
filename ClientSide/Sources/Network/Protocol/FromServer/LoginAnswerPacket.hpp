@@ -33,25 +33,25 @@ namespace Network { namespace Protocol {
         bool getResultLogin() const noexcept;
         char* toBuffer() noexcept;
     private:
-        Endianness::int32be_t mToken;
-        bool mResultLogin;
+        Endianness::int32be_t m_token;
+        bool m_result_login;
     };
 
     #pragma pack(pop)
 
     inline std::int32_t LoginAnswerPacket::getPacketNumber() const noexcept
     {
-        return mPacketNumber;
+        return m_packet_number;
     }
 
     inline std::int32_t LoginAnswerPacket::getToken() const noexcept
     {
-        return mToken;
+        return m_token;
     }
 
     inline bool LoginAnswerPacket::getResultLogin() const noexcept
     {
-        return mResultLogin;
+        return m_result_login;
     }
     
     inline char* LoginAnswerPacket::toBuffer() noexcept

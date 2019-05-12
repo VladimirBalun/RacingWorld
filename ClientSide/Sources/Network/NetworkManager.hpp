@@ -21,22 +21,20 @@
 #include "UDPConnection.hpp"
 #include "Protocol/Protocol.hpp"
 #include "Protocol/EPacketType.hpp"
-#include "Protocol/PacketBuilder.hpp"
 #include "../Utils/Configuration.hpp"
 
 namespace Network {
 
-    class NetworkManager : Memory::INonCopyable
+    class NetworkManager
     {
     public:
         explicit NetworkManager() noexcept
-            : mConnection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
+            : m_connection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
         bool login() noexcept;
     private:
-        UDPConnection mConnection;
-        std::int32_t mCurrentToken = 0;
-        std::int32_t mPacketNumber = 1;
-        Protocol::PacketBuilder mPacketBuilder;
+        UDPConnection m_connection;
+        std::int32_t m_current_token = 0;
+        std::int32_t m_packet_number = 1;
     };
 
 }

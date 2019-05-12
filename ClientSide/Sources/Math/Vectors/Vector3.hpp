@@ -54,8 +54,8 @@ namespace Math {
 		}
 		Vector3(Vector3&& anotherVector) noexcept
 		{
-			mElements = anotherVector.mElements;
-			anotherVector.mElements = nullptr;
+			//mElements = anotherVector.mElements;
+			//anotherVector.mElements = nullptr;
 		}
 		Vector3(const Vector3& anotherVector) noexcept
 		{
@@ -96,7 +96,7 @@ namespace Math {
         Vector3& operator -= (const Vector3& anotherVector) noexcept;
         Vector3& operator *= (Type scalar) noexcept;
     private:
-		alignas(16) Type mElements[VECTOR_SIZE];
+        Type mElements[VECTOR_SIZE] = { 0 };
     };
 
     template<class Type>

@@ -25,26 +25,24 @@
 #include "../Managers/ShaderManager.hpp"
 #include "../../Utils/Time.hpp"
 #include "../../WindowSystem/WindowEventListener.hpp"
-#include "../../Memory/Allocators/PoolAllocator.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
     class Scene
     {
     public:
-        explicit Scene(HDC& windowContext) noexcept;
+        explicit Scene(HDC& window_context) noexcept;
         GLvoid render() noexcept;
         GLvoid update() noexcept;
     private:
-        GLvoid renderNode(Node* node, Tools::ShaderProgram& shader) noexcept;
+        GLvoid renderNode(std::shared_ptr<Node>& node, Tools::ShaderProgram& shader) noexcept;
     private:
-        Node* mRootNode = nullptr;
-        HDC& mWindowContext;
-        Light mSceneLight;
-        Camera mSceneCamera;
-        Managers::MeshManager mMeshManager;
-        Managers::ShaderManager mShaderManager;
-        Memory::Allocators::PoolAllocator mSceneGraphAllocator;
+        std::shared_ptr<Node> m_root_node{};
+        HDC& m_window_context;
+        Light m_scene_light;
+        Camera m_scene_camera;
+        Managers::MeshManager m_mesh_manager;
+        Managers::ShaderManager m_shader_manager;
     };
 
 } }

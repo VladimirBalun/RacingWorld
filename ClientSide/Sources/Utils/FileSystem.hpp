@@ -16,24 +16,16 @@
 
 #pragma once
 
-#include <cstdio>
-#include <Windows.h>
+#include <vector>
+#include <fstream>
+#include <filesystem>
+#include <boost/filesystem.hpp>
+#include <boost/iostreams/device/mapped_file.hpp>
 
 #include "Debug.hpp"
-#include "../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Utils {
 
-    char* readFile(const char* fileName, Memory::Allocators::LinearAllocator& allocator) noexcept;
-    bool writeFile(const char* fileName, const char* data) noexcept;
-
-    bool createFile(const char* fileName) noexcept;
-    bool removeFile(const char* fileName) noexcept;
-    bool copyFile(const char* fromfileName, const char* tofileName) noexcept;
-    bool moveFile(const char* fileName, const char* newfileName) noexcept;
-    bool renameFile(const char* oldfileName, const char* newfileName) noexcept;
-
-    bool createSymLink(const char* fileName, const char* linkName) noexcept;
-    bool createHardLink(const char* fileName, const char* linkName) noexcept;
+    std::vector<char> readFile(const std::string& filename) noexcept;
 
 }

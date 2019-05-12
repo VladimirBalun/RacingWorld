@@ -18,25 +18,26 @@
 
 GLvoid Graphics::Managers::MeshManager::initializeMeshes() noexcept
 {
-    mMeshes[TREE] = createMesh(u8"Tree\\Tree.obj");
-    mMeshes[CUBE] = createMesh(u8"Cube.obj");
-    mMeshes[GROUND_POLYGON] = createMesh(u8"Ground\\Ground.obj");
+    //m_meshes[TREE] = createMesh("/Tree/Tree.obj");
+    m_meshes[CUBE] = createMesh("/Cube.obj");
+    m_meshes[GROUND_POLYGON] = createMesh("/Ground/Ground.obj");
 }
 
-Graphics::Components::Mesh Graphics::Managers::MeshManager::createMesh(const char* modelName) noexcept
+Graphics::Components::Mesh Graphics::Managers::MeshManager::createMesh(const std::string& model_name) noexcept
 {
-    String modelFullPath(Configuration::getModelsPath());
-    modelFullPath.append(modelName);
-    return Tools::ObjParser(mMeshesAllocator).parse(modelFullPath);
+    std::string model_full_path{ Configuration::getModelsPath() };
+    model_full_path.append(model_name);
+    Tools::ObjParser parser{};
+    return parser.parse(model_full_path);
 }
 
 Graphics::Components::Mesh& Graphics::Managers::MeshManager::getMesh(EMeshType meshType) noexcept
 {
-    return mMeshes[meshType];
+    return m_meshes[meshType];
 }
 
 Graphics::Managers::MeshManager::~MeshManager()
 {
     for (GLubyte i = 0; i < COUNT_MESH_TYPES; i++)
-        mMeshes[i].destroy();
+        m_meshes[i].destroy();
 }

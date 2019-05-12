@@ -18,18 +18,17 @@
 
 GLvoid Graphics::Managers::ShaderManager::initializeShaders() noexcept
 {
-    Memory::Allocators::LinearAllocator shadersAllocator(TWO_VIRTUAL_PAGES);
-    mShaderPrograms[BASE_SHADER] = createShader(shadersAllocator, u8"BaseShader.vert", u8"BaseShader.frag");
-    mShaderPrograms[FONT_SHADER] = createShader(shadersAllocator, u8"FontShader.vert", u8"FontShader.frag");
+    mShaderPrograms[BASE_SHADER] = createShader("/BaseShader.vert", "/BaseShader.frag");
+    mShaderPrograms[FONT_SHADER] = createShader("/FontShader.vert", "/FontShader.frag");
 }
 
-Graphics::Tools::ShaderProgram Graphics::Managers::ShaderManager::createShader(Memory::Allocators::LinearAllocator& allocator, const char* vShaderName, const char* fShaderName) const noexcept
+Graphics::Tools::ShaderProgram Graphics::Managers::ShaderManager::createShader(const char* vShaderName, const char* fShaderName) const noexcept
 {
-    String vShaderFullPath(Configuration::getShadersPath());
-    String fShaderFullPath(Configuration::getShadersPath());
+    std::string vShaderFullPath(Configuration::getShadersPath());
+    std::string fShaderFullPath(Configuration::getShadersPath());
     vShaderFullPath.append(vShaderName);
     fShaderFullPath.append(fShaderName);
-    return Tools::ShaderProgram(allocator, vShaderFullPath, fShaderFullPath);
+    return Tools::ShaderProgram(vShaderFullPath, fShaderFullPath);
 }
 
 GLvoid Graphics::Managers::ShaderManager::useShaderProgram(EShaderType shaderType) const noexcept

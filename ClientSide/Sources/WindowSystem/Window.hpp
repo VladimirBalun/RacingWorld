@@ -28,21 +28,21 @@ namespace WindowSystem {
     class Window : public EventSystem::IEventSubscriber
     {
     public:
-        explicit Window(HINSTANCE& appInstance, int cmdShow) noexcept;
-        void showWindow(LPCSTR windowTitle, bool fullscreen = false) noexcept;
+        explicit Window(HINSTANCE& app_instance, int cmd_show) noexcept;
+        void showWindow(LPCSTR window_title, bool full_screen = false) noexcept;
         void onEvent(const char* message) const noexcept override;
         ~Window();
     private:
         void initOpenGLContext() noexcept;
-        void initFullScreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP) noexcept;
+        void initFullScreen(DWORD window_width, DWORD window_height, DWORD window_bpp) noexcept;
     private:
-        int mCmdShow;
-        MSG mWindowEvent;
-        HWND mWindowHandle;
-        HDC mWindowContext;
-        HGLRC mOpenGLContext;
-        HINSTANCE& mAppInstance;
-        WNDCLASSEX mWindowClass;
+        int m_cmd_show;
+        MSG m_window_event;
+        HWND m_window_handle;
+        HDC m_window_context;
+        HGLRC m_opengl_context;
+        HINSTANCE& m_app_instance;
+        WNDCLASSEX m_window_class;
     };
 
 }

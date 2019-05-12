@@ -18,137 +18,137 @@
 
 WindowSystem::WindowEventListener& WindowSystem::WindowEventListener::getInstance() noexcept
 {
-    static WindowEventListener windowEventListener;
-    return windowEventListener;
+    static WindowEventListener window_event_listener;
+    return window_event_listener;
 }
 
 Input::KeyboardState& WindowSystem::WindowEventListener::getKeyboardState() noexcept
 {
-    return mKeyboardState;
+    return m_keyboard_state;
 }
 
 Input::MouseState& WindowSystem::WindowEventListener::getMouseState() noexcept
 {
-    return mMouseState;
+    return m_mouse_state;
 }
 
- LRESULT CALLBACK WindowSystem::WindowEventListener::onWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept
+ LRESULT CALLBACK WindowSystem::WindowEventListener::onWindowEvent(HWND window_handle, std::size_t window_event, WPARAM w_param, LPARAM l_param) noexcept
  {
-     return getInstance().handleWindowEvent(windowHandle, windowEvent, wParam, lParam);
+     return getInstance().handleWindowEvent(window_handle, window_event, w_param, l_param);
  }
 
-LRESULT CALLBACK WindowSystem::WindowEventListener::handleWindowEvent(HWND windowHandle, std::size_t windowEvent, WPARAM wParam, LPARAM lParam) noexcept
+LRESULT CALLBACK WindowSystem::WindowEventListener::handleWindowEvent(HWND window_handle, std::size_t window_event, WPARAM w_param, LPARAM l_param) noexcept
 {
-    switch (windowEvent)
+    switch (window_event)
     {
     case WM_KEYDOWN:
-        onKeyboardKeyDownEvent(wParam);
+        onKeyboardKeyDownEvent(w_param);
         break;
     case WM_KEYUP:
-        onKeyboardKeyUpEvent(wParam);
+        onKeyboardKeyUpEvent(w_param);
         break;
     case WM_MOUSEWHEEL:
-        onMouseWheelEvent(wParam);
+        onMouseWheelEvent(w_param);
         break;
     case WM_MOUSEMOVE:
-        onMouseMoveEvent(lParam);
+        onMouseMoveEvent(l_param);
         break;
     case WM_LBUTTONDOWN:
-        onMouseLeftBtnDownEvent(lParam);
+        onMouseLeftBtnDownEvent(l_param);
         break;
     case WM_RBUTTONDOWN:
-        onMouseRightBtnDownEvent(lParam);
+        onMouseRightBtnDownEvent(l_param);
         break;
     case WM_LBUTTONUP:
-        onMouseLeftBtnUpEvent(lParam);
+        onMouseLeftBtnUpEvent(l_param);
         break;
     case WM_RBUTTONUP:
-        onMouseRightBtnUpEvent(lParam);
+        onMouseRightBtnUpEvent(l_param);
         break;
     case WM_CLOSE:
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
     default:
-        return DefWindowProc(windowHandle, (UINT) windowEvent, wParam, lParam);
+        return DefWindowProc(window_handle, (UINT)window_event, w_param, l_param);
     }
 
     return 0;
 }
 
-void WindowSystem::WindowEventListener::onKeyboardKeyDownEvent(WPARAM wParam) noexcept
+void WindowSystem::WindowEventListener::onKeyboardKeyDownEvent(WPARAM w_param) noexcept
 {
-    switch (wParam)
+    switch (w_param)
     {
     case VK_ESCAPE:
         PostQuitMessage(0);
         break;
     case Input::VK_W:
-        mKeyboardState.pressKeyW();
+        m_keyboard_state.pressKeyW();
         break;
     case Input::VK_S:
-        mKeyboardState.pressKeyS();
+        m_keyboard_state.pressKeyS();
         break;
     case Input::VK_A:
-        mKeyboardState.pressKeyA();
+        m_keyboard_state.pressKeyA();
         break;
     case Input::VK_D:
-        mKeyboardState.pressKeyD();
+        m_keyboard_state.pressKeyD();
         break;
     }
 }
 
-void WindowSystem::WindowEventListener::onKeyboardKeyUpEvent(WPARAM wParam) noexcept
+void WindowSystem::WindowEventListener::onKeyboardKeyUpEvent(WPARAM w_param) noexcept
 {
-    switch (wParam)
+    switch (w_param)
     {
     case Input::VK_W:
-        mKeyboardState.releaseKeyW();
+        m_keyboard_state.releaseKeyW();
         break;
     case Input::VK_S:
-        mKeyboardState.releaseKeyS();
+        m_keyboard_state.releaseKeyS();
         break;
     case Input::VK_A:
-        mKeyboardState.releaseKeyA();
+        m_keyboard_state.releaseKeyA();
         break;
     case Input::VK_D:
-        mKeyboardState.releaseKeyD();
+        m_keyboard_state.releaseKeyD();
         break;
     }
 }
 
-void WindowSystem::WindowEventListener::onMouseWheelEvent(LPARAM lParam) noexcept
+void WindowSystem::WindowEventListener::onMouseWheelEvent(LPARAM l_param) noexcept
 {
-    static std::uint8_t wheelOffset = 1;
-    if (lParam > 0)
-        mMouseState.setWheelOffset(-wheelOffset);
+    static std::uint8_t wheel_offset = 1;
+    if (l_param > 0)
+        m_mouse_state.setWheelOffset(-wheel_offset);
     else
-        mMouseState.setWheelOffset(wheelOffset);
+        m_mouse_state.setWheelOffset(wheel_offset);
 }
 
-void WindowSystem::WindowEventListener::onMouseMoveEvent(LPARAM lParam) noexcept
+void WindowSystem::WindowEventListener::onMouseMoveEvent(LPARAM l_param) noexcept
 {
-    const INT xPos = LOWORD(lParam);
-    const INT yPos = HIWORD(lParam);
-    mMouseState.setPosition(xPos, yPos);
+    const INT x_pos = LOWORD(l_param);
+    const INT y_pos = HIWORD(l_param);
+    m_mouse_state.setPosition(x_pos, y_pos);
 }
 
-void WindowSystem::WindowEventListener::onMouseLeftBtnDownEvent(LPARAM lParam) noexcept
+void WindowSystem::WindowEventListener::onMouseLeftBtnDownEvent(LPARAM l_param) noexcept
 {
-    mMouseState.pressLeftButton();
+    m_mouse_state.pressLeftButton();
 }
 
-void WindowSystem::WindowEventListener::onMouseRightBtnDownEvent(LPARAM lParam) noexcept
+void WindowSystem::WindowEventListener::onMouseRightBtnDownEvent(LPARAM l_param) noexcept
 {
-    mMouseState.pressRightButton();
+    m_mouse_state.pressRightButton();
 }
 
-void WindowSystem::WindowEventListener::onMouseLeftBtnUpEvent(LPARAM lParam) noexcept
+void WindowSystem::WindowEventListener::onMouseLeftBtnUpEvent(LPARAM l_param) noexcept
 {
-    mMouseState.releaseLeftButton();
+    m_mouse_state.releaseLeftButton();
 }
 
-void WindowSystem::WindowEventListener::onMouseRightBtnUpEvent(LPARAM lParam) noexcept
+void WindowSystem::WindowEventListener::onMouseRightBtnUpEvent(LPARAM l_param) noexcept
 {
-    mMouseState.releaseRightButton();
+    m_mouse_state.releaseRightButton();
 }

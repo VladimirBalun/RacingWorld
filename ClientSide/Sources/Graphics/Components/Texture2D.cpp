@@ -16,17 +16,17 @@
 
 #include "Texture2D.hpp"
 
-Graphics::Components::Texture2D::Texture2D(const String& imageData, GLuint width, GLuint height) noexcept
-    : mWidth(width), mHeight(height) 
+Graphics::Components::Texture2D::Texture2D(const std::vector<char>&& image_data, GLuint width, GLuint height) noexcept
+    : m_width(width), m_height(height)
 {
-    glGenTextures(1, &mTextureID);
+    glGenTextures(1, &m_texture_idD);
 
 #ifdef _DEBUG
-    if (mTextureID == 0)
+    if (m_texture_idD == 0)
         LOG_WARNING("ID for texture was not generated.");
 #endif // _DEBUG
 
-    glBindTexture(GL_TEXTURE_2D, mTextureID);
+    glBindTexture(GL_TEXTURE_2D, m_texture_idD);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -34,26 +34,26 @@ Graphics::Components::Texture2D::Texture2D(const String& imageData, GLuint width
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData.getData());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data.data());
     glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 GLuint Graphics::Components::Texture2D::getID() const noexcept
 {
-    return mTextureID;
+    return m_texture_idD;
 }
 
 GLuint Graphics::Components::Texture2D::getWidth() const noexcept
 {
-    return mWidth;
+    return m_width;
 }
 
 GLuint Graphics::Components::Texture2D::getHeight() const noexcept
 {
-    return mHeight;
+    return m_height;
 }
 
 GLboolean Graphics::Components::Texture2D::isInitialized() const noexcept
 {
-    return mTextureID != 0;
+    return m_texture_idD != 0;
 }

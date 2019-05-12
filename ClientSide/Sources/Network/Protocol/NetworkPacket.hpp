@@ -34,11 +34,11 @@ namespace Network { namespace Protocol {
     {
     public:
         explicit NetworkPacket() noexcept = default;
-        explicit NetworkPacket(std::uint8_t type) noexcept : mPacketType(type) {}
+        explicit NetworkPacket(std::uint8_t type) noexcept : m_packet_type(type) {}
         char* toBuffer() noexcept;
     protected:
-        Endianness::int8be_t mPacketType = 0;
-        Endianness::int32be_t mPacketNumber = 0;
+        Endianness::int8be_t m_packet_type = 0;
+        Endianness::int32be_t m_packet_number = 0;
     };
 
     #pragma pack(pop)

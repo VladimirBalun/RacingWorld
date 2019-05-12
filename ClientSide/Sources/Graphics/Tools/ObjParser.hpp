@@ -16,32 +16,28 @@
 
 #pragma once
 
-#include "MtlParser.hpp"
+#include <array>
+#include <vector>
+#include <string>
+
 #include "../Components/Mesh.hpp"
 #include "../Components/Material.hpp"
 #include "../../Utils/FileSystem.hpp"
 #include "../../EventSystem/EventManager.hpp"
-#include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Tools {
 
     class ObjParser 
     {
     public:
-        explicit ObjParser(Memory::Allocators::LinearAllocator& meshAllocator) noexcept
-            : mMeshAllocator(meshAllocator), mStringsAllocator(1000) {}
-        Components::Mesh parse(const String& objFileName) noexcept;
+        Components::Mesh parse(const std::string_view& obj_filename) noexcept;
     private:
-        void parseMaterials(char* line, const String& currentDirectory, MaterialsData& materialsData) noexcept;
-        void parseVertices(char* line, Vector<Math::Vector3f>& vertices) noexcept;
-        void parseTextureCoordinates(const char* line, Vector<Math::Vector2f>& textureCoordinates) noexcept;
-        void parseNormals(const char* line, Vector<Math::Vector3f>& normals) noexcept;
-        void parseFaceElementIndexes(const char* line, Vector<Math::Vector3i>& faceElementIndexes) noexcept;
-        Components::Mesh createMesh(const Vector<Math::Vector3f>& vertices, const Vector<Math::Vector2f>& textureCoordinates,
-            const Vector<Math::Vector3f>& normals, const Vector<Math::Vector3i>& faceElementIndexes) noexcept;
-    private:
-        Memory::Allocators::LinearAllocator& mMeshAllocator;
-        Memory::Allocators::LinearAllocator mStringsAllocator;
+        GLvoid parseVertices(const char* iterator, std::vector<Math::Vector3f>& vertices) noexcept;
+        GLvoid parseTextureCoordinates(const char* iterator, std::vector<Math::Vector2f>& texture_coordinates) noexcept;
+        GLvoid parseNormals(const char* iterator, std::vector<Math::Vector3f>& normals) noexcept;
+        GLvoid parseFaceElementIndexes(const char* iterator, std::vector<Math::Vector3i>& faceElementIndexes) noexcept;
+        Components::Mesh createMesh(const std::vector<Math::Vector3f>& vertices, const std::vector<Math::Vector2f>& texture_coordinates,
+            const std::vector<Math::Vector3f>& normals, const std::vector<Math::Vector3i>& faceElementIndexes) noexcept;
     };
 
 } }

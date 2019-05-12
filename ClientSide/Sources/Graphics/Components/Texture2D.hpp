@@ -16,8 +16,9 @@
 
 #pragma once
 
+#include <vector>
+
 #include "../OpenGL.hpp"
-#include "../../Utils/DataStructures/String.hpp"
 
 namespace Graphics { namespace Components {
 
@@ -25,15 +26,15 @@ namespace Graphics { namespace Components {
     {
     public:
         explicit Texture2D() noexcept = default;
-        explicit Texture2D(const String& imageData, GLuint width, GLuint height) noexcept;
+        explicit Texture2D(const std::vector<char>&& image_data, GLuint width, GLuint height) noexcept;
         GLuint getID() const noexcept;
         GLuint getWidth() const noexcept;
         GLuint getHeight() const noexcept;
         GLboolean isInitialized() const noexcept;
     private:
-        GLuint mWidth = 0;
-        GLuint mHeight = 0;
-        GLuint mTextureID = 0;
+        GLuint m_width = 0;
+        GLuint m_height = 0;
+        GLuint m_texture_idD = 0;
     };
 
 }}

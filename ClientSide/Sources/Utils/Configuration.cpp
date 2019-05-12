@@ -16,52 +16,22 @@
 
 #include "Configuration.hpp"
 
-std::uint16_t Configuration::Window::windowWidth = 800;
-std::uint16_t Configuration::Window::windowHeight = 600;
+std::uint16_t Configuration::Window::window_width = 800;
+std::uint16_t Configuration::Window::window_height = 600;
 
-const String Configuration::Network::SERVER_ADDRESS("127.0.0.1");
+const std::string Configuration::Network::SERVER_ADDRESS("127.0.0.1");
 
-const String Configuration::Player::PLAYER_EMAIL("player@gmail.com");
-const String Configuration::Player::PLAYER_PASSWORD("difficult_password");
+const std::string Configuration::Player::PLAYER_EMAIL("player@gmail.com");
+const std::string Configuration::Player::PLAYER_PASSWORD("difficult_password");
 
-const String& Configuration::getShadersPath() noexcept
+std::string_view Configuration::getShadersPath() noexcept
 {
-    static String shadersPath{};
-    if (shadersPath.isEmpty())
-    {
-        char buffer[MAX_PATH] = { NULL };
-        GetCurrentDirectory(MAX_PATH, buffer);
-        shadersPath = getParentPath(buffer);
-        shadersPath.append("\\Resources");
-        shadersPath.append("\\Shaders\\");
-    }
-    return shadersPath;
+    static const std::string shaders_path = (std::filesystem::current_path().parent_path() / "Resources" / "Shaders").string();
+    return shaders_path;
 }
 
-const String& Configuration::getTexturesPath() noexcept
+std::string_view Configuration::getModelsPath() noexcept
 {
-    static String texturesPath{};
-    if (texturesPath.isEmpty())
-    {
-        char buffer[MAX_PATH] = { NULL };
-        GetCurrentDirectory(MAX_PATH, buffer);
-        texturesPath = getParentPath(buffer);
-        texturesPath.append("\\Resources");
-        texturesPath.append("\\Textures\\");
-    }
-    return texturesPath;
-}
-
-const String& Configuration::getModelsPath() noexcept
-{
-    static String modelsPath{};
-    if (modelsPath.isEmpty())
-    {
-        char buffer[MAX_PATH] = { NULL };
-        GetCurrentDirectory(MAX_PATH, buffer);
-        modelsPath = getParentPath(buffer);
-        modelsPath.append("\\Resources");
-        modelsPath.append("\\Models\\");
-    }
-    return modelsPath;
+    static const std::string models_path = (std::filesystem::current_path().parent_path() / "Resources" / "Models").string();
+    return models_path;
 }

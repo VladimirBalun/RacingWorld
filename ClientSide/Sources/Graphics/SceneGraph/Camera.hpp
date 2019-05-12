@@ -30,19 +30,19 @@ namespace Graphics { namespace SceneGraph {
         GLvoid moveForward() noexcept;
         GLvoid moveBackward() noexcept;
         GLvoid setSpeed(GLfloat speed) noexcept;
-        GLvoid turn(GLint xOffset, GLint yOffset) noexcept;
+        GLvoid turn(GLint x_offset, GLint y_offset) noexcept;
         GLvoid scale(GLint value) noexcept;
         const Math::Vector3f& getPosition() const noexcept;
         const Math::Matrix4x4f& getViewMatrix() const noexcept;
         const Math::Matrix4x4f& getProjectionMatrix() const noexcept;
     private:
-        GLfloat mSpeed = 0.0f;
-        GLfloat mFov = 45.0f;
-        GLfloat mYawAngle = -90.0f;
-        GLfloat mPitchAngle = 0.0f;
-        Math::Vector3f mPosition = { 0.0f, 0.0f, 3.0f };
-        Math::Vector3f mUpDirection = { 0.0f, 1.0f, 0.0f };
-        Math::Vector3f mForwardDirection = { 0.0f, 0.0f, -1.0f };
+        GLfloat m_speed = 0.0f;
+        GLfloat m_fov = 45.0f;
+        GLfloat m_yaw_angle = -90.0f;
+        GLfloat m_pitch_angle = 0.0f;
+        Math::Vector3f m_position = { 0.0f, 0.0f, 3.0f };
+        Math::Vector3f m_up_direction = { 0.0f, 1.0f, 0.0f };
+        Math::Vector3f m_forward_direction = { 0.0f, 0.0f, -1.0f };
     };
 
 } }

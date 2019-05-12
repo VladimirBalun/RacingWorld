@@ -16,37 +16,37 @@
 
 #include "UDPConnection.hpp"
 
-Network::UDPConnection::UDPConnection(const String& address, std::uint16_t port) noexcept
+Network::UDPConnection::UDPConnection(const std::string_view& address, std::uint16_t port) noexcept
 {
-    WSADATA socketData;
-    if (WSAStartup(MAKEWORD(2, 2), &socketData) != 0)
+    WSADATA socket_data;
+    if (WSAStartup(MAKEWORD(2, 2), &socket_data) != 0)
         LOG_ERROR("Socket was not initialized. Cause: " + WSAGetLastError());
 
-    if ((mSocketHandle = (int) socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == SOCKET_ERROR)
+    if ((m_socket_handle = (int) socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == SOCKET_ERROR)
         LOG_ERROR("Socket was not created. Cause: " + WSAGetLastError());
 
-    memset((char*) &mSocketAddress, 0, sizeof(mSocketAddress));
-    mSocketAddress.sin_family = AF_INET;
-    mSocketAddress.sin_port = htons(port);
-    mSocketAddress.sin_addr.S_un.S_addr = inet_addr(address.getData());
+    memset((char*) &m_socket_address, 0, sizeof(m_socket_address));
+    m_socket_address.sin_family = AF_INET;
+    m_socket_address.sin_port = htons(port);
+    m_socket_address.sin_addr.S_un.S_addr = inet_addr(address.data());
 }
 
 void Network::UDPConnection::sendBuffer(char* buffer, std::size_t size) noexcept
 {
-    int statusCode = sendto(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &mSocketAddress, (int) size);
-    if (statusCode <= 0)
+    const int status_code = sendto(m_socket_handle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &m_socket_address, (int) size);
+    if (status_code <= 0)
         LOG_WARNING("Error during sending of the packet.");
 }
 
 void Network::UDPConnection::receiveBuffer(char* buffer) noexcept
 {
-    int statusCode = recvfrom(mSocketHandle, buffer, MAX_PACKET_SIZE, 0, 0, 0);
-    if (statusCode <= 0)
+    const int status_code = recvfrom(m_socket_handle, buffer, MAX_PACKET_SIZE, 0, 0, 0);
+    if (status_code <= 0)
         LOG_WARNING("Error during getting of the packet.");
 }
 
 Network::UDPConnection::~UDPConnection()
 {
-    closesocket(mSocketHandle);
+    closesocket(m_socket_handle);
     WSACleanup();
 }

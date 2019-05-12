@@ -26,17 +26,17 @@ namespace Graphics { namespace SceneGraph {
     public:
         explicit Light(const Math::Vector3<GLfloat>& position, const Math::Vector3<GLfloat>& ambient,
             const Math::Vector3<GLfloat>& diffuse, const Math::Vector3<GLfloat>& specular = { 1.0, 1.0f, 1.0f }) noexcept
-            : mPosition(position), mAmbientColor(ambient), mDiffuseColor(diffuse), mSpecularColor(specular) {}
+            : m_position(position), m_ambient_color(ambient), m_diffuse_color(diffuse), m_specular_color(specular) {}
         GLvoid move(Math::Vector3f&& alignment) noexcept;
         const Math::Vector3f& getPosition() const noexcept;
         const Math::Vector3f& getAmbientColor() const noexcept;
         const Math::Vector3f& getDiffuseColor() const noexcept;
         const Math::Vector3f& getSpecularColor() const noexcept;
     private:
-        Math::Vector3f mPosition;
-        Math::Vector3f mAmbientColor;
-        Math::Vector3f mDiffuseColor;
-        Math::Vector3f mSpecularColor;
+        Math::Vector3f m_position;
+        Math::Vector3f m_ambient_color;
+        Math::Vector3f m_diffuse_color;
+        Math::Vector3f m_specular_color;
     };
 
 } }

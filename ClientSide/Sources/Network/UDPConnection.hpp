@@ -16,26 +16,26 @@
 
 #pragma once
 
+#include <string>
 #include <cstdint>
 #include <cstdlib>
 #include <Winsock2.h>
 #include <WS2tcpip.h>
 
 #include "../Utils/Debug.hpp"
-#include "../Utils/DataStructures/String.hpp"
 
 namespace Network {
 
     class UDPConnection 
     {
     public:
-        explicit UDPConnection(const String& address, std::uint16_t port) noexcept;
+        explicit UDPConnection(const std::string_view& address, std::uint16_t port) noexcept;
         void sendBuffer(char* buffer, std::size_t size) noexcept;
         void receiveBuffer(char* buffer) noexcept;
         ~UDPConnection();
     private:
-        int mSocketHandle;
-        struct sockaddr_in mSocketAddress;
+        int m_socket_handle;
+        struct sockaddr_in m_socket_address;
         static const std::uint16_t MAX_PACKET_SIZE = 1024;
     };
 

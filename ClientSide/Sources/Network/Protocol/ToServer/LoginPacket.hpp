@@ -36,10 +36,10 @@ namespace Network { namespace Protocol {
         void setPasswordSize(std::int8_t passwordSize) noexcept;
         char* toBuffer() noexcept;
     private:
-        char mEmail[Configuration::Game::MAX_SIZE_EMAIL] = { 0 };
-        Endianness::int16be_t mEmailSize;
-        char mPassword[Configuration::Game::MAX_SIZE_PASSWORD] = { 0 };
-        Endianness::int8be_t mPasswordSize;
+        char m_email[Configuration::Game::MAX_SIZE_EMAIL] = { 0 };
+        Endianness::int16be_t m_email_size;
+        char m_password[Configuration::Game::MAX_SIZE_PASSWORD] = { 0 };
+        Endianness::int8be_t m_password_size;
     };
 
     #pragma pack(pop)
@@ -47,28 +47,28 @@ namespace Network { namespace Protocol {
     inline void LoginPacket::setEmail(const char* email) noexcept
     {
         for (std::uint16_t i = 0; i < Configuration::Game::MAX_SIZE_EMAIL; i++)
-            mEmail[i] = email[i];
+            m_email[i] = email[i];
     }
 
     inline void LoginPacket::setPassword(const char* password) noexcept
     {
         for (std::uint8_t i = 0; i < Configuration::Game::MAX_SIZE_PASSWORD; i++)
-            mPassword[i] = password[i];
+            m_password[i] = password[i];
     }
 
     inline void LoginPacket::setPacketNumber(std::int32_t number) noexcept
     {
-        mPacketNumber = number;
+        m_packet_number = number;
     }
 
-    inline void LoginPacket::setEmailSize(std::int16_t emailSize) noexcept
+    inline void LoginPacket::setEmailSize(std::int16_t email_size) noexcept
     {
-        mEmailSize = emailSize;
+        m_email_size = email_size;
     }
 
-    inline void LoginPacket::setPasswordSize(std::int8_t passwordSize) noexcept
+    inline void LoginPacket::setPasswordSize(std::int8_t password_size) noexcept
     {
-        mPasswordSize = passwordSize;
+        m_password_size = password_size;
     }
 
     inline char* LoginPacket::toBuffer() noexcept

@@ -16,8 +16,6 @@
 
 #include "ObjParser.hpp"
 
-#include <iostream>
-
 #define SPACE_LENGTH                   1 // _
 #define LETTER_LENGTH                  1 // ?
 #define MATERIAL_LIB_WORD_LENGTH       5 // mtlib
@@ -34,170 +32,144 @@
 #define MIN_3D_VECTOR_LENGTH          MIN_NUMBER_LENGTH + SPACE_LENGTH + MIN_NUMBER_LENGTH + SPACE_LENGTH + MIN_NUMBER_LENGTH // 0.0000 0.0000 0.0000
 #define MIN_TRIANGULAR_POLYGON_LENGTH MIN_FRAGMENT_LENGTH + SPACE_LENGTH + MIN_FRAGMENT_LENGTH + SPACE_LENGTH + MIN_FRAGMENT_LENGTH // 0/0/0 0/0/0 0/0/0
 
-struct ObjSizeParameter
+struct ObjFileSizeParameter
 {
-    GLuint countVertices = 0;
-    GLuint countNormals = 0;
-    GLuint countTextureCoordinates = 0;
-    GLuint countFragments = 0;
+    GLuint count_vertices = 0;
+    GLuint count_normals = 0;
+    GLuint count_texture_coordinates = 0;
+    GLuint count_fragments = 0;
 };
 
-static ObjSizeParameter getObjSizeParameters(char* objFileData) noexcept;
+static ObjFileSizeParameter getObjSizeParameters(const std::vector<char>& obj_file_data) noexcept;
 
-Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const String& objFileName) noexcept
+Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const std::string_view& objFileName) noexcept
 {
-    char* buffer = Utils::readFile(objFileName.getData(), mStringsAllocator);
-    if (!buffer)
+    std::vector<char> buffer = Utils::readFile(std::string(objFileName));
+    if (buffer.empty())
     {
         EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
         eventManager.notifyGlobalError("Model was not read.");
     }
 
-    MaterialsData materialsData;
-    ObjSizeParameter objSizeParameter = getObjSizeParameters(buffer);
-    const String currentDirectory(getPathWithoutFilename(objFileName));
+    ObjFileSizeParameter obj_file_size_parameter = getObjSizeParameters(buffer);
 
-    Vector<Math::Vector3f> vertices(objSizeParameter.countVertices);
-    Vector<Math::Vector2f> textureCoordinates(objSizeParameter.countTextureCoordinates);
-    Vector<Math::Vector3f> normals(objSizeParameter.countNormals);
-    Vector<Math::Vector3i> faceElementIndexes(objSizeParameter.countFragments * 3); // (0) - vertex, (1) - texture coordinate, (2) - normal
+    std::vector<Math::Vector3f> vertices(1);
+    vertices.reserve(obj_file_size_parameter.count_vertices + 1);
+    std::vector<Math::Vector2f> texture_coordinates(1);
+    texture_coordinates.reserve(obj_file_size_parameter.count_texture_coordinates + 1);
+    std::vector<Math::Vector3f> normals(1);
+    normals.reserve(obj_file_size_parameter.count_normals + 1);
+    std::vector<Math::Vector3i> face_element_indexes{}; // (0) - vertex, (1) - texture coordinate, (2) - normal
+    face_element_indexes.reserve(obj_file_size_parameter.count_fragments * 3);
 
-    // indexes start from 1
-    vertices.push(Math::Vector3f());
-    textureCoordinates.push(Math::Vector2f());
-    normals.push(Math::Vector3f());
-
-    char* iterator = buffer;
+    const char* iterator = buffer.data();
     while (*iterator != '\0')
     {
         if (strncmp(iterator, "v ", VERTEX_WORD_LENGTH + SPACE_LENGTH) == 0)
         {
             iterator += VERTEX_WORD_LENGTH + SPACE_LENGTH;
             parseVertices(iterator, vertices);
-            iterator += MIN_3D_VECTOR_LENGTH + SPACE_LENGTH;
+            iterator += MIN_3D_VECTOR_LENGTH;
         }
         else if (strncmp(iterator, "vt ", TEXTURE_COORDINATE_WORD_LENGTH + SPACE_LENGTH) == 0)
         {
             iterator += TEXTURE_COORDINATE_WORD_LENGTH + SPACE_LENGTH;
-            parseTextureCoordinates(iterator, textureCoordinates);
-            iterator += MIN_2D_VECTOR_LENGTH + SPACE_LENGTH;
+            parseTextureCoordinates(iterator, texture_coordinates);
+            iterator += MIN_2D_VECTOR_LENGTH;
         }
         else if (strncmp(iterator, "vn ", NORMAL_WORD_LENGTH + SPACE_LENGTH) == 0)
         {
             iterator += NORMAL_WORD_LENGTH + SPACE_LENGTH;
             parseNormals(iterator, normals);
-            iterator += MIN_3D_VECTOR_LENGTH + SPACE_LENGTH;
+            iterator += MIN_3D_VECTOR_LENGTH;
         }
         else if (strncmp(iterator, "f ", FRAGMENT_WORD_LENGHT + SPACE_LENGTH) == 0)
         {
             iterator += FRAGMENT_WORD_LENGHT + SPACE_LENGTH;
-            parseFaceElementIndexes(iterator, faceElementIndexes);
-            iterator += MIN_TRIANGULAR_POLYGON_LENGTH + SPACE_LENGTH;
-        }
-        else if (strncmp(iterator, "mtlib ", MATERIAL_LIB_WORD_LENGTH + SPACE_LENGTH) == 0)
-        {
-            iterator += MATERIAL_LIB_WORD_LENGTH + SPACE_LENGTH;
-            parseMaterials(iterator, currentDirectory, materialsData);
-            iterator += MIN_MATERIAL_LIB_LENGTH;
+            parseFaceElementIndexes(iterator, face_element_indexes);
+            iterator += MIN_TRIANGULAR_POLYGON_LENGTH;
         }
         iterator++;
     }
 
-    return createMesh(vertices, textureCoordinates, normals, faceElementIndexes);
+    return createMesh(vertices, texture_coordinates, normals, face_element_indexes);
 }
 
-ObjSizeParameter getObjSizeParameters(char* objFileData) noexcept
+ObjFileSizeParameter getObjSizeParameters(const std::vector<char>& obj_file_data) noexcept
 {
-    ObjSizeParameter objSizeParameter;
-    char* iterator = objFileData;
+    ObjFileSizeParameter obj_file_size_parameter{};
+    const char* iterator = obj_file_data.data();
     while ( (*iterator != '\0') && (*iterator != '\n') )
     {
         if (strncmp(iterator, "#vc ", 4) == 0)
-            sscanf_s(iterator + 4, "%u", &objSizeParameter.countVertices);
+            sscanf_s(iterator + 4, "%u", &obj_file_size_parameter.count_vertices);
         if (strncmp(iterator, "#vnc ", 5) == 0)
-            sscanf_s(iterator + 5, "%u", &objSizeParameter.countNormals);
+            sscanf_s(iterator + 5, "%u", &obj_file_size_parameter.count_normals);
         if (strncmp(iterator, "#vtc ", 5) == 0)
-            sscanf_s(iterator + 5, "%u", &objSizeParameter.countTextureCoordinates);
+            sscanf_s(iterator + 5, "%u", &obj_file_size_parameter.count_texture_coordinates);
         if (strncmp(iterator, "#fc ", 4) == 0)
-            sscanf_s(iterator + 4, "%u", &objSizeParameter.countFragments);
+            sscanf_s(iterator + 4, "%u", &obj_file_size_parameter.count_fragments);
         iterator++;
     }
-    return objSizeParameter;
+    return obj_file_size_parameter;
 }
 
-void Graphics::Tools::ObjParser::parseMaterials(char* iterator, const String& currentDirectory, MaterialsData& materialsData) noexcept
+GLvoid Graphics::Tools::ObjParser::parseVertices(const char* iterator, std::vector<Math::Vector3f>& vertices) noexcept
 {
-    std::size_t materialFileNameLength = 0;
-    const char* tmpIterator = iterator;
-    while ( (*tmpIterator != ' ') && (*tmpIterator != '\r') &&  (*tmpIterator != '\n') )
-    {
-        tmpIterator++;
-        materialFileNameLength++;
-    }
-    const String materialFileName(iterator, materialFileNameLength);
-    const GLuint lengthMaterialFullFileName = static_cast<GLuint>(currentDirectory.getLength() + materialFileNameLength);
-    String materialFullFileName(currentDirectory);
-    materialFullFileName.append(materialFileName.getData());
-    MtlParser mtlParser(currentDirectory, materialFullFileName);
-    mtlParser.parse(materialsData);
+    GLfloat x_pos = 0.0f;
+    GLfloat y_pos = 0.0f;
+    GLfloat z_pos = 0.0f;
+    sscanf_s(iterator, "%f %f %f", &x_pos, &y_pos, &z_pos);
+    vertices.emplace_back(x_pos, y_pos, z_pos);
 }
 
-void Graphics::Tools::ObjParser::parseVertices(char* iterator, Vector<Math::Vector3f>& vertices) noexcept
+GLvoid Graphics::Tools::ObjParser::parseTextureCoordinates(const char* iterator, std::vector<Math::Vector2f>& texture_coordinates) noexcept
 {
-    GLfloat xPos = 0.0f;
-    GLfloat yPos = 0.0f;
-    GLfloat zPos = 0.0f;
-    sscanf_s(iterator, "%f %f %f", &xPos, &yPos, &zPos);
-    vertices.push({ xPos, yPos, zPos });
+    GLfloat v_pos = 0.0f;
+    GLfloat u_pos = 0.0f;
+    sscanf_s(iterator, "%f %f", &v_pos, &u_pos);
+    texture_coordinates.emplace_back(v_pos, u_pos);
 }
 
-void Graphics::Tools::ObjParser::parseTextureCoordinates(const char* iterator, Vector<Math::Vector2f>& textureCoordinates) noexcept
+GLvoid Graphics::Tools::ObjParser::parseNormals(const char* iterator, std::vector<Math::Vector3f>& normals) noexcept
 {
-    GLfloat vPos = 0.0f;
-    GLfloat uPos = 0.0f;
-    sscanf_s(iterator, "%f %f", &vPos, &uPos);
-    textureCoordinates.push({ vPos, uPos });
+    GLfloat x_pos = 0.0f;
+    GLfloat y_pos = 0.0f;
+    GLfloat z_pos = 0.0f;
+    sscanf_s(iterator, "%f %f %f", &x_pos, &y_pos, &z_pos);
+    normals.emplace_back(x_pos, y_pos, z_pos);
 }
 
-void Graphics::Tools::ObjParser::parseNormals(const char* iterator, Vector<Math::Vector3f>& normals) noexcept
+GLvoid Graphics::Tools::ObjParser::parseFaceElementIndexes(const char* iterator, std::vector<Math::Vector3i>& face_element_indexes) noexcept
 {
-    GLfloat xPos = 0.0f;
-    GLfloat yPos = 0.0f;
-    GLfloat zPos = 0.0f;
-    sscanf_s(iterator, "%f %f %f", &xPos, &yPos, &zPos);
-    normals.push({ xPos, yPos, zPos });
-}
-
-void Graphics::Tools::ObjParser::parseFaceElementIndexes(const char* iterator, Vector<Math::Vector3i>& faceElementIndexes) noexcept
-{
-    GLint vertexIndex[3] = { 0 };
-    GLint normalIndex[3] = { 0 };
-    GLint textureCoordinateIndex[3] = { 0 };
+    GLint vertexIndex[Math::Vector3i::VECTOR_SIZE] = { 0 };
+    GLint normalIndex[Math::Vector3i::VECTOR_SIZE] = { 0 };
+    GLint textureCoordinateIndex[Math::Vector3i::VECTOR_SIZE] = { 0 };
     sscanf_s(iterator, "%i/%i/%i %i/%i/%i %i/%i/%i",
         &vertexIndex[0], &textureCoordinateIndex[0], &normalIndex[0],
         &vertexIndex[1], &textureCoordinateIndex[1], &normalIndex[1],
         &vertexIndex[2], &textureCoordinateIndex[2], &normalIndex[2]);
-    faceElementIndexes.push({ vertexIndex[0], textureCoordinateIndex[0], normalIndex[0] });
-    faceElementIndexes.push({ vertexIndex[1], textureCoordinateIndex[1], normalIndex[1] });
-    faceElementIndexes.push({ vertexIndex[2], textureCoordinateIndex[2], normalIndex[2] });
+    face_element_indexes.emplace_back(vertexIndex[0], textureCoordinateIndex[0], normalIndex[0]);
+    face_element_indexes.emplace_back(vertexIndex[1], textureCoordinateIndex[1], normalIndex[1]);
+    face_element_indexes.emplace_back(vertexIndex[2], textureCoordinateIndex[2], normalIndex[2]);
 }
 
-Graphics::Components::Mesh Graphics::Tools::ObjParser::createMesh(const Vector<Math::Vector3f>& vertices, const Vector<Math::Vector2f>& textureCoordinates,
-    const Vector<Math::Vector3f>& normals, const Vector<Math::Vector3i>& faceElementIndexes) noexcept
+Graphics::Components::Mesh Graphics::Tools::ObjParser::createMesh(const std::vector<Math::Vector3f>& vertices, const std::vector<Math::Vector2f>& texture_coordinates,
+    const std::vector<Math::Vector3f>& normals, const std::vector<Math::Vector3i>& face_element_indexes) noexcept
 {
-    const GLuint memorySizeForMeshElements = static_cast<GLuint>(faceElementIndexes.getSize() * (Components::Mesh::SIZE_ELEMENT * sizeof(GLfloat)));
-    GLfloat* meshElements = reinterpret_cast<GLfloat*>(mMeshAllocator.allocate(memorySizeForMeshElements));
-    GLuint innerAlignmentForElements = 0;
-    for (GLuint i = 0; i < faceElementIndexes.getSize(); i++)
+    const GLuint memorySizeForMeshElements = static_cast<GLuint>(face_element_indexes.size() * (Components::Mesh::SIZE_ELEMENT * sizeof(GLfloat)));
+    GLfloat* mesh_elements = new GLfloat[memorySizeForMeshElements];
+    GLuint inner_alignment_for_elements = 0;
+    for (GLuint i = 0; i < face_element_indexes.size(); i++)
     {
-        int vertexIndex = faceElementIndexes.at(i).getX();
-        int normalIndex = faceElementIndexes.at(i).getY();
-        int textureCoordinateIndex = faceElementIndexes.at(i).getZ();
-        vertices[vertexIndex].toArray(meshElements + innerAlignmentForElements + Components::Mesh::ALIGNMENT_VERTEX);
-        textureCoordinates[normalIndex].toArray(meshElements + innerAlignmentForElements + Components::Mesh::ALIGNMENT_TEXTURE_COORDINATE);
-        normals[textureCoordinateIndex].toArray(meshElements + innerAlignmentForElements + Components::Mesh::ALIGNMENT_NORMAL);
-        innerAlignmentForElements += Components::Mesh::SIZE_ELEMENT;
+        GLint vertex_index = face_element_indexes.at(i).getX();
+        GLint texture_coordinate_index = face_element_indexes.at(i).getY();
+        GLint normal_index = face_element_indexes.at(i).getZ();
+        vertices[vertex_index].toArray(mesh_elements + inner_alignment_for_elements + Components::Mesh::ALIGNMENT_VERTEX);
+        texture_coordinates[texture_coordinate_index].toArray(mesh_elements + inner_alignment_for_elements + Components::Mesh::ALIGNMENT_TEXTURE_COORDINATE);
+        normals[normal_index].toArray(mesh_elements + inner_alignment_for_elements + Components::Mesh::ALIGNMENT_NORMAL);
+        inner_alignment_for_elements += Components::Mesh::SIZE_ELEMENT;
     }
 
-    return Components::Mesh(meshElements, static_cast<GLuint>(faceElementIndexes.getSize()));
+    return Components::Mesh(mesh_elements, static_cast<GLuint>(face_element_indexes.size()));
 }

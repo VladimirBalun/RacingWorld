@@ -18,6 +18,10 @@ cmake_minimum_required (VERSION 3.10)
 
 project (RacingWorld)
 
+find_package(Boost 1.60 REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
+
 file (GLOB_RECURSE SOURCES "*.cpp" "*.hpp")
 
 foreach (FILE ${SOURCES})
@@ -34,11 +38,9 @@ foreach (FILE ${SOURCES})
     source_group ("${GROUP}" FILES "${FILE}")
 endforeach ()
 
-find_package(Boost 1.60 REQUIRED)
-
 add_executable (${PROJECT_NAME} WIN32 ${SOURCES})
-target_link_libraries (${PROJECT_NAME} ${Boost_LIBRARY_DIRS} wsock32.lib opengl32.lib)
-target_include_directories (${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR} ${PROJECT_DEPENDENCIES_DIR}/OpenGL/Include)
+target_link_libraries (${PROJECT_NAME} wsock32.lib opengl32.lib)
+target_include_directories (${PROJECT_NAME} PRIVATE ${PROJECT_DEPENDENCIES_DIR}/OpenGL/Include)
 set_target_properties (${PROJECT_NAME} PROPERTIES FOLDER "Game")
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BIN_DIR})
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_BIN_DIR})

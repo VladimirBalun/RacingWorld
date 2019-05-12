@@ -20,60 +20,53 @@
 #define COUNT_DEPTH_BITS   32
 #define COUNT_STENCIL_BITS 16
 
-WindowSystem::Window::Window(HINSTANCE& instance, int cmdShow) noexcept
-    : mAppInstance(instance), mCmdShow(cmdShow)
+WindowSystem::Window::Window(HINSTANCE& instance, int cmd_show) noexcept
+    : m_app_instance(instance), m_cmd_show(cmd_show)
 {
-    EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
-    eventManager.subscribeOnGlobalError(*this);
+    EventSystem::EventManager& event_manager = EventSystem::EventManager::getInstance();
+    event_manager.subscribeOnGlobalError(*this);
 
-    memset(&mWindowEvent, 0, sizeof(mWindowEvent));
-    mWindowClass.lpszClassName = "RacingWorld";
-    mWindowClass.cbSize = sizeof(WNDCLASSEX);
-    mWindowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    mWindowClass.lpfnWndProc = (WNDPROC)WindowEventListener::onWindowEvent;
-    mWindowClass.hInstance = mAppInstance;
-    mWindowClass.hIcon = NULL;
-    mWindowClass.hIconSm = NULL;
-    mWindowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-    mWindowClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-    mWindowClass.lpszMenuName = NULL;
-    mWindowClass.cbClsExtra = 0;
-    mWindowClass.cbWndExtra = 0;
+    memset(&m_window_event, 0, sizeof(m_window_event));
+    m_window_class.lpszClassName = "RacingWorld";
+    m_window_class.cbSize = sizeof(WNDCLASSEX);
+    m_window_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    m_window_class.lpfnWndProc = (WNDPROC)WindowEventListener::onWindowEvent;
+    m_window_class.hInstance = m_app_instance;
+    m_window_class.hIcon = NULL;
+    m_window_class.hIconSm = NULL;
+    m_window_class.hCursor = LoadCursor(NULL, IDC_ARROW);
+    m_window_class.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+    m_window_class.lpszMenuName = NULL;
+    m_window_class.cbClsExtra = 0;
+    m_window_class.cbWndExtra = 0;
 
-    if (!RegisterClassEx(&mWindowClass)) 
-        eventManager.notifyGlobalError("Window class was not registered.");
+    if (!RegisterClassEx(&m_window_class))
+        event_manager.notifyGlobalError("Window class was not registered.");
 }
 
-void WindowSystem::Window::showWindow(LPCSTR windowTitle, bool fullscreen) noexcept
+void WindowSystem::Window::showWindow(LPCSTR window_title, bool full_screen) noexcept
 {
-    mWindowHandle = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE, "RacingWorld", windowTitle, WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZE | WS_CLIPSIBLINGS |WS_CLIPCHILDREN,
-        0, 0, Configuration::Window::windowWidth, Configuration::Window::windowHeight, NULL, NULL, mAppInstance, NULL);
-    if (!mWindowHandle)
+    m_window_handle = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE, "RacingWorld", window_title, WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZE | WS_CLIPSIBLINGS |WS_CLIPCHILDREN,
+        0, 0, Configuration::Window::window_width, Configuration::Window::window_height, NULL, NULL, m_app_instance, NULL);
+    if (!m_window_handle)
     {
         EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
         eventManager.notifyGlobalError("Window was not created.");
     }
 
     initOpenGLContext();
-    ShowWindow(mWindowHandle, mCmdShow);
-    SetForegroundWindow(mWindowHandle);
-    SetFocus(mWindowHandle);
-    UpdateWindow(mWindowHandle);
- 
-    //Network::NetworkManager networkManager;
-    //if (!networkManager.login())
-    //{
-    //    EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
-    //    eventManager.notifyGlobalError("Connection with server is absent.");
-    //}
+    ShowWindow(m_window_handle, m_cmd_show);
+    SetForegroundWindow(m_window_handle);
+    SetFocus(m_window_handle);
+    UpdateWindow(m_window_handle);
 
-    Graphics::SceneGraph::Scene scene(mWindowContext);
-    while (mWindowEvent.message != WM_QUIT)
+    Graphics::SceneGraph::Scene scene(m_window_context);
+    while (m_window_event.message != WM_QUIT)
     {
-        if (PeekMessage(&mWindowEvent, NULL, 0, 0, PM_REMOVE))
+        if (PeekMessage(&m_window_event, NULL, 0, 0, PM_REMOVE))
         {
-            TranslateMessage(&mWindowEvent);
-            DispatchMessage(&mWindowEvent);
+            TranslateMessage(&m_window_event);
+            DispatchMessage(&m_window_event);
         }
 
         scene.update();
@@ -84,20 +77,20 @@ void WindowSystem::Window::showWindow(LPCSTR windowTitle, bool fullscreen) noexc
 void WindowSystem::Window::onEvent(const char* message) const noexcept
 {
     LOG_ERROR(message);
-    MessageBox(mWindowHandle, message, "Global error", MB_OK | MB_ICONERROR);
+    MessageBox(m_window_handle, message, "Global error", MB_OK | MB_ICONERROR);
     exit(EXIT_FAILURE);
 }
 
-void WindowSystem::Window::initFullScreen(DWORD windowWidth, DWORD windowHeight, DWORD windowBPP) noexcept
+void WindowSystem::Window::initFullScreen(DWORD window_width, DWORD window_height, DWORD window_bpp) noexcept
 {
-    DEVMODE dmScreenSettings;
-    memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
-    dmScreenSettings.dmSize = sizeof(dmScreenSettings);
-    dmScreenSettings.dmPelsWidth = windowWidth;
-    dmScreenSettings.dmPelsHeight = windowHeight;
-    dmScreenSettings.dmBitsPerPel = windowBPP;
-    dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
-    if (ChangeDisplaySettings(&dmScreenSettings, 0) != DISP_CHANGE_SUCCESSFUL) 
+    DEVMODE dm_screen_settings;
+    memset(&dm_screen_settings, 0, sizeof(dm_screen_settings));
+    dm_screen_settings.dmSize = sizeof(dm_screen_settings);
+    dm_screen_settings.dmPelsWidth = window_width;
+    dm_screen_settings.dmPelsHeight = window_height;
+    dm_screen_settings.dmBitsPerPel = window_bpp;
+    dm_screen_settings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+    if (ChangeDisplaySettings(&dm_screen_settings, 0) != DISP_CHANGE_SUCCESSFUL)
     {
         EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
         eventManager.notifyGlobalError("Fullscreen mode is not supporting.");
@@ -106,24 +99,24 @@ void WindowSystem::Window::initFullScreen(DWORD windowWidth, DWORD windowHeight,
 
 void WindowSystem::Window::initOpenGLContext() noexcept
 {
-    PIXELFORMATDESCRIPTOR pixelFormat;
-    memset(&pixelFormat, 0, sizeof(PIXELFORMATDESCRIPTOR));
-    pixelFormat.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-    pixelFormat.nVersion = 1;
-    pixelFormat.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-    pixelFormat.iPixelType = PFD_TYPE_RGBA;
-    pixelFormat.cColorBits = COUNT_COLOR_BITS;
-    pixelFormat.cDepthBits = COUNT_DEPTH_BITS;
-    pixelFormat.cStencilBits = COUNT_STENCIL_BITS;
-    pixelFormat.iLayerType = PFD_MAIN_PLANE;;
+    PIXELFORMATDESCRIPTOR pixel_format;
+    memset(&pixel_format, 0, sizeof(PIXELFORMATDESCRIPTOR));
+    pixel_format.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+    pixel_format.nVersion = 1;
+    pixel_format.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+    pixel_format.iPixelType = PFD_TYPE_RGBA;
+    pixel_format.cColorBits = COUNT_COLOR_BITS;
+    pixel_format.cDepthBits = COUNT_DEPTH_BITS;
+    pixel_format.cStencilBits = COUNT_STENCIL_BITS;
+    pixel_format.iLayerType = PFD_MAIN_PLANE;;
 
-    mWindowContext = GetDC(mWindowHandle);
-    const int format = ChoosePixelFormat(mWindowContext, &pixelFormat);
+    m_window_context = GetDC(m_window_handle);
+    const int format = ChoosePixelFormat(m_window_context, &pixel_format);
     if (format != 0) 
     {
-        SetPixelFormat(mWindowContext, format, &pixelFormat);
-        const HGLRC glBoostrap = wglCreateContext(mWindowContext);
-        wglMakeCurrent(mWindowContext, glBoostrap);
+        SetPixelFormat(m_window_context, format, &pixel_format);
+        const HGLRC glBoostrap = wglCreateContext(m_window_context);
+        wglMakeCurrent(m_window_context, glBoostrap);
         static const int context_attributes[] = {
             WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
             WGL_CONTEXT_MINOR_VERSION_ARB, 0,
@@ -132,10 +125,10 @@ void WindowSystem::Window::initOpenGLContext() noexcept
             0
         };
 
-        mOpenGLContext = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>
+        m_opengl_context = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>
             (wglGetProcAddress("wglCreateContextAttribsARB"))
-            (mWindowContext, NULL, context_attributes);
-        wglMakeCurrent(mWindowContext, mOpenGLContext);
+            (m_window_context, NULL, context_attributes);
+        wglMakeCurrent(m_window_context, m_opengl_context);
         wglDeleteContext(glBoostrap);
         initOpenGL();
     }
@@ -146,16 +139,16 @@ WindowSystem::Window::~Window()
     ChangeDisplaySettings(NULL, 0);
     ShowCursor(TRUE);
 
-    if (!mOpenGLContext)
+    if (!m_opengl_context)
     {
         wglMakeCurrent(NULL, NULL);
-        wglDeleteContext(mOpenGLContext);
-        mOpenGLContext = NULL;
+        wglDeleteContext(m_opengl_context);
+        m_opengl_context = NULL;
     }
 
-    if (!mWindowContext)
+    if (!m_window_context)
     {
-        ReleaseDC(mWindowHandle, mWindowContext);
-        mWindowContext = NULL;
+        ReleaseDC(m_window_handle, m_window_context);
+        m_window_context = NULL;
     }
 }

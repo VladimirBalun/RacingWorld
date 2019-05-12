@@ -14,127 +14,130 @@
  * limitations under the License.
  */
 
+#include <iostream>
 #include "ShaderProgram.hpp"
 
-Graphics::Tools::ShaderProgram::ShaderProgram(Memory::Allocators::LinearAllocator& allocator, const String& vShaderFileName, const String& fShaderFileName) noexcept
+Graphics::Tools::ShaderProgram::ShaderProgram(const std::string& v_shader_fileName, const std::string& f_shader_fileName) noexcept
 {
-    const char* vShaderSourceCode = Utils::readFile(vShaderFileName.getData(), allocator);
-    const char* fShaderSourceCode = Utils::readFile(fShaderFileName.getData(), allocator);
+    const std::vector<char> v_shader_source_code(Utils::readFile(v_shader_fileName));
+    const std::vector<char> f_shader_source_code(Utils::readFile(f_shader_fileName));
 
-    if (!vShaderSourceCode)
+    if (v_shader_source_code.empty())
         EventSystem::EventManager::getInstance().notifyGlobalError("Vertex shader was not read.");
-    if (!fShaderSourceCode)
+    if (f_shader_source_code.empty())
         EventSystem::EventManager::getInstance().notifyGlobalError("Fragment shader was not read.");
 
-    const GLuint vertexShader = compileShader(vShaderSourceCode, GL_VERTEX_SHADER);
-    const GLuint fragmentShader = compileShader(fShaderSourceCode, GL_FRAGMENT_SHADER);
-    linkShaders(vertexShader, fragmentShader);
+    const GLuint vertex_shader = compileShader(v_shader_source_code, GL_VERTEX_SHADER);
+    const GLuint fragment_shader = compileShader(f_shader_source_code, GL_FRAGMENT_SHADER);
+    linkShaders(vertex_shader, fragment_shader);
 }
 
-GLuint Graphics::Tools::ShaderProgram::compileShader(const char* shaderSourceCode, GLint shaderType) noexcept
+GLuint Graphics::Tools::ShaderProgram::compileShader(const std::vector<char>& shader_source_code, GLint shader_type) noexcept
 {
-    const GLuint shader = glCreateShader(shaderType);
-    glShaderSource(shader, 1, &shaderSourceCode, NULL);
+    const GLuint shader = glCreateShader(shader_type);
+    const char* buffer = shader_source_code.data();
+
+    glShaderSource(shader, 1, &buffer, NULL);
     glCompileShader(shader);
 
 #ifdef _DEBUG
-    GLint isCompiledShader;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiledShader);
-    if (!isCompiledShader)
+    GLint is_compiled_shader;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &is_compiled_shader);
+    if (!is_compiled_shader)
     {
-        GLchar errorLog[512];
-        glGetShaderInfoLog(shader, 512, NULL, errorLog);
-        LOG_WARNING(errorLog);
+        char error_log[512] = { 0 };
+        glGetProgramInfoLog(shader, 512, NULL, error_log);
+        LOG_WARNING(error_log);
     }
 #endif // _DEBUG
 
     return shader;
 }
 
-GLvoid Graphics::Tools::ShaderProgram::linkShaders(GLuint vertexShader, GLuint fragmentShader) noexcept
+GLvoid Graphics::Tools::ShaderProgram::linkShaders(GLuint vertex_shader, GLuint fragment_shader) noexcept
 {
-    mProgramID = glCreateProgram();
-    glAttachShader(mProgramID, vertexShader);
-    glAttachShader(mProgramID, fragmentShader);
-    glLinkProgram(mProgramID);
+    m_program_id = glCreateProgram();
+    glAttachShader(m_program_id, vertex_shader);
+    glAttachShader(m_program_id, fragment_shader);
+    glLinkProgram(m_program_id);
 
 #ifdef _DEBUG
-    GLint isLinkedShaders;
-    glGetProgramiv(mProgramID, GL_LINK_STATUS, &isLinkedShaders);
-    if (!isLinkedShaders)
+    GLint is_linked_shaders;
+    glGetProgramiv(m_program_id, GL_LINK_STATUS, &is_linked_shaders);
+    if (!is_linked_shaders)
     {
-        GLchar errorLog[512];
-        glGetProgramInfoLog(mProgramID, 512, NULL, errorLog);
-        LOG_WARNING(errorLog);
+        std::array<char, 512> error_log{};
+        glGetProgramInfoLog(m_program_id, error_log.max_size(), NULL, error_log.data());
+        LOG_WARNING(error_log.data());
     }
 #endif // _DEBUG
 
-    glDetachShader(mProgramID, vertexShader);
-    glDetachShader(mProgramID, fragmentShader);
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+    glDetachShader(m_program_id, vertex_shader);
+    glDetachShader(m_program_id, fragment_shader);
+    glDeleteShader(vertex_shader);
+    glDeleteShader(fragment_shader);
 }
 
 GLboolean Graphics::Tools::ShaderProgram::isInitialized() const noexcept
 {
-    return mProgramID != 0;
+    return m_program_id != 0;
 }
 
 GLvoid Graphics::Tools::ShaderProgram::use() const noexcept
 {
-    glUseProgram(mProgramID);
+    glUseProgram(m_program_id);
 }
 
 GLvoid Graphics::Tools::ShaderProgram::destroy() const noexcept
 {
-    glDeleteProgram(mProgramID);
+    glDeleteProgram(m_program_id);
 }
 
 GLuint Graphics::Tools::ShaderProgram::getProgramID() const noexcept
 {
-    return mProgramID;
+    return m_program_id;
 }
 
 GLint Graphics::Tools::ShaderProgram::getAttributeLocation(const char* name) const noexcept
 {
-    GLint locationID = glGetAttribLocation(mProgramID, name);
+    GLint location_id = glGetAttribLocation(m_program_id, name);
 
 #ifdef  _DEBUG
-    if (locationID == -1)
+    if (location_id == -1)
         LOG_WARNING("Location of attribute was not found.");
 #endif // _DEBUG
 
-    return locationID;
+    return location_id;
 }
 
 GLint Graphics::Tools::ShaderProgram::getUniformLocation(const char* name) const noexcept
 {
-    GLint locationID = glGetUniformLocation(mProgramID, name);
+    GLint location_id = glGetUniformLocation(m_program_id, name);
 
 #ifdef  _DEBUG
-    if (locationID == -1)
+    if (location_id == -1)
         LOG_WARNING("Location of uniform was not found.");
 #endif // _DEBUG
 
-    return locationID;
+    return location_id;
 }
 
 GLvoid Graphics::Tools::ShaderProgram::setUniformf(const char* name, GLfloat value) const noexcept
 {
-    glUseProgram(mProgramID);
+    glUseProgram(m_program_id);
     glUniform1f(getUniformLocation(name), value);
 }
 
 GLvoid Graphics::Tools::ShaderProgram::setUniformVector3f(const char* name, const Math::Vector3<GLfloat>& vector) const noexcept
 {
-    glUseProgram(mProgramID);
+    glUseProgram(m_program_id);
     glUniform3f(getUniformLocation(name), vector.getX(), vector.getY(), vector.getZ());
 }
 
 GLvoid Graphics::Tools::ShaderProgram::setUniformMatrix4x4f(const char* name, const Math::Matrix4x4<GLfloat>& matrix) const noexcept
 {
-    GLfloat array[Math::Matrix4x4<GLfloat>::MATRIX_SIZE];
-    matrix.toArray(array);
-    glUseProgram(mProgramID);
-    glUniformMatrix4fv(getUniformLocation(name), 1, GL_TRUE, array);
+    std::array<GLfloat, Math::Matrix4x4<GLfloat>::MATRIX_SIZE> array{};
+    matrix.toArray(array.data());
+    glUseProgram(m_program_id);
+    glUniformMatrix4fv(getUniformLocation(name), 1, GL_TRUE, array.data());
 }

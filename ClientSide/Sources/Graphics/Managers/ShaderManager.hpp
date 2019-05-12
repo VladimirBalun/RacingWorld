@@ -19,8 +19,6 @@
 #include "../Tools/ShaderProgram.hpp"
 #include "../../Utils/Debug.hpp"
 #include "../../Utils/Configuration.hpp"
-#include "../../Utils/DataStructures/String.hpp"
-#include "../../Memory/Allocators/LinearAllocator.hpp"
 
 namespace Graphics { namespace Managers {
 
@@ -31,7 +29,7 @@ namespace Graphics { namespace Managers {
         COUNT_SHADER_TYPES // Used for setting size of shaders array 
     };
 
-    class ShaderManager : Memory::INonCopyable
+    class ShaderManager
     {
     public:
         GLvoid initializeShaders() noexcept;
@@ -39,7 +37,7 @@ namespace Graphics { namespace Managers {
         Tools::ShaderProgram& getShader(EShaderType shaderType) noexcept;
         ~ShaderManager();
     private: 
-        Tools::ShaderProgram createShader(Memory::Allocators::LinearAllocator& allocator, const char* vShaderPath, const char* fShaderPath) const noexcept;
+        Tools::ShaderProgram createShader(const char* vShaderPath, const char* fShaderPath) const noexcept;
     private:
         Tools::ShaderProgram mShaderPrograms[COUNT_SHADER_TYPES];
     };

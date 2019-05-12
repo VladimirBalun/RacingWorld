@@ -16,27 +16,27 @@
 
 #pragma once
 
+#include <memory>
+
 #include "./Node.hpp"
 #include "../OpenGL.hpp"
 #include "../Managers/MeshManager.hpp"
 #include "../Managers/ShaderManager.hpp"
-#include "../../Memory/Allocators/PoolAllocator.hpp"
 
 namespace Graphics { namespace SceneGraph {
 
     class SceneGraphBuilder 
     {
     public:
-        explicit SceneGraphBuilder(Managers::MeshManager& meshManager, Memory::Allocators::PoolAllocator& allocator) noexcept
-            : mMeshManager(meshManager), mAllocator(allocator) {}
-        Node* build() noexcept;
+        explicit SceneGraphBuilder(Managers::MeshManager& mesh_manager) noexcept
+            : m_mesh_manager(mesh_manager) {}
+        std::shared_ptr<Node> build() noexcept;
     private:
-        Node* buildTree() noexcept;
-        Node* buildCubes() noexcept;
-        Node* buildGround() noexcept;
+        std::shared_ptr<Node> buildTree() noexcept;
+        std::shared_ptr<Node> buildCubes() noexcept;
+        std::shared_ptr<Node> buildGround() noexcept;
     private:
-        Managers::MeshManager& mMeshManager;
-        Memory::Allocators::PoolAllocator& mAllocator;
+        Managers::MeshManager& m_mesh_manager;
     };
 
 } }

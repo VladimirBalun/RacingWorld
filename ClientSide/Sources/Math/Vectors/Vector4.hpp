@@ -108,7 +108,7 @@ namespace Math {
         Vector4& operator -= (const Vector4& anotherVector) noexcept;
         Vector4& operator *= (Type scalar) noexcept;
     private:
-		alignas(16) Type mElements[VECTOR_SIZE];
+        Type mElements[VECTOR_SIZE] = { 0 };
     };
 
     template<class Type>

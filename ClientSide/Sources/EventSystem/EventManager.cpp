@@ -18,24 +18,24 @@
 
 EventSystem::EventManager& EventSystem::EventManager::getInstance() noexcept
 {
-    static EventManager eventManager;
-    return eventManager;
+    static EventManager event_manager;
+    return event_manager;
 }
 
 void EventSystem::EventManager::notifyGlobalError(const char* message) noexcept
 {
     for (std::uint8_t i = 0; i < MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS; i++)
-        if (mGlobalErrorSubscribers[i])
-            mGlobalErrorSubscribers[i]->onEvent(message);
+        if (m_global_error_subscribers[i])
+            m_global_error_subscribers[i]->onEvent(message);
 }
 
 void EventSystem::EventManager::subscribeOnGlobalError(const IEventSubscriber& subscriber) noexcept
 {
     for (std::uint8_t i = 0; i < MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS; i++)
     {
-        if (!mGlobalErrorSubscribers[i])
+        if (!m_global_error_subscribers[i])
         {
-            mGlobalErrorSubscribers[i] = &subscriber;
+            m_global_error_subscribers[i] = &subscriber;
             return;
         }
     }

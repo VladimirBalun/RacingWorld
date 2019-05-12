@@ -16,17 +16,18 @@
 
 #pragma once
 
-#include <Windows.h>
+#include <string>
+#include <filesystem>
 
-#include "DataStructures/String.hpp"
 #include "../Math/Vectors/Vector3.hpp"
 
 struct Configuration 
 {
+
     struct Window 
     {
-        static std::uint16_t windowWidth;
-        static std::uint16_t windowHeight;
+        static std::uint16_t window_width;
+        static std::uint16_t window_height;
     };
 
     struct Game
@@ -38,17 +39,17 @@ struct Configuration
 
     struct Player 
     {
-        static const String PLAYER_EMAIL;
-        static const String PLAYER_PASSWORD;
+        static const std::string PLAYER_EMAIL;
+        static const std::string PLAYER_PASSWORD;
     };
 
     struct Network 
     {
-        static const String SERVER_ADDRESS;
+        static const std::string SERVER_ADDRESS;
         static const std::uint16_t SERVER_PORT = 17017;
     };
 
-    static const String& getShadersPath() noexcept;
-    static const String& getTexturesPath() noexcept;
-    static const String& getModelsPath() noexcept;
+    static std::string_view getShadersPath() noexcept;
+    static std::string_view getModelsPath() noexcept;
+
 };
