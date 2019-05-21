@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include "../EPacketType.hpp"
 #include "../NetworkPacket.hpp"
 #include "../../Endianness/BigEndian.hpp"
 #include "../../../Utils/Configuration.hpp"
@@ -25,21 +24,22 @@ namespace Network { namespace Protocol {
 
     #pragma pack(push, 1)
 
-    class LoginPacket : public NetworkPacket<LoginPacket>, public IPacketToServer
+    class LoginPacket : NetworkPacket<LoginPacket>, public IPacketToServer
     {
     public:
-        explicit LoginPacket() noexcept : NetworkPacket(LOGIN_PACKET) {}
+        LoginPacket() noexcept
+            : NetworkPacket(static_cast<std::uint8_t>(PacketType::LOGIN_PACKET)) {}
         void setEmail(const char* email) noexcept;
         void setPassword(const char* password) noexcept;
         void setPacketNumber(std::int32_t number) noexcept;
-        void setEmailSize(std::int16_t emailSize) noexcept;
-        void setPasswordSize(std::int8_t passwordSize) noexcept;
-        char* toBuffer() noexcept;
+        void setEmailSize(std::int16_t email_size) noexcept;
+        void setPasswordSize(std::int8_t password_size) noexcept;
+        char* serialize() noexcept;
     private:
         char m_email[Configuration::Game::MAX_SIZE_EMAIL] = { 0 };
-        Endianness::int16be_t m_email_size;
+        Endianness::int16be_t m_email_size = 0;
         char m_password[Configuration::Game::MAX_SIZE_PASSWORD] = { 0 };
-        Endianness::int8be_t m_password_size;
+        Endianness::int8be_t m_password_size = 0;
     };
 
     #pragma pack(pop)
@@ -56,24 +56,24 @@ namespace Network { namespace Protocol {
             m_password[i] = password[i];
     }
 
-    inline void LoginPacket::setPacketNumber(std::int32_t number) noexcept
+    inline void LoginPacket::setPacketNumber(const std::int32_t number) noexcept
     {
         m_packet_number = number;
     }
 
-    inline void LoginPacket::setEmailSize(std::int16_t email_size) noexcept
+    inline void LoginPacket::setEmailSize(const std::int16_t email_size) noexcept
     {
         m_email_size = email_size;
     }
 
-    inline void LoginPacket::setPasswordSize(std::int8_t password_size) noexcept
+    inline void LoginPacket::setPasswordSize(const std::int8_t password_size) noexcept
     {
         m_password_size = password_size;
     }
 
-    inline char* LoginPacket::toBuffer() noexcept
+    inline char* LoginPacket::serialize() noexcept
     {
         return reinterpret_cast<char*>(this);
     }
 
-} }
+}}

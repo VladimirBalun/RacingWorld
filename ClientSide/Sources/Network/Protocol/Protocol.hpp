@@ -17,4 +17,7 @@
 #pragma once
 
 #include "ToServer/LoginPacket.hpp"
+#include "ToServer/LogoutPacket.hpp"
+
 #include "FromServer/LoginAnswerPacket.hpp"
+#include "FromServer/LogoutAnswerPacket.hpp"

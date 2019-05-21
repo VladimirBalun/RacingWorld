@@ -16,23 +16,30 @@
 
 #pragma once
 
-#include <memory>
-
 #include "UDPConnection.hpp"
-#include "Protocol/Protocol.hpp"
-#include "Protocol/EPacketType.hpp"
 #include "../Utils/Configuration.hpp"
 
 namespace Network {
 
+    // Singleton
     class NetworkManager
     {
     public:
-        explicit NetworkManager() noexcept
-            : m_connection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
+        static NetworkManager& getInstance() noexcept;
+        bool connect() noexcept;
         bool login() noexcept;
+        bool logout() noexcept;
+        bool isConnected() const noexcept;
+        bool isLogin() const noexcept;
+    private:
+        NetworkManager() noexcept
+            : m_connection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
+        explicit NetworkManager(const NetworkManager& other) noexcept = delete;
+        NetworkManager& operator = (const NetworkManager& other) noexcept = delete;
     private:
         UDPConnection m_connection;
+        bool m_is_connected = false;
+        bool m_is_login = false;
         std::int32_t m_current_token = 0;
         std::int32_t m_packet_number = 1;
     };

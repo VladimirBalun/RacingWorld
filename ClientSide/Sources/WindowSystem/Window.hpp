@@ -16,10 +16,7 @@
 
 #pragma once
 
-#include <WinSock2.h>
-
 #include "WindowEventListener.hpp"
-#include "../Network/NetworkManager.hpp"
 #include "../EventSystem/EventManager.hpp"
 #include "../Graphics/SceneGraph/Scene.hpp"
 

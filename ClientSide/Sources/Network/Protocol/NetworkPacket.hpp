@@ -26,6 +26,19 @@ namespace Network { namespace Protocol {
     struct IPacketToServer {};
     struct IPacketFromServer {};
 
+    enum class PacketType
+    {
+        ERROR_PACKET = 0,
+        LOGIN_PACKET = 1,
+        LOGIN_ANSWER_PACKET = 2,
+        LOGOUT_PACKET = 3,
+        LOGOUT_ANSWER_PACKET = 4,
+        INITIALIZE_POSITION_PACKET = 5,
+        INITIALIZE_POSITION_ANSWER_PACKET = 6,
+        USER_ACTION_PACKET = 7,
+        WORLD_ACTION_PACKET = 8
+    };
+
     #pragma pack(push, 1)
 
     // Abstract class
@@ -34,8 +47,9 @@ namespace Network { namespace Protocol {
     {
     public:
         explicit NetworkPacket() noexcept = default;
-        explicit NetworkPacket(std::uint8_t type) noexcept : m_packet_type(type) {}
-        char* toBuffer() noexcept;
+        explicit NetworkPacket(std::uint8_t type) noexcept 
+            : m_packet_type(type) {}
+        char* serialize() noexcept;
     protected:
         Endianness::int8be_t m_packet_type = 0;
         Endianness::int32be_t m_packet_number = 0;
@@ -44,9 +58,9 @@ namespace Network { namespace Protocol {
     #pragma pack(pop)
 
     template<typename DerivedType>
-    char* NetworkPacket<DerivedType>::toBuffer() noexcept
+    char* NetworkPacket<DerivedType>::serialize() noexcept
     {
         return static_cast<DerivedType*>(this)->toBuffer();
     }
 
-} }
+}}

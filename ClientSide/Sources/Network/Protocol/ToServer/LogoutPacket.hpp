@@ -23,36 +23,31 @@ namespace Network { namespace Protocol {
 
     #pragma pack(push, 1)
 
-    class LoginAnswerPacket : NetworkPacket<LoginAnswerPacket>, public IPacketFromServer
+    class LogoutPacket : NetworkPacket<LogoutPacket>, public IPacketToServer
     {
     public:
-        std::int32_t getPacketNumber() const noexcept;
-        std::int32_t getToken() const noexcept;
-        bool getResultLogin() const noexcept;
+        LogoutPacket() noexcept
+            : NetworkPacket(static_cast<std::uint8_t>(PacketType::LOGOUT_PACKET)) {}
+        void setPacketNumber(std::int32_t number) noexcept;
+        void setToken(std::int32_t token) noexcept;
         char* serialize() noexcept;
     private:
         Endianness::int32be_t m_token = 0;
-        bool m_result_login = false;
     };
 
     #pragma pack(pop)
 
-    inline std::int32_t LoginAnswerPacket::getPacketNumber() const noexcept
+    inline void LogoutPacket::setPacketNumber(const std::int32_t number) noexcept
     {
-        return m_packet_number;
+        m_packet_number = number;
     }
 
-    inline std::int32_t LoginAnswerPacket::getToken() const noexcept
+    inline void LogoutPacket::setToken(const std::int32_t token) noexcept
     {
-        return m_token;
+        m_token = token;
     }
 
-    inline bool LoginAnswerPacket::getResultLogin() const noexcept
-    {
-        return m_result_login;
-    }
-    
-    inline char* LoginAnswerPacket::serialize() noexcept
+    inline char* LogoutPacket::serialize() noexcept
     {
         return reinterpret_cast<char*>(this);
     }

@@ -16,27 +16,24 @@
 
 #pragma once
 
-#include <string>
 #include <cstdint>
-#include <cstdlib>
-#include <Winsock2.h>
-#include <WS2tcpip.h>
-
-#include "../Utils/Debug.hpp"
+#include <boost/asio.hpp>
 
 namespace Network {
 
-    class UDPConnection 
+    class UDPConnection
     {
+        static const std::uint16_t MAX_PACKET_SIZE = 1024u;
     public:
         explicit UDPConnection(const std::string_view& address, std::uint16_t port) noexcept;
-        void sendBuffer(char* buffer, std::size_t size) noexcept;
-        void receiveBuffer(char* buffer) noexcept;
+        bool connect() noexcept;
+        void read(char* to_data, std::size_t size);
+        void write(const char* from_data, std::size_t size);
         ~UDPConnection();
     private:
-        int m_socket_handle;
-        struct sockaddr_in m_socket_address;
-        static const std::uint16_t MAX_PACKET_SIZE = 1024;
+        boost::asio::io_service m_io_service{};
+        boost::asio::ip::udp::endpoint m_server_endpoint;
+        boost::asio::ip::udp::socket m_socket;
     };
 
 }

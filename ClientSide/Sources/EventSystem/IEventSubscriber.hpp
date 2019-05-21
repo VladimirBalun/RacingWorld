@@ -18,7 +18,7 @@
 
 namespace EventSystem {
 
-    struct IEventSubscriber 
+    struct IEventSubscriber
     {
         virtual void onEvent(const char* message) const noexcept = 0;
         virtual ~IEventSubscriber() = default;

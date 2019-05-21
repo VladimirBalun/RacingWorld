@@ -17,36 +17,38 @@
 #include "UDPConnection.hpp"
 
 Network::UDPConnection::UDPConnection(const std::string_view& address, std::uint16_t port) noexcept
+    : m_server_endpoint(boost::asio::ip::address::from_string(address.data()), port), 
+      m_socket(m_io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0))
 {
-    WSADATA socket_data;
-    if (WSAStartup(MAKEWORD(2, 2), &socket_data) != 0)
-        LOG_ERROR("Socket was not initialized. Cause: " + WSAGetLastError());
-
-    if ((m_socket_handle = (int) socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == SOCKET_ERROR)
-        LOG_ERROR("Socket was not created. Cause: " + WSAGetLastError());
-
-    memset((char*) &m_socket_address, 0, sizeof(m_socket_address));
-    m_socket_address.sin_family = AF_INET;
-    m_socket_address.sin_port = htons(port);
-    m_socket_address.sin_addr.S_un.S_addr = inet_addr(address.data());
+#ifdef _DEBUG
+    m_socket.set_option(boost::asio::ip::udp::socket::debug(true));
+#endif
 }
 
-void Network::UDPConnection::sendBuffer(char* buffer, std::size_t size) noexcept
+bool Network::UDPConnection::connect() noexcept
 {
-    const int status_code = sendto(m_socket_handle, buffer, MAX_PACKET_SIZE, 0, (struct sockaddr*) &m_socket_address, (int) size);
-    if (status_code <= 0)
-        LOG_WARNING("Error during sending of the packet.");
+    m_socket.connect(m_server_endpoint);
+    return m_socket.is_open();
 }
 
-void Network::UDPConnection::receiveBuffer(char* buffer) noexcept
+void Network::UDPConnection::read(char* to_data, const std::size_t size)
 {
-    const int status_code = recvfrom(m_socket_handle, buffer, MAX_PACKET_SIZE, 0, 0, 0);
-    if (status_code <= 0)
-        LOG_WARNING("Error during getting of the packet.");
+    char buffer[MAX_PACKET_SIZE] = { 0 };
+    boost::asio::ip::udp::endpoint sender_endpoint{};
+    m_socket.receive(boost::asio::buffer(buffer, size));
+    std::copy(buffer, buffer + size, to_data);
+}
+
+void Network::UDPConnection::write(const char* from_data, const std::size_t size)
+{
+    m_socket.send(boost::asio::buffer(from_data, size));
 }
 
 Network::UDPConnection::~UDPConnection()
 {
-    closesocket(m_socket_handle);
-    WSACleanup();
+    if (m_socket.is_open())
+    {
+        m_socket.cancel();
+        m_socket.close();
+    }
 }
