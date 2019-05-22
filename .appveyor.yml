@@ -27,6 +27,7 @@ environment:
   matrix:
     - TOOLCHAIN: msvc15
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    - BOOST_ROOT: C:\Libraries\boost_1_69_0
 
 build_script:
   - cd c:\projects\RacingWorld\ClientSide
