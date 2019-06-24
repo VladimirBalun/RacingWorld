@@ -26,6 +26,7 @@ namespace Network { namespace Protocol {
 
     class LoginPacket : NetworkPacket<LoginPacket>, public IPacketToServer
     {
+        using Super = NetworkPacket<LoginPacket>;
     public:
         LoginPacket() noexcept
             : NetworkPacket(static_cast<std::uint8_t>(PacketType::LOGIN_PACKET)) {}

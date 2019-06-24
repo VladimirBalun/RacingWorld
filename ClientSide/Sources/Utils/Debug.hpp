@@ -18,73 +18,74 @@
 
 #ifdef _DEBUG
 
+    #include <string>
     #include <cstdio>
     #include <cassert>
 
-    #define LOG_DEBUG(text) \
-        printf("[DEBUG] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+    #define LOG_DEBUG(__text__) \
+        printf("[DEBUG] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
 
-    #define LOG_INFO(text) \
-        printf("[INFO] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+    #define LOG_INFO(__text__) \
+        printf("[INFO] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
 
-    #define LOG_WARNING(text) \
-        printf("[WARNING] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+    #define LOG_WARNING(__text__) \
+        printf("[WARNING] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
         
-    #define LOG_ERROR(text) \
-        printf("[ERROR] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+    #define LOG_ERROR(__text__) \
+        printf("[ERROR] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
 
-    #define LOG_DEBUG_IF(condition, text) \
-        if ((condition)) \
-            printf("[DEBUG] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+    #define LOG_DEBUG_IF(__condition__, __text__) \
+        if ((__condition__)) \
+            printf("[DEBUG] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
 
-    #define LOG_INFO_IF(condition, text) \
-        if ((condition)) \
-            printf("[INFO] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+    #define LOG_INFO_IF(__condition__, __text__) \
+        if ((__condition__)) \
+            printf("[INFO] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
 
-    #define LOG_WARNING_IF(condition, text) \
-        if ((condition)) \
-            printf("[WARNING] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+    #define LOG_WARNING_IF(__condition__, __text__) \
+        if ((__condition__)) \
+            printf("[WARNING] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
 
-    #define LOG_ERROR_IF(condition, text) \
-        if ((condition)) \
-            printf("[ERROR] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+    #define LOG_ERROR_IF(__condition__, __text__) \
+        if ((__condition__)) \
+            printf("[ERROR] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
 
-    #define ASSERT(condition, message) \
-        assert((condition) && (message));
+    #define ASSERT(__condition__, __message__) \
+        assert((__condition__) && std::string(__message__).c_str())
 
-    #define STATIC_ASSERT(condition, message) \
-        static_assert((condition), (message));
+    #define STATIC_ASSERT(__condition__, __message__) \
+        static_assert((__condition__), std::string(__message__).c_str())
 
 #else // _DEBUG
 
-    #define LOG_DEBUG(text) \
+    #define LOG_DEBUG(__text__) \
         ( (void)0 )
 
-    #define LOG_INFO(text) \
+    #define LOG_INFO(__text__) \
         ( (void)0 )
 
-    #define LOG_WARNING(text) \
+    #define LOG_WARNING(__text__) \
         ( (void)0 )
 
-    #define LOG_ERROR(text) \
+    #define LOG_ERROR(__text__) \
         ( (void)0 )
 
-    #define LOG_DEBUG_IF(condition, text) \
+    #define LOG_DEBUG_IF(__condition__, __text__) \
         ( (void)0 )
 
-    #define LOG_INFO_IF(condition, text) \
+    #define LOG_INFO_IF(__condition__, __text__) \
         ( (void)0 )
 
-    #define LOG_WARNING_IF(condition, text) \
+    #define LOG_WARNING_IF(__condition__, __text__) \
         ( (void)0 )
 
-    #define LOG_ERROR_IF(condition, text) \
+    #define LOG_ERROR_IF(__condition__, __text__) \
         ( (void)0 )
 
-    #define ASSERT(condition, message) \
+    #define ASSERT(__condition__, __message__) \
         ( (void)0 )
 
-    #define STATIC_ASSERT(condition, message) \
+    #define STATIC_ASSERT(__condition__, __message__) \
         ( (void)0 )
 
 #endif // ! _DEBUG

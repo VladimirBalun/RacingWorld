@@ -30,7 +30,7 @@ namespace Graphics { namespace Managers {
     {
     public:
         static MeshManager& getInstance() noexcept;
-        GLvoid initializeMeshes() noexcept;
+        GLvoid initialize() noexcept;
         Components::Mesh* getMesh(const std::string& mesh_name) noexcept;
         GLboolean isExistMesh(const std::string& mesh_name) const noexcept;
         ~MeshManager();

@@ -44,12 +44,12 @@ public class NetworkManager {
     private DatabaseServerConnector databaseServerConnector;
 
     public NetworkManager(){
-        try {
-            databaseServerConnector = new DatabaseServerConnector();
-        } catch (Exception e) {
-            log.error("Connection with database server was not set: Cause: " + e.getMessage());
-            System.exit(1);
-        }
+//        try {
+//            databaseServerConnector = new DatabaseServerConnector();
+//        } catch (Exception e) {
+//            log.error("Connection with database server was not set: Cause: " + e.getMessage());
+//            System.exit(1);
+//        }
     }
 
     public PacketFromServer onReceive(byte[] buffer) {
@@ -74,8 +74,8 @@ public class NetworkManager {
         LoginPacket loginPacket = new LoginPacket(buffer);
         log.debug("Login packet was received. Packet: " + loginPacket.toString());
 
-        UsersService usersService = databaseServerConnector.getUsersService();
-        boolean loginResult = usersService.addNewUser(new User(loginPacket.getEmail(), loginPacket.getPassword()));
+        //UsersService usersService = databaseServerConnector.getUsersService();
+        boolean loginResult = true;
         LoginAnswerPacket loginAnswerPacket = new LoginAnswerPacket();
         loginAnswerPacket.setPacketNumber(loginPacket.getPacketNumber());
         if (loginResult) {

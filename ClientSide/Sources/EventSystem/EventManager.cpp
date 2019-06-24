@@ -20,8 +20,8 @@
 
 EventSystem::EventManager& EventSystem::EventManager::getInstance() noexcept
 {
-    static EventManager event_manager;
-    return event_manager;
+    static EventManager instance;
+    return instance;
 }
 
 void EventSystem::EventManager::notifyEvent(Event::Type type, const char* message) const noexcept

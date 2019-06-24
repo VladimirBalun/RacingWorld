@@ -24,6 +24,7 @@ namespace Network { namespace Protocol {
 
     class LogoutAnswerPacket : NetworkPacket<LogoutAnswerPacket>, public IPacketFromServer
     {
+        using Super = NetworkPacket<LogoutAnswerPacket>;
     public:
         std::int32_t getPacketNumber() const noexcept;
         bool getResultLogout() const noexcept;

@@ -22,8 +22,8 @@ Graphics::SceneGraph::Scene::Scene(HDC& window_context) noexcept :
     m_window_context(window_context),
     m_scene_light({ 1.2f, 1.0f, 2.0f }, { 0.2f, 0.2f, 0.2f }, { 0.5f, 0.5f, 0.5f })
 {
-    g_mesh_manager.initializeMeshes();
-    g_shader_manager.initializeShaders();
+    g_mesh_manager.initialize();
+    g_shader_manager.initialize();
 
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);

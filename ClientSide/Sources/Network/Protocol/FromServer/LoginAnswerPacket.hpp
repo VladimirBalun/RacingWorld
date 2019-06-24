@@ -25,6 +25,7 @@ namespace Network { namespace Protocol {
 
     class LoginAnswerPacket : NetworkPacket<LoginAnswerPacket>, public IPacketFromServer
     {
+        using Super = NetworkPacket<LoginAnswerPacket>;
     public:
         std::int32_t getPacketNumber() const noexcept;
         std::int32_t getToken() const noexcept;

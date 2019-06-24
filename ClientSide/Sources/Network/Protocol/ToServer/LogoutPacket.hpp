@@ -25,6 +25,7 @@ namespace Network { namespace Protocol {
 
     class LogoutPacket : NetworkPacket<LogoutPacket>, public IPacketToServer
     {
+        using Super = NetworkPacket<LogoutPacket>;
     public:
         LogoutPacket() noexcept
             : NetworkPacket(static_cast<std::uint8_t>(PacketType::LOGOUT_PACKET)) {}

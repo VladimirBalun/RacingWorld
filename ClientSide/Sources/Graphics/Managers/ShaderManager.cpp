@@ -29,7 +29,7 @@ Graphics::Managers::ShaderManager& Graphics::Managers::ShaderManager::getInstanc
     return instance;
 }
 
-GLvoid Graphics::Managers::ShaderManager::initializeShaders() noexcept
+GLvoid Graphics::Managers::ShaderManager::initialize() noexcept
 {
     struct ShaderInfo
     {

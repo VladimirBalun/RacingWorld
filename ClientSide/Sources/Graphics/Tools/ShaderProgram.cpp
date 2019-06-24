@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-#include <iostream>
-
 #include "ShaderProgram.hpp"
+
 #include "../../EventSystem/EventManager.hpp"
 
 Graphics::Tools::ShaderProgram::ShaderProgram(const std::string& v_shader_fileName, const std::string& f_shader_fileName) noexcept
@@ -26,12 +25,12 @@ Graphics::Tools::ShaderProgram::ShaderProgram(const std::string& v_shader_fileNa
 
     if (v_shader_source_code.empty())
     {
-        LOG_ERROR("Vertex shader was not read");
+        LOG_ERROR("Vertex shader '" + v_shader_fileName + "' was not read");
         NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Vertex shader was not read.");
     }
     if (f_shader_source_code.empty())
     {
-        LOG_ERROR("Fragment shader was not read");
+        LOG_ERROR("Fragment shader '" + f_shader_fileName + "' was not read");
         NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Fragment shader was not read.");
     }
 

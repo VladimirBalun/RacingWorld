@@ -29,7 +29,7 @@ namespace Graphics { namespace Managers {
     {
     public:
         static ShaderManager& getInstance() noexcept;
-        GLvoid initializeShaders() noexcept;
+        GLvoid initialize() noexcept;
         GLboolean isExistShader(const std::string& shader_name) const noexcept;
         Tools::ShaderProgram* getShader(const std::string& shader_name) noexcept;
         ~ShaderManager();

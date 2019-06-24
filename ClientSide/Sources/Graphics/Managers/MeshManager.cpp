@@ -29,7 +29,7 @@ Graphics::Managers::MeshManager& Graphics::Managers::MeshManager::getInstance() 
     return instance;
 }
 
-GLvoid Graphics::Managers::MeshManager::initializeMeshes() noexcept
+GLvoid Graphics::Managers::MeshManager::initialize() noexcept
 {
     struct MeshInfo
     {
