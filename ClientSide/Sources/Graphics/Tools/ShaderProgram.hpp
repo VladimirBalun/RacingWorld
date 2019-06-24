@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include <array>
 #include <string>
 #include <vector>
 
@@ -24,15 +23,14 @@
 #include "../../Utils/FileSystem.hpp"
 #include "../../Math/Vectors.hpp"
 #include "../../Math/Matrices.hpp"
-#include "../../EventSystem/EventManager.hpp"
 
 namespace Graphics { namespace Tools {
 
     class ShaderProgram 
     {
     public:
-        explicit ShaderProgram() noexcept = default;
-        explicit ShaderProgram(const std::string& v_shader_fileName, const std::string& f_shader_fileName) noexcept;
+        ShaderProgram() noexcept = default;
+        ShaderProgram(const std::string& v_shader_fileName, const std::string& f_shader_fileName) noexcept;
         GLvoid use() const noexcept;
         GLvoid destroy() const noexcept;
         GLuint getProgramID() const noexcept;

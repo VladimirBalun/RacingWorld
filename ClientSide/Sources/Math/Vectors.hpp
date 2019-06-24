@@ -25,60 +25,60 @@ namespace Math {
     template<typename Type>
     Math::Vector2<Type> normalize(const Vector2<Type>& vector) noexcept
     {
-        Math::Vector2<Type> normalizedVector = vector;
-        normalizedVector.normalize();
-        return normalizedVector;
+        Math::Vector2<Type> normalized_vector = vector;
+        normalized_vector.normalize();
+        return normalized_vector;
     }
 
     template<typename Type>
     Math::Vector3<Type> normalize(const Vector3<Type>& vector) noexcept
     {
-        Math::Vector3<Type> normalizedVector = vector;
-        normalizedVector.normalize();
-        return normalizedVector;
+        Math::Vector3<Type> normalized_vector = vector;
+        normalized_vector.normalize();
+        return normalized_vector;
     }
 
     template<typename Type>
     Math::Vector4<Type> normalize(const Vector4<Type>& vector) noexcept
     {
-        Math::Vector4<Type> normalizedVector = vector;
-        normalizedVector.normalize();
-        return normalizedVector;
+        Math::Vector4<Type> normalized_vector = vector;
+        normalized_vector.normalize();
+        return normalized_vector;
     }
 
     template<typename Type>
-    Type dot(const Vector2<Type>& vector, const Vector2<Type>& anotherVector) noexcept
+    Type dot(const Vector2<Type>& vector, const Vector2<Type>& another_vector) noexcept
     {
-        return vector.getX()*anotherVector.getX() + vector.getY()*anotherVector.getY();
+        return vector.getX()*another_vector.getX() + vector.getY()*another_vector.getY();
     }
 
     template<typename Type>
-    Type dot(const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept
+    Type dot(const Vector3<Type>& vector, const Vector3<Type>& another_vector) noexcept
     {
-        return vector.getX()*anotherVector.getX() + vector.getY()*anotherVector.getY() + vector.getZ()*anotherVector.getZ();
+        return vector.getX()*another_vector.getX() + vector.getY()*another_vector.getY() + vector.getZ()*another_vector.getZ();
     }
 
     template<typename Type>
-    Type dot(const Vector4<Type>& vector, const Vector4<Type>& anotherVector) noexcept
+    Type dot(const Vector4<Type>& vector, const Vector4<Type>& another_vector) noexcept
     {
-        return vector.getX()*anotherVector.getX() + vector.getY()*anotherVector.getY() + vector.getZ()*anotherVector.getZ();
+        return vector.getX()*another_vector.getX() + vector.getY()*another_vector.getY() + vector.getZ()*another_vector.getZ();
     }
 
     template<typename Type>
-    Vector3<Type> cross(const Vector3<Type>& vector, const Vector3<Type>& anotherVector) noexcept
+    Vector3<Type> cross(const Vector3<Type>& vector, const Vector3<Type>& another_vector) noexcept
     {
-        const Type x = vector.getY()*anotherVector.getZ() - vector.getZ()*anotherVector.getY();
-        const Type y = -(vector.getX()*anotherVector.getZ() - vector.getZ()*anotherVector.getX());
-        const Type z = vector.getX()*anotherVector.getY() - vector.getY()*anotherVector.getX();
+        const Type x = vector.getY()*another_vector.getZ() - vector.getZ()*another_vector.getY();
+        const Type y = -(vector.getX()*another_vector.getZ() - vector.getZ()*another_vector.getX());
+        const Type z = vector.getX()*another_vector.getY() - vector.getY()*another_vector.getX();
         return { x, y, z };
     }
 
     template<typename Type>
-    Vector4<Type> cross(const Vector4<Type>& vector, const Vector4<Type>& anotherVector) noexcept
+    Vector4<Type> cross(const Vector4<Type>& vector, const Vector4<Type>& another_vector) noexcept
     {
-        const Type x = vector.getY()*anotherVector.getZ() - vector.getZ()*anotherVector.getY();
-        const Type y = -(vector.getX()*anotherVector.getZ() - vector.getZ()*anotherVector.getX());
-        const Type z = vector.getX()*anotherVector.getY() - vector.getY()*anotherVector.getX();
+        const Type x = vector.getY()*another_vector.getZ() - vector.getZ()*another_vector.getY();
+        const Type y = -(vector.getX()*another_vector.getZ() - vector.getZ()*another_vector.getX());
+        const Type z = vector.getX()*another_vector.getY() - vector.getY()*another_vector.getX();
         return { x, y, z };
     }
 

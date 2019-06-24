@@ -16,33 +16,30 @@
 
 #pragma once
 
-#include <array>
+#include <unordered_map>
 
 #include "../OpenGL.hpp"
 #include "../Components/Mesh.hpp"
-#include "../Tools/ObjParser.hpp"
-#include "../../Utils/Configuration.hpp"
+
+#define g_mesh_manager Graphics::Managers::MeshManager::getInstance()
 
 namespace Graphics { namespace Managers {
 
-    enum EMeshType 
-    {
-        CUBE,
-        TREE,
-        GROUND_POLYGON,
-        COUNT_MESH_TYPES // Used for setting size of meshes array 
-    };
-
+    // Singleton
     class MeshManager
     {
     public:
+        static MeshManager& getInstance() noexcept;
         GLvoid initializeMeshes() noexcept;
-        Components::Mesh& getMesh(EMeshType meshType) noexcept;
+        Components::Mesh* getMesh(const std::string& mesh_name) noexcept;
+        GLboolean isExistMesh(const std::string& mesh_name) const noexcept;
         ~MeshManager();
     private:
-        Components::Mesh createMesh(const std::string& model_name) noexcept;
+        MeshManager() noexcept = default;
+        explicit MeshManager(const MeshManager& other) noexcept = delete;
+        MeshManager& operator = (const MeshManager& other) noexcept = delete;
     private:
-        std::array<Components::Mesh, COUNT_MESH_TYPES> m_meshes;
+        std::unordered_map<std::string, Components::Mesh> m_meshes{};
     };
 
 } }

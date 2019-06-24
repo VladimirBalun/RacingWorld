@@ -30,20 +30,19 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, IN
         LOG_ERROR("Console was not attached to process.");
 #endif
 
-    Network::NetworkManager& network_manager = Network::NetworkManager::getInstance();
-    const bool was_connected = network_manager.connect();
-    if (!was_connected)
-    {
-        LOG_ERROR("Connection with server was not set.");
-        return EXIT_FAILURE;
-    }
+    //const bool was_connected = g_network_manager.connect();
+    //if (!was_connected)
+    //{
+    //    LOG_ERROR("Connection with server was not set.");
+    //    return EXIT_FAILURE;
+    //}
 
-    const bool was_login = network_manager.login();
-    if (!was_login)
-    {
-        LOG_ERROR("Login on the server is failure.");
-        return EXIT_FAILURE;
-    }
+    //const bool was_login = g_network_manager.login();
+    //if (!was_login)
+    //{
+    //    LOG_ERROR("Login on the server is failure.");
+    //    return EXIT_FAILURE;
+    //}
 
     WindowSystem::Window window(instance, cmdShow);
     window.showWindow("RacingWorld");

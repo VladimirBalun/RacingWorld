@@ -16,29 +16,47 @@
 
 #include "EventManager.hpp"
 
+#include "../Utils/Debug.hpp"
+
 EventSystem::EventManager& EventSystem::EventManager::getInstance() noexcept
 {
     static EventManager event_manager;
     return event_manager;
 }
 
-void EventSystem::EventManager::notifyGlobalError(const char* message) noexcept
+void EventSystem::EventManager::notifyEvent(Event::Type type, const char* message) const noexcept
 {
-    for (std::uint8_t i = 0; i < MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS; i++)
-        if (m_global_error_subscribers[i])
-            m_global_error_subscribers[i]->onEvent(message);
+    ASSERT(type < Event::Type::COUNT_EVENT_TYPES, "Incorrect event type for notification.");
+    const auto& specific_subscribers = m_event_subscribers.at(static_cast<std::size_t>(type));
+    for (const auto subscriber : specific_subscribers)
+    {
+        if (subscriber)
+        {
+            subscriber->onEvent(message);
+        }
+    }
 }
 
-void EventSystem::EventManager::subscribeOnGlobalError(const IEventSubscriber& subscriber) noexcept
+void EventSystem::EventManager::subscribeOnEventType(Event::Type type, const IEventSubscriber* subscriber) noexcept
 {
-    for (std::uint8_t i = 0; i < MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS; i++)
+    auto& specific_subscribers = m_event_subscribers.at(static_cast<std::size_t>(type));
+    LOG_WARNING_IF(specific_subscribers.size() == specific_subscribers.capacity(),
+        "Memory reallocation for for specific subscribers. Use 'reserve()' for current subscribers.");
+    if (subscriber)
     {
-        if (!m_global_error_subscribers[i])
+        specific_subscribers.push_back(subscriber);
+    }
+}
+
+void EventSystem::EventManager::unsubscribeFromEventType(Event::Type type, const IEventSubscriber* subscriber) noexcept
+{
+    auto& specific_subscribers = m_event_subscribers.at(static_cast<std::size_t>(type));
+    for (auto it = begin(specific_subscribers); it != end(specific_subscribers); ++it)
+    {
+        if (!(*it))
         {
-            m_global_error_subscribers[i] = &subscriber;
+            specific_subscribers.erase(it);
             return;
         }
     }
-
-    ASSERT(false, "Subcribers on global errors not enought.");
 }

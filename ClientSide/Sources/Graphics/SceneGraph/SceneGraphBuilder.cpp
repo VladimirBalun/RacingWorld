@@ -16,6 +16,10 @@
 
 #include "SceneGraphBuilder.hpp"
 
+#include "../OpenGL.hpp"
+#include "../Managers/MeshManager.hpp"
+#include "../Managers/ShaderManager.hpp"
+
 #define COUNT_MODELS 10
 
 std::shared_ptr<Graphics::SceneGraph::Node> Graphics::SceneGraph::SceneGraphBuilder::build() noexcept
@@ -31,23 +35,26 @@ std::shared_ptr<Graphics::SceneGraph::Node> Graphics::SceneGraph::SceneGraphBuil
 {
     std::shared_ptr<Node> group_node = std::make_shared<Node>();
 
-    Components::Mesh& tree_mesh = m_mesh_manager.getMesh(Managers::TREE);
-    tree_mesh.setMaterial(Components::Material{
-        { 0.0f ,0.05f, 0.0 },
-        { 0.4f, 0.5f, 0.4f },
-        { 0.04f, 0.7f, 0.04f },
-        0.078125f
-    });
+    Components::Mesh* tree_mesh = g_mesh_manager.getMesh("Tree");
+    if (tree_mesh)
+    {
+        tree_mesh->setMaterial(Components::Material{
+            { 0.0f ,0.05f, 0.0 },
+            { 0.4f, 0.5f, 0.4f },
+            { 0.04f, 0.7f, 0.04f },
+            0.078125f
+            });
 
-    Math::Matrix4x4f scale_transformation{};
-    Math::setScaleMatrix(scale_transformation, { 0.3f, 0.3f, 0.3f });
-    Math::Matrix4x4f tree_transformation{};
-    Math::setTranslationMatrix(tree_transformation, { 1.0f,  -0.52f,  1.0f });
-    tree_transformation.mul(scale_transformation);
-    std::shared_ptr<Node> tree_node = std::make_shared<Node>();
-    tree_node->setMesh(tree_mesh);
-    tree_node->setTransformation(tree_transformation);
-    group_node->addChild(tree_node);
+        Math::Matrix4x4f scale_transformation{};
+        Math::setScaleMatrix(scale_transformation, { 0.3f, 0.3f, 0.3f });
+        Math::Matrix4x4f tree_transformation{};
+        Math::setTranslationMatrix(tree_transformation, { 1.0f,  -0.52f,  1.0f });
+        tree_transformation.mul(scale_transformation);
+        std::shared_ptr<Node> tree_node = std::make_shared<Node>();
+        tree_node->setMesh(*tree_mesh);
+        tree_node->setTransformation(tree_transformation);
+        group_node->addChild(tree_node);
+    }
 
     return group_node;
 }
@@ -70,22 +77,25 @@ std::shared_ptr<Graphics::SceneGraph::Node> Graphics::SceneGraph::SceneGraphBuil
         Math::Vector3f(-1.3f, 0.0f,  -1.5f)
     };
 
-    Components::Mesh& cube_mesh = m_mesh_manager.getMesh(Managers::CUBE);
-    cube_mesh.setMaterial(Components::Material{
+    Components::Mesh* cube_mesh = g_mesh_manager.getMesh("Cube");
+    if (cube_mesh)
+    {
+        cube_mesh->setMaterial(Components::Material{
         { 0.24725f, 0.1995f, 0.0745f },
         { 0.75164f, 0.60648f, 0.22648f },
         { 0.628281f, 0.555802f, 0.366065f },
         0.4f
-    });
+        });
 
-    for (std::uint8_t i = 0; i < COUNT_MODELS; i++)
-    {
-        Math::Matrix4x4f cube_transofrmation{};
-        Math::setTranslationMatrix(cube_transofrmation, cube_positions[i]);
-        std::shared_ptr<Node> cube_node = std::make_shared<Node>();
-        cube_node->setMesh(cube_mesh);
-        cube_node->setTransformation(cube_transofrmation);
-        group_node->addChild(cube_node);
+        for (std::uint8_t i = 0; i < COUNT_MODELS; i++)
+        {
+            Math::Matrix4x4f cube_transofrmation{};
+            Math::setTranslationMatrix(cube_transofrmation, cube_positions[i]);
+            std::shared_ptr<Node> cube_node = std::make_shared<Node>();
+            cube_node->setMesh(*cube_mesh);
+            cube_node->setTransformation(cube_transofrmation);
+            group_node->addChild(cube_node);
+        }
     }
 
     return group_node;
@@ -95,28 +105,32 @@ std::shared_ptr<Graphics::SceneGraph::Node> Graphics::SceneGraph::SceneGraphBuil
 {
     std::shared_ptr<Node> group_node = std::make_shared<Node>();
  
-    Components::Mesh& ground_mesh = m_mesh_manager.getMesh(Managers::GROUND_POLYGON);
-    ground_mesh.setMaterial(Components::Material{
-        { 0.0f ,0.05f, 0.0 },
-        { 0.4f, 0.5f, 0.4f },
-        { 0.04f, 0.7f, 0.04f },
-        0.078125f
-    });
-
-    Math::Matrix4x4f scale_transformation{};
-    Math::setScaleMatrix(scale_transformation, { 5.0f, 0.0f, 5.0f });
-    for (GLfloat x = -5.0; x < 10; x++)
+    Components::Mesh* ground_mesh = g_mesh_manager.getMesh("Ground");
+    if (ground_mesh)
     {
-        for (GLfloat z = 5.0; z > -10; z--)
+        ground_mesh->setMaterial(Components::Material{
+     { 0.0f ,0.05f, 0.0 },
+     { 0.4f, 0.5f, 0.4f },
+    { 0.04f, 0.7f, 0.04f },
+    0.078125f
+        });
+
+        Math::Matrix4x4f scale_transformation{};
+        Math::setScaleMatrix(scale_transformation, { 5.0f, 0.0f, 5.0f });
+        for (GLfloat x = -5.0; x < 10; x++)
         {
-            Math::Matrix4x4f ground_transformation{};
-            Math::setTranslationMatrix(ground_transformation, { x, -0.5f, z });
-            ground_transformation.mul(scale_transformation);
-            std::shared_ptr<Node> ground_node = std::make_shared<Node>();
-            ground_node->setMesh(ground_mesh);
-            ground_node->setTransformation(ground_transformation);
-            group_node->addChild(ground_node);
+            for (GLfloat z = 5.0; z > -10; z--)
+            {
+                Math::Matrix4x4f ground_transformation{};
+                Math::setTranslationMatrix(ground_transformation, { x, -0.5f, z });
+                ground_transformation.mul(scale_transformation);
+                std::shared_ptr<Node> ground_node = std::make_shared<Node>();
+                ground_node->setMesh(*ground_mesh);
+                ground_node->setTransformation(ground_transformation);
+                group_node->addChild(ground_node);
+            }
         }
+
     }
 
     return group_node;

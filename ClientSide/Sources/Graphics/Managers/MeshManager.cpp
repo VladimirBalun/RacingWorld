@@ -16,28 +16,76 @@
 
 #include "MeshManager.hpp"
 
+#include <boost/foreach.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+
+#include "../Tools/ObjParser.hpp"
+#include "../../Utils/Configuration.hpp"
+
+Graphics::Managers::MeshManager& Graphics::Managers::MeshManager::getInstance() noexcept
+{
+    static MeshManager instance{};
+    return instance;
+}
+
 GLvoid Graphics::Managers::MeshManager::initializeMeshes() noexcept
 {
-    //m_meshes[TREE] = createMesh("/Tree/Tree.obj");
-    m_meshes[CUBE] = createMesh("/Cube.obj");
-    m_meshes[GROUND_POLYGON] = createMesh("/Ground/Ground.obj");
+    struct MeshInfo
+    {
+        std::string name;
+        std::string folder;
+        std::string obj_filename;
+        std::string mtl_filename;
+    };
+
+    std::vector<MeshInfo> models_info{};
+    boost::property_tree::ptree xml_models_info{};
+    const std::string models_config_full_name = Configuration::getResourcesPath() + Configuration::Resources::MODELS_CONFIG_FILENAME;
+    boost::property_tree::read_xml(models_config_full_name, xml_models_info);
+    BOOST_FOREACH(const auto& xml_model_info, xml_models_info.get_child("models"))
+    {
+        if (xml_model_info.first == "model")
+        {
+            MeshInfo mesh_info{};
+            mesh_info.name = xml_model_info.second.get<std::string>("<xmlattr>.name");
+            mesh_info.folder = xml_model_info.second.get<std::string>("<xmlattr>.folder", "");
+            mesh_info.obj_filename = xml_model_info.second.get<std::string>("<xmlattr>.obj");
+            mesh_info.mtl_filename = xml_model_info.second.get<std::string>("<xmlattr>.mtl", "");
+            models_info.emplace_back(mesh_info);
+        }
+    }
+
+    const std::string models_path(Configuration::getModelsPath());
+    for (const auto& model : models_info)
+    {
+        const std::string model_full_path = (!model.folder.empty())
+            ? (models_path + "/" + model.folder + "/" + model.obj_filename)
+            : (models_path + "/" + model.obj_filename);
+
+        Tools::ObjParser obj_parser{};
+        Components::Mesh mesh = obj_parser.parse(model_full_path);
+        m_meshes.emplace(model.name, mesh);
+    }
+
+    LOG_DEBUG("Mesh manager was initialized successfully.");
 }
 
-Graphics::Components::Mesh Graphics::Managers::MeshManager::createMesh(const std::string& model_name) noexcept
+Graphics::Components::Mesh* Graphics::Managers::MeshManager::getMesh(const std::string& mesh_name) noexcept
 {
-    std::string model_full_path{ Configuration::getModelsPath() };
-    model_full_path.append(model_name);
-    Tools::ObjParser parser{};
-    return parser.parse(model_full_path);
+    const auto& it = m_meshes.find(mesh_name);
+    return (it != end(m_meshes)) ? (&it->second) : (nullptr);
 }
 
-Graphics::Components::Mesh& Graphics::Managers::MeshManager::getMesh(EMeshType meshType) noexcept
+GLboolean Graphics::Managers::MeshManager::isExistMesh(const std::string& mesh_name) const noexcept
 {
-    return m_meshes[meshType];
+    return m_meshes.find(mesh_name) != end(m_meshes);;
 }
 
 Graphics::Managers::MeshManager::~MeshManager()
 {
-    for (GLubyte i = 0; i < COUNT_MESH_TYPES; i++)
-        m_meshes[i].destroy();
+    for (auto& mesh : m_meshes)
+    {
+        mesh.second.destroy();
+    }
 }

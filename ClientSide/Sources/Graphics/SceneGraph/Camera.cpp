@@ -16,6 +16,8 @@
 
 #include "Camera.hpp"
 
+#include "../../Utils/Configuration.hpp"
+
 GLvoid Graphics::SceneGraph::Camera::setSpeed(GLfloat speed) noexcept
 {
     m_speed = speed / 1000;

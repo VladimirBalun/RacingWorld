@@ -1,0 +1,5 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<shaders>
+    <shader name="BaseShader" frag="BaseShader.frag" vert="BaseShader.vert"/>
+    <shader name="FontShader" frag="FontShader.frag" vert="FontShader.vert"/>
+</shaders>

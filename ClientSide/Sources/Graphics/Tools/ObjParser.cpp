@@ -47,8 +47,7 @@ Graphics::Components::Mesh Graphics::Tools::ObjParser::parse(const std::string_v
     std::vector<char> buffer = Utils::readFile(std::string(objFileName));
     if (buffer.empty())
     {
-        EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
-        eventManager.notifyGlobalError("Model was not read.");
+        g_event_manager.notifyEvent(GLOBAL_ERROR_EVENT_TYPE, "Model was not read.");
     }
 
     ObjFileSizeParameter obj_file_size_parameter = getObjSizeParameters(buffer);

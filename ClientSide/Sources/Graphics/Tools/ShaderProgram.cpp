@@ -15,7 +15,9 @@
  */
 
 #include <iostream>
+
 #include "ShaderProgram.hpp"
+#include "../../EventSystem/EventManager.hpp"
 
 Graphics::Tools::ShaderProgram::ShaderProgram(const std::string& v_shader_fileName, const std::string& f_shader_fileName) noexcept
 {
@@ -23,9 +25,15 @@ Graphics::Tools::ShaderProgram::ShaderProgram(const std::string& v_shader_fileNa
     const std::vector<char> f_shader_source_code(Utils::readFile(f_shader_fileName));
 
     if (v_shader_source_code.empty())
-        EventSystem::EventManager::getInstance().notifyGlobalError("Vertex shader was not read.");
+    {
+        LOG_ERROR("Vertex shader was not read");
+        NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Vertex shader was not read.");
+    }
     if (f_shader_source_code.empty())
-        EventSystem::EventManager::getInstance().notifyGlobalError("Fragment shader was not read.");
+    {
+        LOG_ERROR("Fragment shader was not read");
+        NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Fragment shader was not read.");
+    }
 
     const GLuint vertex_shader = compileShader(v_shader_source_code, GL_VERTEX_SHADER);
     const GLuint fragment_shader = compileShader(f_shader_source_code, GL_FRAGMENT_SHADER);
@@ -41,7 +49,7 @@ GLuint Graphics::Tools::ShaderProgram::compileShader(const std::vector<char>& sh
     glCompileShader(shader);
 
 #ifdef _DEBUG
-    GLint is_compiled_shader;
+    GLint is_compiled_shader = 0;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &is_compiled_shader);
     if (!is_compiled_shader)
     {
@@ -62,7 +70,7 @@ GLvoid Graphics::Tools::ShaderProgram::linkShaders(GLuint vertex_shader, GLuint 
     glLinkProgram(m_program_id);
 
 #ifdef _DEBUG
-    GLint is_linked_shaders;
+    GLint is_linked_shaders = 0;
     glGetProgramiv(m_program_id, GL_LINK_STATUS, &is_linked_shaders);
     if (!is_linked_shaders)
     {
@@ -100,7 +108,7 @@ GLuint Graphics::Tools::ShaderProgram::getProgramID() const noexcept
 
 GLint Graphics::Tools::ShaderProgram::getAttributeLocation(const char* name) const noexcept
 {
-    GLint location_id = glGetAttribLocation(m_program_id, name);
+    const GLint location_id = glGetAttribLocation(m_program_id, name);
 
 #ifdef  _DEBUG
     if (location_id == -1)
@@ -112,7 +120,7 @@ GLint Graphics::Tools::ShaderProgram::getAttributeLocation(const char* name) con
 
 GLint Graphics::Tools::ShaderProgram::getUniformLocation(const char* name) const noexcept
 {
-    GLint location_id = glGetUniformLocation(m_program_id, name);
+    const GLint location_id = glGetUniformLocation(m_program_id, name);
 
 #ifdef  _DEBUG
     if (location_id == -1)

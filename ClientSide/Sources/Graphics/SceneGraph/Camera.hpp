@@ -18,7 +18,6 @@
 
 #include "../OpenGL.hpp"
 #include "../../Math/Math.hpp"
-#include "../../Utils/Configuration.hpp"
 
 namespace Graphics { namespace SceneGraph {
 

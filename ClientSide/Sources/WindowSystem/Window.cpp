@@ -23,8 +23,7 @@
 WindowSystem::Window::Window(HINSTANCE& instance, int cmd_show) noexcept
     : m_app_instance(instance), m_cmd_show(cmd_show)
 {
-    EventSystem::EventManager& event_manager = EventSystem::EventManager::getInstance();
-    event_manager.subscribeOnGlobalError(*this);
+    SUBSCRIBE_ON_EVENT(GLOBAL_ERROR_EVENT_TYPE, this);
 
     memset(&m_window_event, 0, sizeof(m_window_event));
     m_window_class.lpszClassName = "RacingWorld";
@@ -41,7 +40,9 @@ WindowSystem::Window::Window(HINSTANCE& instance, int cmd_show) noexcept
     m_window_class.cbWndExtra = 0;
 
     if (!RegisterClassEx(&m_window_class))
-        event_manager.notifyGlobalError("Window class was not registered.");
+    {
+        NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Window class was not registered.");
+    }
 }
 
 void WindowSystem::Window::showWindow(LPCSTR window_title, bool full_screen) noexcept
@@ -50,8 +51,7 @@ void WindowSystem::Window::showWindow(LPCSTR window_title, bool full_screen) noe
         0, 0, Configuration::Window::window_width, Configuration::Window::window_height, NULL, NULL, m_app_instance, NULL);
     if (!m_window_handle)
     {
-        EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
-        eventManager.notifyGlobalError("Window was not created.");
+        NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Window was not created.");
     }
 
     initOpenGLContext();
@@ -92,8 +92,7 @@ void WindowSystem::Window::initFullScreen(DWORD window_width, DWORD window_heigh
     dm_screen_settings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
     if (ChangeDisplaySettings(&dm_screen_settings, 0) != DISP_CHANGE_SUCCESSFUL)
     {
-        EventSystem::EventManager& eventManager = EventSystem::EventManager::getInstance();
-        eventManager.notifyGlobalError("Fullscreen mode is not supporting.");
+        NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Fullscreen mode is not supporting.");
     }
 }
 

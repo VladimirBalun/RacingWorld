@@ -19,6 +19,8 @@
 #include "UDPConnection.hpp"
 #include "../Utils/Configuration.hpp"
 
+#define g_network_manager Network::NetworkManager::getInstance()
+
 namespace Network {
 
     // Singleton
@@ -29,8 +31,9 @@ namespace Network {
         bool connect() noexcept;
         bool login() noexcept;
         bool logout() noexcept;
-        bool isConnected() const noexcept;
-        bool isLogin() const noexcept;
+        constexpr bool isConnected() const noexcept;
+        constexpr bool isLogin() const noexcept;
+        constexpr bool isLogout() const noexcept;
     private:
         NetworkManager() noexcept
             : m_connection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
@@ -38,10 +41,10 @@ namespace Network {
         NetworkManager& operator = (const NetworkManager& other) noexcept = delete;
     private:
         UDPConnection m_connection;
-        bool m_is_connected = false;
-        bool m_is_login = false;
         std::int32_t m_current_token = 0;
         std::int32_t m_packet_number = 1;
+        bool m_is_connected = false;
+        bool m_is_login = false;
     };
 
 }

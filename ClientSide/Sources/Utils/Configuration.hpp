@@ -19,8 +19,6 @@
 #include <string>
 #include <filesystem>
 
-#include "../Math/Vectors/Vector3.hpp"
-
 struct Configuration 
 {
 
@@ -49,6 +47,13 @@ struct Configuration
         static const std::uint16_t SERVER_PORT = 17017;
     };
 
+    struct Resources
+    {
+        static const std::string MODELS_CONFIG_FILENAME;
+        static const std::string SHADERS_CONFIG_FILENAME;
+    };
+
+    static std::string getResourcesPath() noexcept;
     static std::string_view getShadersPath() noexcept;
     static std::string_view getModelsPath() noexcept;
 

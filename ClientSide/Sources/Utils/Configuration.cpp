@@ -19,14 +19,23 @@
 std::uint16_t Configuration::Window::window_width = 800;
 std::uint16_t Configuration::Window::window_height = 600;
 
-const std::string Configuration::Network::SERVER_ADDRESS("127.0.0.1");
+const std::string Configuration::Network::SERVER_ADDRESS = "127.0.0.1";
 
-const std::string Configuration::Player::PLAYER_EMAIL("player@gmail.com");
-const std::string Configuration::Player::PLAYER_PASSWORD("difficult_password");
+const std::string Configuration::Player::PLAYER_EMAIL = "player@gmail.com";
+const std::string Configuration::Player::PLAYER_PASSWORD = "difficult_password";
+
+const std::string Configuration::Resources::MODELS_CONFIG_FILENAME = "Models.xml";
+const std::string Configuration::Resources::SHADERS_CONFIG_FILENAME = "Shaders.xml";
+
+std::string Configuration::getResourcesPath() noexcept
+{
+    static const std::string resources_path = (std::filesystem::current_path().parent_path() / "Resources" / "").string();
+    return resources_path;
+}
 
 std::string_view Configuration::getShadersPath() noexcept
 {
-    static const std::string shaders_path = (std::filesystem::current_path().parent_path() / "Resources" / "Shaders").string();
+    static const std::string shaders_path = (std::filesystem::current_path().parent_path() / "Resources" / "Shaders" / "").string();
     return shaders_path;
 }
 

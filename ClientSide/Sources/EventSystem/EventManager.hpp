@@ -17,13 +17,18 @@
 #pragma once
 
 #include <array>
-#include <utility>
-#include <cstdint>
+#include <vector>
 
+#include "Event.hpp"
 #include "IEventSubscriber.hpp"
-#include "../Utils/Debug.hpp"
 
-#define MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS 5
+#define g_event_manager EventSystem::EventManager::getInstance()
+
+#define NOTIFY_EVENT(__event_type__, __data__) \
+    g_event_manager.notifyEvent((__event_type__), (__data__))
+
+#define SUBSCRIBE_ON_EVENT(__event_type__, __instance__) \
+    g_event_manager.subscribeOnEventType((__event_type__), (__instance__))
 
 namespace EventSystem {
 
@@ -32,10 +37,11 @@ namespace EventSystem {
     {
     public:
         static EventManager& getInstance() noexcept;
-        void notifyGlobalError(const char* message) noexcept;
-        void subscribeOnGlobalError(const IEventSubscriber& subscriber) noexcept;
+        void notifyEvent(Event::Type type, const char* message) const noexcept;
+        void subscribeOnEventType(Event::Type type, const IEventSubscriber* subscriber) noexcept;
+        void unsubscribeFromEventType(Event::Type type, const IEventSubscriber* subscriber) noexcept;
     private:
-        std::array<const IEventSubscriber*, MAX_COUNT_GLOBAL_ERROR_SUBSCRIBERS> m_global_error_subscribers{};
+        std::array<std::vector<const IEventSubscriber*>, static_cast<std::size_t>(Event::Type::COUNT_EVENT_TYPES)> m_event_subscribers{};
     };
 
 }

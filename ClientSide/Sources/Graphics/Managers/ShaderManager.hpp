@@ -16,30 +16,29 @@
 
 #pragma once
 
+#include <unordered_map>
+
 #include "../Tools/ShaderProgram.hpp"
-#include "../../Utils/Debug.hpp"
-#include "../../Utils/Configuration.hpp"
+
+#define g_shader_manager Graphics::Managers::ShaderManager::getInstance()
 
 namespace Graphics { namespace Managers {
 
-    enum EShaderType 
-    {
-        BASE_SHADER,
-        FONT_SHADER,
-        COUNT_SHADER_TYPES // Used for setting size of shaders array 
-    };
-
+    // Singleton
     class ShaderManager
     {
     public:
+        static ShaderManager& getInstance() noexcept;
         GLvoid initializeShaders() noexcept;
-        GLvoid useShaderProgram(EShaderType shaderType) const noexcept;
-        Tools::ShaderProgram& getShader(EShaderType shaderType) noexcept;
+        GLboolean isExistShader(const std::string& shader_name) const noexcept;
+        Tools::ShaderProgram* getShader(const std::string& shader_name) noexcept;
         ~ShaderManager();
-    private: 
-        Tools::ShaderProgram createShader(const char* vShaderPath, const char* fShaderPath) const noexcept;
     private:
-        Tools::ShaderProgram mShaderPrograms[COUNT_SHADER_TYPES];
+        ShaderManager() noexcept = default;
+        explicit ShaderManager(const ShaderManager& other) noexcept = delete;
+        ShaderManager& operator = (const ShaderManager& other) noexcept = delete;
+    private:
+        std::unordered_map<std::string, Tools::ShaderProgram> m_shader_programs{};
     };
 
 } }

@@ -33,11 +33,27 @@
     #define LOG_ERROR(text) \
         printf("[ERROR] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
 
+    #define LOG_DEBUG_IF(condition, text) \
+        if ((condition)) \
+            printf("[DEBUG] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+
+    #define LOG_INFO_IF(condition, text) \
+        if ((condition)) \
+            printf("[INFO] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+
+    #define LOG_WARNING_IF(condition, text) \
+        if ((condition)) \
+            printf("[WARNING] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+
+    #define LOG_ERROR_IF(condition, text) \
+        if ((condition)) \
+            printf("[ERROR] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (text));
+
     #define ASSERT(condition, message) \
-        assert(condition && message);
+        assert((condition) && (message));
 
     #define STATIC_ASSERT(condition, message) \
-        static_assert(condition, message);
+        static_assert((condition), (message));
 
 #else // _DEBUG
 
@@ -51,6 +67,18 @@
         ( (void)0 )
 
     #define LOG_ERROR(text) \
+        ( (void)0 )
+
+    #define LOG_DEBUG_IF(condition, text) \
+        ( (void)0 )
+
+    #define LOG_INFO_IF(condition, text) \
+        ( (void)0 )
+
+    #define LOG_WARNING_IF(condition, text) \
+        ( (void)0 )
+
+    #define LOG_ERROR_IF(condition, text) \
         ( (void)0 )
 
     #define ASSERT(condition, message) \

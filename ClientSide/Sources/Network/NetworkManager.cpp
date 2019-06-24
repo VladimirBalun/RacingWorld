@@ -81,12 +81,17 @@ bool Network::NetworkManager::logout() noexcept
     }
 }
 
-bool Network::NetworkManager::isConnected() const noexcept
+constexpr bool Network::NetworkManager::isConnected() const noexcept
 {
     return m_is_connected;
 }
 
-bool Network::NetworkManager::isLogin() const noexcept
+constexpr bool Network::NetworkManager::isLogin() const noexcept
 {
     return m_is_login;
+}
+
+constexpr bool Network::NetworkManager::isLogout() const noexcept
+{
+    return !m_is_login;
 }

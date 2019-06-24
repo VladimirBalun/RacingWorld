@@ -27,15 +27,15 @@ namespace Math {
     using Matrix4x4d = Matrix4x4<double>;
 
     template<typename Type>
-    const Matrix4x4<Type> operator - (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept;
+    const Matrix4x4<Type> operator - (const Matrix4x4<Type>& lhs, const Matrix4x4<Type>& rhs) noexcept;
     template<typename Type>
-    Matrix4x4<Type> operator + (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept;
+    Matrix4x4<Type> operator + (const Matrix4x4<Type>& lhs, const Matrix4x4<Type>& rhs) noexcept;
     template<typename Type>
-    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, Type scalar) noexcept;
+    Matrix4x4<Type> operator * (const Matrix4x4<Type>& lhs, Type rhs) noexcept;
     template<typename Type>
-    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, const Vector4<Type>& vector) noexcept;
+    Matrix4x4<Type> operator * (const Matrix4x4<Type>& lhs, const Vector4<Type>& rhs) noexcept;
     template<typename Type>
-    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept;
+    Matrix4x4<Type> operator * (const Matrix4x4<Type>& lhs, const Matrix4x4<Type>& rhs) noexcept;
 
     template<class Type>
     class Matrix4x4 
@@ -228,23 +228,23 @@ namespace Math {
     }
 
     template<class Type>
-    Matrix4x4<Type>& Matrix4x4<Type>::operator = (const Matrix4x4& anotherMatrix) noexcept
+    Matrix4x4<Type>& Matrix4x4<Type>::operator = (const Matrix4x4& other) noexcept
     {
-        const Type* otherElements = anotherMatrix.mElements;
+        const Type* other_elements = other.mElements;
         for (std::uint8_t i = 0; i < MATRIX_SIZE; i += ROW_SIZE)
         {
-            mElements[i] = otherElements[i];
-            mElements[i + 1] = otherElements[i + 1];
-            mElements[i + 2] = otherElements[i + 2];
-            mElements[i + 3] = otherElements[i + 3];
+            mElements[i] = other_elements[i];
+            mElements[i + 1] = other_elements[i + 1];
+            mElements[i + 2] = other_elements[i + 2];
+            mElements[i + 3] = other_elements[i + 3];
         }
         return *this;
     }
 
     template<class Type>
-    Matrix4x4<Type>& Matrix4x4<Type>::operator = (Matrix4x4&& anotherMatrix) noexcept
+    Matrix4x4<Type>& Matrix4x4<Type>::operator = (Matrix4x4&& other) noexcept
     {
-        std::move(std::begin(anotherMatrix.mElements), std::end(anotherMatrix.mElements), std::begin(mElements));
+        std::move(std::begin(other.mElements), std::end(other.mElements), std::begin(mElements));
         return *this;
     }
 
@@ -255,16 +255,16 @@ namespace Math {
     }
 
     template<class Type>
-    Matrix4x4<Type>& Matrix4x4<Type>::operator += (const Matrix4x4& anotherMatrix) noexcept
+    Matrix4x4<Type>& Matrix4x4<Type>::operator += (const Matrix4x4& other) noexcept
     {
-        add(anotherMatrix);
+        add(other);
         return *this;
     }
 
     template<class Type>
-    Matrix4x4<Type>& Matrix4x4<Type>::operator -= (const Matrix4x4& anotherMatrix) noexcept
+    Matrix4x4<Type>& Matrix4x4<Type>::operator -= (const Matrix4x4& other) noexcept
     {
-        sub(anotherMatrix);
+        sub(other);
         return *this;
     }
     
@@ -290,43 +290,43 @@ namespace Math {
     }
 
     template<class Type>
-    Matrix4x4<Type> operator + (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept
+    Matrix4x4<Type> operator + (const Matrix4x4<Type>& lhs, const Matrix4x4<Type>& rhs) noexcept
     {
-        Matrix4x4<Type> newMatrix(matrix);
-        newMatrix.add(anotherMatrix);
-        return newMatrix;
+        Matrix4x4<Type> new_matrix(lhs);
+        new_matrix.add(rhs);
+        return new_matrix;
     }
 
     template<class Type>
-    const Matrix4x4<Type> operator - (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept
+    const Matrix4x4<Type> operator - (const Matrix4x4<Type>& lhs, const Matrix4x4<Type>& rhs) noexcept
     {
-        Matrix4x4<Type> newMatrix(matrix);
-        newMatrix.sub(anotherMatrix);
-        return newMatrix;
+        Matrix4x4<Type> new_matrix(lhs);
+        new_matrix.sub(rhs);
+        return new_matrix;
     }
  
     template<class Type>
-    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, Type scalar) noexcept
+    Matrix4x4<Type> operator * (const Matrix4x4<Type>& lhs, Type rhs) noexcept
     {
-        Matrix4x4<Type> newMatrix(matrix);
-        newMatrix.mul(scalar);
-        return newMatrix;
+        Matrix4x4<Type> new_matrix(lhs);
+        new_matrix.mul(rhs);
+        return new_matrix;
     }
 
     template<class Type>
-    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, const Vector4<Type>& vector) noexcept
+    Matrix4x4<Type> operator * (const Matrix4x4<Type>& lhs, const Vector4<Type>& rhs) noexcept
     {
-        Matrix4x4<Type> newMatrix(matrix);
-        newMatrix.mul(vector);
-        return newMatrix;
+        Matrix4x4<Type> new_matrix(lhs);
+        new_matrix.mul(rhs);
+        return new_matrix;
     }
 
     template<class Type>
-    Matrix4x4<Type> operator * (const Matrix4x4<Type>& matrix, const Matrix4x4<Type>& anotherMatrix) noexcept
+    Matrix4x4<Type> operator * (const Matrix4x4<Type>& lhs, const Matrix4x4<Type>& rhs) noexcept
     {
-        Matrix4x4<Type> newMatrix(matrix);
-        newMatrix.mul(anotherMatrix);
-        return newMatrix;
+        Matrix4x4<Type> new_matrix(lhs);
+        new_matrix.mul(rhs);
+        return new_matrix;
     }
 
 }

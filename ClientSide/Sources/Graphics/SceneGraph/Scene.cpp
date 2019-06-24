@@ -16,12 +16,14 @@
 
 #include "Scene.hpp"
 
+#include "../../Utils/Time.hpp"
+
 Graphics::SceneGraph::Scene::Scene(HDC& window_context) noexcept :
     m_window_context(window_context),
     m_scene_light({ 1.2f, 1.0f, 2.0f }, { 0.2f, 0.2f, 0.2f }, { 0.5f, 0.5f, 0.5f })
 {
-    m_shader_manager.initializeShaders();
-    m_mesh_manager.initializeMeshes();
+    g_mesh_manager.initializeMeshes();
+    g_shader_manager.initializeShaders();
 
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
@@ -30,26 +32,28 @@ Graphics::SceneGraph::Scene::Scene(HDC& window_context) noexcept :
     glClearColor(0.3f, 0.7f, 0.9f, 1.0f);
     glViewport(0, 0, Configuration::Window::window_width, Configuration::Window::window_height);
 
-    SceneGraphBuilder sceneGraphBuilder(m_mesh_manager);
+    SceneGraphBuilder sceneGraphBuilder{};
     m_root_node = sceneGraphBuilder.build();
 }
 
 GLvoid Graphics::SceneGraph::Scene::render() noexcept
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    Tools::ShaderProgram& shader = m_shader_manager.getShader(Managers::BASE_SHADER);
-    shader.use();
+    
+    Tools::ShaderProgram* shader = g_shader_manager.getShader("BaseShader");
+    if (shader)
+    {
+        shader->use();
+        shader->setUniformVector3f("viewPosition", m_scene_camera.getPosition());
+        shader->setUniformMatrix4x4f("projectionMatrix", m_scene_camera.getProjectionMatrix());
+        shader->setUniformMatrix4x4f("viewMatrix", m_scene_camera.getViewMatrix());
+        shader->setUniformVector3f("light.position", m_scene_light.getPosition());
+        shader->setUniformVector3f("light.ambientColor", m_scene_light.getAmbientColor());
+        shader->setUniformVector3f("light.diffuseColor", m_scene_light.getDiffuseColor());
+        shader->setUniformVector3f("light.specularColor", m_scene_light.getSpecularColor());
 
-    shader.setUniformVector3f("viewPosition", m_scene_camera.getPosition());
-    shader.setUniformMatrix4x4f("projectionMatrix", m_scene_camera.getProjectionMatrix());
-    shader.setUniformMatrix4x4f("viewMatrix", m_scene_camera.getViewMatrix());
-
-    shader.setUniformVector3f("light.position", m_scene_light.getPosition());
-    shader.setUniformVector3f("light.ambientColor", m_scene_light.getAmbientColor());
-    shader.setUniformVector3f("light.diffuseColor", m_scene_light.getDiffuseColor());
-    shader.setUniformVector3f("light.specularColor", m_scene_light.getSpecularColor());
-
-    renderNode(m_root_node, shader);
+        renderNode(m_root_node, *shader);
+    }
 
     glFinish();
     SwapBuffers(m_window_context);

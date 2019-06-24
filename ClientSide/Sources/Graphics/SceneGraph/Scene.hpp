@@ -23,7 +23,6 @@
 #include "../OpenGL.hpp"
 #include "../Managers/MeshManager.hpp"
 #include "../Managers/ShaderManager.hpp"
-#include "../../Utils/Time.hpp"
 #include "../../WindowSystem/WindowEventListener.hpp"
 
 namespace Graphics { namespace SceneGraph {
@@ -41,8 +40,6 @@ namespace Graphics { namespace SceneGraph {
         HDC& m_window_context;
         Light m_scene_light;
         Camera m_scene_camera;
-        Managers::MeshManager m_mesh_manager;
-        Managers::ShaderManager m_shader_manager;
     };
 
 } }

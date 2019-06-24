@@ -16,20 +16,27 @@
 
 #pragma once
 
-#include <memory>
+#define NETWORK_EVENT_TYPE EventSystem::Event::Type::NETWORK
+#define GLOBAL_ERROR_EVENT_TYPE EventSystem::Event::Type::GLOBAL_ERROR
 
-#include "./Node.hpp"
+namespace EventSystem {
 
-namespace Graphics { namespace SceneGraph {
-
-    class SceneGraphBuilder 
+    class Event
     {
     public:
-        std::shared_ptr<Node> build() noexcept;
+        enum class Type
+        {
+            NETWORK,
+            GLOBAL_ERROR,
+
+            COUNT_EVENT_TYPES,
+            UNKNOWN
+        };
+    public:
+        Event(Type type) noexcept
+            : m_type(type) {}
     private:
-        std::shared_ptr<Node> buildTree() noexcept;
-        std::shared_ptr<Node> buildCubes() noexcept;
-        std::shared_ptr<Node> buildGround() noexcept;
+        Type m_type = Type::UNKNOWN;
     };
 
-} }
+}
