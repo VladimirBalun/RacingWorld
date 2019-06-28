@@ -17,14 +17,3 @@ ServerSide/resourceserver/target/*
 ClientSide/Build/*
 ClientSide/Bin/*
 ClientSide/Libs/*
-
-WebSite/.idea/*
-WebSite/client/.idea/*
-WebSite/server/.idea/*
-
-WebSite/client/build/*
-WebSite/server/build/*
-
-WebSite/node_modules/*
-WebSite/client/node_modules/*
-WebSite/server/node_modules/*
