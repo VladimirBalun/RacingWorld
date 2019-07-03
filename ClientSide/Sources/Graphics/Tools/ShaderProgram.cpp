@@ -16,6 +16,7 @@
 
 #include "ShaderProgram.hpp"
 
+#include "../../Utils/Macroses.hpp"
 #include "../../EventSystem/EventManager.hpp"
 
 Graphics::Tools::ShaderProgram::ShaderProgram(const std::string& v_shader_fileName, const std::string& f_shader_fileName) noexcept

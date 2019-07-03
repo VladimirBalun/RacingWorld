@@ -20,8 +20,6 @@
 
 #include "../Tools/ShaderProgram.hpp"
 
-#define g_shader_manager Graphics::Managers::ShaderManager::getInstance()
-
 namespace Graphics { namespace Managers {
 
     // Singleton

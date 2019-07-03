@@ -19,8 +19,6 @@
 #include "UDPConnection.hpp"
 #include "../Utils/Configuration.hpp"
 
-#define g_network_manager Network::NetworkManager::getInstance()
-
 namespace Network {
 
     // Singleton

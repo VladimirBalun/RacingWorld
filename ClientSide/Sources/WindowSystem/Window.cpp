@@ -16,6 +16,8 @@
 
 #include "Window.hpp"
 
+#include "../Utils/Macroses.hpp"
+
 #define COUNT_COLOR_BITS   32
 #define COUNT_DEPTH_BITS   32
 #define COUNT_STENCIL_BITS 16

@@ -22,14 +22,6 @@
 #include "Event.hpp"
 #include "IEventSubscriber.hpp"
 
-#define g_event_manager EventSystem::EventManager::getInstance()
-
-#define NOTIFY_EVENT(__event_type__, __data__) \
-    g_event_manager.notifyEvent((__event_type__), (__data__))
-
-#define SUBSCRIBE_ON_EVENT(__event_type__, __instance__) \
-    g_event_manager.subscribeOnEventType((__event_type__), (__instance__))
-
 namespace EventSystem {
 
     // Singleton

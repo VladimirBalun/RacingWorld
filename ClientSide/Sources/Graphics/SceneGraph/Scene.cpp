@@ -17,6 +17,7 @@
 #include "Scene.hpp"
 
 #include "../../Utils/Time.hpp"
+#include "../../Utils/Macroses.hpp"
 
 Graphics::SceneGraph::Scene::Scene(HDC& window_context) noexcept :
     m_window_context(window_context),

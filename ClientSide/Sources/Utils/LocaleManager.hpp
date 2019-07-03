@@ -19,16 +19,6 @@
 #include <string>
 #include <unordered_map>
 
-#define g_locale_manager LocaleManager::getInstance()
-
-#define ENGLISH_LANGUAGE "English"
-#define RUSSIAN_LANGUAGE "Russian"
-
-#define IS_ENGLISH_LANGUAGE \
-    g_locale_manager->getCurrentLanguage() == ENGLISH_LANGUAGE
-
-#define IS_RUSSIAN_LANGUAGE \
-    g_locale_manager->getCurrentLanguage() == RUSSIAN_LANGUAGE
 
 // Singleton
 class LocaleManager

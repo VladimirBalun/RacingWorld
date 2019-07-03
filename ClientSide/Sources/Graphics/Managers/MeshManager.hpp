@@ -21,7 +21,6 @@
 #include "../OpenGL.hpp"
 #include "../Components/Mesh.hpp"
 
-#define g_mesh_manager Graphics::Managers::MeshManager::getInstance()
 
 namespace Graphics { namespace Managers {
 

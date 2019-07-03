@@ -16,6 +16,8 @@
 
 #include "ObjParser.hpp"
 
+#include "../../Utils/Macroses.hpp"
+
 #define SPACE_LENGTH                   1 // _
 #define LETTER_LENGTH                  1 // ?
 #define MATERIAL_LIB_WORD_LENGTH       5 // mtlib
