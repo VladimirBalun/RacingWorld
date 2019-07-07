@@ -18,10 +18,6 @@ cmake_minimum_required (VERSION 3.10)
 
 project (RacingWorld)
 
-find_package(Boost 1.60 REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS})
-
 file (GLOB_RECURSE SOURCES "*.cpp" "*.hpp")
 
 foreach (FILE ${SOURCES})
@@ -37,6 +33,9 @@ foreach (FILE ${SOURCES})
 
     source_group ("${GROUP}" FILES "${FILE}")
 endforeach ()
+
+include_directories (${PROJECT_DEPENDENCIES_DIR}/Boost/Include)
+link_directories (${PROJECT_DEPENDENCIES_DIR}/Boost/Libraries)
 
 add_executable (${PROJECT_NAME} WIN32 ${SOURCES})
 target_link_libraries (${PROJECT_NAME} wsock32.lib opengl32.lib)
