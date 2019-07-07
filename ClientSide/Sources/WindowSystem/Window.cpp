@@ -16,7 +16,8 @@
 
 #include "Window.hpp"
 
-#include "../Utils/Macroses.hpp"
+#include "../EventSystem.hpp"
+#include "../Core/Managers.hpp"
 
 #define COUNT_COLOR_BITS   32
 #define COUNT_DEPTH_BITS   32
@@ -79,7 +80,7 @@ void WindowSystem::Window::showWindow(LPCSTR window_title, bool full_screen) noe
 void WindowSystem::Window::onEvent(const char* message) const noexcept
 {
     LOG_ERROR(message);
-    MessageBox(m_window_handle, message, "Global error", MB_OK | MB_ICONERROR);
+    MessageBox(m_window_handle, message, g_locale_manager.getString("error_window_creation").c_str(), MB_OK | MB_ICONERROR);
     exit(EXIT_FAILURE);
 }
 
@@ -137,6 +138,8 @@ void WindowSystem::Window::initOpenGLContext() noexcept
 
 WindowSystem::Window::~Window()
 {
+    UNSUBSCRIBE_FROM_EVENT(GLOBAL_ERROR_EVENT_TYPE, this);
+
     ChangeDisplaySettings(NULL, 0);
     ShowCursor(TRUE);
 

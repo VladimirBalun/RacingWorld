@@ -21,6 +21,7 @@
 #include <boost/property_tree/xml_parser.hpp>
 
 #include "../Tools/ObjParser.hpp"
+#include "../../Core/Managers.hpp"
 #include "../../Utils/Configuration.hpp"
 
 Graphics::Managers::MeshManager& Graphics::Managers::MeshManager::getInstance() noexcept
@@ -41,7 +42,7 @@ GLvoid Graphics::Managers::MeshManager::initialize() noexcept
 
     std::vector<MeshInfo> models_info{};
     boost::property_tree::ptree xml_models_info{};
-    const std::string models_config_full_name = Configuration::getResourcesPath() + Configuration::Resources::MODELS_CONFIG_FILENAME;
+    const std::string models_config_full_name = g_configuration_manager.getResourcesPath() + Configuration::Resources::MODELS_CONFIG_FILENAME;
     boost::property_tree::read_xml(models_config_full_name, xml_models_info);
     BOOST_FOREACH(const auto& xml_model_info, xml_models_info.get_child("models"))
     {
@@ -56,7 +57,7 @@ GLvoid Graphics::Managers::MeshManager::initialize() noexcept
         }
     }
 
-    const std::string models_path(Configuration::getModelsPath());
+    const std::string models_path(g_configuration_manager.getModelsPath());
     for (const auto& model : models_info)
     {
         const std::string model_full_path = (!model.folder.empty())

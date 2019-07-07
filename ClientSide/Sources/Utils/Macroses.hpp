@@ -26,13 +26,6 @@
 #define g_network_manager Network::NetworkManager::getInstance()
 
 
-#define NOTIFY_EVENT(__event_type__, __data__) \
-    g_event_manager.notifyEvent((__event_type__), (__data__))
-
-#define SUBSCRIBE_ON_EVENT(__event_type__, __instance__) \
-    g_event_manager.subscribeOnEventType((__event_type__), (__instance__))
-
-
 #define STRINGIFY(__value__) #__value__
 
 

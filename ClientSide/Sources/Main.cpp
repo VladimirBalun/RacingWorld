@@ -19,6 +19,15 @@
 #include "WindowSystem/Window.hpp"
 #include "Network/NetworkManager.hpp"
 
+#include "Core/Managers.hpp"
+
+void initializeManagers() noexcept
+{
+    g_configuration_manager.initialize();
+    g_locale_manager.initialize();
+    g_player_manager.initialize();
+}
+
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, INT cmdShow)
 {
 #ifdef _DEBUG
@@ -44,6 +53,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, IN
     //    return EXIT_FAILURE;
     //}
 
+    initializeManagers();
     WindowSystem::Window window(instance, cmdShow);
     window.showWindow("RacingWorld");
     return EXIT_SUCCESS;

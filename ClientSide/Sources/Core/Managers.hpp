@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-#include "Configuration.hpp"
+#pragma once
 
-std::uint16_t Configuration::Window::window_width = 800;
-std::uint16_t Configuration::Window::window_height = 600;
+#include "Managers/LocaleManager.hpp"
+#include "Managers/PlayerManager.hpp"
+#include "Managers/ConfigurationManager.hpp"
 
-const std::string Configuration::Player::PLAYER_EMAIL = "player@gmail.com";
-const std::string Configuration::Player::PLAYER_PASSWORD = "difficult_password";
-
-const std::string Configuration::Resources::MODELS_CONFIG_FILENAME = "Models.xml";
-const std::string Configuration::Resources::SHADERS_CONFIG_FILENAME = "Shaders.xml";
+#define g_locale_manager        Core::Managers::LocaleManager::getInstance()
+#define g_player_manager        Core::Managers::PlayerManager::getInstance()
+#define g_configuration_manager Core::Managers::ConfigurationManager::getInstance()

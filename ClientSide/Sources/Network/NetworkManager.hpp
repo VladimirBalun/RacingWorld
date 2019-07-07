@@ -19,6 +19,8 @@
 #include "UDPConnection.hpp"
 #include "../Utils/Configuration.hpp"
 
+#include "../Core/Managers.hpp"
+
 namespace Network {
 
     // Singleton
@@ -34,7 +36,7 @@ namespace Network {
         constexpr bool isLogout() const noexcept;
     private:
         NetworkManager() noexcept
-            : m_connection(Configuration::Network::SERVER_ADDRESS, Configuration::Network::SERVER_PORT) {}
+            : m_connection(g_configuration_manager.getServerAddress(), g_configuration_manager.getServerPort()) {}
         explicit NetworkManager(const NetworkManager& other) noexcept = delete;
         NetworkManager& operator = (const NetworkManager& other) noexcept = delete;
     private:

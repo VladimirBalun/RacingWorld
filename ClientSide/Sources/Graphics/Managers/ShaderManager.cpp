@@ -20,6 +20,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
+#include "../../Core/Managers.hpp"
 #include "../../Utils/Debug.hpp"
 #include "../../Utils/Configuration.hpp"
 
@@ -40,7 +41,7 @@ GLvoid Graphics::Managers::ShaderManager::initialize() noexcept
 
     std::vector<ShaderInfo> shaders_info{};
     boost::property_tree::ptree xml_shaders_info{};
-    const std::string shaders_config_full_name = Configuration::getResourcesPath() + Configuration::Resources::SHADERS_CONFIG_FILENAME;
+    const std::string shaders_config_full_name = g_configuration_manager.getResourcesPath() + Configuration::Resources::SHADERS_CONFIG_FILENAME;
     boost::property_tree::read_xml(shaders_config_full_name, xml_shaders_info);
     BOOST_FOREACH(const auto& xml_shader_info, xml_shaders_info.get_child("shaders"))
     {
@@ -54,7 +55,7 @@ GLvoid Graphics::Managers::ShaderManager::initialize() noexcept
         }
     }
 
-    const std::string shaders_path(Configuration::getShadersPath());
+    const std::string shaders_path(g_configuration_manager.getShadersPath());
     for (const auto& shader_info : shaders_info)
     {
         const std::string vs_full_path = shaders_path + shader_info.vs_filename;
