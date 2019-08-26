@@ -2,7 +2,7 @@
 <configuration>
     <language data="English"/>
     <server address="127.0.0.1" port="1001"/>
-    <locales filename="Locales.xls"/>
-    <player filename="Player.xml"/>
-    <resources filename=""/>
+    <locales-config-filename filename="Locales.xls"/>
+    <player-config-filename filename="Player.xml"/>
+    <resources-config-filename filename="Resources.ini"/>
 </configuration>

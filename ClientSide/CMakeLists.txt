@@ -35,5 +35,3 @@ set (PROJECT_DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies)
 enable_testing()
 
 add_subdirectory (Sources)
-add_subdirectory (Tests)
-add_subdirectory (Benchmarks)

@@ -27,14 +27,12 @@
 
 namespace Core { namespace Managers {
 
-    // Singleton
     class ConfigurationManager : public IManager<ConfigurationManager>
     {
     public:
         static ConfigurationManager& getInstance() noexcept;
     public:
         void initialize();
-        bool isInitialized() const noexcept;
         std::string getCurrentLanguage() const noexcept;
         std::uint16_t getServerPort() const noexcept;
         std::string getServerAddress() const noexcept;

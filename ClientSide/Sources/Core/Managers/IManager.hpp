@@ -18,24 +18,16 @@
 
 namespace Core { namespace Managers {
 
-    // CRTP Interface
     template<class T>
     struct IManager
     {
         void initialize();
-        bool isInitialized() const noexcept;
     };
 
     template <class T>
     void IManager<T>::initialize()
     {
         static_cast<T*>(this)->initialize();
-    }
-
-    template <class T>
-    bool IManager<T>::isInitialized() const noexcept
-    {
-        return static_cast<T*>(this)->isInitialized();
     }
 
 }}

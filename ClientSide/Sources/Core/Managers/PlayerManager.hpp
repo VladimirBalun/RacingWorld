@@ -26,14 +26,12 @@
 
 namespace Core { namespace Managers {
 
-    // Singleton
     class PlayerManager : public IManager<PlayerManager>
     {
     public:
         static PlayerManager& getInstance() noexcept;
     public:
         void initialize();
-        bool isInitialized() const noexcept;
         std::string getEmail() const noexcept;
         std::string getPassword() const noexcept;
     private:

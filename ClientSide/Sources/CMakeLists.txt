@@ -34,11 +34,26 @@ foreach (FILE ${SOURCES})
     source_group ("${GROUP}" FILES "${FILE}")
 endforeach ()
 
-include_directories (${PROJECT_DEPENDENCIES_DIR}/Boost/Include ${PROJECT_DEPENDENCIES_DIR}/LibXL/Include ${PROJECT_DEPENDENCIES_DIR}/GLFW/Include ${PROJECT_DEPENDENCIES_DIR}/GLEW/Include)
-link_directories (${PROJECT_DEPENDENCIES_DIR}/Boost/Libraries ${PROJECT_DEPENDENCIES_DIR}/LibXL/Libraries ${PROJECT_DEPENDENCIES_DIR}/GLFW/Libraries ${PROJECT_DEPENDENCIES_DIR}/GLEW/Libraries)
+include_directories (
+	${PROJECT_DEPENDENCIES_DIR}/Boost/Include 
+	${PROJECT_DEPENDENCIES_DIR}/LibXL/Include 
+	${PROJECT_DEPENDENCIES_DIR}/GLFW/Include 
+	${PROJECT_DEPENDENCIES_DIR}/GLEW/Include
+	${PROJECT_DEPENDENCIES_DIR}/GLM/Include
+	${PROJECT_DEPENDENCIES_DIR}/Audiere/Include
+)
+
+link_directories (
+	${PROJECT_DEPENDENCIES_DIR}/Boost/Libraries 
+	${PROJECT_DEPENDENCIES_DIR}/LibXL/Libraries 
+	${PROJECT_DEPENDENCIES_DIR}/GLFW/Libraries 
+	${PROJECT_DEPENDENCIES_DIR}/GLEW/Libraries
+	${PROJECT_DEPENDENCIES_DIR}/GLM/Libraries
+	${PROJECT_DEPENDENCIES_DIR}/Audiere/Libraries
+)
 
 add_executable (${PROJECT_NAME} ${SOURCES})
-target_link_libraries (${PROJECT_NAME} wsock32.lib opengl32.lib libxl.lib glfw3.lib glew32s.lib)
+target_link_libraries (${PROJECT_NAME} wsock32.lib opengl32.lib libxl.lib glfw3.lib glew32s.lib audiere.lib)
 target_include_directories (${PROJECT_NAME} PRIVATE ${PROJECT_DEPENDENCIES_DIR}/OpenGL/Include)
 set_target_properties (${PROJECT_NAME} PROPERTIES FOLDER "Game")
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BIN_DIR})

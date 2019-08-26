@@ -17,7 +17,9 @@
 #include "LocaleManager.hpp"
 
 #include "ConfigurationManager.hpp"
-#include "../../EventSystem.hpp"
+#include "../Helpers/Time.hpp"
+#include "../Helpers/Debug.hpp"
+#include "../Helpers/Macroses.hpp"
 
 Core::Managers::LocaleManager& Core::Managers::LocaleManager::getInstance() noexcept
 {
@@ -27,6 +29,10 @@ Core::Managers::LocaleManager& Core::Managers::LocaleManager::getInstance() noex
 
 void Core::Managers::LocaleManager::initialize()
 {
+#ifdef _DEBUG
+    const auto start_time = Helpers::getCurrentTimeInMilliseconds<double>();
+#endif // _DEBUG
+
     if (libxl::Book* book = xlCreateBook())
     {
         const std::string resources_path = g_configuration_manager.getResourcesPath();
@@ -42,13 +48,24 @@ void Core::Managers::LocaleManager::initialize()
                 readAllStringFromSheet(sheet, key_index_cow, data_index_cow);
             }
         }
+        else
+        {
+            LOG_ERROR("'LocaleManager' was not initialized. Cause: file '" + locales_config_file_full_path + "' was not loaded.");
+            //NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Locale configuration was not loaded.");
+        }
         book->release();
     }
-
-    if (!isInitialized())
+    else
     {
-        NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Locale configuration was not loaded.");
+        LOG_ERROR("'LocaleManager' was not initialized. Cause: LibXL internal error.");
+        //NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Locale configuration was not loaded.");
     }
+
+#ifdef _DEBUG
+    const auto end_time = Helpers::getCurrentTimeInMilliseconds<double>();
+    const auto loading_time = end_time - start_time;
+    LOG_PROFILING("'LocaleManager' was initialized in " + TO_STR(loading_time) + "ms.");
+#endif // _DEBUG
 }
 
 void Core::Managers::LocaleManager::findNecessaryColIndexesInSheet(libxl::Sheet* sheet, int& key_index, int& data_index) const noexcept
@@ -78,11 +95,6 @@ void Core::Managers::LocaleManager::readAllStringFromSheet(libxl::Sheet* sheet, 
         const std::string data = sheet->readStr(row, data_index);
         m_strings.emplace(key, data);
     }
-}
-
-bool Core::Managers::LocaleManager::isInitialized() const noexcept
-{
-    return !m_strings.empty();
 }
 
 std::string Core::Managers::LocaleManager::getString(const std::string& key) const noexcept

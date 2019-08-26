@@ -16,10 +16,27 @@
 
 #pragma once
 
+#include "Managers/SoundManager.hpp"
 #include "Managers/LocaleManager.hpp"
 #include "Managers/PlayerManager.hpp"
+#include "Managers/ResourceManager.hpp"
 #include "Managers/ConfigurationManager.hpp"
 
+#define g_sound_manager         Core::Managers::SoundManager::getInstance()
 #define g_locale_manager        Core::Managers::LocaleManager::getInstance()
 #define g_player_manager        Core::Managers::PlayerManager::getInstance()
+#define g_resource_manager      Core::Managers::ResourceManager::getInstance()
 #define g_configuration_manager Core::Managers::ConfigurationManager::getInstance()
+
+namespace Core { namespace Managers {
+
+    inline void initialize() noexcept
+    {
+        g_configuration_manager.initialize();
+        g_resource_manager.initialize();
+        g_locale_manager.initialize();
+        g_player_manager.initialize();
+        g_sound_manager.initialize();
+    }
+
+}}

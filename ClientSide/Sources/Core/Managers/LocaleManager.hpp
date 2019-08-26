@@ -28,14 +28,12 @@
 
 namespace Core { namespace Managers {
 
-    // Singleton
     class LocaleManager : public IManager<LocaleManager>
     {
     public:
         static LocaleManager& getInstance() noexcept;
     public:
         void initialize();
-        bool isInitialized() const noexcept;
         std::string getString(const std::string& key) const noexcept;
     private:
         void findNecessaryColIndexesInSheet(libxl::Sheet* sheet, int& key_index, int& data_index) const noexcept;

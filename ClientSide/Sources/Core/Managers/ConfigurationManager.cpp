@@ -17,11 +17,12 @@
 #include "ConfigurationManager.hpp"
 
 #include <filesystem>
-#include <boost/foreach.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
-#include "../../EventSystem.hpp"
+#include "../Helpers/Time.hpp"
+#include "../Helpers/Debug.hpp"
+#include "../Helpers/Macroses.hpp"
 
 Core::Managers::ConfigurationManager& Core::Managers::ConfigurationManager::getInstance() noexcept
 {
@@ -31,56 +32,54 @@ Core::Managers::ConfigurationManager& Core::Managers::ConfigurationManager::getI
 
 void Core::Managers::ConfigurationManager::initialize()
 {
+#ifdef _DEBUG
+    const auto start_time = Helpers::getCurrentTimeInMilliseconds<double>();
+#endif // _DEBUG
+
+    using namespace boost::property_tree;
     const std::string configuration_filename = "Configuration.xml";
     const std::string configuration_file_full_path = getResourcesPath() + configuration_filename;
 
     try
     {
-        boost::property_tree::ptree xml_configuration{};
-        boost::property_tree::read_xml(configuration_file_full_path, xml_configuration);
-        BOOST_FOREACH(const auto& xml_data, xml_configuration.get_child("configuration"))
+        ptree xml_configuration{};
+        read_xml(configuration_file_full_path, xml_configuration);
+        for (const auto& xml_data : xml_configuration.get_child("configuration"))
         {
             if (xml_data.first == "server")
             {
                 m_server_port = xml_data.second.get<std::uint16_t>("<xmlattr>.port", 0u);
                 m_server_address = xml_data.second.get<std::string>("<xmlattr>.address", "");
             }
-            if (xml_data.first == "locales")
-            {
-                m_locales_file_configuration_path = xml_data.second.get<std::string>("<xmlattr>.filename", "");;
-            }
-            if (xml_data.first == "player")
-            {
-                m_player_file_configuration_path = xml_data.second.get<std::string>("<xmlattr>.filename", "");;
-            }
-            if (xml_data.first == "resources")
-            {
-                m_resources_file_configuration_path = xml_data.second.get<std::string>("<xmlattr>.filename", "");;
-            }
             if (xml_data.first == "language")
             {
                 m_current_language = xml_data.second.get<std::string>("<xmlattr>.data", "");;
             }
+            if (xml_data.first == "locales-config-filename")
+            {
+                m_locales_file_configuration_path = xml_data.second.get<std::string>("<xmlattr>.filename", "");;
+            }
+            if (xml_data.first == "player-config-filename")
+            {
+                m_player_file_configuration_path = xml_data.second.get<std::string>("<xmlattr>.filename", "");;
+            }
+            if (xml_data.first == "resources-config-filename")
+            {
+                m_resources_file_configuration_path = xml_data.second.get<std::string>("<xmlattr>.filename", "");;
+            }
         }
     }
-    catch (const boost::property_tree::xml_parser_error&)
+    catch (const xml_parser_error&)
     {
-        NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Global configuration was not loaded.");
+        LOG_ERROR("'ConfigurationManager' was not initialized.");
+        //NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Global configuration was not loaded.");
     }
 
-    if (!isInitialized())
-    {
-        NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Global configuration was not loaded.");
-    }
-}
-
-bool Core::Managers::ConfigurationManager::isInitialized() const noexcept
-{
-    return m_server_port != 0u
-        && !m_server_address.empty()
-        && !m_locales_file_configuration_path.empty()
-        && !m_player_file_configuration_path.empty()
-        && !m_resources_file_configuration_path.empty();
+#ifdef _DEBUG
+    const auto end_time = Helpers::getCurrentTimeInMilliseconds<double>();
+    const auto loading_time = end_time - start_time;
+    LOG_PROFILING("'ConfigurationManager' was initialized in " + TO_STR(loading_time) + "ms.");
+#endif // _DEBUG
 }
 
 std::string Core::Managers::ConfigurationManager::getCurrentLanguage() const noexcept

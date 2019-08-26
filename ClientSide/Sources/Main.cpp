@@ -14,47 +14,13 @@
  * limitations under the License.
  */
 
-#include <WinSock2.h>
-
-#include "WindowSystem/Window.hpp"
-#include "Network/NetworkManager.hpp"
-
 #include "Core/Managers.hpp"
+#include "Core/GUI/Window.hpp"
 
-void initializeManagers() noexcept
+int main(int argc, char** argv)
 {
-    g_configuration_manager.initialize();
-    g_locale_manager.initialize();
-    g_player_manager.initialize();
-}
-
-int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, INT cmdShow)
-{
-#ifdef _DEBUG
-    AllocConsole();
-    AttachConsole(GetCurrentProcessId());
-    FILE* outStream;
-    freopen_s(&outStream, "CON", "w", stdout);
-    if (!outStream)
-        LOG_ERROR("Console was not attached to process.");
-#endif
-
-    //const bool was_connected = g_network_manager.connect();
-    //if (!was_connected)
-    //{
-    //    LOG_ERROR("Connection with server was not set.");
-    //    return EXIT_FAILURE;
-    //}
-
-    //const bool was_login = g_network_manager.login();
-    //if (!was_login)
-    //{
-    //    LOG_ERROR("Login on the server is failure.");
-    //    return EXIT_FAILURE;
-    //}
-
-    initializeManagers();
-    WindowSystem::Window window(instance, cmdShow);
-    window.showWindow("RacingWorld");
+    Core::Managers::initialize();
+    Core::GUI::Window window(860, 600, "Engine");
+    window.show();
     return EXIT_SUCCESS;
 }

@@ -1,5 +1,0 @@
-<?xml version="1.1" encoding="UTF-8"?>
-<models>
-   <model name="Ground" folder="Ground" obj="Ground.obj" mtl="Ground.mtl"/> 
-   <model name="Cube" obj="Cube.obj"/>
-</models>
