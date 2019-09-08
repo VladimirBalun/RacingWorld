@@ -15,3 +15,56 @@
  */
 
 #include "Node.hpp"
+
+#include <glm/gtc/matrix_transform.hpp>
+
+void Core::Graphics::SceneGraph::Node::addChild(NodeSPtr node) noexcept
+{
+    m_children.push_back(node);
+}
+
+void Core::Graphics::SceneGraph::Node::removeChild(NodeSPtr node) noexcept
+{
+    const auto it = std::find(begin(m_children), end(m_children), node);
+    if (it != end(m_children))
+    {
+        m_children.erase(it);
+    }
+}
+
+void Core::Graphics::SceneGraph::Node::move(const glm::vec3& position) noexcept
+{
+    glm::translate(m_transformation, position);
+}
+
+void Core::Graphics::SceneGraph::Node::move(const glm::vec4& position) noexcept
+{
+    glm::translate(m_transformation, glm::vec3{ position.x, position.y, position.z });
+}
+
+bool Core::Graphics::SceneGraph::Node::isExistChildren() const noexcept
+{
+    return m_children.empty();
+}
+
+bool Core::Graphics::SceneGraph::Node::isExitChild(NodeSPtr node) const noexcept
+{
+    const auto it = std::find(begin(m_children), end(m_children), node);
+    return it != end(m_children);
+}
+
+void Core::Graphics::SceneGraph::Node::childrenForEach(std::function<void(NodeSPtr node)> function) noexcept
+{
+    for (auto it : m_children)
+    {
+        if (!it->isExistChildren())
+        {
+            function(it);
+        }
+    }
+}
+
+const glm::mat4x4& Core::Graphics::SceneGraph::Node::getTransformation() const noexcept
+{
+    return m_transformation;
+}

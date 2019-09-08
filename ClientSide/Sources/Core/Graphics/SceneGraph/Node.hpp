@@ -16,6 +16,11 @@
 
 #pragma once
 
+#include <deque>
+#include <functional>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+
 #include "../../Helpers/Macroses.hpp"
 
 namespace Core { namespace Graphics { namespace SceneGraph {
@@ -24,7 +29,27 @@ namespace Core { namespace Graphics { namespace SceneGraph {
 
     class Node
     {
-
+    public:
+        template<typename... Args>
+        void emplaceChild(Args... args);
+        void addChild(NodeSPtr node) noexcept;
+        void removeChild(NodeSPtr node) noexcept;
+        void move(const glm::vec3& position) noexcept;
+        void move(const glm::vec4& position) noexcept;
+        bool isExistChildren() const noexcept;
+        bool isExitChild(NodeSPtr node) const noexcept;
+        void childrenForEach(std::function<void(NodeSPtr)> function) noexcept;
+        const glm::mat4x4& getTransformation() const noexcept;
+    private:
+        std::deque<NodeSPtr> m_children{};
+        glm::mat4x4 m_transformation{ 1.0f };
     };
+
+    template<typename... Args>
+    void Node::emplaceChild(Args... args)
+    {
+        const auto node = std::make_shared<Node>(std::forward<Args>(args)...);
+        m_children.push_back(node);
+    }
 
 }}}
