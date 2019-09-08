@@ -21,22 +21,22 @@
 
 #define STR(__value__) std::string(__value__)
 #define TO_STR(__value__) std::to_string(__value__)
-#define STRINGIFY(__value__) #__value__
 
-#define DECLARE_SMART_PTRS_FOR_CLASS(__class_name__) \
-    using __class_name__##SPtr = std::shared_ptr<__class_name__>; \
-    using __class_name__##UPtr = std::unique_ptr<__class_name__>; \
-    using __class_name__##WPtr = std::weak_ptr<__class_name__>;
+#define STRINGIFY_IMPL(__value__) #__value__
+#define STRINGIFY(__value__) STRINGIFY_IMPL(__value__)
 
-#define DECLARE_SMART_PTRS_FOR_STRUCT(__struct_name__) \
-    using __struct_name__##SPtr = std::shared_ptr<__struct_name__>; \
-    using __struct_name__##UPtr = std::unique_ptr<__struct_name__>; \
-    using __struct_name__##WPtr = std::weak_ptr<__struct_name__>;
+#define CONCATENATE_IMPL(__first__, __second__) __first__##__second__
+#define CONCATENATE(__first__, __second__) CONCATENATE_IMPL(__first__, __second__)
 
-#define FWD_DECLARE_SMART_PTRS_FOR_CLASS(__class_name__) \
+#define DECL_SMART_PTRS(__class_name__) \
+    using CONCATENATE(__class_name__, SPtr) = std::shared_ptr<__class_name__ >; \
+    using CONCATENATE(__class_name__, UPtr) = std::unique_ptr<__class_name__ >; \
+    using CONCATENATE(__class_name__, WPtr) = std::weak_ptr<__class_name__ >;
+
+#define FWD_DECL_SMART_PTRS_FOR_CLASS(__class_name__) \
     class __class_name__; \
-    DECLARE_SMART_PTRS_FOR_CLASS(__class_name__)
+    DECL_SMART_PTRS(__class_name__)
 
-#define FWD_DECLARE_SMART_PTRS_FOR_STRUCT(__struct_name__) \
+#define FWD_DECL_SMART_PTRS_FOR_STRUCT(__struct_name__) \
     struct __struct_name__; \
-    DECLARE_SMART_PTRS_FOR_STRUCT(__struct_name__)
+    DECL_SMART_PTRS(__struct_name__)

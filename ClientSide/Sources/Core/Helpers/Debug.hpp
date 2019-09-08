@@ -19,8 +19,6 @@
 #ifdef _DEBUG
 
     #include <string>
-    #include <cstdio>
-    #include <cassert>
 
     #define LOG_DEBUG(__text__) \
         printf("[DEBUG] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
@@ -38,20 +36,28 @@
         printf("[PROFILING] [%s] - %s\n", __TIMESTAMP__, std::string(__text__).c_str())
 
     #define LOG_DEBUG_IF(__condition__, __text__) \
-        if ((__condition__)) \
-            printf("[DEBUG] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
+        do { \
+            if ((__condition__)) \
+                printf("[DEBUG] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()) \
+        } while(0, 0) 
 
     #define LOG_INFO_IF(__condition__, __text__) \
-        if ((__condition__)) \
-            printf("[INFO] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
+        do { \
+            if ((__condition__)) \
+                printf("[INFO] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()) \
+        } while(0, 0) 
 
     #define LOG_WARNING_IF(__condition__, __text__) \
-        if ((__condition__)) \
-            printf("[WARNING] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
+        do { \
+            if ((__condition__)) \
+                printf("[WARNING] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()) \
+        } while(0, 0) 
 
     #define LOG_ERROR_IF(__condition__, __text__) \
-        if ((__condition__)) \
-            printf("[ERROR] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str())
+        do { \
+            if ((__condition__)) \
+                printf("[ERROR] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()) \
+        } while(0, 0) 
 
     #define ASSERT(__condition__, __message__) \
         assert((__condition__) && std::string(__message__).c_str())
