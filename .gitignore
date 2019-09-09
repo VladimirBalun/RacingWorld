@@ -1,19 +1,4 @@
-ServerSide/.idea/*
+.idea/*
 
-ServerSide/*.iml
-ServerSide/databaseserver/*.iml
-ServerSide/gameserver/*.iml
-ServerSide/protocol/*.iml
-ServerSide/resourceserver/*.iml
-ServerSide/databaseserver/src/main/resources/serverSide.properties
-ServerSide/gameserver/src/main/resources/serverSide.properties
-ServerSide/resourceserver/src/main/resources/serverSide.properties
-
-ServerSide/databaseserver/target/*
-ServerSide/gameserver/target/*
-ServerSide/protocol/target/*
-ServerSide/resourceserver/target/*
-
-ClientSide/Build/*
-ClientSide/Bin/*
-ClientSide/Libs/*
+Bin/*
+Build/*
