@@ -15,3 +15,13 @@
  */
  
 #include "Scene.hpp"
+
+Core::Graphics::SceneGraph::Scene::NodeSPtr Core::Graphics::SceneGraph::Scene::getRootNode() noexcept
+{
+    return m_root_node;
+}
+
+void Core::Graphics::SceneGraph::Scene::setRootNode(NodeSPtr root_node) noexcept
+{
+    m_root_node = root_node;
+}
