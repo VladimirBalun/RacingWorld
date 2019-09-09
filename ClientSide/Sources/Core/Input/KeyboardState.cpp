@@ -16,12 +16,6 @@
 
 #include "KeyboardState.hpp"
 
-Core::Input::KeyboardState& Core::Input::KeyboardState::getInstance() noexcept
-{
-    static KeyboardState instance{};
-    return instance;
-}
-
 bool Core::Input::KeyboardState::isPressedKeyW() const noexcept
 {
     return m_is_pressed_key_w.load();

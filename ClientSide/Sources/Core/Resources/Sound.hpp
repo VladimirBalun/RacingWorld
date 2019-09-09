@@ -21,18 +21,19 @@
 
 #include "IResource.hpp"
 #include "../ManagersFWD.hpp"
-
-namespace Core { namespace Resources { namespace Loaders {
-
-    class WAVLoader;
-    class MP3Loader;
-    class OGGLoader;
-
-}}}
+#include "../Helpers/Holders/Polymorphic.hpp"
 
 namespace Core { namespace Resources {
 
-    class Sound : public IResource
+    namespace Loaders {
+
+        class WAVLoader;
+        class MP3Loader;
+        class OGGLoader;
+
+    }
+
+    class Sound : public IResource, public Helpers::Holders::Polymorphic<Sound>
     {
         friend class Loaders::WAVLoader;
         friend class Loaders::MP3Loader;

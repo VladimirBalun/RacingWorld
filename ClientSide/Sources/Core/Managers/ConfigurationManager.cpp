@@ -24,12 +24,6 @@
 #include "../Helpers/Debug.hpp"
 #include "../Helpers/Macroses.hpp"
 
-Core::Managers::ConfigurationManager& Core::Managers::ConfigurationManager::getInstance() noexcept
-{
-    static ConfigurationManager instance;
-    return instance;
-}
-
 void Core::Managers::ConfigurationManager::initialize()
 {
 #ifdef _DEBUG

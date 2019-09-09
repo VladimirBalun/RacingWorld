@@ -20,12 +20,11 @@
 #include <cstdint>
 
 #include "IResource.hpp"
+#include "../Helpers/Holders/Polymorphic.hpp"
 
 namespace Core { namespace Resources {
 
-    FWD_DECLARE_SMART_PTRS_FOR_CLASS(Texture)
-
-    class Texture : public IResource
+    class Texture : public IResource, public Helpers::Holders::Polymorphic<Texture>
     {
     public:
         Texture() noexcept = default;

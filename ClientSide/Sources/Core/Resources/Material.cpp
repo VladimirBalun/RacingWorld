@@ -18,6 +18,7 @@
 
 #include <functional>
 #include <unordered_map>
+#include <boost/filesystem/convenience.hpp>
 
 Core::Resources::MaterialSPtr Core::Resources::Material::Builder::build() const noexcept
 {
@@ -72,16 +73,19 @@ const std::string& Core::Resources::Material::getSpecularTextureName() const noe
 
 bool Core::Resources::Material::load(const std::string& material_path) noexcept
 {
-    using MaterialLoader = std::function<bool(Core::Resources::Material&, const std::string&)>;
+    using MaterialLoader = std::function<bool(Material&, const std::string&)>;
     static const std::unordered_map<std::string, MaterialLoader> available_loaders = {
-        { "mtl", nullptr }
+        { ".mtl", nullptr }
     };
 
-    const auto it = available_loaders.find(material_path); // TODO: need to find by extension
+    const std::string extension = boost::filesystem::extension(material_path);
+    const auto it = available_loaders.find(extension); 
     if (it != end(available_loaders))
     {
-        const MaterialLoader loader = it->second;
-        return loader(*this, material_path);
+        if (const MaterialLoader loader = it->second)
+        {
+            return loader(*this, material_path);
+        }
     }
 
     return false;

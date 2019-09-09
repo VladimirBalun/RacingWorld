@@ -29,7 +29,7 @@ audiere::OutputStreamPtr Core::Resources::Sound::getAudioStream() const noexcept
 
 bool Core::Resources::Sound::load(const std::string& sound_path) noexcept
 {
-    using SoundLoader = std::function<bool(Core::Resources::Sound&, const std::string&, bool)>;
+    using SoundLoader = std::function<bool(Sound&, const std::string&, bool)>;
     static const std::unordered_map<std::string, SoundLoader> available_loaders = {
         { ".wav", std::bind(&Loaders::WAVLoader::load, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) },
         { ".mp3", std::bind(&Loaders::MP3Loader::load, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) },

@@ -18,33 +18,34 @@
 
 #include <string>
 #include <vector>
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
 
 #include "IResource.hpp"
-
-namespace Core { namespace Resources { namespace Loaders {
-
-    class OBJLoader;
-
-}}}
+#include "../Helpers/Holders/Polymorphic.hpp"
 
 namespace Core { namespace Resources {
 
-    FWD_DECLARE_SMART_PTRS_FOR_CLASS(Model)
+    namespace Loaders {
 
-    class Model : public IResource
+        class OBJLoader;
+
+    }
+
+    class Model : public IResource, public Helpers::Holders::Polymorphic<Model>
     {
         friend class Loaders::OBJLoader;
     public:
         Model() noexcept = default;
-        Model(std::vector<void*>&& vertices, std::vector<void*>&& normals, std::vector<void*>&& texture_coordinates) noexcept;
-        const std::vector<void*>& getNormals() const noexcept;
-        const std::vector<void*>& getVertices() const noexcept;
-        const std::vector<void*>& getTextureCoordinates() const noexcept;
+        Model(std::vector<glm::vec3>&& vertices, std::vector<glm::vec3>&& normals, std::vector<glm::vec2>&& texture_coordinates) noexcept;
+        const std::vector<glm::vec3>& getNormals() const noexcept;
+        const std::vector<glm::vec3>& getVertices() const noexcept;
+        const std::vector<glm::vec2>& getTextureCoordinates() const noexcept;
         bool load(const std::string& model_path) noexcept override final;
     private:
-        const std::vector<void*> m_vertices{};
-        const std::vector<void*> m_normals{};
-        const std::vector<void*> m_texture_coordinates{};
+        const std::vector<glm::vec3> m_vertices{};
+        const std::vector<glm::vec3> m_normals{};
+        const std::vector<glm::vec2> m_texture_coordinates{};
     };
 
 }}

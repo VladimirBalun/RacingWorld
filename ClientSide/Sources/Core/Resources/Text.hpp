@@ -20,16 +20,17 @@
 
 #include "IResource.hpp"
 #include "../ManagersFWD.hpp"
-
-namespace Core { namespace Resources { namespace Loaders {
-
-    class TextLoader;
-
-}}}
+#include "../Helpers/Holders/Polymorphic.hpp"
 
 namespace Core { namespace Resources {
 
-    class Text : public IResource
+    namespace Loaders {
+
+        class TextLoader;
+
+    }
+
+    class Text : public IResource, public Helpers::Holders::Polymorphic<Text>
     {
         friend class Loaders::TextLoader;
         friend class Managers::ResourceManager;

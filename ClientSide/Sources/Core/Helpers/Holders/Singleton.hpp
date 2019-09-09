@@ -16,18 +16,24 @@
 
 #pragma once
 
-#include <string>
+namespace Core { namespace Helpers { namespace Holders {
 
-#include "../Helpers/Macroses.hpp"
-
-namespace Core { namespace Resources {
-
-    FWD_DECL_SMART_PTRS_FOR_STRUCT(IResource)
-
-    struct IResource
+    template<class T>
+    class Singleton
     {
-        virtual bool load(const std::string& resource_path) noexcept = 0;
-        virtual ~IResource() = default;
+    public:
+        static T& getInstance() noexcept;
+        explicit Singleton(const Singleton& other) = delete;
+        Singleton& operator = (const Singleton& other) = delete;
+    protected:
+        Singleton() noexcept = default;
     };
 
-}}
+    template<class T>
+    T& Singleton<T>::getInstance() noexcept
+    {
+        static T instance{};
+        return instance;
+    }
+
+}}}

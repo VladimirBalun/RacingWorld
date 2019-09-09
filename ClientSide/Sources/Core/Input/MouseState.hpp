@@ -19,19 +19,17 @@
 #include <atomic>
 #include <GLFW/glfw3.h>
 
+#include "../Helpers/Holders/Singleton.hpp"
+
 #ifndef g_mouse_state
     #define g_mouse_state Core::Input::MouseState::getInstance()
 #endif // g_mouse_state
 
 namespace Core { namespace Input {
 
-    class MouseState 
+    class MouseState : public Helpers::Holders::Singleton<MouseState>
     {
         friend void onMouseMoveEvent(GLFWwindow*, double, double) noexcept;
-    public:
-        static MouseState& getInstance() noexcept;
-        explicit MouseState(const MouseState& other) noexcept = delete;
-        MouseState& operator = (const MouseState& other) noexcept = delete;
     public:
         int getAndUnsetWheelOffset() noexcept;
         bool isPressedLeftButton() const noexcept;
@@ -39,7 +37,6 @@ namespace Core { namespace Input {
         int getAndUnsetXDisplacementOffset() noexcept;
         int getAndUnsetYDisplacementOffset() noexcept;
     private:
-        MouseState() noexcept = default;
         void pressLeftButton() noexcept;
         void pressRightButton() noexcept;
         void releaseLeftButton() noexcept;

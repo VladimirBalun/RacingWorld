@@ -20,18 +20,19 @@
 
 #include "IResource.hpp"
 #include "../ManagersFWD.hpp"
-
-namespace Core { namespace Resources { namespace Loaders {
-
-    class MTLLoader;
-
-}}}
+#include "../Helpers/Holders/Polymorphic.hpp"
 
 namespace Core { namespace Resources {
-    
-    FWD_DECLARE_SMART_PTRS_FOR_CLASS(Material)
 
-    class Material : public IResource
+    namespace Loaders {
+
+        class MTLLoader;
+
+    }
+
+    FWD_DECL_SMART_PTRS_FOR_CLASS(Material)
+
+    class Material : public IResource, public Helpers::Holders::Polymorphic<Material>
     {
         friend class Loaders::MTLLoader;
         friend class Managers::ResourceManager;

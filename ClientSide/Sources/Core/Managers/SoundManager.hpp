@@ -21,6 +21,7 @@
 #include <boost/compute/detail/lru_cache.hpp>
 
 #include "IManager.hpp"
+#include "../Helpers/Holders/Singleton.hpp"
 
 #ifndef g_sound_manager
     #define g_sound_manager Core::Managers::SoundManager::getInstance()
@@ -28,19 +29,13 @@
 
 namespace Core { namespace Managers {
 
-    class SoundManager : public IManager<SoundManager>
+    class SoundManager : public IManager<SoundManager>, public Helpers::Holders::Singleton<SoundManager>
     {
-    public:
-        static SoundManager& getInstance() noexcept;
     public:
         void initialize();
         void playSound(const std::string& key) noexcept;
         void playMusic(const std::string& key) noexcept;
         const audiere::AudioDevicePtr& getAudioDevice() const noexcept;
-    private:
-        SoundManager() noexcept {}
-        explicit SoundManager(const SoundManager& other) noexcept = delete;
-        SoundManager& operator = (const SoundManager& other) noexcept = delete;
     private:
         audiere::AudioDevicePtr m_device;
         boost::compute::detail::lru_cache<std::string, audiere::OutputStreamPtr> m_music = 5;

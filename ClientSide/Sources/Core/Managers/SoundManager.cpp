@@ -22,12 +22,6 @@
 #include "../Helpers/Debug.hpp"
 #include "../Helpers/Macroses.hpp"
 
-Core::Managers::SoundManager& Core::Managers::SoundManager::getInstance() noexcept
-{
-    static SoundManager instance{};
-    return instance;
-}
-
 void Core::Managers::SoundManager::initialize()
 {
 #ifdef _DEBUG

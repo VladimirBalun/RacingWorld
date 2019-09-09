@@ -15,3 +15,12 @@
  */
 
 #include "Renderer.hpp"
+
+#include "SceneGraph/Node.hpp"
+#include "SceneGraph/Scene.hpp"
+
+void Core::Graphics::Renderer::draw(const SceneGraph::Scene& scene)
+{
+
+
+}

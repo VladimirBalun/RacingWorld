@@ -24,12 +24,6 @@
 #include "../Helpers/Debug.hpp"
 #include "../Helpers/Macroses.hpp"
 
-Core::Managers::PlayerManager& Core::Managers::PlayerManager::getInstance() noexcept
-{
-    static PlayerManager instance{};
-    return instance;
-}
-
 void Core::Managers::PlayerManager::initialize()
 {
 #ifdef _DEBUG

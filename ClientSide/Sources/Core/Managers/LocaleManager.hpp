@@ -21,6 +21,7 @@
 #include <libxl.h>
 
 #include "IManager.hpp"
+#include "../Helpers/Holders/Singleton.hpp"
 
 #ifndef g_locale_manager
     #define g_locale_manager Core::Managers::LocaleManager::getInstance()
@@ -28,20 +29,14 @@
 
 namespace Core { namespace Managers {
 
-    class LocaleManager : public IManager<LocaleManager>
+    class LocaleManager : public IManager<LocaleManager>, public Helpers::Holders::Singleton<LocaleManager>
     {
-    public:
-        static LocaleManager& getInstance() noexcept;
     public:
         void initialize();
         std::string getString(const std::string& key) const noexcept;
     private:
         void findNecessaryColIndexesInSheet(libxl::Sheet* sheet, int& key_index, int& data_index) const noexcept;
         void readAllStringFromSheet(libxl::Sheet* sheet, int key_index, int data_index) noexcept;
-    private:
-        LocaleManager() noexcept = default;
-        explicit LocaleManager(const LocaleManager& other) noexcept = delete;
-        LocaleManager& operator = (const LocaleManager& other) noexcept = delete;
     private:
         std::unordered_map<std::string, std::string> m_strings{};
     };

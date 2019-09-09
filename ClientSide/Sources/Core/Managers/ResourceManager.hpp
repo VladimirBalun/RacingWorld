@@ -26,6 +26,7 @@
 #include "../Resources/IResource.hpp"
 #include "../Resources/ResourceTypes.hpp"
 #include "../Helpers/Debug.hpp"
+#include "../Helpers/Holders/Singleton.hpp"
 
 #ifndef g_resource_manager
     #define g_resource_manager Core::Managers::ResourceManager::getInstance()
@@ -33,10 +34,8 @@
 
 namespace Core { namespace Managers {
 
-    class ResourceManager : public IManager<ResourceManager>
+    class ResourceManager : public IManager<ResourceManager>, public Helpers::Holders::Singleton<ResourceManager>
     {
-    public:
-        static ResourceManager& getInstance() noexcept;
     public:
         void initialize();
         template<typename T>
@@ -46,10 +45,6 @@ namespace Core { namespace Managers {
         void loadSection(const boost::property_tree::ptree& section) noexcept;
         template<typename T>
         void loadResource(const std::string& resource_id, const std::string& resource_path) noexcept;
-    private:
-        ResourceManager() noexcept = default;
-        explicit ResourceManager(const ResourceManager& other) noexcept = delete;
-        ResourceManager& operator = (const ResourceManager& other) noexcept = delete;
     private:
         using resources_map_t = std::unordered_map<std::string, Resources::IResourceSPtr>;
         std::array<resources_map_t, static_cast<size_t>(Resources::ResourceType::COUNT_TYPES)> m_resources{};

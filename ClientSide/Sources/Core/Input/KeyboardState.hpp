@@ -19,27 +19,24 @@
 #include <atomic>
 #include <GLFW/glfw3.h>
 
+#include "../Helpers/Holders/Singleton.hpp"
+
 #ifndef g_keyboard_state
     #define g_keyboard_state Core::Input::KeyboardState::getInstance()
 #endif // g_keyboard_state
 
 namespace Core { namespace Input {
 
-    class KeyboardState
+    class KeyboardState : public Helpers::Holders::Singleton<KeyboardState>
     {
         friend void onMouseClickEvent(GLFWwindow*, int, int, int) noexcept;
         friend void onKeyboardEvent(GLFWwindow*, int, int, int, int) noexcept;
-    public:
-        static KeyboardState& getInstance() noexcept;
-        explicit KeyboardState(const KeyboardState& other) noexcept = delete;
-        KeyboardState& operator = (const KeyboardState& other) noexcept = delete;
     public:
         bool isPressedKeyW() const noexcept;
         bool isPressedKeyS() const noexcept;
         bool isPressedKeyA() const noexcept;
         bool isPressedKeyD() const noexcept;
     private:
-        KeyboardState() noexcept = default;
         void pressKeyW() noexcept;
         void pressKeyS() noexcept;
         void pressKeyA() noexcept;

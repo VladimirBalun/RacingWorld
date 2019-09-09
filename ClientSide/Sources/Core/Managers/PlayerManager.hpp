@@ -19,6 +19,7 @@
 #include <string>
 
 #include "IManager.hpp"
+#include "../Helpers/Holders/Singleton.hpp"
 
 #ifndef g_player_manager
     #define g_player_manager Core::Managers::PlayerManager::getInstance()
@@ -26,18 +27,12 @@
 
 namespace Core { namespace Managers {
 
-    class PlayerManager : public IManager<PlayerManager>
+    class PlayerManager : public IManager<PlayerManager>, public Helpers::Holders::Singleton<PlayerManager>
     {
-    public:
-        static PlayerManager& getInstance() noexcept;
     public:
         void initialize();
         std::string getEmail() const noexcept;
         std::string getPassword() const noexcept;
-    private:
-        PlayerManager() noexcept = default;
-        explicit PlayerManager(const PlayerManager& other) noexcept = delete;
-        PlayerManager& operator = (const PlayerManager& other) noexcept = delete;
     private:
         std::string m_email{};
         std::string m_password{};

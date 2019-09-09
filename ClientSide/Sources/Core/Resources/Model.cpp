@@ -18,6 +18,21 @@
 
 #include "Loaders/ModelLoader.hpp"
 
+const std::vector<glm::vec3>& Core::Resources::Model::getNormals() const noexcept
+{
+    return m_normals;
+}
+
+const std::vector<glm::vec3>& Core::Resources::Model::getVertices() const noexcept
+{
+    return m_vertices;
+}
+
+const std::vector<glm::vec2>& Core::Resources::Model::getTextureCoordinates() const noexcept
+{
+    return m_texture_coordinates;
+}
+
 bool Core::Resources::Model::load(const std::string& model_path) noexcept
 {
     return Loaders::OBJLoader::load(*this, model_path);

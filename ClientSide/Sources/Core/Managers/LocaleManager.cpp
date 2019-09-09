@@ -21,12 +21,6 @@
 #include "../Helpers/Debug.hpp"
 #include "../Helpers/Macroses.hpp"
 
-Core::Managers::LocaleManager& Core::Managers::LocaleManager::getInstance() noexcept
-{
-    static LocaleManager instance{};
-    return instance;
-}
-
 void Core::Managers::LocaleManager::initialize()
 {
 #ifdef _DEBUG

@@ -25,7 +25,7 @@
 
 namespace Core { namespace Graphics { namespace SceneGraph {
 
-    FWD_DECLARE_SMART_PTRS_FOR_CLASS(Node)
+    FWD_DECL_SMART_PTRS_FOR_CLASS(Node)
 
     class Node
     {

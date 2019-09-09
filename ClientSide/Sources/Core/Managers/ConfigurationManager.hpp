@@ -20,6 +20,7 @@
 #include <cstdint>
 
 #include "IManager.hpp"
+#include "../Helpers/Holders/Singleton.hpp"
 
 #ifndef g_configuration_manager
     #define g_configuration_manager Core::Managers::ConfigurationManager::getInstance()
@@ -27,10 +28,8 @@
 
 namespace Core { namespace Managers {
 
-    class ConfigurationManager : public IManager<ConfigurationManager>
+    class ConfigurationManager : public IManager<ConfigurationManager>, public Helpers::Holders::Singleton<ConfigurationManager>
     {
-    public:
-        static ConfigurationManager& getInstance() noexcept;
     public:
         void initialize();
         std::string getCurrentLanguage() const noexcept;
@@ -42,10 +41,6 @@ namespace Core { namespace Managers {
         std::string getLocalesConfigurationFilename() const noexcept;
         std::string getPlayerConfigurationFilename() const noexcept;
         std::string getResourcesConfigurationFilename() const noexcept;
-    private:
-        ConfigurationManager() noexcept = default;
-        explicit ConfigurationManager(const ConfigurationManager& other) noexcept = delete;
-        ConfigurationManager& operator = (const ConfigurationManager& other) noexcept = delete;
     private:
         std::string m_current_language{};
         std::uint16_t m_server_port = 0u;

@@ -18,6 +18,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <glm/fwd.hpp>
 
 #include "../../Helpers/Macroses.hpp"
 
@@ -35,7 +36,7 @@ namespace Core { namespace Graphics { namespace SceneGraph {
 
     class Scene
     {
-        FWD_DECLARE_SMART_PTRS_FOR_CLASS(Node)
+        FWD_DECL_SMART_PTRS_FOR_CLASS(Node)
     private:
         NodeSPtr m_root_node = nullptr;
         std::vector<void*> m_meshes{};

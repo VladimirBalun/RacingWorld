@@ -15,3 +15,24 @@
  */
 
 #pragma once
+
+#include <stack>
+#include <glm/mat4x4.hpp>
+
+namespace Core { namespace Graphics {
+
+    namespace SceneGraph {
+
+        class Node;
+        class Scene;
+
+    }
+
+    class Renderer
+    {
+        void draw(const SceneGraph::Scene& scene);
+    private:
+        std::stack<glm::mat4x4> m_transformations_stack;
+    };
+
+}}

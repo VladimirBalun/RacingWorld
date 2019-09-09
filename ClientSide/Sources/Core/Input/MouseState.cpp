@@ -16,12 +16,6 @@
 
 #include "MouseState.hpp"
 
-Core::Input::MouseState& Core::Input::MouseState::getInstance() noexcept
-{
-    static MouseState instance{};
-    return instance;
-}
-
 int Core::Input::MouseState::getAndUnsetWheelOffset() noexcept
 {
     const int offset = m_wheel_offset.load();

@@ -18,6 +18,7 @@
 
 namespace Core { namespace Helpers {
 
-
+    struct NullType {};
+    struct EmptyType {};
 
 }}

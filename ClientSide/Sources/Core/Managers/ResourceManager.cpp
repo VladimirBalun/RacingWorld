@@ -24,12 +24,6 @@
 #include "../Helpers/Time.hpp"
 #include "../Helpers/Debug.hpp"
 
-Core::Managers::ResourceManager& Core::Managers::ResourceManager::getInstance() noexcept
-{
-    static ResourceManager instance{};
-    return instance;
-}
-
 void Core::Managers::ResourceManager::initialize()
 {
 #ifdef _DEBUG
