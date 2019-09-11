@@ -23,6 +23,7 @@
 
 #include "IManager.hpp"
 #include "../ManagersFWD.hpp"
+#include "../Resources.hpp"
 #include "../Resources/IResource.hpp"
 #include "../Resources/ResourceTypes.hpp"
 #include "../Helpers/Debug.hpp"
@@ -47,7 +48,7 @@ namespace Core { namespace Managers {
         void loadResource(const std::string& resource_id, const std::string& resource_path) noexcept;
     private:
         using resources_map_t = std::unordered_map<std::string, Resources::IResourceSPtr>;
-        std::array<resources_map_t, static_cast<size_t>(Resources::ResourceType::COUNT_TYPES)> m_resources{};
+        std::array<resources_map_t, TO_SIZE_T(Resources::ResourceType::COUNT_TYPES)> m_resources{};
     };
 
     template<typename T>
@@ -56,12 +57,12 @@ namespace Core { namespace Managers {
         Resources::ResourceType resource_type = Resources::getResourceType<T>();
         if (resource_type != Resources::ResourceType::UNKNOWN)
         {
-            const auto resource_type_index = static_cast<std::size_t>(resource_type);
+            const auto resource_type_index = TO_SIZE_T(resource_type);
             const resources_map_t& resources_for_current_type = m_resources.at(resource_type_index);
-            const auto& it = resources_for_current_type.find(resource_id);
+            const auto it = resources_for_current_type.find(resource_id);
             if (it != end(resources_for_current_type))
             {
-                return nullptr;// std::dynamic_pointer_cast<T>(ptr);
+                return std::dynamic_pointer_cast<T>(it->second);
             }
         }
 
@@ -83,10 +84,10 @@ namespace Core { namespace Managers {
     template<typename T>
     void ResourceManager::loadResource(const std::string& resource_id, const std::string& resource_path) noexcept
     {
-        Resources::ResourceType resource_type = Resources::getResourceType<T>();
+        const Resources::ResourceType resource_type = Resources::getResourceType<T>();
         if (resource_type != Resources::ResourceType::UNKNOWN)
         {
-            const auto resource_type_index = static_cast<std::size_t>(Resources::ResourceType::SOUND_TYPE);
+            const auto resource_type_index = TO_SIZE_T(resource_type);
             resources_map_t& resources_for_current_type = m_resources.at(resource_type_index);
             auto resource = std::make_shared<T>();
             if (resource->load(resource_path))

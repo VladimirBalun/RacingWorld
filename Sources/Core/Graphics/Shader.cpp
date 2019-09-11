@@ -23,12 +23,15 @@
 
 #include "../Helpers/Debug.hpp"
 #include "../Helpers/Macroses.hpp"
+#include "../Resources/Text.hpp"
 
-Core::Graphics::Shader::Shader(const std::string& v_shader_fileName, const std::string& f_shader_fileName) noexcept
+Core::Graphics::Shader::Shader(const Resources::VertexShaderSPtr vertex_shader, const Resources::VertexShaderSPtr fragment_shader) noexcept
 {
-    const unsigned int vertex_shader = compileShader(v_shader_fileName, GL_VERTEX_SHADER);
-    const unsigned int fragment_shader = compileShader(f_shader_fileName, GL_FRAGMENT_SHADER);
-    linkShaders(vertex_shader, fragment_shader);
+    const std::string& vertex_shader_data = vertex_shader->getData();
+    const std::string& fragment_shader_data = fragment_shader->getData();
+    const unsigned int vertex_shader_id = compileShader(vertex_shader_data.c_str(), GL_VERTEX_SHADER);
+    const unsigned int fragment_shader_id = compileShader(fragment_shader_data.c_str(), GL_FRAGMENT_SHADER);
+    linkShaders(vertex_shader_id, fragment_shader_id);
 }
 
 void Core::Graphics::Shader::use() const noexcept

@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-#pragma once
+#version 330 core
 
-#include "Resources/IResource.hpp"
+layout (location = 0) in vec3 position;
 
-#include "Resources/Text.hpp"
-#include "Resources/Model.hpp"
-#include "Resources/Sound.hpp"
-#include "Resources/Texture.hpp"
-#include "Resources/Material.hpp"
-
-namespace Core { namespace Resources {
-
-    using VertexShader = Text;
-    using FragmentShader = Text;
-
-}}
+void main()
+{
+    gl_Position = vec4(position.x, position.y, position.z, 1.0);
+}

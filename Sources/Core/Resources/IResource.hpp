@@ -26,6 +26,7 @@ namespace Core { namespace Resources {
 
     struct IResource
     {
+        IResource() noexcept = default;
         virtual bool load(const std::string& resource_path) noexcept = 0;
         virtual ~IResource() = default;
     };

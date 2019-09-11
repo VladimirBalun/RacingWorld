@@ -28,6 +28,9 @@ namespace Core { namespace Resources {
     class Texture;
     class Material;
 
+    using VertexShader = Text;
+    using FragmentShader = Text;
+
     FWD_DECL_SMART_PTRS_FOR_STRUCT(IResource)
 
     FWD_DECL_SMART_PTRS_FOR_CLASS(Text)
@@ -35,5 +38,8 @@ namespace Core { namespace Resources {
     FWD_DECL_SMART_PTRS_FOR_CLASS(Sound)
     FWD_DECL_SMART_PTRS_FOR_CLASS(Texture)
     FWD_DECL_SMART_PTRS_FOR_CLASS(Material)
+
+    FWD_DECL_SMART_PTRS_FOR_CLASS_BY_TYPEDEF(Text, VertexShader)
+    FWD_DECL_SMART_PTRS_FOR_CLASS_BY_TYPEDEF(Text, FragmentShader)
 
 }}

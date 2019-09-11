@@ -20,13 +20,15 @@
 #include <vector>
 #include <glm/fwd.hpp>
 
+#include "../ResourcesFWD.hpp"
+
 namespace Core { namespace Graphics {
 
     class Shader
     {
     public:
         Shader() noexcept = default;
-        Shader(const std::string& vertex_shader_data, const std::string& fragment_shader_data) noexcept;
+        Shader(Resources::VertexShaderSPtr vertex_shader, Resources::VertexShaderSPtr fragment_shader) noexcept;
         void use() const noexcept;
         bool isValid() const noexcept;
         void setUniformf(const char* name, float value) const noexcept;

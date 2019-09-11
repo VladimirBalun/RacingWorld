@@ -37,6 +37,6 @@ bool Core::Resources::Loaders::TextLoader::load(Text& text, const std::string& t
     input_stream.read(buffer.data(), file_size);
     text.setData(std::move(buffer));
 
-    return false;
+    return true;
 }
 

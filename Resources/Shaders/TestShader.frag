@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-#pragma once
+#version 330 core
 
-#include "Resources/IResource.hpp"
+out vec4 color;
 
-#include "Resources/Text.hpp"
-#include "Resources/Model.hpp"
-#include "Resources/Sound.hpp"
-#include "Resources/Texture.hpp"
-#include "Resources/Material.hpp"
-
-namespace Core { namespace Resources {
-
-    using VertexShader = Text;
-    using FragmentShader = Text;
-
-}}
+void main()
+{
+	color = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+}

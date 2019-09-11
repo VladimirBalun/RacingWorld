@@ -38,7 +38,8 @@ namespace Core { namespace Graphics { namespace SceneGraph {
         void move(const glm::vec4& position) noexcept;
         bool isExistChildren() const noexcept;
         bool isExitChild(NodeSPtr node) const noexcept;
-        void childrenForEach(std::function<void(NodeSPtr)> function) noexcept;
+        std::deque<NodeSPtr>::iterator childrenBegin() noexcept;
+        std::deque<NodeSPtr>::iterator childrenEnd() noexcept;
         const glm::mat4x4& getTransformation() const noexcept;
     private:
         std::deque<NodeSPtr> m_children{};
@@ -48,8 +49,7 @@ namespace Core { namespace Graphics { namespace SceneGraph {
     template<typename... Args>
     void Node::emplaceChild(Args... args)
     {
-        const auto node = std::make_shared<Node>(std::forward<Args>(args)...);
-        m_children.push_back(node);
+        m_children.emplace_back(std::forward<Args>(args)...);
     }
 
 }}}

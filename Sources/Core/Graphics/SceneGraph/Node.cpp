@@ -53,15 +53,14 @@ bool Core::Graphics::SceneGraph::Node::isExitChild(NodeSPtr node) const noexcept
     return it != end(m_children);
 }
 
-void Core::Graphics::SceneGraph::Node::childrenForEach(std::function<void(NodeSPtr node)> function) noexcept
+std::deque<Core::Graphics::SceneGraph::NodeSPtr>::iterator Core::Graphics::SceneGraph::Node::childrenBegin() noexcept
 {
-    for (auto it : m_children)
-    {
-        if (!it->isExistChildren())
-        {
-            function(it);
-        }
-    }
+    return begin(m_children);
+}
+
+std::deque<Core::Graphics::SceneGraph::NodeSPtr>::iterator Core::Graphics::SceneGraph::Node::childrenEnd() noexcept
+{
+    return end(m_children);
 }
 
 const glm::mat4x4& Core::Graphics::SceneGraph::Node::getTransformation() const noexcept

@@ -16,6 +16,24 @@
  
 #include "Scene.hpp"
 
+#include "../Shader.hpp"
+
+
+void Core::Graphics::SceneGraph::Scene::addMesh(Mesh&& mesh)
+{
+    m_meshes.push_back(std::move(mesh));
+}
+
+void Core::Graphics::SceneGraph::Scene::addMaterial(Material&& material)
+{
+    m_materials.push_back(std::move(material));
+}
+
+void Core::Graphics::SceneGraph::Scene::addShader(const std::string& shader_id, Shader&& shader)
+{
+    //m_shaders.insert({ shader_id, shader });
+}
+
 Core::Graphics::SceneGraph::Scene::NodeSPtr Core::Graphics::SceneGraph::Scene::getRootNode() noexcept
 {
     return m_root_node;
@@ -24,4 +42,15 @@ Core::Graphics::SceneGraph::Scene::NodeSPtr Core::Graphics::SceneGraph::Scene::g
 void Core::Graphics::SceneGraph::Scene::setRootNode(NodeSPtr root_node) noexcept
 {
     m_root_node = root_node;
+}
+
+const Core::Graphics::Shader* Core::Graphics::SceneGraph::Scene::getShaderByID(const std::string& shader_id) const noexcept
+{
+    const auto it = m_shaders.find(shader_id);
+    if (it != end(m_shaders))
+    {
+        //return &it->second;
+    }
+
+    return nullptr;
 }

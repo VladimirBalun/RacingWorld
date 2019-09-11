@@ -21,6 +21,10 @@
 
 #define STR(__value__) std::string(__value__)
 #define TO_STR(__value__) std::to_string(__value__)
+#define TO_SIZE_T(__value__) static_cast<std::size_t>(__value__)
+#define TO_INT(__value__) static_cast<int>(__value__)
+#define TO_DOUBLE(__value__) static_cast<float>(__value__)
+#define TO_FLOAT(__value__) static_cast<double>(__value__)
 
 #define STRINGIFY_IMPL(__value__) #__value__
 #define STRINGIFY(__value__) STRINGIFY_IMPL(__value__)
@@ -33,6 +37,11 @@
     using CONCATENATE(__class_name__, UPtr) = std::unique_ptr<__class_name__ >; \
     using CONCATENATE(__class_name__, WPtr) = std::weak_ptr<__class_name__ >;
 
+#define DECL_SMART_PTRS_BY_TYPEDEF(__source_class_name__, __dest_class_name__) \
+    using CONCATENATE(__dest_class_name__, SPtr) = std::shared_ptr<__source_class_name__ >; \
+    using CONCATENATE(__dest_class_name__, UPtr) = std::unique_ptr<__source_class_name__ >; \
+    using CONCATENATE(__dest_class_name__, WPtr) = std::weak_ptr<__source_class_name__ >;
+
 #define FWD_DECL_SMART_PTRS_FOR_CLASS(__class_name__) \
     class __class_name__; \
     DECL_SMART_PTRS(__class_name__)
@@ -40,3 +49,11 @@
 #define FWD_DECL_SMART_PTRS_FOR_STRUCT(__struct_name__) \
     struct __struct_name__; \
     DECL_SMART_PTRS(__struct_name__)
+
+#define FWD_DECL_SMART_PTRS_FOR_CLASS_BY_TYPEDEF(__source_class_name__, __dest_class_name__) \
+    class __source_class_name__; \
+    DECL_SMART_PTRS_BY_TYPEDEF(__source_class_name__, __dest_class_name__)
+
+#define FWD_DECL_SMART_PTRS_FOR_STRUCT_BY_TYPEDEF(__source_struct_name__, __dest_struct_name__) \
+    struct __source_struct_name__; \
+    DECL_SMART_PTRS_BY_TYPEDEF(__source_struct_name__, __dest_struct_name__)

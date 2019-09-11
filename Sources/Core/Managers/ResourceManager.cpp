@@ -41,6 +41,8 @@ void Core::Managers::ResourceManager::initialize()
         loadSection<Resources::Model>(ini_configuration.get_child("Models"));
         loadSection<Resources::Sound>(ini_configuration.get_child("Sounds"));
         loadSection<Resources::Texture>(ini_configuration.get_child("Textures"));
+        loadSection<Resources::VertexShader>(ini_configuration.get_child("VertexShaders"));
+        loadSection<Resources::FragmentShader>(ini_configuration.get_child("FragmentShaders"));
     }
     catch (const boost::property_tree::ini_parser_error&)
     {

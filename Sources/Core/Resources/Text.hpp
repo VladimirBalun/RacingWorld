@@ -30,14 +30,19 @@ namespace Core { namespace Resources {
 
     }
 
+    class Text;
+    using VertexShader = Text;
+    using FragmentShader = Text;
+
     class Text : public IResource, public Helpers::Holders::Polymorphic<Text>
     {
         friend class Loaders::TextLoader;
         friend class Managers::ResourceManager;
     public:
+        Text() noexcept = default;
         const std::string& getData() const noexcept;
     private:
-        bool load(const std::string& shader_path) noexcept override final;
+        bool load(const std::string& shader_path) noexcept override;
         void setData(std::string&& data) noexcept;
     private:
         std::string m_text_data{};
