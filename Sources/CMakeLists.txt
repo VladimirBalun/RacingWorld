@@ -41,6 +41,7 @@ include_directories (
 	${PROJECT_DEPENDENCIES_DIR}/GLEW/Include
 	${PROJECT_DEPENDENCIES_DIR}/GLM/Include
 	${PROJECT_DEPENDENCIES_DIR}/Audiere/Include
+	${PROJECT_DEPENDENCIES_DIR}/OBJLoader/Include
 )
 
 link_directories (

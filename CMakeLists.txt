@@ -19,8 +19,6 @@ cmake_minimum_required (VERSION 3.10)
 project (RacingWorld)
 
 set (CMAKE_CXX_STANDARD 17)
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /GR-")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
 
 set_property (GLOBAL PROPERTY USE_FOLDERS ON)
 
