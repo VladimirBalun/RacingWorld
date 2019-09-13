@@ -26,7 +26,7 @@ namespace {
     audiere::OutputStreamPtr loadAudioStream(Core::Resources::Sound& sound, const std::string& sound_file_path, const bool streaming) noexcept
     {
         const audiere::AudioDevicePtr& audio_device = g_sound_manager.getAudioDevice();
-        return audiere::OpenSound(audio_device, sound_file_path.c_str(), streaming);
+        return OpenSound(audio_device, sound_file_path.c_str(), streaming);
     }
 
 }

@@ -43,9 +43,9 @@ namespace Core { namespace Resources {
         const std::vector<glm::vec2>& getTextureCoordinates() const noexcept;
         bool load(const std::string& model_path) noexcept override final;
     private:
-        const std::vector<glm::vec3> m_vertices{};
-        const std::vector<glm::vec3> m_normals{};
-        const std::vector<glm::vec2> m_texture_coordinates{};
+        std::vector<glm::vec3> m_vertices{};
+        std::vector<glm::vec3> m_normals{};
+        std::vector<glm::vec2> m_texture_coordinates{};
     };
 
 }}

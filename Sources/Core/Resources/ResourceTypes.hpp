@@ -27,8 +27,7 @@ namespace Core { namespace Resources {
         SOUND_TYPE,
         MODEL_TYPE,
         TEXTURE_TYPE,
-        VERTEX_SHADER_TYPE,
-        FRAGMENT_SHADER_TYPE,
+        TEXT_TYPE,
 
         // Must be last
         COUNT_TYPES
@@ -45,10 +44,8 @@ namespace Core { namespace Resources {
             return ResourceType::SOUND_TYPE;
         if (std::is_same<T, Texture>::value)
             return ResourceType::TEXTURE_TYPE;
-        if (std::is_same<T, VertexShader>::value)
-            return ResourceType::VERTEX_SHADER_TYPE;
-        if (std::is_same<T, FragmentShader>::value)
-            return ResourceType::FRAGMENT_SHADER_TYPE;
+        if (std::is_same<T, Text>::value)
+            return ResourceType::TEXT_TYPE;
 
         return ResourceType::UNKNOWN;
     }

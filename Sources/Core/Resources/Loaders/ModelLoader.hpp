@@ -29,7 +29,7 @@ namespace Core { namespace Resources { namespace Loaders {
     class OBJLoader
     {
     public:
-        static bool load(Model& model, const std::string& model_path) noexcept;
+        static bool load(Model& model, const std::string& model_file_path) noexcept;
     };
 
 }}}

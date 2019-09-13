@@ -41,6 +41,8 @@ namespace Core { namespace Managers {
         void initialize();
         template<typename T>
         std::shared_ptr<T> getResource(const std::string& resource_id) const noexcept;
+        template<typename T>
+        void loadResource(const std::string& resource_id, T&& resource) noexcept;
     private:
         template<typename T>
         void loadSection(const boost::property_tree::ptree& section) noexcept;
@@ -54,7 +56,7 @@ namespace Core { namespace Managers {
     template<typename T>
     std::shared_ptr<T> ResourceManager::getResource(const std::string& resource_id) const noexcept
     {
-        Resources::ResourceType resource_type = Resources::getResourceType<T>();
+        const Resources::ResourceType resource_type = Resources::getResourceType<T>();
         if (resource_type != Resources::ResourceType::UNKNOWN)
         {
             const auto resource_type_index = TO_SIZE_T(resource_type);
@@ -67,6 +69,18 @@ namespace Core { namespace Managers {
         }
 
         return nullptr;
+    }
+
+    template <typename T>
+    void ResourceManager::loadResource(const std::string& resource_id, T&& resource) noexcept
+    {
+        const Resources::ResourceType resource_type = Resources::getResourceType<T>();
+        if (resource_type != Resources::ResourceType::UNKNOWN)
+        {
+            const auto resource_type_index = TO_SIZE_T(resource_type);
+            resources_map_t& resources_for_current_type = m_resources.at(resource_type_index);
+            resources_for_current_type.emplace(resource_id, resource);
+        }
     }
 
     template<typename T>
@@ -96,9 +110,22 @@ namespace Core { namespace Managers {
             }
             else
             {
-                LOG_WARNING("Resource {'" + resource_path + "' : '" + resource_path + "'} was not loaded.");
+                LOG_WARNING("Resource {'" + resource_id + "' : '" + resource_path + "'} was not loaded.");
             }
         }
+    }
+
+    template<>
+    inline void ResourceManager::loadResource<Resources::Model>(const std::string& resource_id, const std::string& resource_path) noexcept
+    {
+         const auto resource_type_index = TO_SIZE_T(Resources::ResourceType::MODEL_TYPE);
+         resources_map_t& resources_for_current_type = m_resources.at(resource_type_index);
+         auto resource = std::make_unique<Resources::Model>();
+         const bool was_loaded = resource->load(resource_path);
+         if (!was_loaded)
+         {
+             LOG_WARNING("Resource {'" + resource_id + "' : '" + resource_path + "'} was not loaded.");
+         }
     }
 
 }}
