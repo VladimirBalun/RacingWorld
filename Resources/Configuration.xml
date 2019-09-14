@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<configuration>
+    <language data="English"/>
+    <server address="127.0.0.1" port="1001"/>
+    <locales-config-filename filename="Locales.xls"/>
+    <player-config-filename filename="Player.xml"/>
+    <resources-config-filename filename="Resources.ini"/>
+</configuration>

@@ -3,7 +3,6 @@
 </p>
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a65b5bf4f3464678b76024d4874a44f5)](https://www.codacy.com/app/VladimirBalun/RacingWorld?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=VladimirBalun/RacingWorld&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.org/VladimirBalun/RacingWorld.svg?branch=develop)](https://travis-ci.org/VladimirBalun/RacingWorld)
 [![Build status](https://ci.appveyor.com/api/projects/status/4mc5eid85976lg4n?svg=true)](https://ci.appveyor.com/project/VladimirBalun/racingworld)
 
 # Introduction

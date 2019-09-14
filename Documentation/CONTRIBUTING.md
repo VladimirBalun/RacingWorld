@@ -16,7 +16,7 @@ Adhering to the following process is the best way to get your work included in t
 
         git clone https://github.com/<your-username>/RacingWorld.git
         cd RacingWorld
-        git remote add upstream https://github.com/twbs/RacingWorld.git
+        git remote add upstream https://github.com/<your-username>/RacingWorld.git
 
 2.  If you cloned a while ago, get the latest changes from upstream:
 
