@@ -18,7 +18,6 @@ matrix:
   fast_finish: true
 
 platform:
-  - x64
   - x86
 
 clone_folder: c:\projects\RacingWorld
@@ -30,6 +29,6 @@ environment:
     - BOOST_ROOT: C:\Libraries\boost_1_69_0
 
 build_script:
-  - cd c:\projects\RacingWorld\ClientSide
+  - cd c:\projects\RacingWorld
   - if "%platform%" equ "x86" (cmake CMakeLists.txt -G "Visual Studio 15 2017")
   - if "%platform%" equ "x86" (msbuild /m /p:Configuration=Debug /p:Platform="Win32" RacingWorld.sln)

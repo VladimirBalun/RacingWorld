@@ -8,7 +8,8 @@
 # Introduction
 
 Racing world - is a 3D multiplayer online game about racing. At the moment the game
-is under development, the full description of the game will be added later.
+is under development, the full description of the game will be added later. The current 
+version of the game can be used only on Windows, but soon it is planned to port to other platforms.
 
 ## Minimum system requirements
 

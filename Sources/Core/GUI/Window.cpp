@@ -21,7 +21,7 @@
 #include <glew.h>
 #include <GLFW/glfw3.h>
 
-#include "../Helpers/Macroses.hpp"
+#include "../Helpers/Debug.hpp"
 #include "../Input/InputEventHandler.hpp"
 
 Core::GUI::Window::Window(const int width, const int height, const std::string& title) noexcept
