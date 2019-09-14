@@ -16,9 +16,35 @@
 
 #include "ModelLoader.hpp"
 
-#include "../Model.hpp"
+#include <OBJLoader.hpp>
 
-bool Core::Resources::Loaders::OBJLoader::load(Model& model, const std::string& model_path) noexcept
+#include "../Model.hpp"
+#include "../../Managers/ResourceManager.hpp"
+
+#define UNPACK_OBJ1_VEC2(__vector__) \
+    ( (__vector__).X, (__vector__).Y )
+
+#define UNPACK_OBJ1_VEC3(__vector__) \
+    ( (__vector__).X, (__vector__).Y, (__vector__).Z )
+
+bool Core::Resources::Loaders::OBJLoader::load(Model& model, const std::string& model_file_path) noexcept
 {
-    return true;
+    objl::Loader obj_loader{};
+    const bool was_loaded = obj_loader.LoadFile(model_file_path);
+    if (was_loaded)
+    {
+        auto model = std::make_shared<Model>();
+        std::string model_name;
+        for (const auto& mesh : obj_loader.LoadedMeshes)
+        {
+
+
+            
+        }
+
+        g_resource_manager.loadResource(model_name, model);
+        return true;
+    }
+
+    return false;
 }

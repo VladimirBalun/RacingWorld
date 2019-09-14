@@ -31,15 +31,18 @@ namespace Core { namespace Managers {
 
     class SoundManager : public IManager<SoundManager>, public Helpers::Holders::Singleton<SoundManager>
     {
+        static const float SOUND_VOLUME;
+        static const float MUSIC_VOLUME;
+        using audio_cache_t = boost::compute::detail::lru_cache<std::string, audiere::OutputStreamPtr>;
     public:
         void initialize();
-        void playSound(const std::string& key) noexcept;
-        void playMusic(const std::string& key) noexcept;
+        void playSound(const std::string& key);
+        void playMusic(const std::string& key);
         const audiere::AudioDevicePtr& getAudioDevice() const noexcept;
     private:
-        audiere::AudioDevicePtr m_device;
-        boost::compute::detail::lru_cache<std::string, audiere::OutputStreamPtr> m_music = 5;
-        boost::compute::detail::lru_cache<std::string, audiere::OutputStreamPtr> m_sounds = 15;
+        audiere::AudioDevicePtr m_device = nullptr;
+        audio_cache_t m_music = 5;
+        audio_cache_t m_sounds = 15;
     };
 
 }}

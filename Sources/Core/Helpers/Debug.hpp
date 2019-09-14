@@ -38,25 +38,25 @@
     #define LOG_DEBUG_IF(__condition__, __text__) \
         do { \
             if ((__condition__)) \
-                printf("[DEBUG] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()) \
+                printf("[DEBUG] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()); \
         } while(0, 0) 
 
     #define LOG_INFO_IF(__condition__, __text__) \
         do { \
             if ((__condition__)) \
-                printf("[INFO] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()) \
+                printf("[INFO] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()); \
         } while(0, 0) 
 
     #define LOG_WARNING_IF(__condition__, __text__) \
         do { \
             if ((__condition__)) \
-                printf("[WARNING] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()) \
+                printf("[WARNING] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()); \
         } while(0, 0) 
 
     #define LOG_ERROR_IF(__condition__, __text__) \
         do { \
             if ((__condition__)) \
-                printf("[ERROR] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()) \
+                printf("[ERROR] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, std::string(__text__).c_str()); \
         } while(0, 0) 
 
     #define ASSERT(__condition__, __message__) \

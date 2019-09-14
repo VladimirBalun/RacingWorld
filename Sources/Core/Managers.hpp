@@ -33,10 +33,10 @@ namespace Core { namespace Managers {
     inline void initialize() noexcept
     {
         g_configuration_manager.initialize();
+        g_sound_manager.initialize();
         g_resource_manager.initialize();
         g_locale_manager.initialize();
         g_player_manager.initialize();
-        g_sound_manager.initialize();
     }
 
 }}

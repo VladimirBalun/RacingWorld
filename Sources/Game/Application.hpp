@@ -16,27 +16,17 @@
 
 #pragma once
 
-#include <string>
+#include "../Core/GUI/Window.hpp"
 
-#include "IResource.hpp"
-#include "../Helpers/Holders/Polymorphic.hpp"
+namespace Game {
 
-namespace Core { namespace Resources {
-
-    class Text;
-    using VertexShader = Text;
-    using FragmentShader = Text;
-
-    class Text : public IResource, public Helpers::Holders::Polymorphic<Text>
+    class Application
     {
     public:
-        Text() noexcept = default;
-        void setData(std::string&& data) noexcept;
-        const std::string& getData() const noexcept;
-    public:
-        bool load(const std::string& shader_path) noexcept override;
+        Application(int window_width, int window_height, const std::string& window_title) noexcept;
+        void start();
     private:
-        std::string m_text_data{};
+        Core::GUI::Window m_window;
     };
 
-}}
+}

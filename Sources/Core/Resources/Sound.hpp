@@ -20,30 +20,17 @@
 #include <audiere.h>
 
 #include "IResource.hpp"
-#include "../ManagersFWD.hpp"
 #include "../Helpers/Holders/Polymorphic.hpp"
 
 namespace Core { namespace Resources {
 
-    namespace Loaders {
-
-        class WAVLoader;
-        class MP3Loader;
-        class OGGLoader;
-
-    }
-
     class Sound : public IResource, public Helpers::Holders::Polymorphic<Sound>
     {
-        friend class Loaders::WAVLoader;
-        friend class Loaders::MP3Loader;
-        friend class Loaders::OGGLoader;
-        friend class Managers::ResourceManager;
     public:
         audiere::OutputStreamPtr getAudioStream() const noexcept;
-    private:
-        bool load(const std::string& sound_path) noexcept override;
         void setAudioStream(audiere::OutputStreamPtr&& audio_stream) noexcept;
+    public:
+        bool load(const std::string& sound_path) noexcept override;
     private:
         audiere::OutputStreamPtr m_audio_stream = nullptr;
     };

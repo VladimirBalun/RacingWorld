@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-#include "Core/Managers.hpp"
-#include "Game/Application.hpp"
+#include "Application.hpp"
 
-int main(int argc, char** argv)
+#include "Identifiers.hpp"
+#include "../Core/Managers/SoundManager.hpp"
+
+Game::Application::Application(int window_width, int window_height, const std::string& window_title) noexcept
+    : m_window(window_width, window_height, window_title)
 {
-    Core::Managers::initialize();
-    Game::Application application(860, 600, "RacingWorld");
-    application.start();
-    return EXIT_SUCCESS;
+}
+
+void Game::Application::start()
+{
+    g_sound_manager.playMusic(ID::g_background_sound);
+    m_window.show();
 }

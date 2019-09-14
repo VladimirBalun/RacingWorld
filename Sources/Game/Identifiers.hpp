@@ -16,16 +16,16 @@
 
 #pragma once
 
-#include <string>
+namespace Game { namespace  ID {
 
-namespace Resources {
+    inline const char* g_base_vert_shader_id = "base_shader_vert";
+    inline const char* g_font_vert_shader_id = "font_shader_vert";
+    inline const char* g_test_vert_shader_id = "test_shader_vert";
 
-    // Models
-    inline const std::string g_model_tree = "tree";
-    inline const std::string g_model_cube = "cube";
-    inline const std::string g_model_ground = "ground";
+    inline const char* g_base_frag_shader_id = "base_shader_frag";
+    inline const char* g_font_frag_shader_id = "font_shader_frag";
+    inline const char* g_test_frag_shader_id = "test_shader_frag";
 
-    // Music
-    inline const std::string g_music_background = "background";
+    inline const char* g_background_sound = "background";
 
-}
+}}

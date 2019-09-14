@@ -18,6 +18,16 @@
 
 #include "Loaders/ModelLoader.hpp"
 
+void Core::Resources::Model::addChild(const std::string& name, Model&& child)
+{
+    //m_children.insert({ name, child });
+}
+
+void Core::Resources::Model::setMaterialName(const std::string& name) noexcept
+{
+    m_material_name = name;
+}
+
 const std::vector<glm::vec3>& Core::Resources::Model::getNormals() const noexcept
 {
     return m_normals;
@@ -31,6 +41,33 @@ const std::vector<glm::vec3>& Core::Resources::Model::getVertices() const noexce
 const std::vector<glm::vec2>& Core::Resources::Model::getTextureCoordinates() const noexcept
 {
     return m_texture_coordinates;
+}
+
+bool Core::Resources::Model::isExistChildByName(const std::string& name) const noexcept
+{
+    const auto it = m_children.find(name);
+    return it != end(m_children);
+}
+
+const Core::Resources::Model* Core::Resources::Model::getChildByName(const std::string& name) const noexcept
+{
+    const auto it = m_children.find(name);
+    if (it != end(m_children))
+    {
+        return &it->second;
+    }
+
+    return nullptr;
+}
+
+std::unordered_map<std::string, Core::Resources::Model>::const_iterator Core::Resources::Model::childrenBegin() const noexcept
+{
+    return m_children.begin();
+}
+
+std::unordered_map<std::string, Core::Resources::Model>::const_iterator Core::Resources::Model::childrenEnd() const noexcept
+{
+    return m_children.end();
 }
 
 bool Core::Resources::Model::load(const std::string& model_path) noexcept

@@ -45,14 +45,12 @@ void Core::Managers::LocaleManager::initialize()
         else
         {
             LOG_ERROR("'LocaleManager' was not initialized. Cause: file '" + locales_config_file_full_path + "' was not loaded.");
-            //NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Locale configuration was not loaded.");
         }
         book->release();
     }
     else
     {
         LOG_ERROR("'LocaleManager' was not initialized. Cause: LibXL internal error.");
-        //NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Locale configuration was not loaded.");
     }
 
 #ifdef _DEBUG

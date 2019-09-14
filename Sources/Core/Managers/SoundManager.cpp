@@ -22,11 +22,16 @@
 #include "../Helpers/Debug.hpp"
 #include "../Helpers/Macroses.hpp"
 
+const float Core::Managers::SoundManager::SOUND_VOLUME = 1.0f;
+const float Core::Managers::SoundManager::MUSIC_VOLUME = 0.5f;
+
 void Core::Managers::SoundManager::initialize()
 {
 #ifdef _DEBUG
     const auto start_time = Helpers::getCurrentTimeInMilliseconds<double>();
 #endif // _DEBUG
+
+    m_device = audiere::OpenDevice();
 
 #ifdef _DEBUG
     const auto end_time = Helpers::getCurrentTimeInMilliseconds<double>();
@@ -35,13 +40,13 @@ void Core::Managers::SoundManager::initialize()
 #endif // _DEBUG
 }
 
-void Core::Managers::SoundManager::playSound(const std::string& key) noexcept
+void Core::Managers::SoundManager::playSound(const std::string& key)
 {
     if (!m_sounds.contains(key))
     {
         if (const auto sound = g_resource_manager.getResource<Resources::Sound>(key))
         {
-            const auto output_sound_stream = sound->getAudioStream();
+            const audiere::OutputStreamPtr output_sound_stream = sound->getAudioStream();
             m_sounds.insert(key, output_sound_stream);
         }
         else
@@ -54,16 +59,40 @@ void Core::Managers::SoundManager::playSound(const std::string& key) noexcept
     const auto it = m_sounds.get(key);
     if (it.has_value())
     {
-        if (const auto audio_stream = it.value())
+        if (const audiere::OutputStreamPtr audio_stream = it.value())
         {
+            audio_stream->setVolume(SOUND_VOLUME);
             audio_stream->play();
         }
     }
 }
 
-void Core::Managers::SoundManager::playMusic(const std::string& key) noexcept
+void Core::Managers::SoundManager::playMusic(const std::string& key)
 {
+    if (!m_music.contains(key))
+    {
+        if (const auto sound = g_resource_manager.getResource<Resources::Sound>(key))
+        {
+            const audiere::OutputStreamPtr output_sound_stream = sound->getAudioStream();
+            m_music.insert(key, output_sound_stream);
+        }
+        else
+        {
+            LOG_WARNING("Music '" + key + "' was not played. It's absent in the 'ResourceManager'.");
+            return;
+        }
+    }
 
+    const auto it = m_music.get(key);
+    if (it.has_value())
+    {
+        if (const audiere::OutputStreamPtr audio_stream = it.value())
+        {
+            audio_stream->setVolume(MUSIC_VOLUME);
+            audio_stream->setRepeat(true);
+            audio_stream->play();
+        }
+    }
 }
 
 const audiere::AudioDevicePtr& Core::Managers::SoundManager::getAudioDevice() const noexcept

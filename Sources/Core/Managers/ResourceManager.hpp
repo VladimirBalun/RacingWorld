@@ -115,17 +115,4 @@ namespace Core { namespace Managers {
         }
     }
 
-    template<>
-    inline void ResourceManager::loadResource<Resources::Model>(const std::string& resource_id, const std::string& resource_path) noexcept
-    {
-         const auto resource_type_index = TO_SIZE_T(Resources::ResourceType::MODEL_TYPE);
-         resources_map_t& resources_for_current_type = m_resources.at(resource_type_index);
-         auto resource = std::make_unique<Resources::Model>();
-         const bool was_loaded = resource->load(resource_path);
-         if (!was_loaded)
-         {
-             LOG_WARNING("Resource {'" + resource_id + "' : '" + resource_path + "'} was not loaded.");
-         }
-    }
-
 }}

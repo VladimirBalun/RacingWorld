@@ -26,18 +26,12 @@
 
 Core::GUI::Window::Window(const int width, const int height, const std::string& title) noexcept
 {
-    if (!glfwInit())
-    {
-        //NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "GLFW library was not initialized.");
-    }
-
+    const int was_initialized = glfwInit();
+    LOG_ERROR_IF(!was_initialized, "GLFW library was not initialized.");
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     m_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
-    if (!m_window)
-    {
-        //NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Window was not created.");
-    }
+    LOG_ERROR_IF(!m_window, "Window was not created.");
 }
 
 void Core::GUI::Window::show() noexcept
@@ -62,12 +56,10 @@ void Core::GUI::Window::initGLContext() const noexcept
 {
     glfwMakeContextCurrent(m_window);
     glewExperimental = GL_TRUE;
-    if (glewInit() != GLEW_OK)
-    {
-        //NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "GLEW library was not initialized.");
-    }
-
     glfwSwapInterval(1);
+
+    const unsigned int initialization_result = glewInit();
+    LOG_ERROR_IF(initialization_result != GLEW_OK, "GLEW library was not initialized.");
 
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
