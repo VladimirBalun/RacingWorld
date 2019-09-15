@@ -31,18 +31,23 @@ namespace Core { namespace Resources {
     {
         using children_models_t = std::unordered_map<std::string, Model>;
     public:
+        struct Vertex
+        {
+            glm::vec3 normal{};
+            glm::vec3 position{};
+            glm::vec2 texture_coordinate{};
+        };
+    public:
         Model() noexcept = default;
-        template<typename... Args>
-        void emplaceNormal(Args... args);
+        Model(std::size_t count_vertices, std::size_t count_indices) noexcept;
         template<typename... Args>
         void emplaceVertex(Args... args);
-        template<typename... Args>
-        void emplaceTextureCoordinate(Args... args);
+        void addIndex(unsigned int index);
         void addChild(const std::string& name, Model&& child);
         void setMaterialName(const std::string& name) noexcept;
-        const std::vector<glm::vec3>& getNormals() const noexcept;
-        const std::vector<glm::vec3>& getVertices() const noexcept;
-        const std::vector<glm::vec2>& getTextureCoordinates() const noexcept;
+        const std::string getMaterialName() const noexcept;
+        const std::vector<Vertex>& getVertices() const noexcept;
+        const std::vector<unsigned int>& getIndices() const noexcept;
         bool isExistChildByName(const std::string& name) const noexcept;
         const Model* getChildByName(const std::string& name) const noexcept;
         children_models_t::const_iterator childrenBegin() const noexcept;
@@ -51,28 +56,15 @@ namespace Core { namespace Resources {
         bool load(const std::string& model_path) noexcept override;
     private:
         std::string m_material_name{};
-        std::vector<glm::vec3> m_vertices{};
-        std::vector<glm::vec3> m_normals{};
-        std::vector<glm::vec2> m_texture_coordinates{};
+        std::vector<Vertex> m_vertices{};
+        std::vector<unsigned int> m_indices{};
         children_models_t m_children{};
     };
-
-    template<typename... Args>
-    void Model::emplaceNormal(Args... args)
-    {
-        m_normals.emplace_back(std::forward<Args>(args)...);
-    }
 
     template<typename... Args>
     void Model::emplaceVertex(Args... args)
     {
         m_vertices.emplace_back(std::forward<Args>(args)...);
-    }
-
-    template<typename... Args>
-    void Model::emplaceTextureCoordinate(Args... args)
-    {
-        m_texture_coordinates.emplace_back(std::forward<Args>(args)...);
     }
 
 }}

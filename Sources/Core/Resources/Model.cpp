@@ -18,9 +18,20 @@
 
 #include "Loaders/ModelLoader.hpp"
 
+Core::Resources::Model::Model(std::size_t count_vertices, std::size_t count_indices) noexcept
+{
+    m_vertices.reserve(count_vertices);
+    m_indices.reserve(count_indices);
+}
+
+void Core::Resources::Model::addIndex(unsigned index)
+{
+    m_indices.push_back(index);
+}
+
 void Core::Resources::Model::addChild(const std::string& name, Model&& child)
 {
-    //m_children.insert({ name, child });
+    //m_children.insert(name, child);
 }
 
 void Core::Resources::Model::setMaterialName(const std::string& name) noexcept
@@ -28,19 +39,19 @@ void Core::Resources::Model::setMaterialName(const std::string& name) noexcept
     m_material_name = name;
 }
 
-const std::vector<glm::vec3>& Core::Resources::Model::getNormals() const noexcept
+const std::string Core::Resources::Model::getMaterialName() const noexcept
 {
-    return m_normals;
+    return m_material_name;
 }
 
-const std::vector<glm::vec3>& Core::Resources::Model::getVertices() const noexcept
+const std::vector<Core::Resources::Model::Vertex>& Core::Resources::Model::getVertices() const noexcept
 {
     return m_vertices;
 }
 
-const std::vector<glm::vec2>& Core::Resources::Model::getTextureCoordinates() const noexcept
+const std::vector<unsigned int>& Core::Resources::Model::getIndices() const noexcept
 {
-    return m_texture_coordinates;
+    return m_indices;
 }
 
 bool Core::Resources::Model::isExistChildByName(const std::string& name) const noexcept
