@@ -14,11 +14,16 @@
 # limitations under the License.
 #
 
+import sys
+import shutil
+import argparse
+import subprocess
+
+
 BUILD_DIR = '../Build'
 
 
 def is_build_with_clean():
-    import argparse
     parser = argparse.ArgumentParser(description='Script to build the solution.')
     parser.add_argument('-c', '--clean', action='store_true', help='clean old solution version')
     args = parser.parse_args()
@@ -27,7 +32,6 @@ def is_build_with_clean():
 
 def remove_old_solution():
     try:
-        import shutil
         shutil.rmtree(BUILD_DIR)
         return True
     except OSError:
@@ -35,12 +39,10 @@ def remove_old_solution():
 
 
 def is_program_installed(program_name):
-    from shutil import which
     return which(program_name)
 
 
 def run_command(cmd):
-    import subprocess
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     process.wait()
     for line in process.stdout:
@@ -52,13 +54,11 @@ if __name__ == '__main__':
         if remove_old_solution():
             print('Old solution cleaned successfully.')
         else:
-            import sys
             sys.stderr.write('Old solution folder was not cleaned.\n')
             sys.stderr.write('New solution will not be generated.')
             exit()
 
     if not is_program_installed('cmake'):
-        import sys
         sys.stderr.write('CMake is not installed on your PC.\n')
         exit()
 
