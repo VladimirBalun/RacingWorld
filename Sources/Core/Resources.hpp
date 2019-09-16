@@ -23,10 +23,3 @@
 #include "Resources/Sound.hpp"
 #include "Resources/Texture.hpp"
 #include "Resources/Material.hpp"
-
-namespace Core { namespace Resources {
-
-    using VertexShader = Text;
-    using FragmentShader = Text;
-
-}}

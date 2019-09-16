@@ -31,15 +31,15 @@ namespace Core { namespace Resources {
     using VertexShader = Text;
     using FragmentShader = Text;
 
-    FWD_DECL_SMART_PTRS_FOR_STRUCT(IResource)
+    DECL_SMART_PTRS(IResource)
 
-    FWD_DECL_SMART_PTRS_FOR_CLASS(Text)
-    FWD_DECL_SMART_PTRS_FOR_CLASS(Model)
-    FWD_DECL_SMART_PTRS_FOR_CLASS(Sound)
-    FWD_DECL_SMART_PTRS_FOR_CLASS(Texture)
-    FWD_DECL_SMART_PTRS_FOR_CLASS(Material)
+    DECL_SMART_PTRS(Text)
+    DECL_SMART_PTRS(Model)
+    DECL_SMART_PTRS(Sound)
+    DECL_SMART_PTRS(Texture)
+    DECL_SMART_PTRS(Material)
 
-    FWD_DECL_SMART_PTRS_FOR_CLASS_BY_TYPEDEF(Text, VertexShader)
-    FWD_DECL_SMART_PTRS_FOR_CLASS_BY_TYPEDEF(Text, FragmentShader)
+    DECL_SMART_PTRS_BY_TYPEDEF(Text, VertexShader)
+    DECL_SMART_PTRS_BY_TYPEDEF(Text, FragmentShader)
 
 }}
