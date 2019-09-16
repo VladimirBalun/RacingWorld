@@ -33,16 +33,25 @@ bool Core::Resources::Loaders::OBJLoader::load(Model& model, const std::string& 
     const bool was_loaded = obj_loader.LoadFile(model_file_path);
     if (was_loaded)
     {
-        auto model = std::make_shared<Model>();
-        std::string model_name;
-        for (const auto& mesh : obj_loader.LoadedMeshes)
+        for (const auto& imported_mesh : obj_loader.LoadedMeshes)
         {
+            Model::Mesh mesh(imported_mesh.Vertices.size(), imported_mesh.Indices.size());
+            for (const auto& imported_vertex : imported_mesh.Vertices)
+            {
+                glm::vec3 position{ UNPACK_OBJ1_VEC3(imported_vertex.Position) };
+                glm::vec3 normal{ UNPACK_OBJ1_VEC3(imported_vertex.Normal) };
+                glm::vec2 texture_coordinate{ UNPACK_OBJ1_VEC2(imported_vertex.TextureCoordinate) };
+                mesh.emplaceVertex(position, normal, texture_coordinate);
+            }
+            for (const auto index : imported_mesh.Indices)
+            {
+                mesh.addIndex(index);
+            }
 
-
-            
+            const std::string mesh_name = imported_mesh.MeshName;
+            model.addMesh(mesh_name, std::move(mesh));
         }
 
-        g_resource_manager.loadResource(model_name, model);
         return true;
     }
 

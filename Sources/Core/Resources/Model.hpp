@@ -29,40 +29,59 @@ namespace Core { namespace Resources {
 
     class Model : public IResource, public Helpers::Holders::Polymorphic<Model>
     {
-        using children_models_t = std::unordered_map<std::string, Model>;
     public:
+
         struct Vertex
         {
-            glm::vec3 normal{};
-            glm::vec3 position{};
-            glm::vec2 texture_coordinate{};
+        public:
+            Vertex() noexcept = default;
+            Vertex(glm::vec3&& normal, glm::vec3&& position, glm::vec2&& texture_coordinate) noexcept
+                : m_normal(normal), m_position(position), m_texture_coordinate(texture_coordinate) {}
+            const glm::vec3& getNormal() const noexcept;
+            const glm::vec3& getPosition() const noexcept;
+            const glm::vec2& getTextureCoordinate() const noexcept;
+        private:
+            glm::vec3 m_normal{};
+            glm::vec3 m_position{};
+            glm::vec2 m_texture_coordinate{};
         };
+
+        class Mesh
+        {
+        public:
+            Mesh() noexcept = default;
+            Mesh(std::size_t count_vertices, std::size_t count_indices) noexcept;
+            template<typename... Args>
+            void emplaceVertex(Args... args);
+            void addIndex(unsigned int index);
+            void setMaterialName(const std::string& name) noexcept;
+            const std::string getMaterialName() const noexcept;
+            const std::vector<Vertex>& getVertices() const noexcept;
+            const std::vector<unsigned int>& getIndices() const noexcept;
+        private:
+            std::string m_material_name{};
+            std::vector<Vertex> m_vertices{};
+            std::vector<unsigned int> m_indices{};
+        };
+
+    private:
+        using meshes_t = std::unordered_map<std::string, Mesh>;
     public:
         Model() noexcept = default;
-        Model(std::size_t count_vertices, std::size_t count_indices) noexcept;
-        template<typename... Args>
-        void emplaceVertex(Args... args);
-        void addIndex(unsigned int index);
-        void addChild(const std::string& name, Model&& child);
-        void setMaterialName(const std::string& name) noexcept;
-        const std::string getMaterialName() const noexcept;
-        const std::vector<Vertex>& getVertices() const noexcept;
-        const std::vector<unsigned int>& getIndices() const noexcept;
-        bool isExistChildByName(const std::string& name) const noexcept;
-        const Model* getChildByName(const std::string& name) const noexcept;
-        children_models_t::const_iterator childrenBegin() const noexcept;
-        children_models_t::const_iterator childrenEnd() const noexcept;
+        explicit Model(std::size_t count_meshes) noexcept;
+        void addMesh(const std::string& name, Mesh&& mesh);
+        bool isExistMeshByName(const std::string& name) const noexcept;
+        const Mesh* getMeshByName(const std::string& name) const noexcept;
+        meshes_t::const_iterator meshesBegin() const noexcept;
+        meshes_t::const_iterator meshesEnd() const noexcept;
     public:
         bool load(const std::string& model_path) noexcept override;
     private:
-        std::string m_material_name{};
-        std::vector<Vertex> m_vertices{};
-        std::vector<unsigned int> m_indices{};
-        children_models_t m_children{};
+        meshes_t m_meshes{};
     };
 
     template<typename... Args>
-    void Model::emplaceVertex(Args... args)
+    void Model::Mesh::emplaceVertex(Args... args)
     {
         m_vertices.emplace_back(std::forward<Args>(args)...);
     }

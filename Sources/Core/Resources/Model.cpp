@@ -18,52 +18,72 @@
 
 #include "Loaders/ModelLoader.hpp"
 
-Core::Resources::Model::Model(std::size_t count_vertices, std::size_t count_indices) noexcept
+const glm::vec3& Core::Resources::Model::Vertex::getNormal() const noexcept
 {
-    m_vertices.reserve(count_vertices);
-    m_indices.reserve(count_indices);
+    return m_normal;
 }
 
-void Core::Resources::Model::addIndex(unsigned index)
+const glm::vec3& Core::Resources::Model::Vertex::getPosition() const noexcept
+{
+    return m_position;
+}
+
+const glm::vec2& Core::Resources::Model::Vertex::getTextureCoordinate() const noexcept
+{
+    return m_texture_coordinate;
+}
+
+Core::Resources::Model::Mesh::Mesh(std::size_t count_vertices, std::size_t count_indices) noexcept
+{
+    m_indices.reserve(count_indices);
+    m_vertices.reserve(count_vertices);
+}
+
+void Core::Resources::Model::Mesh::addIndex(unsigned index)
 {
     m_indices.push_back(index);
 }
 
-void Core::Resources::Model::addChild(const std::string& name, Model&& child)
-{
-    //m_children.insert(name, child);
-}
-
-void Core::Resources::Model::setMaterialName(const std::string& name) noexcept
+void Core::Resources::Model::Mesh::setMaterialName(const std::string& name) noexcept
 {
     m_material_name = name;
 }
 
-const std::string Core::Resources::Model::getMaterialName() const noexcept
+const std::string Core::Resources::Model::Mesh::getMaterialName() const noexcept
 {
     return m_material_name;
 }
 
-const std::vector<Core::Resources::Model::Vertex>& Core::Resources::Model::getVertices() const noexcept
+const std::vector<Core::Resources::Model::Vertex>& Core::Resources::Model::Mesh::getVertices() const noexcept
 {
     return m_vertices;
 }
 
-const std::vector<unsigned int>& Core::Resources::Model::getIndices() const noexcept
+const std::vector<unsigned int>& Core::Resources::Model::Mesh::getIndices() const noexcept
 {
     return m_indices;
 }
 
-bool Core::Resources::Model::isExistChildByName(const std::string& name) const noexcept
+Core::Resources::Model::Model(std::size_t count_meshes) noexcept
 {
-    const auto it = m_children.find(name);
-    return it != end(m_children);
+    m_meshes.reserve(count_meshes);
 }
 
-const Core::Resources::Model* Core::Resources::Model::getChildByName(const std::string& name) const noexcept
+void Core::Resources::Model::addMesh(const std::string& name, Mesh&& mesh)
 {
-    const auto it = m_children.find(name);
-    if (it != end(m_children))
+    m_meshes.emplace(name, mesh );
+}
+
+bool Core::Resources::Model::isExistMeshByName(const std::string& name) const noexcept
+{
+    const auto it = m_meshes.find(name);
+    return it != end(m_meshes);
+}
+
+const Core::Resources::Model::Mesh* Core::Resources::Model::getMeshByName(const std::string& name) const noexcept
+{
+    const auto it = m_meshes.find(name);
+    if (it != end(m_meshes))
     {
         return &it->second;
     }
@@ -71,14 +91,14 @@ const Core::Resources::Model* Core::Resources::Model::getChildByName(const std::
     return nullptr;
 }
 
-std::unordered_map<std::string, Core::Resources::Model>::const_iterator Core::Resources::Model::childrenBegin() const noexcept
+Core::Resources::Model::meshes_t::const_iterator Core::Resources::Model::meshesBegin() const noexcept
 {
-    return m_children.begin();
+    return m_meshes.begin();
 }
 
-std::unordered_map<std::string, Core::Resources::Model>::const_iterator Core::Resources::Model::childrenEnd() const noexcept
+Core::Resources::Model::meshes_t::const_iterator Core::Resources::Model::meshesEnd() const noexcept
 {
-    return m_children.end();
+    return m_meshes.end();
 }
 
 bool Core::Resources::Model::load(const std::string& model_path) noexcept
