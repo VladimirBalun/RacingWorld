@@ -16,6 +16,9 @@
 
 #pragma once
 
+#include <thread>
+#include <boost/asio.hpp>
+
 #include "Managers/SoundManager.hpp"
 #include "Managers/LocaleManager.hpp"
 #include "Managers/PlayerManager.hpp"
@@ -34,9 +37,12 @@ namespace Core { namespace Managers {
     {
         g_configuration_manager.initialize();
         g_sound_manager.initialize();
-        g_resource_manager.initialize();
-        g_locale_manager.initialize();
-        g_player_manager.initialize();
+
+        boost::asio::thread_pool thread_pool(std::thread::hardware_concurrency());
+        post(thread_pool, [] { g_resource_manager.initialize(); });
+        post(thread_pool, [] { g_locale_manager.initialize(); });
+        post(thread_pool, [] { g_player_manager.initialize(); });
+        thread_pool.join();
     }
 
 }}
