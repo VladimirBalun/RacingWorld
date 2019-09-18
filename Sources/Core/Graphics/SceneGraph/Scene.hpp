@@ -20,7 +20,7 @@
 #include <optional>
 #include <unordered_map>
 
-#include "../../Helpers/Macroses.hpp"
+#include "Node.hpp"
 
 namespace Core { namespace Graphics {
 
@@ -36,11 +36,8 @@ namespace Core { namespace Graphics {
 
 namespace Core { namespace Graphics { namespace SceneGraph {
 
-    class Node;
-
     class Scene
     {
-        FWD_DECL_SMART_PTRS_FOR_CLASS(Node)
     public:
         void addMesh(Mesh&& mesh);
         void addMaterial(Material&& material);
@@ -51,8 +48,8 @@ namespace Core { namespace Graphics { namespace SceneGraph {
         void emplaceMaterial(Args... args);
         template<typename... Args>
         void emplaceShader(const std::string& shader_id, Args... args);
-        NodeSPtr getRootNode() noexcept;
         void setRootNode(NodeSPtr root_node) noexcept;
+        NodeSPtr getRootNode() const noexcept;
         const Shader* getShaderByID(const std::string& shader_id) const noexcept;
     private:
         NodeSPtr m_root_node = nullptr;

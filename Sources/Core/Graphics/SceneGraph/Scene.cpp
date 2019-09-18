@@ -18,7 +18,6 @@
 
 #include "../Shader.hpp"
 
-
 void Core::Graphics::SceneGraph::Scene::addMesh(Mesh&& mesh)
 {
     m_meshes.push_back(std::move(mesh));
@@ -31,10 +30,10 @@ void Core::Graphics::SceneGraph::Scene::addMaterial(Material&& material)
 
 void Core::Graphics::SceneGraph::Scene::addShader(const std::string& shader_id, Shader&& shader)
 {
-    //m_shaders.insert({ shader_id, shader });
+    m_shaders.emplace(shader_id, shader);
 }
 
-Core::Graphics::SceneGraph::Scene::NodeSPtr Core::Graphics::SceneGraph::Scene::getRootNode() noexcept
+Core::Graphics::SceneGraph::NodeSPtr Core::Graphics::SceneGraph::Scene::getRootNode() const noexcept
 {
     return m_root_node;
 }

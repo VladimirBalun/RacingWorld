@@ -21,6 +21,22 @@
 
 void Core::Graphics::Renderer::draw(const SceneGraph::Scene& scene)
 {
+    SceneGraph::NodeSPtr root_node = scene.getRootNode();
+    drawNode(root_node);
+}
 
+void Core::Graphics::Renderer::drawNode(SceneGraph::NodeSPtr node)
+{
+    if (node->isExistChildren())
+    {
+        for (auto it = node->childrenBegin(); it != node->childrenEnd(); ++it)
+        {
+            drawNode(node);
+        }
+    }
 
+    if (const SceneGraph::Mesh* mesh = node->getMesh())
+    {
+        mesh->draw();
+    }
 }

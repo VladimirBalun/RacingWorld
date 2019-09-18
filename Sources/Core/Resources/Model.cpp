@@ -71,7 +71,7 @@ Core::Resources::Model::Model(std::size_t count_meshes) noexcept
 
 void Core::Resources::Model::addMesh(const std::string& name, Mesh&& mesh)
 {
-    m_meshes.emplace(name, mesh );
+    m_meshes.emplace(name, mesh);
 }
 
 bool Core::Resources::Model::isExistMeshByName(const std::string& name) const noexcept

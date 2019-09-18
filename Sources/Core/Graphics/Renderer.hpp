@@ -19,6 +19,8 @@
 #include <stack>
 #include <glm/mat4x4.hpp>
 
+#include "../Helpers/Macroses.hpp"
+
 namespace Core { namespace Graphics {
 
     namespace SceneGraph {
@@ -26,12 +28,18 @@ namespace Core { namespace Graphics {
         class Node;
         class Scene;
 
+        DECL_SMART_PTRS(Node)
+
     }
 
     class Renderer
     {
+    public:
         void draw(const SceneGraph::Scene& scene);
     private:
+        void drawNode(SceneGraph::NodeSPtr node);
+    private:
+        std::string m_current_shader_program;
         std::stack<glm::mat4x4> m_transformations_stack;
     };
 

@@ -53,6 +53,11 @@ bool Core::Graphics::SceneGraph::Node::isExitChild(NodeSPtr node) const noexcept
     return it != end(m_children);
 }
 
+const Core::Graphics::SceneGraph::Mesh* Core::Graphics::SceneGraph::Node::getMesh() const noexcept
+{
+    return m_mesh;
+}
+
 std::deque<Core::Graphics::SceneGraph::NodeSPtr>::iterator Core::Graphics::SceneGraph::Node::childrenBegin() noexcept
 {
     return begin(m_children);
@@ -61,6 +66,11 @@ std::deque<Core::Graphics::SceneGraph::NodeSPtr>::iterator Core::Graphics::Scene
 std::deque<Core::Graphics::SceneGraph::NodeSPtr>::iterator Core::Graphics::SceneGraph::Node::childrenEnd() noexcept
 {
     return end(m_children);
+}
+
+const std::string& Core::Graphics::SceneGraph::Node::getShaderProgram() const noexcept
+{
+    return m_shader_program;
 }
 
 const glm::mat4x4& Core::Graphics::SceneGraph::Node::getTransformation() const noexcept
