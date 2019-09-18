@@ -17,10 +17,12 @@
 #pragma once
 
 #include <deque>
+#include <optional>
 #include <functional>
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 
+#include "Mesh.hpp"
 #include "../../Helpers/Macroses.hpp"
 
 namespace Core { namespace Graphics { namespace SceneGraph {
@@ -44,6 +46,7 @@ namespace Core { namespace Graphics { namespace SceneGraph {
     private:
         std::deque<NodeSPtr> m_children{};
         glm::mat4x4 m_transformation{ 1.0f };
+        Mesh* m_mesh = nullptr;
     };
 
     template<typename... Args>
