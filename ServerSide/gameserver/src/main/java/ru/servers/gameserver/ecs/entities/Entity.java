@@ -16,24 +16,36 @@
 
 package ru.servers.gameserver.ecs.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import ru.servers.gameserver.ecs.components.Component;
 import ru.servers.gameserver.ecs.components.ComponentType;
 
 import java.util.Iterator;
 import java.util.Map;
 
-public interface Entity {
+@AllArgsConstructor
+@Getter
+@ToString
+@EqualsAndHashCode
+public abstract class Entity {
+
+    private Map<ComponentType, Component> components;
 
     protected boolean componentTypeIsCorrect(ComponentType componentType, Component component) {
         return componentType.getComponentClass().equals(component.getClass());
     }
 
-    Component getComponent(ComponentType componentType);
+    public abstract void addComponent(ComponentType componentType, Component component);
 
-    Iterator<Map.Entry<ComponentType, Component>> getComponents();
+    public abstract Component getComponent(ComponentType componentType);
 
     public abstract Iterator<Map.Entry<ComponentType, Component>> getIteratorComponents();
 
-    void removeComponent(ComponentType componentType);
+    public abstract int getCountComponents();
+
+    public abstract void removeComponent(ComponentType componentType);
 
 }
