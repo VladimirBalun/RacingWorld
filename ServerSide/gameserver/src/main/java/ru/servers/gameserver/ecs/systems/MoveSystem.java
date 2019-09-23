@@ -16,4 +16,4 @@
 
 package ru.servers.gameserver.ecs.systems;
 
-public class MoveSystem { }
+public class MoveSystem implements System { }
