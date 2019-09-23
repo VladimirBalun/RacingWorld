@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class Vehicle extends Entity{
+public class Vehicle extends Entity {
 
     public Vehicle() {
         super(new HashMap<>());
