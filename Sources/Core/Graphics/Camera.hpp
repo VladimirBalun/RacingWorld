@@ -15,3 +15,33 @@
  */
 
 #pragma once
+
+#include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
+
+namespace Graphics {
+
+    class Camera
+    {
+    public:
+        void moveLeft() noexcept;
+        void moveRight() noexcept;
+        void moveForward() noexcept;
+        void moveBackward() noexcept;
+        void setSpeed(float speed) noexcept;
+        void turn(int x_offset, int y_offset) noexcept;
+        void scale(int value) noexcept;
+        const glm::vec3& getPosition() const noexcept;
+        glm::mat4x4 getViewMatrix() const noexcept;
+        glm::mat4x4 getProjectionMatrix() const noexcept;
+    private:
+        float m_speed = 0.0f;
+        float m_fov = 45.0f;
+        float m_yaw_angle = -90.0f;
+        float m_pitch_angle = 0.0f;
+        glm::vec3 m_position{ 0.0f, 0.0f, 3.0f };
+        glm::vec3 m_up_direction{ 0.0f, 1.0f, 0.0f };
+        glm::vec3 m_forward_direction{ 0.0f, 0.0f, -1.0f };
+    };
+
+}
