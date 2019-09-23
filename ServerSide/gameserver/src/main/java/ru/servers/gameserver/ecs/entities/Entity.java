@@ -30,7 +30,7 @@ public interface Entity {
 
     Iterator<Map.Entry<ComponentType, Component>> getComponents();
 
-    int getCountComponents();
+    public abstract Iterator<Map.Entry<ComponentType, Component>> getIteratorComponents();
 
     void removeComponent(ComponentType componentType);
 

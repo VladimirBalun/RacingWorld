@@ -44,8 +44,8 @@ public class Vehicle implements Entity{
     }
 
     @Override
-    public Iterator<Map.Entry<ComponentType, Component>> getComponents() {
-        return components.entrySet().iterator();
+    public Iterator<Map.Entry<ComponentType, Component>> getIteratorComponents() {
+        return getComponents().entrySet().iterator();
     }
 
     @Override
