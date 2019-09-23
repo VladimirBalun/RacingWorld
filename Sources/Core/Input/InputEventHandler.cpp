@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "InputEventHandler.hpp"
 
 #include "MouseState.hpp"

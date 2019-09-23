@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "ConfigurationManager.hpp"
 
-#include <filesystem>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 

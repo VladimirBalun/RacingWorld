@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "ModelLoader.hpp"
 
 #include <OBJLoader.hpp>
 
 #include "../Model.hpp"
-#include "../../Managers/ResourceManager.hpp"
 
 #define UNPACK_OBJ1_VEC2(__vector__) \
     ( (__vector__).X, (__vector__).Y )

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "SoundLoader.hpp"
 
 #include <audiere.h>

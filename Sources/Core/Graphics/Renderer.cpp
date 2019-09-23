@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "Renderer.hpp"
 
 #include "SceneGraph/Node.hpp"

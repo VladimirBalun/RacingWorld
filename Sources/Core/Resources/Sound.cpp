@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "Sound.hpp"
 
-#include <functional>
-#include <unordered_map>
 #include <boost/filesystem/convenience.hpp>
 
 #include "Loaders/SoundLoader.hpp"

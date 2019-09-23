@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "Light.hpp"
 
 void Core::Resources::SceneGraph::Light::move(const glm::vec3& alignment) noexcept

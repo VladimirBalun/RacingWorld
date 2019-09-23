@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "SoundManager.hpp"
 
 #include "ResourceManager.hpp"

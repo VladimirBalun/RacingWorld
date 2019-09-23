@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "Material.hpp"
 
-#include <functional>
-#include <unordered_map>
 #include <boost/filesystem/convenience.hpp>
 
 Core::Resources::MaterialSPtr Core::Resources::Material::Builder::build() const noexcept

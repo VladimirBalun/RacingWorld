@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-#include "PrecompiledHeader.hpp"
-#include "Core/Managers.hpp"
-#include "Game/Application.hpp"
+#pragma once
 
-int main(int argc, char** argv)
-{
-    Core::Managers::initialize();
-    Game::Application application(860, 600, "RacingWorld");
-    application.start();
-    return EXIT_SUCCESS;
-}
+#include <cstdio>
+#include <cstdint>
+#include <cstdlib>
+
+#include <array>
+#include <deque>
+#include <atomic>
+#include <thread>
+#include <chrono>
+#include <string>
+#include <vector>
+#include <filesystem>
+#include <functional>
+#include <unordered_map>

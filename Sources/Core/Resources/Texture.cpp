@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "Texture.hpp"
 
 std::uint16_t Core::Resources::Texture::getWidth() const noexcept

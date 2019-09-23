@@ -14,4 +14,5 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "Camera.hpp"

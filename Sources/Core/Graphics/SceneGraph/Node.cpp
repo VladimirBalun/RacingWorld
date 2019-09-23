@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "Node.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>

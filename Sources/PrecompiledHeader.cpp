@@ -15,13 +15,3 @@
  */
 
 #include "PrecompiledHeader.hpp"
-#include "Core/Managers.hpp"
-#include "Game/Application.hpp"
-
-int main(int argc, char** argv)
-{
-    Core::Managers::initialize();
-    Game::Application application(860, 600, "RacingWorld");
-    application.start();
-    return EXIT_SUCCESS;
-}

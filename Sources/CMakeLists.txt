@@ -35,6 +35,9 @@ foreach (FILE ${SOURCES})
 endforeach ()
 
 include_directories (
+	${PROJECT_SOURCES_DIR}
+	${PROJECT_SOURCES_DIR}/Core
+	${PROJECT_SOURCES_DIR}/Game
 	${PROJECT_DEPENDENCIES_DIR}/Boost/Include 
 	${PROJECT_DEPENDENCIES_DIR}/LibXL/Include 
 	${PROJECT_DEPENDENCIES_DIR}/GLFW/Include 
@@ -53,9 +56,12 @@ link_directories (
 	${PROJECT_DEPENDENCIES_DIR}/Audiere/Libraries
 )
 
+include (PrecompiledHeader.cmake)
+
 add_executable (${PROJECT_NAME} ${SOURCES})
 target_link_libraries (${PROJECT_NAME} wsock32.lib opengl32.lib libxl.lib glfw3.lib glew32s.lib audiere.lib)
 target_include_directories (${PROJECT_NAME} PRIVATE ${PROJECT_DEPENDENCIES_DIR}/OpenGL/Include)
+add_precompiled_header (${PROJECT_NAME} PrecompiledHeader.hpp PrecompiledHeader.cpp)
 set_target_properties (${PROJECT_NAME} PROPERTIES FOLDER "Game")
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BIN_DIR})
 set_target_properties (${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_BIN_DIR})

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "Shader.hpp"
 
-#include <array>
 #include <glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>

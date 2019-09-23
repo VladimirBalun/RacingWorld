@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "PlayerManager.hpp"
 
 #include <boost/property_tree/ptree.hpp>

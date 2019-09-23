@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "Application.hpp"
 
 #include "Identifiers.hpp"

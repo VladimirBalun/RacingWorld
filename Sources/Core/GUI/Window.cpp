@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
+
 #define GLEW_STATIC
 
 #include "Window.hpp"

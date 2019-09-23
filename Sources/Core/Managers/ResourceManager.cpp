@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
+#include "PrecompiledHeader.hpp"
 #include "ResourceManager.hpp"
 
 #include <boost/property_tree/ptree.hpp>

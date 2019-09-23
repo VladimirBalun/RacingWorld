@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "PrecompiledHeader.hpp"
 #include "KeyboardState.hpp"
 
 bool Core::Input::KeyboardState::isPressedKeyW() const noexcept
