@@ -16,9 +16,17 @@
 
 package ru.servers.gameserver.ecs.components;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum ComponentType {
-    HEALTH_COMPONENT,
-    LOCATION_COMPONENT,
-    MASS_COMPONENT,
-    SPEED_COMPONENT
+
+    HEALTH_COMPONENT(Health.class),
+    LOCATION_COMPONENT(Location.class),
+    MASS_COMPONENT(Mass.class),
+    SPEED_COMPONENT(Speed.class);
+
+    private Class componentClass;
 }
