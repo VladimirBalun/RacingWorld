@@ -24,7 +24,9 @@ import java.util.Map;
 
 public interface Entity {
 
-    void addComponent(ComponentType componentType, Component component);
+    protected boolean componentTypeIsCorrect(ComponentType componentType, Component component) {
+        return componentType.getComponentClass().equals(component.getClass());
+    }
 
     Component getComponent(ComponentType componentType);
 

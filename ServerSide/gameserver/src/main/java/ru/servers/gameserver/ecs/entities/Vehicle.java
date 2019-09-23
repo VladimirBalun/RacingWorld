@@ -35,7 +35,9 @@ public class Vehicle implements Entity{
 
     @Override
     public void addComponent(ComponentType componentType, Component component) {
-        components.put(componentType, component);
+        if (componentTypeIsCorrect(componentType, component)) {
+            getComponents().put(componentType, component);
+        }
     }
 
     @Override
