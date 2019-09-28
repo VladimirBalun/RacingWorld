@@ -16,4 +16,64 @@
 
 package ru.servers.gameserver.ecs.systems;
 
-public class MoveSystem implements System { }
+import ru.servers.gameserver.ecs.components.Component;
+import ru.servers.gameserver.ecs.components.ComponentType;
+import ru.servers.gameserver.ecs.components.Location;
+import ru.servers.gameserver.ecs.components.Speed;
+import ru.servers.gameserver.ecs.entities.Entity;
+import ru.servers.gameserver.math.algebra.vectors.Vector3;
+import ru.servers.gameserver.math.algebra.vectors.VectorsUtil;
+
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class MoveSystem implements System {
+
+    @Override
+    public void execute(long milliseconds) {
+        getFilteredEntities()
+                .forEach(entity -> {
+                    Speed speed = (Speed) entity.getComponent(ComponentType.SPEED_COMPONENT);
+                    Location location = (Location) entity.getComponent(ComponentType.LOCATION_COMPONENT);
+                    double angleWithXVector = VectorsUtil.getAngleBetweenVectors(location.getDirection(),
+                            new Vector3(location.getDirection().getX(), 0, 0));
+                    double angleWithYVector = VectorsUtil.getAngleBetweenVectors(location.getDirection(),
+                            new Vector3(0, location.getDirection().getY(), 0));
+                    double angleWithZVector = VectorsUtil.getAngleBetweenVectors(location.getDirection(),
+                            new Vector3(0, 0, location.getDirection().getZ()));
+                    double oldSpeed = speed.getSpeed();
+                    speed.setSpeed(speed.getSpeed() + speed.getAcceleration() * milliseconds);
+                    double distanceX = getDistanceByAxis(angleWithXVector, speed, oldSpeed);
+                    double distanceY = getDistanceByAxis(angleWithYVector, speed, oldSpeed);
+                    double distanceZ = getDistanceByAxis(angleWithZVector, speed, oldSpeed);
+                    Vector3 deltaPositionVector3 = new Vector3(distanceX, distanceY, distanceZ);
+                    Vector3 deltaDirectionVector3 = location.getPosition();
+                    deltaDirectionVector3.sub(location.getDirection());
+                    double angleForDeltaPositionVector =
+                            VectorsUtil.getAngleBetweenVectors(deltaPositionVector3, deltaDirectionVector3);
+                    // TODO: rotation for the deltaPositionVector3 by means angleForDeltaPositionVector
+                    deltaDirectionVector3.add(deltaDirectionVector3);
+                    deltaDirectionVector3.add(deltaPositionVector3);
+                    location.getDirection().add(deltaDirectionVector3);
+                });
+    }
+
+    @Override
+    public Set<Entity> getFilteredEntities() {
+        return System.entities.stream()
+                .filter(entity -> {
+                    Component component = entity.getComponent(ComponentType.SPEED_COMPONENT);
+                    if (component != null) {
+                        return ((Speed) component).getSpeed() != 0;
+                    }
+                    return false;
+                })
+                .collect(Collectors.toSet());
+    }
+
+    private double getDistanceByAxis(double angleWithSpecifyVector, Speed speed, double oldSpeed) {
+        return (Math.pow(Math.cos(angleWithSpecifyVector) * speed.getSpeed(), 2)
+                - Math.pow(Math.cos(angleWithSpecifyVector) * oldSpeed, 2))
+                / (2 * speed.getAcceleration());
+    }
+}
