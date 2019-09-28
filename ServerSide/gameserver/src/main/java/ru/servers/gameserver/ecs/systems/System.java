@@ -16,4 +16,16 @@
 
 package ru.servers.gameserver.ecs.systems;
 
-public interface System { }
+import ru.servers.gameserver.ecs.entities.Entity;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public interface System {
+
+    Set<Entity> entities = new HashSet<>();
+
+    void execute(long milliseconds);
+
+    Set<Entity> getFilteredEntities();
+}
