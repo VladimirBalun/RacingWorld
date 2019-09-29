@@ -52,7 +52,6 @@ public class MoveSystem implements System {
                     double angleForDeltaPositionVector =
                             VectorsUtil.getAngleBetweenVectors(deltaPositionVector3, deltaDirectionVector3);
                     // TODO: rotation for the deltaPositionVector3 by means angleForDeltaPositionVector
-                    deltaDirectionVector3.add(deltaDirectionVector3);
                     deltaDirectionVector3.add(deltaPositionVector3);
                     location.getDirection().add(deltaDirectionVector3);
                 });
