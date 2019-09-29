@@ -16,9 +16,6 @@
 
 package ru.servers.gameserver.ecs.entities;
 
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import ru.servers.gameserver.ecs.components.Component;
 import ru.servers.gameserver.ecs.components.ComponentType;
 
@@ -26,36 +23,37 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-@ToString
-@EqualsAndHashCode
-@NoArgsConstructor
-public class Vehicle implements Entity{
+public class Vehicle extends Entity {
 
-    private Map<ComponentType, Component> components = new HashMap<>();
+    public Vehicle() {
+        super(new HashMap<>());
+    }
 
     @Override
     public void addComponent(ComponentType componentType, Component component) {
-        components.put(componentType, component);
+        if (componentTypeIsCorrect(componentType, component)) {
+            getComponents().put(componentType, component);
+        }
     }
 
     @Override
     public Component getComponent(ComponentType componentType) {
-        return components.get(componentType);
+        return getComponents().get(componentType);
     }
 
     @Override
-    public Iterator<Map.Entry<ComponentType, Component>> getComponents() {
-        return components.entrySet().iterator();
+    public Iterator<Map.Entry<ComponentType, Component>> getIteratorComponents() {
+        return getComponents().entrySet().iterator();
     }
 
     @Override
     public int getCountComponents() {
-        return components.size();
+        return getComponents().size();
     }
 
     @Override
     public void removeComponent(ComponentType componentType) {
-        components.remove(componentType);
+        getComponents().remove(componentType);
     }
 
 }
