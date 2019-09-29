@@ -45,7 +45,11 @@ public class MoveSystem implements System {
                             getDistanceByAxis(VectorsUtil.getAngleBetweenVectors(location.getDirection(),
                                     new Vector3(0, 0, location.getDirection().getZ())), speed, oldSpeed)
                     );
-                    Vector3 deltaDirectionVector3 = location.getPosition();
+                    Vector3 deltaDirectionVector3 = new Vector3(
+                            location.getPosition().getX(),
+                            location.getPosition().getY(),
+                            location.getPosition().getZ()
+                    );
                     deltaDirectionVector3.sub(location.getDirection());
                     double angleForDeltaPositionVector =
                             VectorsUtil.getAngleBetweenVectors(deltaPositionVector3, deltaDirectionVector3);
