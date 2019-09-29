@@ -35,18 +35,16 @@ public class MoveSystem implements System {
                 .forEach(entity -> {
                     Speed speed = (Speed) entity.getComponent(ComponentType.SPEED_COMPONENT);
                     Location location = (Location) entity.getComponent(ComponentType.LOCATION_COMPONENT);
-                    double angleWithXVector = VectorsUtil.getAngleBetweenVectors(location.getDirection(),
-                            new Vector3(location.getDirection().getX(), 0, 0));
-                    double angleWithYVector = VectorsUtil.getAngleBetweenVectors(location.getDirection(),
-                            new Vector3(0, location.getDirection().getY(), 0));
-                    double angleWithZVector = VectorsUtil.getAngleBetweenVectors(location.getDirection(),
-                            new Vector3(0, 0, location.getDirection().getZ()));
                     double oldSpeed = speed.getSpeed();
                     speed.setSpeed(speed.getSpeed() + speed.getAcceleration() * milliseconds);
-                    double distanceX = getDistanceByAxis(angleWithXVector, speed, oldSpeed);
-                    double distanceY = getDistanceByAxis(angleWithYVector, speed, oldSpeed);
-                    double distanceZ = getDistanceByAxis(angleWithZVector, speed, oldSpeed);
-                    Vector3 deltaPositionVector3 = new Vector3(distanceX, distanceY, distanceZ);
+                    Vector3 deltaPositionVector3 = new Vector3(
+                            getDistanceByAxis(VectorsUtil.getAngleBetweenVectors(location.getDirection(),
+                                    new Vector3(location.getDirection().getX(), 0, 0)), speed, oldSpeed),
+                            getDistanceByAxis(VectorsUtil.getAngleBetweenVectors(location.getDirection(),
+                                    new Vector3(0, location.getDirection().getY(), 0)), speed, oldSpeed),
+                            getDistanceByAxis(VectorsUtil.getAngleBetweenVectors(location.getDirection(),
+                                    new Vector3(0, 0, location.getDirection().getZ())), speed, oldSpeed)
+                    );
                     Vector3 deltaDirectionVector3 = location.getPosition();
                     deltaDirectionVector3.sub(location.getDirection());
                     double angleForDeltaPositionVector =
