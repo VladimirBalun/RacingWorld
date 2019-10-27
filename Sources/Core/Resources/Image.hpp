@@ -24,20 +24,21 @@
 
 namespace Core { namespace Resources {
 
-    class Texture final : public IResource, public Helpers::Holders::Polymorphic<Texture>
+    class Image final : public IResource, public Helpers::Holders::Polymorphic<Image>
     {
     public:
-        Texture() noexcept = default;
-        Texture(std::uint16_t width, std::uint16_t height, const unsigned char* data) noexcept
-            : m_width(width), m_height(height), m_data(data) {}
+        void setWidth(std::uint16_t width) noexcept;
+        void setHeight(std::uint16_t height) noexcept;
+        void setData(unsigned char* data) noexcept;
         std::uint16_t getWidth() const noexcept;
         std::uint16_t getHeight() const noexcept;
         const unsigned char* getData() const noexcept;
-        bool load(const std::string& texture_path) noexcept override final;
+        bool load(const std::string& image_path) noexcept override;
+        ~Image();
     private:
-        const unsigned char* m_data = nullptr;
-        const std::uint16_t m_width = 0u;
-        const std::uint16_t m_height = 0u;
+        unsigned char* m_data = nullptr;
+        std::uint16_t m_width = 0u;
+        std::uint16_t m_height = 0u;
     };
 
 }}

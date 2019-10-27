@@ -17,12 +17,14 @@
 #include "PrecompiledHeader.hpp"
 #include "Renderer.hpp"
 
+#include "Shader.hpp"
 #include "SceneGraph/Node.hpp"
 #include "SceneGraph/Scene.hpp"
 
-void Core::Graphics::Renderer::draw(const SceneGraph::Scene& scene)
+void Core::Graphics::Renderer::draw(const SceneGraph::Scene& scene, const std::string& shader_id)
 {
     SceneGraph::NodeSPtr root_node = scene.getRootNode();
+    m_basic_shader = scene.getShaderByID(shader_id);
     drawNode(root_node);
 }
 
@@ -36,6 +38,9 @@ void Core::Graphics::Renderer::drawNode(SceneGraph::NodeSPtr node)
         }
     }
 
+    m_basic_shader->use();
+    const glm::mat4x4& transformation = node->getTransformation();
+    m_basic_shader->setUniformMatrix4x4f("model", transformation);
     if (const SceneGraph::Mesh* mesh = node->getMesh())
     {
         mesh->draw();

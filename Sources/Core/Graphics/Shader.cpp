@@ -27,10 +27,10 @@
 
 Core::Graphics::Shader::Shader(const Resources::VertexShaderSPtr vertex_shader, const Resources::FragmentShaderSPtr fragment_shader) noexcept
 {
-    const std::string& vertex_shader_data = vertex_shader->getData();
-    const std::string& fragment_shader_data = fragment_shader->getData();
-    const unsigned int vertex_shader_id = compileShader(vertex_shader_data.c_str(), GL_VERTEX_SHADER);
-    const unsigned int fragment_shader_id = compileShader(fragment_shader_data.c_str(), GL_FRAGMENT_SHADER);
+    const std::string_view vertex_shader_data = vertex_shader->getData();
+    const std::string_view fragment_shader_data = fragment_shader->getData();
+    const unsigned int vertex_shader_id = compileShader(vertex_shader_data.data(), GL_VERTEX_SHADER);
+    const unsigned int fragment_shader_id = compileShader(fragment_shader_data.data(), GL_FRAGMENT_SHADER);
     linkShaders(vertex_shader_id, fragment_shader_id);
 }
 
@@ -54,19 +54,22 @@ bool Core::Graphics::Shader::isValid() const noexcept
 void Core::Graphics::Shader::setUniformf(const char* name, const float value) const noexcept
 {
     const unsigned int location_id = glGetUniformLocation(m_program_id, name);
+    LOG_WARNING_IF(location_id < 0, STR("Invalid uniform location for '") + STR(name) + STR("'."));
     glUniform1f(location_id, value);
 }
 
 void Core::Graphics::Shader::setUniformVector3f(const char* name, const glm::vec3& vector) const noexcept
 {
     const unsigned int location_id = glGetUniformLocation(m_program_id, name);
+    LOG_WARNING_IF(location_id < 0, STR("Invalid uniform location for '") + STR(name) + STR("'."));
     glUniform3f(location_id, vector.x, vector.y, vector.z);
 }
 
-void Core::Graphics::Shader::setUniformMatrix4x4f(const char* name, const glm::mat3& matrix) const noexcept
+void Core::Graphics::Shader::setUniformMatrix4x4f(const char* name, const glm::mat4& matrix) const noexcept
 {
     const unsigned int location_id = glGetUniformLocation(m_program_id, name);
-    glUniformMatrix4fv(location_id, 1, GL_TRUE, glm::value_ptr(matrix));
+    LOG_WARNING_IF(location_id < 0, STR("Invalid uniform location for '") + STR(name) + STR("'."));
+    glUniformMatrix4fv(location_id, 1, GL_FALSE, value_ptr(matrix));
 }
 
 unsigned int Core::Graphics::Shader::compileShader(const std::string& shader_data, const int shader_type) noexcept

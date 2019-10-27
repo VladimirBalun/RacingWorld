@@ -49,7 +49,7 @@ const Core::Graphics::Shader* Core::Graphics::SceneGraph::Scene::getShaderByID(c
     const auto it = m_shaders.find(shader_id);
     if (it != end(m_shaders))
     {
-        //return &it->second;
+        return &it->second;
     }
 
     return nullptr;

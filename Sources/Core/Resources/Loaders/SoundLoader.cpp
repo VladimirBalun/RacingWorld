@@ -22,47 +22,10 @@
 #include "../Sound.hpp"
 #include "../../Managers/SoundManager.hpp"
 
-namespace {
-
-    audiere::OutputStreamPtr loadAudioStream(Core::Resources::Sound& sound, const std::string& sound_file_path, const bool streaming) noexcept
-    {
-        const audiere::AudioDevicePtr& audio_device = g_sound_manager.getAudioDevice();
-        return OpenSound(audio_device, sound_file_path.c_str(), streaming);
-    }
-
-}
-
-// At the moment code of the loaders is identical
-// and divided for each sound format. It made for
-// future expansion.
-
-bool Core::Resources::Loaders::WAVLoader::load(Sound& sound, const std::string& sound_file_path, const bool streaming) noexcept
+bool Core::Resources::Loaders::SoundLoader::load(Sound& sound, const std::string& sound_file_path, const bool streaming) noexcept
 {
-    audiere::OutputStreamPtr audio_stream = loadAudioStream(sound, sound_file_path, streaming);
-    if (audio_stream)
-    {
-        sound.setAudioStream(std::move(audio_stream));
-        return true;
-    }
-
-    return  false;
-}
-
-bool Core::Resources::Loaders::MP3Loader::load(Sound& sound, const std::string& sound_file_path, const bool streaming) noexcept
-{
-    audiere::OutputStreamPtr audio_stream = loadAudioStream(sound, sound_file_path, streaming);
-    if (audio_stream)
-    {
-        sound.setAudioStream(std::move(audio_stream));
-        return true;
-    }
-
-    return  false;
-}
-
-bool Core::Resources::Loaders::OGGLoader::load(Sound& sound, const std::string& sound_file_path, const bool streaming) noexcept
-{
-    audiere::OutputStreamPtr audio_stream = loadAudioStream(sound, sound_file_path, streaming);
+    const audiere::AudioDevicePtr& audio_device = g_sound_manager.getAudioDevice();
+    audiere::OutputStreamPtr audio_stream = OpenSound(audio_device, sound_file_path.c_str(), streaming);
     if (audio_stream)
     {
         sound.setAudioStream(std::move(audio_stream));

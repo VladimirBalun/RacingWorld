@@ -61,7 +61,7 @@ namespace Core { namespace Resources {
         const std::string& getDiffuseTextureName() const noexcept;
         const std::string& getSpecularTextureName() const noexcept;
     private:
-        bool load(const std::string& material_path) noexcept override final;
+        bool load(const std::string& material_path) noexcept override;
     private:
         const float m_shininess = 0.0f;
         const std::string m_ambient_texture_name{};

@@ -22,10 +22,10 @@
 #include "../Model.hpp"
 
 #define UNPACK_OBJ1_VEC2(__vector__) \
-    ( (__vector__).X, (__vector__).Y )
+    (__vector__).X, (__vector__).Y
 
 #define UNPACK_OBJ1_VEC3(__vector__) \
-    ( (__vector__).X, (__vector__).Y, (__vector__).Z )
+    (__vector__).X, (__vector__).Y, (__vector__).Z
 
 bool Core::Resources::Loaders::OBJLoader::load(Model& model, const std::string& model_file_path) noexcept
 {
@@ -41,7 +41,7 @@ bool Core::Resources::Loaders::OBJLoader::load(Model& model, const std::string& 
                 glm::vec3 position{ UNPACK_OBJ1_VEC3(imported_vertex.Position) };
                 glm::vec3 normal{ UNPACK_OBJ1_VEC3(imported_vertex.Normal) };
                 glm::vec2 texture_coordinate{ UNPACK_OBJ1_VEC2(imported_vertex.TextureCoordinate) };
-                mesh.emplaceVertex(position, normal, texture_coordinate);
+                mesh.emplaceVertex(normal, position, texture_coordinate);
             }
             for (const auto index : imported_mesh.Indices)
             {

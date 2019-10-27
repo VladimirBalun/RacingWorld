@@ -99,9 +99,9 @@ glm::mat4x4 Graphics::Camera::getViewMatrix() const noexcept
 
 glm::mat4x4 Graphics::Camera::getProjectionMatrix() const noexcept
 {
-    glm::mat4x4 perspective_matrix;
-    const int window_width = 1.1;  // TODO
-    const int window_height = 1.1; // TODO
-    perspective_matrix = glm::perspective(m_fov, static_cast<float>(window_width / window_height), 0.1f, 100.f);
+    glm::mat4x4 perspective_matrix{ 1.0f };
+    const int window_width = 860;  // TODO
+    const int window_height = 600; // TODO
+    perspective_matrix = glm::perspective(m_fov, static_cast<float>(window_width) / static_cast<float>(window_height), 0.1f, 100.f);
     return perspective_matrix;
 }

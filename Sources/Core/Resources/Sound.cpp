@@ -19,6 +19,7 @@
 
 #include <boost/filesystem/convenience.hpp>
 
+#include "Helpers/Debug.hpp"
 #include "Loaders/SoundLoader.hpp"
 
 audiere::OutputStreamPtr Core::Resources::Sound::getAudioStream() const noexcept
@@ -29,7 +30,7 @@ audiere::OutputStreamPtr Core::Resources::Sound::getAudioStream() const noexcept
 bool Core::Resources::Sound::load(const std::string& sound_path) noexcept
 {
     using SoundLoader = std::function<bool(Sound&, const std::string&, bool)>;
-    static const std::unordered_map<std::string, SoundLoader> available_loaders = {
+    static const std::unordered_map<std::string_view, SoundLoader> available_loaders = {
         { ".wav", std::bind(&Loaders::WAVLoader::load, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) },
         { ".mp3", std::bind(&Loaders::MP3Loader::load, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) },
         { ".ogg", std::bind(&Loaders::OGGLoader::load, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) }
@@ -43,6 +44,10 @@ bool Core::Resources::Sound::load(const std::string& sound_path) noexcept
         {
             return sound_loader(*this, sound_path, false);
         }
+    }
+    else
+    {
+        LOG_WARNING("Unsupported extension for sound loaders: " + sound_path);
     }
 
     return false;

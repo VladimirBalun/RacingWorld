@@ -32,7 +32,7 @@ namespace Core { namespace Graphics {
         bool isValid() const noexcept;
         void setUniformf(const char* name, float value) const noexcept;
         void setUniformVector3f(const char* name, const glm::vec3& vector) const noexcept;
-        void setUniformMatrix4x4f(const char* name, const glm::mat3& matrix) const noexcept;
+        void setUniformMatrix4x4f(const char* name, const glm::mat4& matrix) const noexcept;
         ~Shader();
     private:
         unsigned int compileShader(const std::string& shader_data, int shader_type) noexcept;

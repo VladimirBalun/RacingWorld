@@ -32,14 +32,16 @@ namespace Core { namespace Graphics {
 
     }
 
+    class Shader;
+
     class Renderer
     {
     public:
-        void draw(const SceneGraph::Scene& scene);
+        void draw(const SceneGraph::Scene& scene, const std::string& shader_id);
     private:
         void drawNode(SceneGraph::NodeSPtr node);
     private:
-        std::string m_current_shader_program;
+        const Shader* m_basic_shader = nullptr;
         std::stack<glm::mat4x4> m_transformations_stack;
     };
 

@@ -33,25 +33,45 @@ void Core::Graphics::SceneGraph::Node::removeChild(NodeSPtr node) noexcept
     }
 }
 
+void Core::Graphics::SceneGraph::Node::rotateByX(float degrees) noexcept
+{
+    m_transformation = rotate(m_transformation, glm::radians(degrees), glm::vec3(1.0f, 0.0f, 0.0f));
+}
+
+void Core::Graphics::SceneGraph::Node::rotateByY(float degrees) noexcept
+{
+    m_transformation = rotate(m_transformation, glm::radians(degrees), glm::vec3(0.0f, 1.0f, 0.0f));
+}
+
+void Core::Graphics::SceneGraph::Node::rotateByZ(float degrees) noexcept
+{
+    m_transformation = rotate(m_transformation, glm::radians(degrees), glm::vec3(0.0f, 0.0f, 1.0f));
+}
+
 void Core::Graphics::SceneGraph::Node::move(const glm::vec3& position) noexcept
 {
-    glm::translate(m_transformation, position);
+    translate(m_transformation, position);
 }
 
 void Core::Graphics::SceneGraph::Node::move(const glm::vec4& position) noexcept
 {
-    glm::translate(m_transformation, glm::vec3{ position.x, position.y, position.z });
+    translate(m_transformation, glm::vec3{ position.x, position.y, position.z });
 }
 
 bool Core::Graphics::SceneGraph::Node::isExistChildren() const noexcept
 {
-    return m_children.empty();
+    return !m_children.empty();
 }
 
 bool Core::Graphics::SceneGraph::Node::isExitChild(NodeSPtr node) const noexcept
 {
     const auto it = std::find(begin(m_children), end(m_children), node);
     return it != end(m_children);
+}
+
+void Core::Graphics::SceneGraph::Node::setMesh(Mesh* mesh) noexcept
+{
+    m_mesh = mesh;
 }
 
 const Core::Graphics::SceneGraph::Mesh* Core::Graphics::SceneGraph::Node::getMesh() const noexcept
@@ -67,11 +87,6 @@ std::deque<Core::Graphics::SceneGraph::NodeSPtr>::iterator Core::Graphics::Scene
 std::deque<Core::Graphics::SceneGraph::NodeSPtr>::iterator Core::Graphics::SceneGraph::Node::childrenEnd() noexcept
 {
     return end(m_children);
-}
-
-const std::string& Core::Graphics::SceneGraph::Node::getShaderProgram() const noexcept
-{
-    return m_shader_program;
 }
 
 const glm::mat4x4& Core::Graphics::SceneGraph::Node::getTransformation() const noexcept

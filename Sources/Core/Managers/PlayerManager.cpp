@@ -49,7 +49,6 @@ void Core::Managers::PlayerManager::initialize()
     catch (const xml_parser_error&)
     {
         LOG_ERROR("'PlayerManager' was not initialized.");
-        //NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Player configuration was not loaded.");
     }
 
 #ifdef _DEBUG

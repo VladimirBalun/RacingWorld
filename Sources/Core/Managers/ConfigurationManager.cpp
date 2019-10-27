@@ -66,7 +66,6 @@ void Core::Managers::ConfigurationManager::initialize()
     catch (const xml_parser_error&)
     {
         LOG_ERROR("'ConfigurationManager' was not initialized.");
-        //NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Global configuration was not loaded.");
     }
 
 #ifdef _DEBUG

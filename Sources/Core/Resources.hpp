@@ -21,5 +21,5 @@
 #include "Resources/Text.hpp"
 #include "Resources/Model.hpp"
 #include "Resources/Sound.hpp"
-#include "Resources/Texture.hpp"
+#include "Resources/Image.hpp"
 #include "Resources/Material.hpp"

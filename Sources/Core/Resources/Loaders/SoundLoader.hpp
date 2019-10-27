@@ -26,22 +26,14 @@ namespace Core { namespace Resources {
 
 namespace Core { namespace Resources { namespace Loaders {
 
-    class WAVLoader
+    class SoundLoader
     {
     public:
         static bool load(Sound& sound, const std::string& sound_file_path, bool streaming = false) noexcept;
     };
 
-    class MP3Loader
-    {
-    public:
-        static bool load(Sound& sound, const std::string& sound_file_path, bool streaming = false) noexcept;
-    };
-
-    class OGGLoader
-    {
-    public:
-        static bool load(Sound& sound, const std::string& sound_file_path, bool streaming = false) noexcept;
-    };
+    using WAVLoader = SoundLoader;
+    using MP3Loader = SoundLoader;
+    using OGGLoader = SoundLoader;
 
 }}}

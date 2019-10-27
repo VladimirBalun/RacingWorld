@@ -41,14 +41,13 @@ void Core::Managers::ResourceManager::initialize()
         read_ini(resources_config_file_full_path, ini_configuration);
         loadSection<Resources::Model>(ini_configuration.get_child("Models"));
         loadSection<Resources::Sound>(ini_configuration.get_child("Sounds"));
-        loadSection<Resources::Texture>(ini_configuration.get_child("Textures"));
+        loadSection<Resources::Image>(ini_configuration.get_child("Textures"));
         loadSection<Resources::VertexShader>(ini_configuration.get_child("VertexShaders"));
         loadSection<Resources::FragmentShader>(ini_configuration.get_child("FragmentShaders"));
     }
     catch (const boost::property_tree::ini_parser_error&)
     {
         LOG_ERROR("'PlayerManager' was not initialized.");
-        //NOTIFY_EVENT(GLOBAL_ERROR_EVENT_TYPE, "Resources configuration was not loaded.");
     }
 
 #ifdef _DEBUG

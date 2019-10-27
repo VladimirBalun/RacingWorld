@@ -20,22 +20,19 @@
 
 namespace Core { namespace Resources {
 
-    class Texture;
+    class Image;
 
 }}
 
 namespace Core { namespace Resources { namespace Loaders {
 
-    class JPGLoader
+    class ImageLoader
     {
     public:
-        static bool load(Texture& image, const std::string& image_path) noexcept;
+        static bool load(Image& image, const std::string& image_path) noexcept;
     };
 
-    class PNGLoader
-    {
-    public:
-        static bool load(Texture& image, const std::string& image_path) noexcept;
-    };
+    using PNGLoader = ImageLoader;
+    using JPGLoader = ImageLoader;
 
 }}}

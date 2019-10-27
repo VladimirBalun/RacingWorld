@@ -35,19 +35,21 @@ namespace Core { namespace Graphics { namespace SceneGraph {
         void emplaceChild(Args... args);
         void addChild(NodeSPtr node) noexcept;
         void removeChild(NodeSPtr node) noexcept;
+        void rotateByX(float degrees) noexcept;
+        void rotateByY(float degrees) noexcept;
+        void rotateByZ(float degrees) noexcept;
         void move(const glm::vec3& position) noexcept;
         void move(const glm::vec4& position) noexcept;
         bool isExistChildren() const noexcept;
         bool isExitChild(NodeSPtr node) const noexcept;
+        void setMesh(Mesh* mesh) noexcept;
         const Mesh* getMesh() const noexcept;
         std::deque<NodeSPtr>::iterator childrenBegin() noexcept;
         std::deque<NodeSPtr>::iterator childrenEnd() noexcept;
-        const std::string& getShaderProgram() const noexcept;
         const glm::mat4x4& getTransformation() const noexcept;
     private:
         std::deque<NodeSPtr> m_children{};
         glm::mat4x4 m_transformation{ 1.0f };
-        std::string m_shader_program{};
         const Mesh* m_mesh = nullptr;
     };
 

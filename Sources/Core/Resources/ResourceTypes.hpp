@@ -26,7 +26,7 @@ namespace Core { namespace Resources {
         MATERIAL_TYPE,
         SOUND_TYPE,
         MODEL_TYPE,
-        TEXTURE_TYPE,
+        IMAGE_TYPE,
         TEXT_TYPE,
 
         // Must be last
@@ -42,8 +42,8 @@ namespace Core { namespace Resources {
             return ResourceType::MODEL_TYPE;
         if (std::is_same<T, Sound>::value)
             return ResourceType::SOUND_TYPE;
-        if (std::is_same<T, Texture>::value)
-            return ResourceType::TEXTURE_TYPE;
+        if (std::is_same<T, Image>::value)
+            return ResourceType::IMAGE_TYPE;
         if (std::is_same<T, Text>::value)
             return ResourceType::TEXT_TYPE;
 

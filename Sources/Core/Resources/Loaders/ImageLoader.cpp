@@ -17,14 +17,22 @@
 #include "PrecompiledHeader.hpp"
 #include "ImageLoader.hpp"
 
-#include "../Texture.hpp"
+#include <SOIL.h>
 
-bool Core::Resources::Loaders::JPGLoader::load(Texture& image, const std::string& image_path) noexcept
-{
-    return true;
-}
+#include "../Image.hpp"
 
-bool Core::Resources::Loaders::PNGLoader::load(Texture& image, const std::string& image_path) noexcept
+bool Core::Resources::Loaders::ImageLoader::load(Image& image, const std::string& image_path) noexcept
 {
-    return true;
+    int image_width = 0;
+    int image_height = 0;
+    unsigned char* image_data = SOIL_load_image(image_path.c_str(), &image_width, &image_height, 0, SOIL_LOAD_RGB);
+    if (image_data)
+    {
+        image.setData(image_data);
+        image.setWidth(static_cast<std::uint16_t>(image_width));
+        image.setHeight(static_cast<std::uint16_t>(image_height));
+        return true;
+    }
+
+    return false;
 }

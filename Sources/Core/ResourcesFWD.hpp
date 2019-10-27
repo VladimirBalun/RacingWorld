@@ -25,7 +25,7 @@ namespace Core { namespace Resources {
     class Text;
     class Model;
     class Sound;
-    class Texture;
+    class Image;
     class Material;
 
     using VertexShader = Text;
@@ -36,7 +36,7 @@ namespace Core { namespace Resources {
     DECL_SMART_PTRS(Text)
     DECL_SMART_PTRS(Model)
     DECL_SMART_PTRS(Sound)
-    DECL_SMART_PTRS(Texture)
+    DECL_SMART_PTRS(Image)
     DECL_SMART_PTRS(Material)
 
     DECL_SMART_PTRS_BY_TYPEDEF(Text, VertexShader)
