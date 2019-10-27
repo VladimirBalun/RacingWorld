@@ -45,6 +45,7 @@ include_directories (
 	${PROJECT_DEPENDENCIES_DIR}/GLM/Include
 	${PROJECT_DEPENDENCIES_DIR}/Audiere/Include
 	${PROJECT_DEPENDENCIES_DIR}/OBJLoader/Include
+	${PROJECT_DEPENDENCIES_DIR}/SOIL/Include
 )
 
 link_directories (
@@ -54,12 +55,13 @@ link_directories (
 	${PROJECT_DEPENDENCIES_DIR}/GLEW/Libraries
 	${PROJECT_DEPENDENCIES_DIR}/GLM/Libraries
 	${PROJECT_DEPENDENCIES_DIR}/Audiere/Libraries
+	${PROJECT_DEPENDENCIES_DIR}/SOIL/Libraries
 )
 
 include (PrecompiledHeader.cmake)
 
 add_executable (${PROJECT_NAME} ${SOURCES})
-target_link_libraries (${PROJECT_NAME} wsock32.lib opengl32.lib libxl.lib glfw3.lib glew32s.lib audiere.lib)
+target_link_libraries (${PROJECT_NAME} wsock32.lib opengl32.lib libxl.lib glfw3.lib glew32s.lib audiere.lib SOIL.lib)
 target_include_directories (${PROJECT_NAME} PRIVATE ${PROJECT_DEPENDENCIES_DIR}/OpenGL/Include)
 add_precompiled_header (${PROJECT_NAME} PrecompiledHeader.hpp PrecompiledHeader.cpp)
 set_target_properties (${PROJECT_NAME} PROPERTIES FOLDER "Game")
