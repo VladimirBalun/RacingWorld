@@ -24,7 +24,7 @@
 
 namespace Core { namespace Resources {
 
-    class Sound : public IResource, public Helpers::Holders::Polymorphic<Sound>
+    class Sound final : public IResource, public Helpers::Holders::Polymorphic<Sound>
     {
     public:
         audiere::OutputStreamPtr getAudioStream() const noexcept;

@@ -32,7 +32,7 @@ namespace Core { namespace Resources {
 
     FWD_DECL_SMART_PTRS_FOR_CLASS(Material)
 
-    class Material : public IResource, public Helpers::Holders::Polymorphic<Material>
+    class Material final : public IResource, public Helpers::Holders::Polymorphic<Material>
     {
         friend class Loaders::MTLLoader;
         friend class Managers::ResourceManager;

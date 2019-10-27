@@ -24,7 +24,7 @@
 
 namespace Core { namespace Resources {
 
-    class Texture : public IResource, public Helpers::Holders::Polymorphic<Texture>
+    class Texture final : public IResource, public Helpers::Holders::Polymorphic<Texture>
     {
     public:
         Texture() noexcept = default;

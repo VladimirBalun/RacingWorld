@@ -27,7 +27,7 @@ namespace Core { namespace Resources {
     using VertexShader = Text;
     using FragmentShader = Text;
 
-    class Text : public IResource, public Helpers::Holders::Polymorphic<Text>
+    class Text final : public IResource, public Helpers::Holders::Polymorphic<Text>
     {
     public:
         Text() noexcept = default;

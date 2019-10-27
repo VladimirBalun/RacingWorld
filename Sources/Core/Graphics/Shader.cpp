@@ -25,7 +25,7 @@
 #include "../Helpers/Macroses.hpp"
 #include "../Resources/Text.hpp"
 
-Core::Graphics::Shader::Shader(const Resources::VertexShaderSPtr vertex_shader, const Resources::VertexShaderSPtr fragment_shader) noexcept
+Core::Graphics::Shader::Shader(const Resources::VertexShaderSPtr vertex_shader, const Resources::FragmentShaderSPtr fragment_shader) noexcept
 {
     const std::string& vertex_shader_data = vertex_shader->getData();
     const std::string& fragment_shader_data = fragment_shader->getData();

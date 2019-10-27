@@ -25,7 +25,7 @@ namespace Core { namespace Graphics { namespace SceneGraph {
     class MeshBuilder
     {
     public:
-        static Mesh build(Resources::Model::Mesh* input_mesh);
+        static Mesh build(const Resources::Model::Mesh* input_mesh);
     private:
         static unsigned int getCountElements(std::size_t count_vertices) noexcept;
         static unsigned int getCountElements(std::vector<float>& elements) noexcept;

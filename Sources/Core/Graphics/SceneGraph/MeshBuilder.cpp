@@ -19,7 +19,7 @@
 
 #include "Mesh.hpp"
 
-Core::Graphics::SceneGraph::Mesh Core::Graphics::SceneGraph::MeshBuilder::build(Resources::Model::Mesh* input_mesh)
+Core::Graphics::SceneGraph::Mesh Core::Graphics::SceneGraph::MeshBuilder::build(const Resources::Model::Mesh* input_mesh)
 {
     const std::vector<unsigned int>& indices = input_mesh->getIndices();
     const std::vector<Resources::Model::Vertex>& vertices = input_mesh->getVertices();

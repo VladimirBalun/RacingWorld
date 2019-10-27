@@ -17,7 +17,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <glm/fwd.hpp>
 
 #include "../ResourcesFWD.hpp"
@@ -28,7 +27,7 @@ namespace Core { namespace Graphics {
     {
     public:
         Shader() noexcept = default;
-        Shader(Resources::VertexShaderSPtr vertex_shader, Resources::VertexShaderSPtr fragment_shader) noexcept;
+        Shader(Resources::VertexShaderSPtr vertex_shader, Resources::FragmentShaderSPtr fragment_shader) noexcept;
         void use() const noexcept;
         bool isValid() const noexcept;
         void setUniformf(const char* name, float value) const noexcept;

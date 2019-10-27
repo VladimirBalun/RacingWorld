@@ -27,7 +27,7 @@
 
 namespace Core { namespace Resources {
 
-    class Model : public IResource, public Helpers::Holders::Polymorphic<Model>
+    class Model final : public IResource, public Helpers::Holders::Polymorphic<Model>
     {
     public:
 

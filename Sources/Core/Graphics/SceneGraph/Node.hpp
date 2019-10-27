@@ -18,7 +18,6 @@
 
 #include <deque>
 #include <optional>
-#include <functional>
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 
