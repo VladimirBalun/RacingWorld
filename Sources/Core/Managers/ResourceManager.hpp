@@ -16,9 +16,6 @@
 
 #pragma once
 
-#include <array>
-#include <memory>
-#include <unordered_map>
 #include <boost/property_tree/ptree.hpp>
 
 #include "IManager.hpp"
@@ -42,7 +39,7 @@ namespace Core { namespace Managers {
         template<typename T>
         std::shared_ptr<T> getResource(const std::string& resource_id) const noexcept;
         template<typename T>
-        void loadResource(const std::string& resource_id, T&& resource) noexcept;
+        void loadResource(const std::string& resource_id, const T& resource) noexcept;
     private:
         template<typename T>
         void loadSection(const boost::property_tree::ptree& section) noexcept;
@@ -56,7 +53,7 @@ namespace Core { namespace Managers {
     template<typename T>
     std::shared_ptr<T> ResourceManager::getResource(const std::string& resource_id) const noexcept
     {
-        const Resources::ResourceType resource_type = Resources::getResourceType<T>();
+        constexpr Resources::ResourceType resource_type = Resources::getResourceType<T>();
         if (resource_type != Resources::ResourceType::UNKNOWN)
         {
             const auto resource_type_index = TO_SIZE_T(resource_type);
@@ -71,10 +68,10 @@ namespace Core { namespace Managers {
         return nullptr;
     }
 
-    template <typename T>
-    void ResourceManager::loadResource(const std::string& resource_id, T&& resource) noexcept
+    template<typename T>
+    void ResourceManager::loadResource(const std::string& resource_id, const T& resource) noexcept
     {
-        const Resources::ResourceType resource_type = Resources::getResourceType<T>();
+        constexpr Resources::ResourceType resource_type = Resources::getResourceType<T>();
         if (resource_type != Resources::ResourceType::UNKNOWN)
         {
             const auto resource_type_index = TO_SIZE_T(resource_type);
@@ -98,7 +95,7 @@ namespace Core { namespace Managers {
     template<typename T>
     void ResourceManager::loadResource(const std::string& resource_id, const std::string& resource_path) noexcept
     {
-        const Resources::ResourceType resource_type = Resources::getResourceType<T>();
+        constexpr Resources::ResourceType resource_type = Resources::getResourceType<T>();
         if (resource_type != Resources::ResourceType::UNKNOWN)
         {
             const auto resource_type_index = TO_SIZE_T(resource_type);

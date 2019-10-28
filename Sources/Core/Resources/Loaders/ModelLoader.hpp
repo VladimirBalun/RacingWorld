@@ -18,6 +18,12 @@
 
 #include <string>
 
+namespace objl {
+
+    struct Material;
+
+}
+
 namespace Core { namespace Resources {
 
     class Model;
@@ -30,6 +36,8 @@ namespace Core { namespace Resources { namespace Loaders {
     {
     public:
         static bool load(Model& model, const std::string& model_file_path) noexcept;
+    private:
+        static void loadMaterial(const objl::Material& material) noexcept;
     };
 
 }}}

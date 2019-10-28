@@ -20,6 +20,8 @@
 #include <OBJLoader.hpp>
 
 #include "../Model.hpp"
+#include "../Material.hpp"
+#include "../../Managers/ResourceManager.hpp"
 
 #define UNPACK_OBJ1_VEC2(__vector__) \
     (__vector__).X, (__vector__).Y
@@ -50,10 +52,28 @@ bool Core::Resources::Loaders::OBJLoader::load(Model& model, const std::string& 
 
             const std::string mesh_name = imported_mesh.MeshName;
             model.addMesh(mesh_name, std::move(mesh));
+
+            const objl::Material& material = imported_mesh.MeshMaterial;
+            if (!material.name.empty())
+            {
+                loadMaterial(material);
+            }
         }
 
         return true;
     }
 
     return false;
+}
+
+void Core::Resources::Loaders::OBJLoader::loadMaterial(const objl::Material& material) noexcept
+{
+    std::string ambient_texture_name = material.map_Ka;
+    std::string diffuse_texture_name = material.map_Kd;
+    std::string specular_texture_name = material.map_Ks;
+    Material converted_material{};
+    converted_material.setAmbientTextureName(std::move(ambient_texture_name));
+    converted_material.setDiffuseTextureName(std::move(diffuse_texture_name));
+    converted_material.setSpecularTextureName(std::move(specular_texture_name));
+    //g_resource_manager.loadResource<Material>(material.name, converted_material);
 }
