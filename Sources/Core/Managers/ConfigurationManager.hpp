@@ -34,13 +34,13 @@ namespace Core { namespace Managers {
         void initialize();
         std::string getCurrentLanguage() const noexcept;
         std::uint16_t getServerPort() const noexcept;
-        std::string getServerAddress() const noexcept;
-        std::string getModelsPath() const noexcept;
-        std::string getShadersPath() const noexcept;
-        std::string getResourcesPath() const noexcept;
-        std::string getLocalesConfigurationFilename() const noexcept;
-        std::string getPlayerConfigurationFilename() const noexcept;
-        std::string getResourcesConfigurationFilename() const noexcept;
+        const std::string& getServerAddress() const noexcept;
+        const std::string& getModelsPath() const noexcept;
+        const std::string& getShadersPath() const noexcept;
+        const std::string& getResourcesPath() const noexcept;
+        const std::string& getLocalesConfigurationFilename() const noexcept;
+        const std::string& getPlayerConfigurationFilename() const noexcept;
+        const std::string& getResourcesConfigurationFilename() const noexcept;
     private:
         std::string m_current_language{};
         std::uint16_t m_server_port = 0u;

@@ -85,40 +85,40 @@ std::uint16_t Core::Managers::ConfigurationManager::getServerPort() const noexce
     return m_server_port;
 }
 
-std::string Core::Managers::ConfigurationManager::getServerAddress() const noexcept
+const std::string& Core::Managers::ConfigurationManager::getServerAddress() const noexcept
 {
     return m_server_address;
 }
 
-std::string Core::Managers::ConfigurationManager::getModelsPath() const noexcept
+const std::string& Core::Managers::ConfigurationManager::getModelsPath() const noexcept
 {
     static const std::string models_path = getResourcesPath() + "/Models/";
     return models_path;
 }
 
-std::string Core::Managers::ConfigurationManager::getShadersPath() const noexcept
+const std::string& Core::Managers::ConfigurationManager::getShadersPath() const noexcept
 {
     static const std::string shaders_path = getResourcesPath() + "/Shaders/";
     return shaders_path;
 }
 
-std::string Core::Managers::ConfigurationManager::getResourcesPath() const noexcept
+const std::string& Core::Managers::ConfigurationManager::getResourcesPath() const noexcept
 {
     static const std::string resources_path = (std::filesystem::current_path().parent_path() / "Resources" / "").string();
     return resources_path;
 }
 
-std::string Core::Managers::ConfigurationManager::getLocalesConfigurationFilename() const noexcept
+const std::string& Core::Managers::ConfigurationManager::getLocalesConfigurationFilename() const noexcept
 {
     return m_locales_file_configuration_path;
 }
 
-std::string Core::Managers::ConfigurationManager::getPlayerConfigurationFilename() const noexcept
+const std::string& Core::Managers::ConfigurationManager::getPlayerConfigurationFilename() const noexcept
 {
     return m_player_file_configuration_path;
 }
 
-std::string Core::Managers::ConfigurationManager::getResourcesConfigurationFilename() const noexcept
+const std::string& Core::Managers::ConfigurationManager::getResourcesConfigurationFilename() const noexcept
 {
     return m_resources_file_configuration_path;
 }

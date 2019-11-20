@@ -39,7 +39,7 @@ namespace Core { namespace Managers {
         template<typename T>
         std::shared_ptr<T> getResource(const std::string& resource_id) const noexcept;
         template<typename T>
-        void loadResource(const std::string& resource_id, const T& resource) noexcept;
+        void loadResource(const std::string& resource_id, std::shared_ptr<T> resource) noexcept;
     private:
         template<typename T>
         void loadSection(const boost::property_tree::ptree& section) noexcept;
@@ -69,7 +69,7 @@ namespace Core { namespace Managers {
     }
 
     template<typename T>
-    void ResourceManager::loadResource(const std::string& resource_id, const T& resource) noexcept
+    void ResourceManager::loadResource(const std::string& resource_id, std::shared_ptr<T> resource) noexcept
     {
         constexpr Resources::ResourceType resource_type = Resources::getResourceType<T>();
         if (resource_type != Resources::ResourceType::UNKNOWN)

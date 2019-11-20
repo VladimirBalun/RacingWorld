@@ -71,9 +71,9 @@ void Core::Resources::Loaders::OBJLoader::loadMaterial(const objl::Material& mat
     std::string ambient_texture_name = material.map_Ka;
     std::string diffuse_texture_name = material.map_Kd;
     std::string specular_texture_name = material.map_Ks;
-    Material converted_material{};
-    converted_material.setAmbientTextureName(std::move(ambient_texture_name));
-    converted_material.setDiffuseTextureName(std::move(diffuse_texture_name));
-    converted_material.setSpecularTextureName(std::move(specular_texture_name));
-    //g_resource_manager.loadResource<Material>(material.name, converted_material);
+    auto converted_material = std::make_shared<Material>();
+    converted_material->setAmbientTextureName(std::move(ambient_texture_name));
+    converted_material->setDiffuseTextureName(std::move(diffuse_texture_name));
+    converted_material->setSpecularTextureName(std::move(specular_texture_name));
+    g_resource_manager.loadResource<Material>(material.name, converted_material);
 }
