@@ -37,7 +37,8 @@ namespace Core { namespace Resources { namespace Loaders {
     public:
         static bool load(Model& model, const std::string& model_file_path) noexcept;
     private:
-        static void loadMaterial(const objl::Material& material) noexcept;
+        static void loadMaterial(const objl::Material& material, const std::string& material_path) noexcept;
+        static void tryLoadImage(const std::string& image_filename, const std::string& image_path) noexcept;
     };
 
 }}}

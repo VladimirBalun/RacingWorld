@@ -40,6 +40,8 @@ namespace Core { namespace Managers {
         std::shared_ptr<T> getResource(const std::string& resource_id) const noexcept;
         template<typename T>
         void loadResource(const std::string& resource_id, std::shared_ptr<T> resource) noexcept;
+        template<typename T>
+        bool isExistsResource(const std::string& resource_id) noexcept;
     private:
         template<typename T>
         void loadSection(const boost::property_tree::ptree& section) noexcept;
@@ -81,9 +83,24 @@ namespace Core { namespace Managers {
     }
 
     template<typename T>
+    bool ResourceManager::isExistsResource(const std::string& resource_id) noexcept
+    {
+        constexpr Resources::ResourceType resource_type = Resources::getResourceType<T>();
+        if (resource_type != Resources::ResourceType::UNKNOWN)
+        {
+            const auto resource_type_index = TO_SIZE_T(resource_type);
+            resources_map_t& resources_for_current_type = m_resources.at(resource_type_index);
+            const auto it = resources_for_current_type.find(resource_id);
+            return it != end(resources_for_current_type);
+        }
+
+        return false;
+    }
+
+    template<typename T>
     void ResourceManager::loadSection(const boost::property_tree::ptree& section) noexcept
     {
-        const std::string resources_path = g_configuration_manager.getResourcesPath();
+        const std::string& resources_path = g_configuration_manager.getResourcesPath();
         for (const auto& data : section)
         {
             const std::string resource_id = data.first;

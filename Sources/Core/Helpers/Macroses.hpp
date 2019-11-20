@@ -47,6 +47,9 @@ constexpr Out TO_TYPE(const In& value) noexcept
 #define CONCATENATE_IMPL(__first__, __second__) __first__##__second__
 #define CONCATENATE(__first__, __second__) CONCATENATE_IMPL(__first__, __second__)
 
+#define TEMPLATE_CLASS_WITH_PARAMS(__class_name__, ...) \
+    __class_name__<__VA_ARGS__>
+
 #define DECL_SMART_PTRS(__class_name__) \
     using CONCATENATE(__class_name__, SPtr) = std::shared_ptr<__class_name__ >; \
     using CONCATENATE(__class_name__, UPtr) = std::unique_ptr<__class_name__ >; \
