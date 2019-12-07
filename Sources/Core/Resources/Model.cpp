@@ -19,6 +19,8 @@
 
 #include "Loaders/ModelLoader.hpp"
 
+#pragma region Vertex
+
 const glm::vec3& Core::Resources::Model::Vertex::getNormal() const noexcept
 {
     return m_normal;
@@ -34,57 +36,75 @@ const glm::vec2& Core::Resources::Model::Vertex::getTextureCoordinate() const no
     return m_texture_coordinate;
 }
 
-Core::Resources::Model::Mesh::Mesh(std::size_t count_vertices, std::size_t count_indices) noexcept
+#pragma endregion
+
+#pragma region Object
+
+Core::Resources::Model::Object::Object(std::size_t count_vertices, std::size_t count_indices) noexcept
 {
     m_indices.reserve(count_indices);
     m_vertices.reserve(count_vertices);
 }
 
-void Core::Resources::Model::Mesh::addIndex(unsigned index)
+void Core::Resources::Model::Object::addIndex(unsigned int index) noexcept
 {
     m_indices.push_back(index);
 }
 
-void Core::Resources::Model::Mesh::setMaterialName(const std::string& name) noexcept
+void Core::Resources::Model::Object::setMaterialName(const std::string& name) noexcept
 {
     m_material_name = name;
 }
 
-std::string_view Core::Resources::Model::Mesh::getMaterialName() const noexcept
+std::string_view Core::Resources::Model::Object::getMaterialName() const noexcept
 {
     return m_material_name;
 }
 
-const std::vector<Core::Resources::Model::Vertex>& Core::Resources::Model::Mesh::getVertices() const noexcept
+const std::vector<Core::Resources::Model::Vertex>& Core::Resources::Model::Object::getVertices() const noexcept
 {
     return m_vertices;
 }
 
-const std::vector<unsigned int>& Core::Resources::Model::Mesh::getIndices() const noexcept
+const std::vector<unsigned int>& Core::Resources::Model::Object::getIndices() const noexcept
 {
     return m_indices;
 }
 
-Core::Resources::Model::Model(std::size_t count_meshes) noexcept
+#pragma endregion
+
+#pragma region Model
+
+Core::Resources::Model::Model(std::size_t count_objects) noexcept
 {
-    m_meshes.reserve(count_meshes);
+    m_objects.reserve(count_objects);
 }
 
-void Core::Resources::Model::addMesh(const std::string& name, Mesh&& mesh)
+void Core::Resources::Model::addObject(const std::string& name, Object&& object)
 {
-    m_meshes.emplace(name, mesh);
+    m_objects.emplace(name, object);
 }
 
-bool Core::Resources::Model::isExistMeshByName(const std::string& name) const noexcept
+bool Core::Resources::Model::isExistObjectByName(const std::string& name) const noexcept
 {
-    const auto it = m_meshes.find(name);
-    return it != end(m_meshes);
+    const auto it = m_objects.find(name);
+    return it != end(m_objects);
 }
 
-const Core::Resources::Model::Mesh* Core::Resources::Model::getMeshByName(const std::string& name) const noexcept
+bool Core::Resources::Model::isEmpty() const noexcept
 {
-    const auto it = m_meshes.find(name);
-    if (it != end(m_meshes))
+    return m_objects.empty();
+}
+
+bool Core::Resources::Model::isSingleObject() const noexcept
+{
+    return m_objects.size() == 1u;
+}
+
+const Core::Resources::Model::Object* Core::Resources::Model::getObjectByName(const std::string& name) const noexcept
+{
+    const auto it = m_objects.find(name);
+    if (it != end(m_objects))
     {
         return &it->second;
     }
@@ -92,17 +112,19 @@ const Core::Resources::Model::Mesh* Core::Resources::Model::getMeshByName(const 
     return nullptr;
 }
 
-Core::Resources::Model::meshes_t::const_iterator Core::Resources::Model::meshesBegin() const noexcept
+Core::Resources::Model::objects_t::const_iterator Core::Resources::Model::objectsBegin() const noexcept
 {
-    return m_meshes.begin();
+    return m_objects.begin();
 }
 
-Core::Resources::Model::meshes_t::const_iterator Core::Resources::Model::meshesEnd() const noexcept
+Core::Resources::Model::objects_t::const_iterator Core::Resources::Model::objectsEnd() const noexcept
 {
-    return m_meshes.end();
+    return m_objects.end();
 }
 
 bool Core::Resources::Model::load(std::string_view model_path) noexcept
 {
     return Loaders::OBJLoader::load(*this, model_path);
 }
+
+#pragma endregion

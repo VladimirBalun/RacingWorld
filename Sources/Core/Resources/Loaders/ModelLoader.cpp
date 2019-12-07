@@ -38,30 +38,30 @@ bool Core::Resources::Loaders::OBJLoader::load(Model& model, std::string_view mo
     if (was_loaded)
     {
         const std::string model_path = STR(model_file_path.substr(0u, model_file_path.find_last_of("\\/") + 1));
-        for (const auto& imported_mesh : obj_loader.LoadedMeshes)
+        for (const auto& imported_object : obj_loader.LoadedMeshes)
         {
-            Model::Mesh mesh(imported_mesh.Vertices.size(), imported_mesh.Indices.size());
-            for (const auto& imported_vertex : imported_mesh.Vertices)
+            Model::Object object(imported_object.Vertices.size(), imported_object.Indices.size());
+            for (const auto& imported_vertex : imported_object.Vertices)
             {
                 glm::vec3 position{ UNPACK_OBJ1_VEC3(imported_vertex.Position) };
                 glm::vec3 normal{ UNPACK_OBJ1_VEC3(imported_vertex.Normal) };
                 glm::vec2 texture_coordinate{ UNPACK_OBJ1_VEC2(imported_vertex.TextureCoordinate) };
-                mesh.emplaceVertex(normal, position, texture_coordinate);
+                object.emplaceVertex(normal, position, texture_coordinate);
             }
-            for (const auto index : imported_mesh.Indices)
+            for (const auto index : imported_object.Indices)
             {
-                mesh.addIndex(index);
+                object.addIndex(index);
             }
 
-            const objl::Material& material = imported_mesh.MeshMaterial;
+            const objl::Material& material = imported_object.MeshMaterial;
             if (!material.name.empty())
             {
-                mesh.setMaterialName(material.name);
+                object.setMaterialName(material.name);
                 loadMaterial(material, model_path);
             }
 
-            const std::string mesh_name = imported_mesh.MeshName;
-            model.addMesh(mesh_name, std::move(mesh));
+            const std::string object_name = imported_object.MeshName;
+            model.addObject(object_name, std::move(object));
         }
 
         return true;

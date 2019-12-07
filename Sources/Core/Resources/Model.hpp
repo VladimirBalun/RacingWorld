@@ -47,14 +47,14 @@ namespace Core::Resources
             glm::vec2 m_texture_coordinate{};
         };
 
-        class Mesh
+        class Object
         {
         public:
-            Mesh() noexcept = default;
-            Mesh(std::size_t count_vertices, std::size_t count_indices) noexcept;
+            Object() noexcept = default;
+            Object(std::size_t count_vertices, std::size_t count_indices) noexcept;
             template<typename... Args>
             void emplaceVertex(Args... args);
-            void addIndex(unsigned int index);
+            void addIndex(unsigned int index) noexcept;
             void setMaterialName(const std::string& name) noexcept;
             std::string_view getMaterialName() const noexcept;
             const std::vector<Vertex>& getVertices() const noexcept;
@@ -66,23 +66,25 @@ namespace Core::Resources
         };
 
     private:
-        using meshes_t = std::unordered_map<std::string, Mesh>;
+        using objects_t = std::unordered_map<std::string, Object>;
     public:
         Model() noexcept = default;
-        explicit Model(std::size_t count_meshes) noexcept;
-        void addMesh(const std::string& name, Mesh&& mesh);
-        bool isExistMeshByName(const std::string& name) const noexcept;
-        const Mesh* getMeshByName(const std::string& name) const noexcept;
-        meshes_t::const_iterator meshesBegin() const noexcept;
-        meshes_t::const_iterator meshesEnd() const noexcept;
+        explicit Model(std::size_t count_objects) noexcept;
+        void addObject(const std::string& name, Object&& object);
+        bool isExistObjectByName(const std::string& name) const noexcept;
+        bool isEmpty() const noexcept;
+        bool isSingleObject() const noexcept;
+        const Object* getObjectByName(const std::string& name) const noexcept;
+        objects_t::const_iterator objectsBegin() const noexcept;
+        objects_t::const_iterator objectsEnd() const noexcept;
     public:
         bool load(std::string_view model_path) noexcept override;
     private:
-        meshes_t m_meshes{};
+        objects_t m_objects{};
     };
 
     template<typename... Args>
-    void Model::Mesh::emplaceVertex(Args... args)
+    void Model::Object::emplaceVertex(Args... args)
     {
         m_vertices.emplace_back(std::forward<Args>(args)...);
     }
