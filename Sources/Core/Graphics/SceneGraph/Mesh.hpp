@@ -18,6 +18,8 @@
 
 #include <vector>
 
+#include "Texture2D.hpp"
+#include "../../Resources/Model.hpp"
 #include "../../Helpers/Macroses.hpp"
 
 namespace Core::Resources
@@ -34,20 +36,19 @@ namespace Core::Graphics::SceneGraph
     {
     public:
         Mesh() noexcept = default;
-        Mesh(Resources::ImageSPtr texture, std::vector<float>&& elements, unsigned int count_elements) noexcept;
+        Mesh(Texture2D texture, std::vector<float>&& elements, unsigned int count_elements) noexcept;
         void draw() const noexcept;
         ~Mesh();
     private:
         void generateIdentifiers();
         void bindDataIdentifiers();
         void unbindDataIdentifiers();
-        void fillTextureData(Resources::ImageSPtr texture);
         void fillBuffersData();
     private:
         std::vector<float> m_elements{};
+        Texture2D m_texture;
         unsigned int m_vbo = 0u;
         unsigned int m_vao = 0u;
-        unsigned int m_texture = 0u;
         unsigned int m_count_elements = 0u;
     };
 

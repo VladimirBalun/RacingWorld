@@ -16,31 +16,23 @@
 
 #pragma once
 
-#include "Helpers/Macroses.hpp"
-
-namespace Core::Resources 
+namespace Core::Graphics::SceneGraph
 {
 
-    struct IResource;
-
-    class Text;
-    class Model;
-    class Sound;
-    class Image;
-    class Material;
-
-    using VertexShader = Text;
-    using FragmentShader = Text;
-
-    DECL_SMART_PTRS(IResource)
-
-    DECL_SMART_PTRS(Text)
-    DECL_SMART_PTRS(Model)
-    DECL_SMART_PTRS(Sound)
-    DECL_SMART_PTRS(Image)
-    DECL_SMART_PTRS(Material)
-
-    DECL_SMART_PTRS_BY_TYPEDEF(Text, VertexShader)
-    DECL_SMART_PTRS_BY_TYPEDEF(Text, FragmentShader)
+    class Texture2D
+    {
+    public:
+        Texture2D() noexcept = default;
+        Texture2D(std::uint16_t width, std::uint16_t height, const unsigned char* data) noexcept;
+        void bind() const noexcept;
+        void unbind() const noexcept;
+        void free() noexcept;
+    private:
+        void generateTextureIdentifier() noexcept;
+        void setTextureParameters() const noexcept;
+        void fillTextureData(std::uint16_t width, std::uint16_t height, const unsigned char* data) const noexcept;
+    private:
+        unsigned int m_texture_id = 0u;
+    };
 
 }

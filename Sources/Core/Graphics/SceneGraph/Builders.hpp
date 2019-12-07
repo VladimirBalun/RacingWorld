@@ -16,27 +16,39 @@
 
 #pragma once
 
+#include "../../ResourcesFWD.hpp"
 #include "../../Resources/Model.hpp"
 
-namespace Core::Graphics::SceneGraph 
+namespace Core::Graphics::SceneGraph
 {
 
+    class Node;
     class Mesh;
+    class Texture2D;
+
+    class NodeBuilder
+    {
+    public:
+        static std::shared_ptr<Node> build(Resources::ModelSPtr model);
+    private:
+        static std::shared_ptr<Node> createNode(const Resources::Model::Object* object);
+    };
 
     class MeshBuilder
     {
     public:
-        static Mesh build(const Resources::Model::Mesh* input_mesh);
+        static Mesh build(const Resources::Model::Object* object);
     private:
         static unsigned int getCountElements(std::size_t count_vertices) noexcept;
         static unsigned int getCountElements(std::vector<float>& elements) noexcept;
         static void addVec3ToElements(std::vector<float>& elements, const glm::vec3& vector);
         static void addVec2ToElements(std::vector<float>& elements, const glm::vec2& vector);
-    private:
-        static const std::uint8_t COUNT_ELEMS_IN_POS = 3u;
-        static const std::uint8_t COUNT_ELEMS_IN_NORMAL = 3u;
-        static const std::uint8_t COUNT_ELEMS_IN_TEXT_COORDINATE = 2u;
-        static constexpr std::uint8_t COUNT_ELEMS_IN_VERTEX = COUNT_ELEMS_IN_POS + COUNT_ELEMS_IN_NORMAL + COUNT_ELEMS_IN_TEXT_COORDINATE;
+    };
+
+    class TextureBuilder
+    {
+    public:
+        static Texture2D build(Resources::ImageSPtr image);
     };
 
 }

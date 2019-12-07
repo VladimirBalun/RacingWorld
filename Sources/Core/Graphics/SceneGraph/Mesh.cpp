@@ -20,25 +20,23 @@
 #include <glew.h>
 
 #include "../../Helpers/Debug.hpp"
-#include "../../Resources/Image.hpp"
 
-Core::Graphics::SceneGraph::Mesh::Mesh(Resources::ImageSPtr texture, std::vector<float>&& elements, unsigned count_elements) noexcept
-    : m_elements(elements), m_count_elements(count_elements)
+Core::Graphics::SceneGraph::Mesh::Mesh(Texture2D texture, std::vector<float>&& elements, unsigned count_elements) noexcept
+    : m_texture(texture), m_elements(elements), m_count_elements(count_elements)
 {
     generateIdentifiers();
     bindDataIdentifiers();
-    fillTextureData(texture);
     fillBuffersData();
     unbindDataIdentifiers();
 }
 
 void Core::Graphics::SceneGraph::Mesh::draw() const noexcept
 {
-    glBindTexture(GL_TEXTURE_2D, m_texture);
+    m_texture.bind();
     glBindVertexArray(m_vao);
     glDrawArrays(GL_TRIANGLES, 0, m_count_elements);
     glBindVertexArray(NULL);
-    glBindTexture(GL_TEXTURE_2D, NULL);
+    m_texture.unbind();
 }
 
 Core::Graphics::SceneGraph::Mesh::~Mesh()
@@ -57,22 +55,17 @@ Core::Graphics::SceneGraph::Mesh::~Mesh()
     LOG_WARNING_IF((result = glGetError()) == GL_INVALID_VALUE, "VAO data were not deleted.");
 #endif // _DEBUG
 
-    glDeleteTextures(1, &m_texture);
-#ifdef _DEBUG
-    LOG_WARNING_IF((result = glGetError()) == GL_INVALID_VALUE, "Texture data were not deleted.");
-#endif // _DEBUG
+    m_texture.free();
 }
 
 void Core::Graphics::SceneGraph::Mesh::generateIdentifiers()
 {
     glGenBuffers(1, &m_vbo);
     glGenVertexArrays(1, &m_vao);
-    glGenTextures(1, &m_texture);
 
 #ifdef _DEBUG
     LOG_WARNING_IF(m_vao == 0, "ID for vertex array objects was not generated.");
     LOG_WARNING_IF(m_vbo == 0, "ID for vertex buffer object was not generated.");
-    LOG_WARNING_IF(m_texture == 0, "ID for texture was not generated.");
 #endif // _DEBUG
 }
 
@@ -80,32 +73,12 @@ void Core::Graphics::SceneGraph::Mesh::bindDataIdentifiers()
 {
     glBindVertexArray(m_vao);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBindTexture(GL_TEXTURE_2D, m_texture);
 }
 
 void Core::Graphics::SceneGraph::Mesh::unbindDataIdentifiers()
 {
     glBindVertexArray(NULL);
     glBindBuffer(GL_ARRAY_BUFFER, NULL);
-    glBindTexture(GL_TEXTURE_2D, NULL);
-}
-
-void Core::Graphics::SceneGraph::Mesh::fillTextureData(Resources::ImageSPtr texture)
-{
-    if (texture)
-    {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        const std::uint16_t texture_width = texture->getWidth();
-        const std::uint16_t texture_height = texture->getHeight();
-        const unsigned char* texture_data = texture->getData();
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture_width, texture_height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture_data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
 }
 
 void Core::Graphics::SceneGraph::Mesh::fillBuffersData()
