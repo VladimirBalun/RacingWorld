@@ -24,20 +24,21 @@ namespace Core::Graphics::SceneGraph
 
     class Node;
     class Mesh;
+    class Scene;
     class Texture2D;
 
     class NodeBuilder
     {
     public:
-        static std::shared_ptr<Node> build(Resources::ModelSPtr model);
+        static std::shared_ptr<Node> build(Resources::ModelSPtr model, Scene& scene);
     private:
-        static std::shared_ptr<Node> createNode(const Resources::Model::Object* object);
+        static std::shared_ptr<Node> createNode(const Resources::Model::Object& object, Scene& scene);
     };
 
     class MeshBuilder
     {
     public:
-        static Mesh build(const Resources::Model::Object* object);
+        static const Mesh* build(const Resources::Model::Object& object, Scene& scene);
     private:
         static unsigned int getCountElements(std::size_t count_vertices) noexcept;
         static unsigned int getCountElements(std::vector<float>& elements) noexcept;

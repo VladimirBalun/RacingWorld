@@ -17,16 +17,18 @@
 #include "PrecompiledHeader.hpp"
 #include "Scene.hpp"
 
+#include "Mesh.hpp"
+#include "Node.hpp"
 #include "../Shader.hpp"
 
-void Core::Graphics::SceneGraph::Scene::addMesh(Mesh&& mesh)
+void Core::Graphics::SceneGraph::Scene::addMesh(const std::string& shader_id, Mesh&& mesh)
 {
-    m_meshes.push_back(std::move(mesh));
+    m_meshes.emplace(shader_id, std::move(mesh));
 }
 
 void Core::Graphics::SceneGraph::Scene::addShader(const std::string& shader_id, Shader&& shader)
 {
-    m_shaders.emplace(shader_id, shader);
+    m_shaders.emplace(shader_id, std::move(shader));
 }
 
 Core::Graphics::SceneGraph::NodeSPtr Core::Graphics::SceneGraph::Scene::getRootNode() const noexcept
@@ -39,6 +41,23 @@ void Core::Graphics::SceneGraph::Scene::setRootNode(NodeSPtr root_node) noexcept
     m_root_node = root_node;
 }
 
+bool Core::Graphics::SceneGraph::Scene::isExistsMesh(const std::string & mesh_id) const noexcept
+{
+    const auto it = m_meshes.find(mesh_id);
+    return it != end(m_meshes);
+}
+
+const Core::Graphics::SceneGraph::Mesh* Core::Graphics::SceneGraph::Scene::getMeshByID(const std::string& mesh_id) const noexcept
+{
+    const auto it = m_meshes.find(mesh_id);
+    if (it != end(m_meshes))
+    {
+        return &it->second;
+    }
+
+    return nullptr;
+}
+
 const Core::Graphics::Shader* Core::Graphics::SceneGraph::Scene::getShaderByID(const std::string& shader_id) const noexcept
 {
     const auto it = m_shaders.find(shader_id);
@@ -48,4 +67,13 @@ const Core::Graphics::Shader* Core::Graphics::SceneGraph::Scene::getShaderByID(c
     }
 
     return nullptr;
+}
+
+Core::Graphics::SceneGraph::Scene::~Scene()
+{
+    for (auto& it : m_meshes)
+    {
+        Mesh& mesh = it.second;
+        mesh.free();
+    }
 }

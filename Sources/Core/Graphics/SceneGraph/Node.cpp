@@ -74,7 +74,7 @@ bool Core::Graphics::SceneGraph::Node::isExitChild(NodeSPtr node) const noexcept
     return it != end(m_children);
 }
 
-void Core::Graphics::SceneGraph::Node::setMesh(Mesh* mesh) noexcept
+void Core::Graphics::SceneGraph::Node::setMesh(const Mesh* mesh) noexcept
 {
     m_mesh = mesh;
 }

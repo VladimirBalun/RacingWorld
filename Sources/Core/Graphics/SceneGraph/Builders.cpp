@@ -19,29 +19,30 @@
 
 #include "Node.hpp"
 #include "Mesh.hpp"
+#include "Scene.hpp"
 #include "Texture2D.hpp"
 #include "../../Resources/Image.hpp"
 #include "../../Managers/ResourceManager.hpp"
 
 #pragma region NodeBuilder
 
-Core::Graphics::SceneGraph::NodeSPtr Core::Graphics::SceneGraph::NodeBuilder::build(Resources::ModelSPtr model)
+Core::Graphics::SceneGraph::NodeSPtr Core::Graphics::SceneGraph::NodeBuilder::build(Resources::ModelSPtr model, Scene& scene)
 {
     if (model)
     {
-        if (model->isSingleObject())
+        const std::vector<Resources::Model::Object> objects = model->getObjects();
+        if (objects.size() == 1u)
         {
-            const Resources::Model::Object* object = &model->objectsBegin()->second;
-            return createNode(object);
+            const Resources::Model::Object& object = objects.front();
+            return createNode(object, scene);
         }
 
-        if (!model->isEmpty())
+        if (!objects.empty())
         {
             auto group = std::make_shared<Node>();
-            for (auto it = model->objectsBegin(); it != model->objectsEnd(); ++it)
+            for (const Resources::Model::Object& object : objects)
             {
-                const Resources::Model::Object* object = &it->second;
-                NodeSPtr node = createNode(object);
+                NodeSPtr node = createNode(object, scene);
                 group->addChild(node);
             }
             return group;
@@ -51,11 +52,10 @@ Core::Graphics::SceneGraph::NodeSPtr Core::Graphics::SceneGraph::NodeBuilder::bu
     return nullptr;
 }
 
-Core::Graphics::SceneGraph::NodeSPtr Core::Graphics::SceneGraph::NodeBuilder::createNode(const Resources::Model::Object* object)
+Core::Graphics::SceneGraph::NodeSPtr Core::Graphics::SceneGraph::NodeBuilder::createNode(const Resources::Model::Object& object, Scene& scene)
 {
-    static Mesh mesh = MeshBuilder::build(object);
     auto node = std::make_shared<Node>();
-    node->setMesh(&mesh);
+    node->setMesh(MeshBuilder::build(object, scene));
     return node;
 }
 
@@ -68,40 +68,46 @@ constexpr std::uint8_t COUNT_ELEMS_IN_NORMAL = 3u;
 constexpr std::uint8_t COUNT_ELEMS_IN_TEXTURE_COORDINATE = 2u;
 constexpr std::uint8_t COUNT_ELEMS_IN_VERTEX = COUNT_ELEMS_IN_POS + COUNT_ELEMS_IN_NORMAL + COUNT_ELEMS_IN_TEXTURE_COORDINATE;
 
-Core::Graphics::SceneGraph::Mesh Core::Graphics::SceneGraph::MeshBuilder::build(const Resources::Model::Object* object)
+const Core::Graphics::SceneGraph::Mesh* Core::Graphics::SceneGraph::MeshBuilder::build(const Resources::Model::Object& object, Scene& scene)
 {
-    const std::vector<unsigned int>& indices = object->getIndices();
-    const std::vector<Resources::Model::Vertex>& vertices = object->getVertices();
-
-    std::vector<float> output_elements{};
-    output_elements.reserve(getCountElements(vertices.size()));
-    for (const auto index : indices)
+    const std::string& mesh_id = object.getName();
+    if (!scene.isExistsMesh(mesh_id)) 
     {
-        const Resources::Model::Vertex& vertex = vertices.at(index);
-        const glm::vec3& normal = vertex.getNormal();
-        const glm::vec3& position = vertex.getPosition();
-        const glm::vec2& texture_coordinate = vertex.getTextureCoordinate();
+        const std::vector<unsigned int>& indices = object.getIndices();
+        const std::vector<Resources::Model::Vertex>& vertices = object.getVertices();
 
-        // Necessary order of the following operations
-        addVec3ToElements(output_elements, position);
-        addVec3ToElements(output_elements, normal);
-        addVec2ToElements(output_elements, texture_coordinate);
-    }
-
-    Texture2D texture;
-    auto material = g_resource_manager.getResource<Resources::Material>(STR(object->getMaterialName()));
-    if (material)
-    {
-        std::string_view diffuse_texture_name = material->getDiffuseTextureName();
-        if (!diffuse_texture_name.empty())
+        std::vector<float> output_elements{};
+        output_elements.reserve(getCountElements(vertices.size()));
+        for (const auto index : indices)
         {
-            std::shared_ptr<Resources::Image> image = g_resource_manager.getResource<Resources::Image>(STR(diffuse_texture_name));
-            texture = TextureBuilder::build(image);
+            const Resources::Model::Vertex& vertex = vertices.at(index);
+            const glm::vec3& normal = vertex.getNormal();
+            const glm::vec3& position = vertex.getPosition();
+            const glm::vec2& texture_coordinate = vertex.getTextureCoordinate();
+
+            // Necessary order of the following operations
+            addVec3ToElements(output_elements, position);
+            addVec3ToElements(output_elements, normal);
+            addVec2ToElements(output_elements, texture_coordinate);
         }
+
+        Texture2D texture;
+        auto material = g_resource_manager.getResource<Resources::Material>(STR(object.getMaterialName()));
+        if (material)
+        {
+            std::string_view diffuse_texture_name = material->getDiffuseTextureName();
+            if (!diffuse_texture_name.empty())
+            {
+                std::shared_ptr<Resources::Image> image = g_resource_manager.getResource<Resources::Image>(STR(diffuse_texture_name));
+                texture = TextureBuilder::build(image);
+            }
+        }
+
+        const unsigned int count_elements = getCountElements(output_elements);
+        scene.addMesh(mesh_id, Mesh(texture, std::move(output_elements), count_elements));
     }
 
-    const unsigned int count_elements = getCountElements(output_elements);
-    return Mesh(texture, std::move(output_elements), count_elements);
+    return scene.getMeshByID(mesh_id);
 }
 
 unsigned Core::Graphics::SceneGraph::MeshBuilder::getCountElements(std::size_t count_vertices) noexcept

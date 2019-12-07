@@ -16,12 +16,7 @@
 
 #pragma once
 
-#include <vector>
-#include <optional>
 #include <unordered_map>
-
-#include "Node.hpp"
-#include "Mesh.hpp"
 
 namespace Core::Graphics
 {
@@ -31,43 +26,25 @@ namespace Core::Graphics
     namespace SceneGraph
     {
 
+        class Mesh;
+        class Node;
+
         class Scene
         {
         public:
-            void addMesh(Mesh&& mesh);
+            void addMesh(const std::string& shader_id, Mesh&& mesh);
             void addShader(const std::string& shader_id, Shader&& shader);
-            template<typename... Args>
-            void emplaceMesh(Args... args);
-            template<typename... Args>
-            void emplaceMaterial(Args... args);
-            template<typename... Args>
-            void emplaceShader(const std::string& shader_id, Args... args);
-            void setRootNode(NodeSPtr root_node) noexcept;
-            NodeSPtr getRootNode() const noexcept;
+            void setRootNode(std::shared_ptr<Node> root_node) noexcept;
+            std::shared_ptr<Node> getRootNode() const noexcept;
+            bool isExistsMesh(const std::string& mesh_id) const noexcept;
+            const Mesh* getMeshByID(const std::string& mesh_id) const noexcept;
             const Shader* getShaderByID(const std::string& shader_id) const noexcept;
+            ~Scene();
         private:
-            NodeSPtr m_root_node = nullptr;
-            std::vector<Mesh> m_meshes{};
+            std::shared_ptr<Node> m_root_node = nullptr;
+            std::unordered_map<std::string, Mesh> m_meshes{};
             std::unordered_map<std::string, Shader> m_shaders{};
         };
-
-        template<typename... Args>
-        void Scene::emplaceMesh(Args... args)
-        {
-            m_meshes.emplace_back(std::forward<Args>(args)...);
-        }
-
-        template<typename... Args>
-        void Scene::emplaceMaterial(Args... args)
-        {
-            m_materials.emplace_back(std::forward<Args>(args)...);
-        }
-
-        template<typename... Args>
-        void Scene::emplaceShader(const std::string& shader_id, Args... args)
-        {
-            m_shaders.emplace(shader_id, std::forward<Args>(args)...);
-        }
 
     }
 

@@ -51,12 +51,22 @@ void Core::Resources::Model::Object::addIndex(unsigned int index) noexcept
     m_indices.push_back(index);
 }
 
+void Core::Resources::Model::Object::setName(const std::string & name) noexcept
+{
+    m_name = name;
+}
+
 void Core::Resources::Model::Object::setMaterialName(const std::string& name) noexcept
 {
     m_material_name = name;
 }
 
-std::string_view Core::Resources::Model::Object::getMaterialName() const noexcept
+const std::string & Core::Resources::Model::Object::getName() const noexcept
+{
+    return m_name;
+}
+
+const std::string& Core::Resources::Model::Object::getMaterialName() const noexcept
 {
     return m_material_name;
 }
@@ -80,46 +90,14 @@ Core::Resources::Model::Model(std::size_t count_objects) noexcept
     m_objects.reserve(count_objects);
 }
 
-void Core::Resources::Model::addObject(const std::string& name, Object&& object)
+void Core::Resources::Model::addObject(Object&& object)
 {
-    m_objects.emplace(name, object);
+    m_objects.push_back(std::move(object));
 }
 
-bool Core::Resources::Model::isExistObjectByName(const std::string& name) const noexcept
+const std::vector<Core::Resources::Model::Object>& Core::Resources::Model::getObjects() const noexcept
 {
-    const auto it = m_objects.find(name);
-    return it != end(m_objects);
-}
-
-bool Core::Resources::Model::isEmpty() const noexcept
-{
-    return m_objects.empty();
-}
-
-bool Core::Resources::Model::isSingleObject() const noexcept
-{
-    return m_objects.size() == 1u;
-}
-
-const Core::Resources::Model::Object* Core::Resources::Model::getObjectByName(const std::string& name) const noexcept
-{
-    const auto it = m_objects.find(name);
-    if (it != end(m_objects))
-    {
-        return &it->second;
-    }
-
-    return nullptr;
-}
-
-Core::Resources::Model::objects_t::const_iterator Core::Resources::Model::objectsBegin() const noexcept
-{
-    return m_objects.begin();
-}
-
-Core::Resources::Model::objects_t::const_iterator Core::Resources::Model::objectsEnd() const noexcept
-{
-    return m_objects.end();
+    return m_objects;
 }
 
 bool Core::Resources::Model::load(std::string_view model_path) noexcept

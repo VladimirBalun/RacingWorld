@@ -38,7 +38,7 @@ namespace Core::Graphics::SceneGraph
         Mesh() noexcept = default;
         Mesh(Texture2D texture, std::vector<float>&& elements, unsigned int count_elements) noexcept;
         void draw() const noexcept;
-        ~Mesh();
+        void free() noexcept;
     private:
         void generateIdentifiers();
         void bindDataIdentifiers();

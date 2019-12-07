@@ -39,7 +39,7 @@ void Core::Graphics::SceneGraph::Mesh::draw() const noexcept
     m_texture.unbind();
 }
 
-Core::Graphics::SceneGraph::Mesh::~Mesh()
+void Core::Graphics::SceneGraph::Mesh::free() noexcept
 {
 #ifdef _DEBUG
     unsigned int result = 0u;
@@ -56,6 +56,11 @@ Core::Graphics::SceneGraph::Mesh::~Mesh()
 #endif // _DEBUG
 
     m_texture.free();
+    m_elements.shrink_to_fit();
+
+    m_vbo = 0u;
+    m_vao = 0u;
+    m_count_elements = 0u;
 }
 
 void Core::Graphics::SceneGraph::Mesh::generateIdentifiers()

@@ -60,8 +60,8 @@ bool Core::Resources::Loaders::OBJLoader::load(Model& model, std::string_view mo
                 loadMaterial(material, model_path);
             }
 
-            const std::string object_name = imported_object.MeshName;
-            model.addObject(object_name, std::move(object));
+            object.setName(imported_object.MeshName);
+            model.addObject(std::move(object));
         }
 
         return true;

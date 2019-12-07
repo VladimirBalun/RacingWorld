@@ -44,7 +44,7 @@ namespace Core::Graphics::SceneGraph
         void move(const glm::vec4& position) noexcept;
         bool isExistChildren() const noexcept;
         bool isExitChild(NodeSPtr node) const noexcept;
-        void setMesh(Mesh* mesh) noexcept;
+        void setMesh(const Mesh* mesh) noexcept;
         const Mesh* getMesh() const noexcept;
         std::deque<NodeSPtr>::iterator childrenBegin() noexcept;
         std::deque<NodeSPtr>::iterator childrenEnd() noexcept;

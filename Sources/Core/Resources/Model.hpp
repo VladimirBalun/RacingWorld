@@ -55,32 +55,28 @@ namespace Core::Resources
             template<typename... Args>
             void emplaceVertex(Args... args);
             void addIndex(unsigned int index) noexcept;
+            void setName(const std::string& name) noexcept;
             void setMaterialName(const std::string& name) noexcept;
-            std::string_view getMaterialName() const noexcept;
+            const std::string& getName() const noexcept;
+            const std::string& getMaterialName() const noexcept;
             const std::vector<Vertex>& getVertices() const noexcept;
             const std::vector<unsigned int>& getIndices() const noexcept;
         private:
+            std::string m_name{};
             std::string m_material_name{};
             std::vector<Vertex> m_vertices{};
             std::vector<unsigned int> m_indices{};
         };
 
-    private:
-        using objects_t = std::unordered_map<std::string, Object>;
     public:
         Model() noexcept = default;
         explicit Model(std::size_t count_objects) noexcept;
-        void addObject(const std::string& name, Object&& object);
-        bool isExistObjectByName(const std::string& name) const noexcept;
-        bool isEmpty() const noexcept;
-        bool isSingleObject() const noexcept;
-        const Object* getObjectByName(const std::string& name) const noexcept;
-        objects_t::const_iterator objectsBegin() const noexcept;
-        objects_t::const_iterator objectsEnd() const noexcept;
+        void addObject(Object&& object);
+        const std::vector<Object>& getObjects() const noexcept;
     public:
         bool load(std::string_view model_path) noexcept override;
     private:
-        objects_t m_objects{};
+        std::vector<Object> m_objects{};
     };
 
     template<typename... Args>
