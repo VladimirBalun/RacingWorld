@@ -16,20 +16,20 @@
 
 #pragma once
 
-#include <string>
-
-namespace Core { namespace Resources {
+namespace Core::Resources
+{
 
     class Text;
 
-}}
-
-namespace Core { namespace Resources { namespace Loaders {
-
-    class TextLoader
+    namespace Loaders
     {
-    public:
-        static bool load(Text& text, const std::string& text_file_path) noexcept;
-    };
 
-}}}
+        class TextLoader
+        {
+        public:
+            static bool load(Text& text, std::string_view text_file_path) noexcept;
+        };
+
+    }
+
+}

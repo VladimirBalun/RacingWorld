@@ -16,15 +16,18 @@
 
 #version 330 core
 
-layout (location = 0) in vec3 position;
-layout (location = 1) in vec2 textureCoordianate;
-layout (location = 2) in vec3 normal;
+layout (location = 0) in vec3 vs_in_position;
+layout (location = 1) in vec2 vs_in_texture_coordinate;
+layout (location = 2) in vec3 vs_in_normal;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 vs_un_model;
+uniform mat4 vs_un_view;
+uniform mat4 vs_un_projection;
+
+out vec2 vs_out_texture_coordinate;
 
 void main()
 {
-     gl_Position = projection * view * model * vec4(position, 1.0);
+     gl_Position = vs_un_projection * vs_un_view * vs_un_model * vec4(vs_in_position, 1.0);
+	 vs_out_texture_coordinate = vec2(vs_in_texture_coordinate.x, vs_in_texture_coordinate.y);
 }

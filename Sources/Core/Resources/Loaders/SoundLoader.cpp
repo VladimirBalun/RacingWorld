@@ -22,10 +22,10 @@
 #include "../Sound.hpp"
 #include "../../Managers/SoundManager.hpp"
 
-bool Core::Resources::Loaders::SoundLoader::load(Sound& sound, const std::string& sound_file_path, const bool streaming) noexcept
+bool Core::Resources::Loaders::SoundLoader::load(Sound& sound, std::string_view sound_file_path, const bool streaming) noexcept
 {
     const audiere::AudioDevicePtr& audio_device = g_sound_manager.getAudioDevice();
-    audiere::OutputStreamPtr audio_stream = OpenSound(audio_device, sound_file_path.c_str(), streaming);
+    audiere::OutputStreamPtr audio_stream = OpenSound(audio_device, sound_file_path.data(), streaming);
     if (audio_stream)
     {
         sound.setAudioStream(std::move(audio_stream));

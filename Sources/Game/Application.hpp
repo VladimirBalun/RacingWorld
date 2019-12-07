@@ -18,7 +18,8 @@
 
 #include "../Core/GUI/Window.hpp"
 
-namespace Game {
+namespace Game 
+{
 
     class Application
     {

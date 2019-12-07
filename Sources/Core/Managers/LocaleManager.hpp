@@ -27,7 +27,8 @@
     #define g_locale_manager Core::Managers::LocaleManager::getInstance()
 #endif // g_locale_manager
 
-namespace Core { namespace Managers {
+namespace Core::Managers 
+{
 
     class LocaleManager : public IManager<LocaleManager>, public Helpers::Holders::Singleton<LocaleManager>
     {
@@ -41,6 +42,6 @@ namespace Core { namespace Managers {
         std::unordered_map<std::string, std::string> m_strings{};
     };
 
-}}
+}
 
 

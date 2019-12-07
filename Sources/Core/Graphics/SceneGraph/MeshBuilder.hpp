@@ -18,7 +18,8 @@
 
 #include "../../Resources/Model.hpp"
 
-namespace Core { namespace Graphics { namespace SceneGraph {
+namespace Core::Graphics::SceneGraph 
+{
 
     class Mesh;
 
@@ -38,4 +39,4 @@ namespace Core { namespace Graphics { namespace SceneGraph {
         static constexpr std::uint8_t COUNT_ELEMS_IN_VERTEX = COUNT_ELEMS_IN_POS + COUNT_ELEMS_IN_NORMAL + COUNT_ELEMS_IN_TEXT_COORDINATE;
     };
 
-}}}
+}

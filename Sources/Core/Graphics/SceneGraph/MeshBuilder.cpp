@@ -18,11 +18,13 @@
 #include "MeshBuilder.hpp"
 
 #include "Mesh.hpp"
+#include "../../Managers/ResourceManager.hpp"
 
 Core::Graphics::SceneGraph::Mesh Core::Graphics::SceneGraph::MeshBuilder::build(const Resources::Model::Mesh* input_mesh)
 {
     const std::vector<unsigned int>& indices = input_mesh->getIndices();
     const std::vector<Resources::Model::Vertex>& vertices = input_mesh->getVertices();
+
     std::vector<float> output_elements{};
     output_elements.reserve(getCountElements(vertices.size()));
     for (const auto index : indices)
@@ -32,13 +34,25 @@ Core::Graphics::SceneGraph::Mesh Core::Graphics::SceneGraph::MeshBuilder::build(
         const glm::vec3& position = vertex.getPosition();
         const glm::vec2& texture_coordinate = vertex.getTextureCoordinate();
 
+        // Necessary order of the following operations
         addVec3ToElements(output_elements, position);
         addVec3ToElements(output_elements, normal);
         addVec2ToElements(output_elements, texture_coordinate);
     }
 
+    std::shared_ptr<Resources::Image> image;
+    auto material = g_resource_manager.getResource<Resources::Material>(STR(input_mesh->getMaterialName()));
+    if (material)
+    {
+        std::string_view diffuse_texture_name = material->getDiffuseTextureName();
+        if (!diffuse_texture_name.empty())
+        {
+            image = g_resource_manager.getResource<Resources::Image>(STR(diffuse_texture_name));
+        }
+    }
+
     const unsigned int count_elements = getCountElements(output_elements);
-    return Mesh(std::move(output_elements), count_elements);
+    return Mesh(image, std::move(output_elements), count_elements);
 }
 
 unsigned Core::Graphics::SceneGraph::MeshBuilder::getCountElements(std::size_t count_vertices) noexcept

@@ -18,7 +18,8 @@
 
 #include "../ResourcesFWD.hpp"
 
-namespace Core { namespace Resources {
+namespace Core::Resources 
+{
 
     enum class ResourceType
     {
@@ -50,4 +51,4 @@ namespace Core { namespace Resources {
         return ResourceType::UNKNOWN;
     }
 
-}}
+}

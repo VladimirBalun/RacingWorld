@@ -18,7 +18,8 @@
 
 #include <memory>
 
-namespace Core { namespace Helpers { namespace Holders {
+namespace Core::Helpers::Holders 
+{
 
     template<class T>
     struct Polymorphic
@@ -43,4 +44,4 @@ namespace Core { namespace Helpers { namespace Holders {
         return std::make_unique<T>(*this);
     }
 
-}}}
+}

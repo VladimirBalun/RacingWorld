@@ -16,9 +16,10 @@
 
 #pragma once
 
-namespace Core { namespace Helpers {
+namespace Core::Helpers 
+{
 
     struct NullType {};
     struct EmptyType {};
 
-}}
+}

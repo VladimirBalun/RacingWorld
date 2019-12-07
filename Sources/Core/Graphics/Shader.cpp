@@ -51,6 +51,13 @@ bool Core::Graphics::Shader::isValid() const noexcept
     return m_program_id != 0;
 }
 
+void Core::Graphics::Shader::setUniformi(const char* name, int value) const noexcept
+{
+    const unsigned int location_id = glGetUniformLocation(m_program_id, name);
+    LOG_WARNING_IF(location_id < 0, STR("Invalid uniform location for '") + STR(name) + STR("'."));
+    glUniform1i(location_id, value);
+}
+
 void Core::Graphics::Shader::setUniformf(const char* name, const float value) const noexcept
 {
     const unsigned int location_id = glGetUniformLocation(m_program_id, name);

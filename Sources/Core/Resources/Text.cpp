@@ -19,12 +19,12 @@
 
 #include "Loaders/TextLoader.hpp"
 
-const std::string& Core::Resources::Text::getData() const noexcept
+std::string_view Core::Resources::Text::getData() const noexcept
 {
     return m_text_data;
 }
 
-bool Core::Resources::Text::load(const std::string& shader_path) noexcept
+bool Core::Resources::Text::load(std::string_view shader_path) noexcept
 {
     return Loaders::TextLoader::load(*this, shader_path);
 }

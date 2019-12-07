@@ -19,7 +19,8 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
-namespace Graphics {
+namespace Graphics
+{
 
     class Camera
     {
@@ -30,7 +31,6 @@ namespace Graphics {
         void moveBackward() noexcept;
         void setSpeed(float speed) noexcept;
         void turn(int x_offset, int y_offset) noexcept;
-        void scale(int value) noexcept;
         const glm::vec3& getPosition() const noexcept;
         glm::mat4x4 getViewMatrix() const noexcept;
         glm::mat4x4 getProjectionMatrix() const noexcept;

@@ -25,7 +25,8 @@
     #define g_mouse_state Core::Input::MouseState::getInstance()
 #endif // g_mouse_state
 
-namespace Core { namespace Input {
+namespace Core::Input 
+{
 
     class MouseState : public Helpers::Holders::Singleton<MouseState>
     {
@@ -53,4 +54,4 @@ namespace Core { namespace Input {
         std::atomic_bool m_is_pressed_right_button = false;
     };
 
-}}
+}

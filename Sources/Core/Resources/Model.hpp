@@ -25,7 +25,8 @@
 #include "IResource.hpp"
 #include "../Helpers/Holders/Polymorphic.hpp"
 
-namespace Core { namespace Resources {
+namespace Core::Resources 
+{
 
     class Model final : public IResource, public Helpers::Holders::Polymorphic<Model>
     {
@@ -55,7 +56,7 @@ namespace Core { namespace Resources {
             void emplaceVertex(Args... args);
             void addIndex(unsigned int index);
             void setMaterialName(const std::string& name) noexcept;
-            const std::string getMaterialName() const noexcept;
+            std::string_view getMaterialName() const noexcept;
             const std::vector<Vertex>& getVertices() const noexcept;
             const std::vector<unsigned int>& getIndices() const noexcept;
         private:
@@ -75,7 +76,7 @@ namespace Core { namespace Resources {
         meshes_t::const_iterator meshesBegin() const noexcept;
         meshes_t::const_iterator meshesEnd() const noexcept;
     public:
-        bool load(const std::string& model_path) noexcept override;
+        bool load(std::string_view model_path) noexcept override;
     private:
         meshes_t m_meshes{};
     };
@@ -86,4 +87,4 @@ namespace Core { namespace Resources {
         m_vertices.emplace_back(std::forward<Args>(args)...);
     }
 
-}}
+}

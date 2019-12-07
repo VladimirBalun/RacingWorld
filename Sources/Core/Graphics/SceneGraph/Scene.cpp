@@ -24,11 +24,6 @@ void Core::Graphics::SceneGraph::Scene::addMesh(Mesh&& mesh)
     m_meshes.push_back(std::move(mesh));
 }
 
-void Core::Graphics::SceneGraph::Scene::addMaterial(Material&& material)
-{
-    m_materials.push_back(std::move(material));
-}
-
 void Core::Graphics::SceneGraph::Scene::addShader(const std::string& shader_id, Shader&& shader)
 {
     m_shaders.emplace(shader_id, shader);

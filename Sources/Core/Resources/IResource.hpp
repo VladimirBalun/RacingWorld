@@ -16,19 +16,18 @@
 
 #pragma once
 
-#include <string>
-
 #include "../Helpers/Macroses.hpp"
 
-namespace Core { namespace Resources {
+namespace Core::Resources 
+{
 
     FWD_DECL_SMART_PTRS_FOR_STRUCT(IResource)
 
     struct IResource
     {
         IResource() noexcept = default;
-        virtual bool load(const std::string& resource_path) noexcept = 0;
+        virtual bool load(std::string_view resource_path) noexcept = 0;
         virtual ~IResource() = default;
     };
 
-}}
+}

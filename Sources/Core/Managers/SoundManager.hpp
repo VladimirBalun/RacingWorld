@@ -27,7 +27,8 @@
     #define g_sound_manager Core::Managers::SoundManager::getInstance()
 #endif // g_sound_manager
 
-namespace Core { namespace Managers {
+namespace Core::Managers 
+{
 
     class SoundManager : public IManager<SoundManager>, public Helpers::Holders::Singleton<SoundManager>
     {
@@ -45,4 +46,4 @@ namespace Core { namespace Managers {
         audio_cache_t m_sounds = 15;
     };
 
-}}
+}

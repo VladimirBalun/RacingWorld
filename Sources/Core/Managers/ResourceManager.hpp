@@ -30,7 +30,8 @@
     #define g_resource_manager Core::Managers::ResourceManager::getInstance()
 #endif // g_resource_manager
 
-namespace Core { namespace Managers {
+namespace Core::Managers 
+{
 
     class ResourceManager : public IManager<ResourceManager>, public Helpers::Holders::Singleton<ResourceManager>
     {
@@ -46,7 +47,7 @@ namespace Core { namespace Managers {
         template<typename T>
         void loadSection(const boost::property_tree::ptree& section) noexcept;
         template<typename T>
-        void loadResource(const std::string& resource_id, const std::string& resource_path) noexcept;
+        void loadResource(const std::string& resource_id, std::string_view resource_path) noexcept;
     private:
         using resources_map_t = std::unordered_map<std::string, Resources::IResourceSPtr>;
         std::array<resources_map_t, TO_SIZE_T(Resources::ResourceType::COUNT_TYPES)> m_resources{};
@@ -100,7 +101,7 @@ namespace Core { namespace Managers {
     template<typename T>
     void ResourceManager::loadSection(const boost::property_tree::ptree& section) noexcept
     {
-        const std::string& resources_path = g_configuration_manager.getResourcesPath();
+        const std::string& resources_path = STR(g_configuration_manager.getResourcesPath());
         for (const auto& data : section)
         {
             const std::string resource_id = data.first;
@@ -110,7 +111,7 @@ namespace Core { namespace Managers {
     }
 
     template<typename T>
-    void ResourceManager::loadResource(const std::string& resource_id, const std::string& resource_path) noexcept
+    void ResourceManager::loadResource(const std::string& resource_id, std::string_view resource_path) noexcept
     {
         constexpr Resources::ResourceType resource_type = Resources::getResourceType<T>();
         if (resource_type != Resources::ResourceType::UNKNOWN)
@@ -124,9 +125,9 @@ namespace Core { namespace Managers {
             }
             else
             {
-                LOG_WARNING("Resource {'" + resource_id + "' : '" + resource_path + "'} was not loaded.");
+                LOG_WARNING("Resource {'" + resource_id + "' : '" + STR(resource_path) + "'} was not loaded.");
             }
         }
     }
 
-}}
+}

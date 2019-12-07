@@ -18,7 +18,8 @@
 
 #include <glm/vec3.hpp>
 
-namespace Core { namespace Resources { namespace SceneGraph {
+namespace Core::Resources::SceneGraph 
+{
 
     class Light
     {
@@ -38,4 +39,4 @@ namespace Core { namespace Resources { namespace SceneGraph {
         glm::vec3 m_specular_color{};
     };
 
-}}}
+}

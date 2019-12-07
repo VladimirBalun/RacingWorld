@@ -16,23 +16,23 @@
 
 #pragma once
 
-#include <string>
-
-namespace Core { namespace Resources {
+namespace Core::Resources 
+{ 
 
     class Image;
 
-}}
-
-namespace Core { namespace Resources { namespace Loaders {
-
-    class ImageLoader
+    namespace Loaders
     {
-    public:
-        static bool load(Image& image, const std::string& image_path) noexcept;
-    };
 
-    using PNGLoader = ImageLoader;
-    using JPGLoader = ImageLoader;
+        class ImageLoader
+        {
+        public:
+            static bool load(Image& image, std::string_view image_path) noexcept;
+        };
 
-}}}
+        using PNGLoader = ImageLoader;
+        using JPGLoader = ImageLoader;
+
+    }
+
+}

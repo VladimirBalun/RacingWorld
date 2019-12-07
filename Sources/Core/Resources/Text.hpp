@@ -21,7 +21,8 @@
 #include "IResource.hpp"
 #include "../Helpers/Holders/Polymorphic.hpp"
 
-namespace Core { namespace Resources {
+namespace Core::Resources
+{
 
     class Text;
     using VertexShader = Text;
@@ -32,11 +33,11 @@ namespace Core { namespace Resources {
     public:
         Text() noexcept = default;
         void setData(std::string&& data) noexcept;
-        const std::string& getData() const noexcept;
+        std::string_view getData() const noexcept;
     public:
-        bool load(const std::string& shader_path) noexcept override;
+        bool load(std::string_view shader_path) noexcept override;
     private:
         std::string m_text_data{};
     };
 
-}}
+}

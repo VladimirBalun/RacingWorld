@@ -27,16 +27,16 @@ audiere::OutputStreamPtr Core::Resources::Sound::getAudioStream() const noexcept
     return m_audio_stream;
 }
 
-bool Core::Resources::Sound::load(const std::string& sound_path) noexcept
+bool Core::Resources::Sound::load(std::string_view sound_path) noexcept
 {
-    using SoundLoader = std::function<bool(Sound&, const std::string&, bool)>;
+    using SoundLoader = std::function<bool(Sound&, std::string_view, bool)>;
     static const std::unordered_map<std::string_view, SoundLoader> available_loaders = {
         { ".wav", std::bind(&Loaders::WAVLoader::load, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) },
         { ".mp3", std::bind(&Loaders::MP3Loader::load, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) },
         { ".ogg", std::bind(&Loaders::OGGLoader::load, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) }
     };
 
-    const std::string extension = boost::filesystem::extension(sound_path);
+    const std::string extension = boost::filesystem::extension(sound_path.data());
     const auto& it = available_loaders.find(extension);
     if (it != end(available_loaders))
     {
@@ -47,7 +47,7 @@ bool Core::Resources::Sound::load(const std::string& sound_path) noexcept
     }
     else
     {
-        LOG_WARNING("Unsupported extension for sound loaders: " + sound_path);
+        LOG_WARNING("Unsupported extension for sound loaders: " + STR(sound_path));
     }
 
     return false;

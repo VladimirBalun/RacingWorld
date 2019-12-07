@@ -32,7 +32,7 @@ void Core::Managers::ConfigurationManager::initialize()
 
     using namespace boost::property_tree;
     const std::string configuration_filename = "Configuration.xml";
-    const std::string configuration_file_full_path = getResourcesPath() + configuration_filename;
+    const std::string configuration_file_full_path = STR(getResourcesPath()) + configuration_filename;
 
     try
     {
@@ -85,40 +85,40 @@ std::uint16_t Core::Managers::ConfigurationManager::getServerPort() const noexce
     return m_server_port;
 }
 
-const std::string& Core::Managers::ConfigurationManager::getServerAddress() const noexcept
+std::string_view Core::Managers::ConfigurationManager::getServerAddress() const noexcept
 {
     return m_server_address;
 }
 
-const std::string& Core::Managers::ConfigurationManager::getModelsPath() const noexcept
+std::string_view Core::Managers::ConfigurationManager::getModelsPath() const noexcept
 {
-    static const std::string models_path = getResourcesPath() + "/Models/";
+    static const std::string models_path = STR(getResourcesPath()) + "/Models/";
     return models_path;
 }
 
-const std::string& Core::Managers::ConfigurationManager::getShadersPath() const noexcept
+std::string_view Core::Managers::ConfigurationManager::getShadersPath() const noexcept
 {
-    static const std::string shaders_path = getResourcesPath() + "/Shaders/";
+    static const std::string shaders_path = STR(getResourcesPath()) + "/Shaders/";
     return shaders_path;
 }
 
-const std::string& Core::Managers::ConfigurationManager::getResourcesPath() const noexcept
+std::string_view Core::Managers::ConfigurationManager::getResourcesPath() const noexcept
 {
     static const std::string resources_path = (std::filesystem::current_path().parent_path() / "Resources" / "").string();
     return resources_path;
 }
 
-const std::string& Core::Managers::ConfigurationManager::getLocalesConfigurationFilename() const noexcept
+std::string_view Core::Managers::ConfigurationManager::getLocalesConfigurationFilename() const noexcept
 {
     return m_locales_file_configuration_path;
 }
 
-const std::string& Core::Managers::ConfigurationManager::getPlayerConfigurationFilename() const noexcept
+std::string_view Core::Managers::ConfigurationManager::getPlayerConfigurationFilename() const noexcept
 {
     return m_player_file_configuration_path;
 }
 
-const std::string& Core::Managers::ConfigurationManager::getResourcesConfigurationFilename() const noexcept
+std::string_view Core::Managers::ConfigurationManager::getResourcesConfigurationFilename() const noexcept
 {
     return m_resources_file_configuration_path;
 }

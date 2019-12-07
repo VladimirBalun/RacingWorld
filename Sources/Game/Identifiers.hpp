@@ -16,7 +16,8 @@
 
 #pragma once
 
-namespace Game { namespace  ID {
+namespace Game::ID 
+{
 
     inline const char* g_base_vert_shader_id = "base_shader_vert";
     inline const char* g_font_vert_shader_id = "font_shader_vert";
@@ -28,4 +29,4 @@ namespace Game { namespace  ID {
 
     inline const char* g_background_sound = "background";
 
-}}
+}

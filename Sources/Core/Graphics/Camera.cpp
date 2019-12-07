@@ -22,11 +22,6 @@
 #include <glm/ext/matrix_clip_space.inl>
 #include <glm/detail/func_trigonometric.inl>
 
-#define FOV_MIN_SIZE    15.0f
-#define FOW_MAX_SIZE    45.0f
-#define PITCH_MIN_ANGLE -89.0f
-#define PITCH_MAX_ANGLE 89.0f
-
 void Graphics::Camera::setSpeed(GLfloat speed) noexcept
 {
     m_speed = speed / 1000;
@@ -60,14 +55,21 @@ void Graphics::Camera::moveBackward() noexcept
 
 void Graphics::Camera::turn(GLint x_offset, GLint y_offset) noexcept
 {
-    static const float sensitivity = 0.05f;
-    m_yaw_angle += x_offset * sensitivity;
-    m_pitch_angle += y_offset * sensitivity;
+    constexpr float SENSIIVITY = 0.05f;
+    constexpr float PITCH_MIN_ANGLE = -89.0f;
+    constexpr float PITCH_MAX_ANGLE = 89.0f;
 
-    if (m_pitch_angle > 89.0f)
-        m_pitch_angle = 89.0f;
-    if (m_pitch_angle < -89.0f)
-        m_pitch_angle = -89.0f;
+    m_yaw_angle += x_offset * SENSIIVITY;
+    m_pitch_angle += y_offset * SENSIIVITY;
+
+    if (m_pitch_angle > PITCH_MAX_ANGLE) 
+    {
+        m_pitch_angle = PITCH_MAX_ANGLE;
+    }
+    if (m_pitch_angle < PITCH_MIN_ANGLE) 
+    {
+        m_pitch_angle = PITCH_MIN_ANGLE;
+    }
 
     const float pitch_angle_per_radians = glm::radians(m_pitch_angle);
     const float yaw_angle_per_radians = glm::radians(m_yaw_angle);
@@ -76,15 +78,6 @@ void Graphics::Camera::turn(GLint x_offset, GLint y_offset) noexcept
     m_forward_direction.y = sin(pitch_angle_per_radians);
     m_forward_direction.z  = pitch_angle_cosine * sin(yaw_angle_per_radians);
     normalize(m_forward_direction);
-}
-
-void Graphics::Camera::scale(GLint value) noexcept
-{
-    m_fov += value;
-    if (m_fov < FOV_MIN_SIZE)
-        m_fov = FOV_MIN_SIZE;
-    if (m_fov > FOW_MAX_SIZE)
-        m_fov = FOW_MAX_SIZE;
 }
 
 const glm::vec3& Graphics::Camera::getPosition() const noexcept

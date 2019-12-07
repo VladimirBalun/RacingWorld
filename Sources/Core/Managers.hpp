@@ -31,7 +31,8 @@
 #define g_resource_manager      Core::Managers::ResourceManager::getInstance()
 #define g_configuration_manager Core::Managers::ConfigurationManager::getInstance()
 
-namespace Core { namespace Managers {
+namespace Core::Managers 
+{
 
     inline void initialize() noexcept
     {
@@ -45,4 +46,4 @@ namespace Core { namespace Managers {
         thread_pool.join();
     }
 
-}}
+}

@@ -16,7 +16,8 @@
 
 #pragma once
 
-namespace Core { namespace Helpers { namespace Holders {
+namespace Core::Helpers::Holders
+{
 
     template<class T>
     class Singleton
@@ -36,4 +37,4 @@ namespace Core { namespace Helpers { namespace Holders {
         return instance;
     }
 
-}}}
+}

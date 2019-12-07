@@ -19,7 +19,8 @@
 #include <chrono>
 #include <type_traits>
 
-namespace Core { namespace Helpers {
+namespace Core::Helpers 
+{
 
     template<typename T>
     T getCurrentTimeInMinutes() noexcept
@@ -45,4 +46,4 @@ namespace Core { namespace Helpers {
         return static_cast<T>(std::chrono::duration_cast<std::chrono::milliseconds>(current_time).count());
     }
 
-}}
+}

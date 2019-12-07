@@ -18,7 +18,8 @@
 
 #include "../Helpers/Macroses.hpp"
 
-namespace Core { namespace Resources {
+namespace Core::Resources 
+{
 
     struct IResource;
 
@@ -42,4 +43,4 @@ namespace Core { namespace Resources {
     DECL_SMART_PTRS_BY_TYPEDEF(Text, VertexShader)
     DECL_SMART_PTRS_BY_TYPEDEF(Text, FragmentShader)
 
-}}
+}

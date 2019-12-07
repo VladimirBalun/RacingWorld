@@ -16,24 +16,24 @@
 
 #pragma once
 
-#include <string>
-
-namespace Core { namespace Resources {
+namespace Core::Resources 
+{ 
 
     class Sound;
 
-}}
-
-namespace Core { namespace Resources { namespace Loaders {
-
-    class SoundLoader
+    namespace Loaders
     {
-    public:
-        static bool load(Sound& sound, const std::string& sound_file_path, bool streaming = false) noexcept;
-    };
 
-    using WAVLoader = SoundLoader;
-    using MP3Loader = SoundLoader;
-    using OGGLoader = SoundLoader;
+        class SoundLoader
+        {
+        public:
+            static bool load(Sound& sound, std::string_view sound_file_path, bool streaming = false) noexcept;
+        };
 
-}}}
+        using WAVLoader = SoundLoader;
+        using MP3Loader = SoundLoader;
+        using OGGLoader = SoundLoader;
+
+    }
+
+}

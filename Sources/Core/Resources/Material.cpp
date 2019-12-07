@@ -42,22 +42,22 @@ float Core::Resources::Material::getShininess() const noexcept
     return m_shininess;
 }
 
-const std::string& Core::Resources::Material::getAmbientTextureName() const noexcept
+std::string_view Core::Resources::Material::getAmbientTextureName() const noexcept
 {
     return m_ambient_texture_name;
 }
 
-const std::string& Core::Resources::Material::getDiffuseTextureName() const noexcept
+std::string_view Core::Resources::Material::getDiffuseTextureName() const noexcept
 {
     return m_diffuse_texture_name;
 }
 
-const std::string& Core::Resources::Material::getSpecularTextureName() const noexcept
+std::string_view Core::Resources::Material::getSpecularTextureName() const noexcept
 {
     return m_specular_texture_name;
 }
 
-bool Core::Resources::Material::load(const std::string& material_path) noexcept
+bool Core::Resources::Material::load(std::string_view material_path) noexcept
 {
     /*
      * At the moment, materials are loading in the 'ModelLoader',

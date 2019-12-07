@@ -31,13 +31,13 @@
 #define UNPACK_OBJ1_VEC3(__vector__) \
     (__vector__).X, (__vector__).Y, (__vector__).Z
 
-bool Core::Resources::Loaders::OBJLoader::load(Model& model, const std::string& model_file_path) noexcept
+bool Core::Resources::Loaders::OBJLoader::load(Model& model, std::string_view model_file_path) noexcept
 {
     objl::Loader obj_loader{};
-    const bool was_loaded = obj_loader.LoadFile(model_file_path);
+    const bool was_loaded = obj_loader.LoadFile(model_file_path.data());
     if (was_loaded)
     {
-        const std::string model_path = model_file_path.substr(0u, model_file_path.find_last_of("\\/") + 1);
+        const std::string model_path = STR(model_file_path.substr(0u, model_file_path.find_last_of("\\/") + 1));
         for (const auto& imported_mesh : obj_loader.LoadedMeshes)
         {
             Model::Mesh mesh(imported_mesh.Vertices.size(), imported_mesh.Indices.size());
@@ -53,14 +53,15 @@ bool Core::Resources::Loaders::OBJLoader::load(Model& model, const std::string& 
                 mesh.addIndex(index);
             }
 
-            const std::string mesh_name = imported_mesh.MeshName;
-            model.addMesh(mesh_name, std::move(mesh));
-
             const objl::Material& material = imported_mesh.MeshMaterial;
             if (!material.name.empty())
             {
+                mesh.setMaterialName(material.name);
                 loadMaterial(material, model_path);
             }
+
+            const std::string mesh_name = imported_mesh.MeshName;
+            model.addMesh(mesh_name, std::move(mesh));
         }
 
         return true;

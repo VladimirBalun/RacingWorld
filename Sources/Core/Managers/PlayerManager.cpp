@@ -32,8 +32,8 @@ void Core::Managers::PlayerManager::initialize()
 #endif // _DEBUG
 
     using namespace boost::property_tree;
-    const std::string resources_path = g_configuration_manager.getResourcesPath();
-    const std::string player_config_filename = g_configuration_manager.getPlayerConfigurationFilename();
+    const std::string resources_path = STR(g_configuration_manager.getResourcesPath());
+    const std::string player_config_filename = STR(g_configuration_manager.getPlayerConfigurationFilename());
     const std::string player_config_file_full_path = resources_path + player_config_filename;
 
     try

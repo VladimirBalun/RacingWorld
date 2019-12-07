@@ -18,7 +18,8 @@
 
 typedef struct GLFWwindow GLFWwindow;
 
-namespace Core { namespace Input {
+namespace Core::Input 
+{
 
     class MouseState;
     class KeyboardState;
@@ -28,4 +29,4 @@ namespace Core { namespace Input {
     void onMouseClickEvent(GLFWwindow*, int, int, int) noexcept;
     void onKeyboardEvent(GLFWwindow*, int, int, int, int) noexcept;
 
-}}
+}

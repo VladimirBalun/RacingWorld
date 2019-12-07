@@ -31,8 +31,8 @@ void Core::Managers::ResourceManager::initialize()
     const auto start_time = Helpers::getCurrentTimeInMilliseconds<double>();
 #endif // _DEBUG
 
-    const std::string resources_path = g_configuration_manager.getResourcesPath();
-    const std::string resources_config_filename = g_configuration_manager.getResourcesConfigurationFilename();
+    const std::string resources_path = STR(g_configuration_manager.getResourcesPath());
+    const std::string resources_config_filename = STR(g_configuration_manager.getResourcesConfigurationFilename());
     const std::string resources_config_file_full_path = resources_path + resources_config_filename;
 
     try

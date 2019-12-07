@@ -48,14 +48,19 @@ void Core::Graphics::SceneGraph::Node::rotateByZ(float degrees) noexcept
     m_transformation = rotate(m_transformation, glm::radians(degrees), glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
+void Core::Graphics::SceneGraph::Node::scale(float value) noexcept
+{
+    m_transformation = glm::scale(m_transformation, { value, value, value });
+}
+
 void Core::Graphics::SceneGraph::Node::move(const glm::vec3& position) noexcept
 {
-    translate(m_transformation, position);
+    m_transformation = translate(m_transformation, position);
 }
 
 void Core::Graphics::SceneGraph::Node::move(const glm::vec4& position) noexcept
 {
-    translate(m_transformation, glm::vec3{ position.x, position.y, position.z });
+    m_transformation = translate(m_transformation, glm::vec3{ position.x, position.y, position.z });
 }
 
 bool Core::Graphics::SceneGraph::Node::isExistChildren() const noexcept

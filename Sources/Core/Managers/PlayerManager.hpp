@@ -25,7 +25,8 @@
     #define g_player_manager Core::Managers::PlayerManager::getInstance()
 #endif // g_player_manager
 
-namespace Core { namespace Managers {
+namespace Core::Managers 
+{
 
     class PlayerManager : public IManager<PlayerManager>, public Helpers::Holders::Singleton<PlayerManager>
     {
@@ -38,4 +39,4 @@ namespace Core { namespace Managers {
         std::string m_password{};
     };
 
-}}
+}

@@ -16,7 +16,8 @@
 
 #pragma once
 
-namespace Core { namespace Managers {
+namespace Core::Managers 
+{
 
     template<class T>
     struct IManager;
@@ -27,7 +28,7 @@ namespace Core { namespace Managers {
     class ResourceManager;
     class ConfigurationManager;
 
-}}
+}
 
 #ifndef g_sound_manager
     #define g_sound_manager Core::Managers::SoundManager::getInstance()

@@ -18,7 +18,8 @@
 
 #include <glew.h>
 
-namespace Core { namespace Graphics {
+namespace Core::Graphics 
+{
 
     template<class T>
     struct IDrawable
@@ -32,4 +33,4 @@ namespace Core { namespace Graphics {
         static_cast<T*>(this)->draw();
     }
 
-}}
+}

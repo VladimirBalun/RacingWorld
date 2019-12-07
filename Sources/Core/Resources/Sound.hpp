@@ -16,13 +16,13 @@
 
 #pragma once
 
-#include <string>
 #include <audiere.h>
 
 #include "IResource.hpp"
 #include "../Helpers/Holders/Polymorphic.hpp"
 
-namespace Core { namespace Resources {
+namespace Core::Resources 
+{
 
     class Sound final : public IResource, public Helpers::Holders::Polymorphic<Sound>
     {
@@ -30,9 +30,9 @@ namespace Core { namespace Resources {
         audiere::OutputStreamPtr getAudioStream() const noexcept;
         void setAudioStream(audiere::OutputStreamPtr&& audio_stream) noexcept;
     public:
-        bool load(const std::string& sound_path) noexcept override;
+        bool load(std::string_view sound_path) noexcept override;
     private:
         audiere::OutputStreamPtr m_audio_stream = nullptr;
     };
 
-}}
+}

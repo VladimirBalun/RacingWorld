@@ -21,7 +21,8 @@
 
 #include "../ResourcesFWD.hpp"
 
-namespace Core { namespace Graphics {
+namespace Core::Graphics
+{
 
     class Shader
     {
@@ -30,6 +31,7 @@ namespace Core { namespace Graphics {
         Shader(Resources::VertexShaderSPtr vertex_shader, Resources::FragmentShaderSPtr fragment_shader) noexcept;
         void use() const noexcept;
         bool isValid() const noexcept;
+        void setUniformi(const char* name, int value) const noexcept;
         void setUniformf(const char* name, float value) const noexcept;
         void setUniformVector3f(const char* name, const glm::vec3& vector) const noexcept;
         void setUniformMatrix4x4f(const char* name, const glm::mat4& matrix) const noexcept;
@@ -41,4 +43,4 @@ namespace Core { namespace Graphics {
         unsigned int m_program_id = 0;
     };
 
-}}
+}

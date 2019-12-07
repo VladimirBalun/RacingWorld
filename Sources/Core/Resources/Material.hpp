@@ -21,7 +21,8 @@
 #include "IResource.hpp"
 #include "../Helpers/Holders/Polymorphic.hpp"
 
-namespace Core { namespace Resources {
+namespace Core::Resources
+{
 
     class Material final : public IResource, public Helpers::Holders::Polymorphic<Material>
     {
@@ -31,11 +32,11 @@ namespace Core { namespace Resources {
         void setDiffuseTextureName(std::string&& texture_name) noexcept;
         void setSpecularTextureName(std::string&& texture_name) noexcept;
         float getShininess() const noexcept;
-        const std::string& getAmbientTextureName() const noexcept;
-        const std::string& getDiffuseTextureName() const noexcept;
-        const std::string& getSpecularTextureName() const noexcept;
+        std::string_view getAmbientTextureName() const noexcept;
+        std::string_view getDiffuseTextureName() const noexcept;
+        std::string_view getSpecularTextureName() const noexcept;
     private:
-        bool load(const std::string& material_path) noexcept override;
+        bool load(std::string_view material_path) noexcept override;
     private:
         float m_shininess = 0.0f;
         std::string m_ambient_texture_name{};
@@ -43,4 +44,4 @@ namespace Core { namespace Resources {
         std::string m_specular_texture_name{};
     };
 
-}}
+}

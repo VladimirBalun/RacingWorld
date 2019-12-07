@@ -26,7 +26,8 @@
     #define g_configuration_manager Core::Managers::ConfigurationManager::getInstance()
 #endif // g_configuration_manager
 
-namespace Core { namespace Managers {
+namespace Core::Managers 
+{
 
     class ConfigurationManager : public IManager<ConfigurationManager>, public Helpers::Holders::Singleton<ConfigurationManager>
     {
@@ -34,20 +35,20 @@ namespace Core { namespace Managers {
         void initialize();
         std::string getCurrentLanguage() const noexcept;
         std::uint16_t getServerPort() const noexcept;
-        const std::string& getServerAddress() const noexcept;
-        const std::string& getModelsPath() const noexcept;
-        const std::string& getShadersPath() const noexcept;
-        const std::string& getResourcesPath() const noexcept;
-        const std::string& getLocalesConfigurationFilename() const noexcept;
-        const std::string& getPlayerConfigurationFilename() const noexcept;
-        const std::string& getResourcesConfigurationFilename() const noexcept;
+        std::string_view getServerAddress() const noexcept;
+        std::string_view getModelsPath() const noexcept;
+        std::string_view getShadersPath() const noexcept;
+        std::string_view getResourcesPath() const noexcept;
+        std::string_view getLocalesConfigurationFilename() const noexcept;
+        std::string_view getPlayerConfigurationFilename() const noexcept;
+        std::string_view getResourcesConfigurationFilename() const noexcept;
     private:
-        std::string m_current_language{};
+        std::string   m_current_language{};
+        std::string   m_server_address{};
+        std::string   m_player_file_configuration_path{};
+        std::string   m_locales_file_configuration_path{};
+        std::string   m_resources_file_configuration_path{};
         std::uint16_t m_server_port = 0u;
-        std::string m_server_address{};
-        std::string m_player_file_configuration_path{};
-        std::string m_locales_file_configuration_path{};
-        std::string m_resources_file_configuration_path{};
     };
 
-}}
+}

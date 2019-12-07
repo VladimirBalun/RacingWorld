@@ -16,9 +16,13 @@
 
 #version 330 core
 
-out vec4 color;
+in vec2 vs_out_texture_coordinate;
+
+uniform sampler2D fs_un_texture;
+
+out vec4 fs_out_color;
 
 void main()
 {
-	color = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+	fs_out_color = texture(fs_un_texture, vs_out_texture_coordinate);
 }

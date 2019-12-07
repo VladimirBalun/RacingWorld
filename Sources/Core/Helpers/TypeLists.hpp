@@ -27,7 +27,8 @@
 #define TYPELIST_4(__T1__, __T2__, __T3__, __T4__) TypeList<__T1__, TYPELIST_3(__T2__, __T3__, __T4__) >
 #define TYPELIST_5(__T1__, __T2__, __T3__, __T4__, __T5__) TypeList<__T1__, TYPELIST_4(__T2__, __T3__, __T4__, __T5__) >
 
-namespace Core { namespace Helpers {
+namespace Core::Helpers 
+{
 
     template<typename T, typename U>
     struct TypeList
@@ -204,4 +205,4 @@ namespace Core { namespace Helpers {
 
     }
 
-}}
+}

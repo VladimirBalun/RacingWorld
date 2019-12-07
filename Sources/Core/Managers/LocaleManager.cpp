@@ -30,8 +30,8 @@ void Core::Managers::LocaleManager::initialize()
 
     if (libxl::Book* book = xlCreateBook())
     {
-        const std::string resources_path = g_configuration_manager.getResourcesPath();
-        const std::string locales_config_filename = g_configuration_manager.getLocalesConfigurationFilename();
+        const std::string resources_path = STR(g_configuration_manager.getResourcesPath());
+        const std::string locales_config_filename = STR(g_configuration_manager.getLocalesConfigurationFilename());
         const std::string locales_config_file_full_path = resources_path + locales_config_filename;
         if (book->load(locales_config_file_full_path.c_str()))
         {

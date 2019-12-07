@@ -25,7 +25,8 @@
     #define g_keyboard_state Core::Input::KeyboardState::getInstance()
 #endif // g_keyboard_state
 
-namespace Core { namespace Input {
+namespace Core::Input 
+{
 
     class KeyboardState : public Helpers::Holders::Singleton<KeyboardState>
     {
@@ -52,4 +53,4 @@ namespace Core { namespace Input {
         std::atomic_bool m_is_pressed_key_d = false;
     };
 
-}}
+}

@@ -18,25 +18,37 @@
 
 #include <vector>
 
-namespace Core { namespace Graphics { namespace SceneGraph {
+#include "../../Helpers/Macroses.hpp"
+
+namespace Core::Resources
+{
+
+    FWD_DECL_SMART_PTRS_FOR_CLASS(Image);
+
+}
+
+namespace Core::Graphics::SceneGraph 
+{
 
     class Mesh
     {
     public:
-        Mesh() noexcept;
-        Mesh(std::vector<float>&& elements, unsigned int count_elements) noexcept;
+        Mesh() noexcept = default;
+        Mesh(Resources::ImageSPtr texture, std::vector<float>&& elements, unsigned int count_elements) noexcept;
         void draw() const noexcept;
         ~Mesh();
     private:
-        static const std::uint8_t ALIGNMENT_VERTEX = 0;
-        static const std::uint8_t ALIGNMENT_TEXTURE_COORDINATE = 3;
-        static const std::uint8_t ALIGNMENT_NORMAL = 5;
-        static constexpr std::uint8_t SIZE_ELEMENT = ALIGNMENT_NORMAL + 3;
+        void generateIdentifiers();
+        void bindDataIdentifiers();
+        void unbindDataIdentifiers();
+        void fillTextureData(Resources::ImageSPtr texture);
+        void fillBuffersData();
     private:
         std::vector<float> m_elements{};
-        unsigned int m_vbo = 0;
-        unsigned int m_vao = 0;
-        unsigned int m_count_elements = 0;
+        unsigned int m_vbo = 0u;
+        unsigned int m_vao = 0u;
+        unsigned int m_texture = 0u;
+        unsigned int m_count_elements = 0u;
     };
 
-}}}
+}

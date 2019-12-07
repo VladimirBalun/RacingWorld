@@ -18,11 +18,12 @@
 
 #include <GLFW/glfw3.h>
 
-namespace Core { namespace Input {
+namespace Core::Input 
+{
 
     void onInputError(int error, const char* description) noexcept;
     void onMouseMoveEvent(GLFWwindow* window, double x_pos, double y_pos) noexcept;
     void onMouseClickEvent(GLFWwindow* window, int button, int action, int mods) noexcept;
     void onKeyboardEvent(GLFWwindow* window, int key, int scan_code, int action, int mods) noexcept;
 
-}}
+}

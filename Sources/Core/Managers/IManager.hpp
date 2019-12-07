@@ -16,7 +16,8 @@
 
 #pragma once
 
-namespace Core { namespace Managers {
+namespace Core::Managers 
+{
 
     template<class T>
     struct IManager
@@ -30,4 +31,4 @@ namespace Core { namespace Managers {
         static_cast<T*>(this)->initialize();
     }
 
-}}
+}

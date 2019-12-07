@@ -50,7 +50,7 @@ void Core::Resources::Model::Mesh::setMaterialName(const std::string& name) noex
     m_material_name = name;
 }
 
-const std::string Core::Resources::Model::Mesh::getMaterialName() const noexcept
+std::string_view Core::Resources::Model::Mesh::getMaterialName() const noexcept
 {
     return m_material_name;
 }
@@ -102,7 +102,7 @@ Core::Resources::Model::meshes_t::const_iterator Core::Resources::Model::meshesE
     return m_meshes.end();
 }
 
-bool Core::Resources::Model::load(const std::string& model_path) noexcept
+bool Core::Resources::Model::load(std::string_view model_path) noexcept
 {
     return Loaders::OBJLoader::load(*this, model_path);
 }

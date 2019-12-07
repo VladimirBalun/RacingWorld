@@ -16,13 +16,13 @@
 
 #pragma once
 
-#include <string>
 #include <cstdint>
 
 #include "IResource.hpp"
 #include "../Helpers/Holders/Polymorphic.hpp"
 
-namespace Core { namespace Resources {
+namespace Core::Resources 
+{
 
     class Image final : public IResource, public Helpers::Holders::Polymorphic<Image>
     {
@@ -33,7 +33,7 @@ namespace Core { namespace Resources {
         std::uint16_t getWidth() const noexcept;
         std::uint16_t getHeight() const noexcept;
         const unsigned char* getData() const noexcept;
-        bool load(const std::string& image_path) noexcept override;
+        bool load(std::string_view image_path) noexcept override;
         ~Image();
     private:
         unsigned char* m_data = nullptr;
@@ -41,4 +41,4 @@ namespace Core { namespace Resources {
         std::uint16_t m_height = 0u;
     };
 
-}}
+}

@@ -23,16 +23,16 @@
 #include "../Text.hpp"
 #include "../../Helpers/Debug.hpp"
 
-bool Core::Resources::Loaders::TextLoader::load(Text& text, const std::string& text_file_path) noexcept
+bool Core::Resources::Loaders::TextLoader::load(Text& text, std::string_view text_file_path) noexcept
 {
-    boost::filesystem::ifstream input_stream(text_file_path);
+    boost::filesystem::ifstream input_stream(text_file_path.data());
     if (!input_stream.is_open())
     {
-        LOG_WARNING("Text file '" + text_file_path + "' was not opened for reading.");
+        LOG_WARNING("Text file '" + STR(text_file_path) + "' was not opened for reading.");
         return false;
     }
 
-    const auto file_size = static_cast<std::size_t>(boost::filesystem::file_size(text_file_path));
+    const auto file_size = static_cast<std::size_t>(boost::filesystem::file_size(text_file_path.data()));
     std::string buffer{};
     buffer.resize(file_size + 1);
     input_stream.read(buffer.data(), file_size);

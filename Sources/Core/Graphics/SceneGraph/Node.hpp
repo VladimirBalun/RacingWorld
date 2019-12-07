@@ -24,7 +24,8 @@
 #include "Mesh.hpp"
 #include "../../Helpers/Macroses.hpp"
 
-namespace Core { namespace Graphics { namespace SceneGraph {
+namespace Core::Graphics::SceneGraph 
+{
 
     FWD_DECL_SMART_PTRS_FOR_CLASS(Node)
 
@@ -38,6 +39,7 @@ namespace Core { namespace Graphics { namespace SceneGraph {
         void rotateByX(float degrees) noexcept;
         void rotateByY(float degrees) noexcept;
         void rotateByZ(float degrees) noexcept;
+        void scale(float value) noexcept;
         void move(const glm::vec3& position) noexcept;
         void move(const glm::vec4& position) noexcept;
         bool isExistChildren() const noexcept;
@@ -59,4 +61,4 @@ namespace Core { namespace Graphics { namespace SceneGraph {
         m_children.emplace_back(std::forward<Args>(args)...);
     }
 
-}}}
+}

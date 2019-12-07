@@ -18,27 +18,30 @@
 
 #include <string>
 
-namespace objl {
+namespace objl 
+{
 
     struct Material;
 
 }
 
-namespace Core { namespace Resources {
+namespace Core::Resources 
+{
 
     class Model;
 
-}}
-
-namespace Core { namespace Resources { namespace Loaders {
-
-    class OBJLoader
+    namespace Loaders
     {
-    public:
-        static bool load(Model& model, const std::string& model_file_path) noexcept;
-    private:
-        static void loadMaterial(const objl::Material& material, const std::string& material_path) noexcept;
-        static void tryLoadImage(const std::string& image_filename, const std::string& image_path) noexcept;
-    };
 
-}}}
+        class OBJLoader
+        {
+        public:
+            static bool load(Model& model, std::string_view model_file_path) noexcept;
+        private:
+            static void loadMaterial(const objl::Material& material, const std::string& material_path) noexcept;
+            static void tryLoadImage(const std::string& image_filename, const std::string& image_path) noexcept;
+        };
+
+    }
+
+}

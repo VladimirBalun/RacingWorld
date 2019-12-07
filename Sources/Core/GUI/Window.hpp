@@ -20,7 +20,8 @@
 
 typedef struct GLFWwindow GLFWwindow;
 
-namespace Core { namespace GUI {
+namespace Core::GUI 
+{
  
     class Window
     {
@@ -35,4 +36,4 @@ namespace Core { namespace GUI {
         GLFWwindow* m_window = nullptr;
     };
 
-}}
+}

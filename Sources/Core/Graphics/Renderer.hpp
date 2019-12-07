@@ -21,9 +21,11 @@
 
 #include "../Helpers/Macroses.hpp"
 
-namespace Core { namespace Graphics {
+namespace Core::Graphics 
+{
 
-    namespace SceneGraph {
+    namespace SceneGraph
+    {
 
         class Node;
         class Scene;
@@ -45,4 +47,4 @@ namespace Core { namespace Graphics {
         std::stack<glm::mat4x4> m_transformations_stack;
     };
 
-}}
+}
