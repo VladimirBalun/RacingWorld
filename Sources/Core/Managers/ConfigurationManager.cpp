@@ -40,11 +40,6 @@ void Core::Managers::ConfigurationManager::initialize()
         read_xml(configuration_file_full_path, xml_configuration);
         for (const auto& xml_data : xml_configuration.get_child("configuration"))
         {
-            if (xml_data.first == "server")
-            {
-                m_server_port = xml_data.second.get<std::uint16_t>("<xmlattr>.port", 0u);
-                m_server_address = xml_data.second.get<std::string>("<xmlattr>.address", "");
-            }
             if (xml_data.first == "language")
             {
                 m_current_language = xml_data.second.get<std::string>("<xmlattr>.data", "");;
@@ -78,16 +73,6 @@ void Core::Managers::ConfigurationManager::initialize()
 std::string Core::Managers::ConfigurationManager::getCurrentLanguage() const noexcept
 {
     return m_current_language;
-}
-
-std::uint16_t Core::Managers::ConfigurationManager::getServerPort() const noexcept
-{
-    return m_server_port;
-}
-
-std::string_view Core::Managers::ConfigurationManager::getServerAddress() const noexcept
-{
-    return m_server_address;
 }
 
 std::string_view Core::Managers::ConfigurationManager::getModelsPath() const noexcept

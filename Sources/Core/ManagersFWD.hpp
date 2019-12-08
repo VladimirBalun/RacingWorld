@@ -23,7 +23,6 @@ namespace Core::Managers
     struct IManager;
 
     class SoundManager;
-    class PlayerManager;
     class LocaleManager;
     class ResourceManager;
     class ConfigurationManager;
@@ -37,10 +36,6 @@ namespace Core::Managers
 #ifndef g_locale_manager
     #define g_locale_manager Core::Managers::LocaleManager::getInstance()
 #endif // g_locale_manager
-
-#ifndef g_player_manager
-    #define g_player_manager Core::Managers::PlayerManager::getInstance()
-#endif // g_player_manager
 
 #ifndef g_resource_manager
     #define g_resource_manager Core::Managers::ResourceManager::getInstance()
