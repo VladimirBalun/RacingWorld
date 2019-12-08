@@ -20,13 +20,18 @@
 #include "Shader.hpp"
 #include "SceneGraph/Node.hpp"
 #include "SceneGraph/Scene.hpp"
+#include "Input/MouseState.hpp"
+#include "Input/KeyboardState.hpp"
 
 void Core::Graphics::Renderer::draw(const SceneGraph::Scene& scene, const std::string& shader_id)
 {
-    SceneGraph::NodeSPtr root_node = scene.getRootNode();
     m_basic_shader = scene.getShaderByID(shader_id);
     m_basic_shader->use();
-    drawNode(root_node);
+    m_basic_shader->setUniformMatrix4x4f("vs_un_view", m_camera.getViewMatrix());
+    m_basic_shader->setUniformMatrix4x4f("vs_un_projection", m_camera.getProjectionMatrix());
+
+    updateCamera();
+    drawNode(scene.getRootNode());
 }
 
 void Core::Graphics::Renderer::drawNode(SceneGraph::NodeSPtr node)
@@ -46,5 +51,35 @@ void Core::Graphics::Renderer::drawNode(SceneGraph::NodeSPtr node)
     if (const SceneGraph::Mesh* mesh = node->getMesh())
     {
         mesh->draw();
+    }
+}
+
+void Core::Graphics::Renderer::updateCamera() noexcept
+{
+    m_camera.setSpeed(5.0f); // TODO: need to calculate with FPS
+    const Input::KeyboardState& keyboard_state = g_keyboard_state.getInstance();
+    if (keyboard_state.isPressedKeyW())
+    {
+        m_camera.moveForward();
+    }
+    if (keyboard_state.isPressedKeyS())
+    {
+        m_camera.moveBackward();
+    }
+    if (keyboard_state.isPressedKeyA())
+    {
+        m_camera.moveLeft();
+    }
+    if (keyboard_state.isPressedKeyD())
+    {
+        m_camera.moveRight();
+    }
+
+    Input::MouseState& mouse = g_mouse_state.getInstance();
+    const int xDisplacementOffset = mouse.getAndUnsetXDisplacementOffset();
+    const int yDisplacementOffset = mouse.getAndUnsetYDisplacementOffset();
+    if (xDisplacementOffset != 0 || yDisplacementOffset != 0)
+    {
+        m_camera.turn(xDisplacementOffset, yDisplacementOffset);
     }
 }

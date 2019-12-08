@@ -32,7 +32,6 @@ namespace Core::Input
     {
         friend void onMouseMoveEvent(GLFWwindow*, double, double) noexcept;
     public:
-        int getAndUnsetWheelOffset() noexcept;
         bool isPressedLeftButton() const noexcept;
         bool isPressedRightButton() const noexcept;
         int getAndUnsetXDisplacementOffset() noexcept;
@@ -45,7 +44,6 @@ namespace Core::Input
         void setWheelOffset(int value) noexcept;
         void setPosition(int x_pos, int y_pos) noexcept;
     private:
-        std::atomic_int m_wheel_offset = 0;
         std::atomic_int m_x_position = 0;
         std::atomic_int m_y_position = 0;
         std::atomic_int m_last_x_position = 430; // window_width / 2

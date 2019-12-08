@@ -19,7 +19,7 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
-namespace Graphics
+namespace Core::Graphics
 {
 
     class Camera

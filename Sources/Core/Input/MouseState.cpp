@@ -17,13 +17,6 @@
 #include "PrecompiledHeader.hpp"
 #include "MouseState.hpp"
 
-int Core::Input::MouseState::getAndUnsetWheelOffset() noexcept
-{
-    const int offset = m_wheel_offset.load();
-    m_wheel_offset.store(0);
-    return offset;
-}
-
 bool Core::Input::MouseState::isPressedLeftButton() const noexcept
 {
     return m_is_pressed_left_button.load();
@@ -66,11 +59,6 @@ void Core::Input::MouseState::releaseLeftButton() noexcept
 void Core::Input::MouseState::releaseRightButton() noexcept
 {
     m_is_pressed_right_button.store(false);
-}
-
-void Core::Input::MouseState::setWheelOffset(const int value) noexcept
-{
-    m_wheel_offset.fetch_add(value);
 }
 
 void Core::Input::MouseState::setPosition(const int x_pos, const int y_pos) noexcept

@@ -19,6 +19,7 @@
 #include <stack>
 #include <glm/mat4x4.hpp>
 
+#include "Camera.hpp"
 #include "../Helpers/Macroses.hpp"
 
 namespace Core::Graphics 
@@ -42,7 +43,9 @@ namespace Core::Graphics
         void draw(const SceneGraph::Scene& scene, const std::string& shader_id);
     private:
         void drawNode(SceneGraph::NodeSPtr node);
+        void updateCamera() noexcept;
     private:
+        Camera m_camera;
         const Shader* m_basic_shader = nullptr;
         std::stack<glm::mat4x4> m_transformations_stack;
     };

@@ -22,12 +22,12 @@
 #include <glm/ext/matrix_clip_space.inl>
 #include <glm/detail/func_trigonometric.inl>
 
-void Graphics::Camera::setSpeed(GLfloat speed) noexcept
+void Core::Graphics::Camera::setSpeed(GLfloat speed) noexcept
 {
     m_speed = speed / 1000;
 }
 
-void Graphics::Camera::moveLeft() noexcept
+void Core::Graphics::Camera::moveLeft() noexcept
 {
     glm::vec3 right_direction = cross(m_forward_direction, m_up_direction);
     normalize(right_direction);
@@ -35,7 +35,7 @@ void Graphics::Camera::moveLeft() noexcept
     m_position -= right_direction;
 }
 
-void Graphics::Camera::moveRight() noexcept
+void Core::Graphics::Camera::moveRight() noexcept
 {
     glm::vec3 right_direction = cross(m_forward_direction, m_up_direction);
     normalize(right_direction);
@@ -43,17 +43,17 @@ void Graphics::Camera::moveRight() noexcept
     m_position += right_direction;
 }
 
-void Graphics::Camera::moveForward() noexcept
+void Core::Graphics::Camera::moveForward() noexcept
 {
     m_position += m_forward_direction * m_speed;
 }
 
-void Graphics::Camera::moveBackward() noexcept
+void Core::Graphics::Camera::moveBackward() noexcept
 {
     m_position -= m_forward_direction * m_speed;
 }
 
-void Graphics::Camera::turn(GLint x_offset, GLint y_offset) noexcept
+void Core::Graphics::Camera::turn(GLint x_offset, GLint y_offset) noexcept
 {
     constexpr float SENSIIVITY = 0.05f;
     constexpr float PITCH_MIN_ANGLE = -89.0f;
@@ -80,21 +80,21 @@ void Graphics::Camera::turn(GLint x_offset, GLint y_offset) noexcept
     normalize(m_forward_direction);
 }
 
-const glm::vec3& Graphics::Camera::getPosition() const noexcept
+const glm::vec3& Core::Graphics::Camera::getPosition() const noexcept
 {
     return m_position;
 }
 
-glm::mat4x4 Graphics::Camera::getViewMatrix() const noexcept
+glm::mat4x4 Core::Graphics::Camera::getViewMatrix() const noexcept
 {
-    return lookAt(m_position, m_position + m_forward_direction, m_up_direction);
+    return lookAt(m_position, m_position + m_forward_direction, m_up_direction);;
 }
 
-glm::mat4x4 Graphics::Camera::getProjectionMatrix() const noexcept
+glm::mat4x4 Core::Graphics::Camera::getProjectionMatrix() const noexcept
 {
     glm::mat4x4 perspective_matrix{ 1.0f };
     const int window_width = 860;  // TODO
     const int window_height = 600; // TODO
-    perspective_matrix = glm::perspective(m_fov, static_cast<float>(window_width) / static_cast<float>(window_height), 0.1f, 100.f);
+    perspective_matrix = glm::perspective(glm::radians(45.0f), (float)window_width / (float)window_height, 0.1f, 100.0f);
     return perspective_matrix;
 }
