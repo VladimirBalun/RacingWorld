@@ -24,7 +24,7 @@
 
 void Core::Graphics::Camera::setSpeed(GLfloat speed) noexcept
 {
-    m_speed = speed / 1000;
+    m_speed = speed;
 }
 
 void Core::Graphics::Camera::moveLeft() noexcept

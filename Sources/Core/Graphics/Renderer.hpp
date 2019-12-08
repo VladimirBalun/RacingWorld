@@ -20,6 +20,7 @@
 #include <glm/mat4x4.hpp>
 
 #include "Camera.hpp"
+#include "FrameCalculator.hpp"
 #include "../Helpers/Macroses.hpp"
 
 namespace Core::Graphics 
@@ -46,6 +47,7 @@ namespace Core::Graphics
         void updateCamera() noexcept;
     private:
         Camera m_camera;
+        FrameCalculator m_frame_calculator;
         const Shader* m_basic_shader = nullptr;
         std::stack<glm::mat4x4> m_transformations_stack;
     };

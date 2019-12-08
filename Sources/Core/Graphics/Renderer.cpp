@@ -25,6 +25,8 @@
 
 void Core::Graphics::Renderer::draw(const SceneGraph::Scene& scene, const std::string& shader_id)
 {
+    m_frame_calculator.onChangingFrame();
+
     m_basic_shader = scene.getShaderByID(shader_id);
     m_basic_shader->use();
     m_basic_shader->setUniformMatrix4x4f("vs_un_view", m_camera.getViewMatrix());
@@ -56,7 +58,8 @@ void Core::Graphics::Renderer::drawNode(SceneGraph::NodeSPtr node)
 
 void Core::Graphics::Renderer::updateCamera() noexcept
 {
-    m_camera.setSpeed(5.0f); // TODO: need to calculate with FPS
+    m_camera.setSpeed(m_frame_calculator.getDeltaTime());
+
     const Input::KeyboardState& keyboard_state = g_keyboard_state.getInstance();
     if (keyboard_state.isPressedKeyW())
     {
