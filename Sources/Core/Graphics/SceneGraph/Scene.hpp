@@ -18,6 +18,8 @@
 
 #include <unordered_map>
 
+#include "Light.hpp"
+
 namespace Core::Graphics
 {
 
@@ -34,16 +36,19 @@ namespace Core::Graphics
         public:
             void addMesh(const std::string& shader_id, Mesh&& mesh);
             void addShader(const std::string& shader_id, Shader&& shader);
+            void setLight(Light&& scene_light) noexcept;
             void setRootNode(std::shared_ptr<Node> root_node) noexcept;
             std::shared_ptr<Node> getRootNode() const noexcept;
             bool isExistsMesh(const std::string& mesh_id) const noexcept;
+            const Light& getLight() const noexcept;
             const Mesh* getMeshByID(const std::string& mesh_id) const noexcept;
             const Shader* getShaderByID(const std::string& shader_id) const noexcept;
             ~Scene();
         private:
-            std::shared_ptr<Node> m_root_node = nullptr;
             std::unordered_map<std::string, Mesh> m_meshes{};
             std::unordered_map<std::string, Shader> m_shaders{};
+            Light m_scene_light{};
+            std::shared_ptr<Node> m_root_node = nullptr;
         };
 
     }

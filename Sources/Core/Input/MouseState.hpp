@@ -41,7 +41,6 @@ namespace Core::Input
         void pressRightButton() noexcept;
         void releaseLeftButton() noexcept;
         void releaseRightButton() noexcept;
-        void setWheelOffset(int value) noexcept;
         void setPosition(int x_pos, int y_pos) noexcept;
     private:
         std::atomic_int m_x_position = 0;

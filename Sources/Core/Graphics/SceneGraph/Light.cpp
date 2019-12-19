@@ -17,27 +17,42 @@
 #include "PrecompiledHeader.hpp"
 #include "Light.hpp"
 
-void Core::Resources::SceneGraph::Light::move(const glm::vec3& alignment) noexcept
+void Core::Graphics::SceneGraph::Light::setPosition(glm::vec3&& position) noexcept
 {
-    m_position += alignment;
+    m_position = std::move(position);
 }
 
-const glm::vec3& Core::Resources::SceneGraph::Light::getPosition() const noexcept
+void Core::Graphics::SceneGraph::Light::setAmbientColor(glm::vec3&& color) noexcept
+{
+    m_ambient_color = std::move(color);
+}
+
+void Core::Graphics::SceneGraph::Light::setDiffuseColor(glm::vec3&& color) noexcept
+{
+    m_diffuse_color = std::move(color);
+}
+
+void Core::Graphics::SceneGraph::Light::setSpecularColor(glm::vec3&& color) noexcept
+{
+    m_specular_color = std::move(color);
+}
+
+const glm::vec3& Core::Graphics::SceneGraph::Light::getPosition() const noexcept
 {
     return m_position;
 }
 
-const glm::vec3& Core::Resources::SceneGraph::Light::getAmbientColor() const noexcept
+const glm::vec3& Core::Graphics::SceneGraph::Light::getAmbientColor() const noexcept
 {
     return m_ambient_color;
 }
 
-const glm::vec3& Core::Resources::SceneGraph::Light::getDiffuseColor() const noexcept
+const glm::vec3& Core::Graphics::SceneGraph::Light::getDiffuseColor() const noexcept
 {
     return m_diffuse_color;
 }
 
-const glm::vec3& Core::Resources::SceneGraph::Light::getSpecularColor() const noexcept
+const glm::vec3& Core::Graphics::SceneGraph::Light::getSpecularColor() const noexcept
 {
     return m_specular_color;
 }

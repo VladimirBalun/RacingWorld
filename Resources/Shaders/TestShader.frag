@@ -18,11 +18,13 @@
 
 in vec2 vs_out_texture_coordinate;
 
+uniform vec3      fs_un_light_color;
 uniform sampler2D fs_un_texture;
 
 out vec4 fs_out_color;
 
 void main()
 {
-	fs_out_color = texture(fs_un_texture, vs_out_texture_coordinate);
+	vec4 preapared_light_color = vec4(fs_un_light_color, 1.0f);
+	fs_out_color = preapared_light_color * texture(fs_un_texture, vs_out_texture_coordinate);
 }

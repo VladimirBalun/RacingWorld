@@ -75,6 +75,12 @@ std::string Core::Managers::ConfigurationManager::getCurrentLanguage() const noe
     return m_current_language;
 }
 
+std::string_view Core::Managers::ConfigurationManager::getMapsPath() const noexcept
+{
+    static const std::string models_path = STR(getResourcesPath()) + "/Maps/";
+    return models_path;
+}
+
 std::string_view Core::Managers::ConfigurationManager::getModelsPath() const noexcept
 {
     static const std::string models_path = STR(getResourcesPath()) + "/Models/";

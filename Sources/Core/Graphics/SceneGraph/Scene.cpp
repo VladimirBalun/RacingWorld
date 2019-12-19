@@ -31,6 +31,11 @@ void Core::Graphics::SceneGraph::Scene::addShader(const std::string& shader_id, 
     m_shaders.emplace(shader_id, std::move(shader));
 }
 
+void Core::Graphics::SceneGraph::Scene::setLight(Light && scene_light) noexcept
+{
+    m_scene_light = scene_light;
+}
+
 Core::Graphics::SceneGraph::NodeSPtr Core::Graphics::SceneGraph::Scene::getRootNode() const noexcept
 {
     return m_root_node;
@@ -45,6 +50,11 @@ bool Core::Graphics::SceneGraph::Scene::isExistsMesh(const std::string & mesh_id
 {
     const auto it = m_meshes.find(mesh_id);
     return it != end(m_meshes);
+}
+
+const Core::Graphics::SceneGraph::Light& Core::Graphics::SceneGraph::Scene::getLight() const noexcept
+{
+    return m_scene_light;
 }
 
 const Core::Graphics::SceneGraph::Mesh* Core::Graphics::SceneGraph::Scene::getMeshByID(const std::string& mesh_id) const noexcept

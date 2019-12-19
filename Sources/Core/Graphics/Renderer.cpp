@@ -20,6 +20,7 @@
 #include "Shader.hpp"
 #include "SceneGraph/Node.hpp"
 #include "SceneGraph/Scene.hpp"
+#include "SceneGraph/Light.hpp"
 #include "Input/MouseState.hpp"
 #include "Input/KeyboardState.hpp"
 
@@ -29,8 +30,12 @@ void Core::Graphics::Renderer::draw(const SceneGraph::Scene& scene, const std::s
 
     m_basic_shader = scene.getShaderByID(shader_id);
     m_basic_shader->use();
+
     m_basic_shader->setUniformMatrix4x4f("vs_un_view", m_camera.getViewMatrix());
     m_basic_shader->setUniformMatrix4x4f("vs_un_projection", m_camera.getProjectionMatrix());
+
+    const SceneGraph::Light& light = scene.getLight();
+    m_basic_shader->setUniformVector3f("fs_un_light_color", light.getAmbientColor());
 
     updateCamera();
     drawNode(scene.getRootNode());

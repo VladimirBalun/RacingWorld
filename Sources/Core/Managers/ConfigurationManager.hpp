@@ -34,6 +34,7 @@ namespace Core::Managers
     public:
         void initialize();
         std::string getCurrentLanguage() const noexcept;
+        std::string_view getMapsPath() const noexcept;
         std::string_view getModelsPath() const noexcept;
         std::string_view getShadersPath() const noexcept;
         std::string_view getResourcesPath() const noexcept;
@@ -41,10 +42,10 @@ namespace Core::Managers
         std::string_view getPlayerConfigurationFilename() const noexcept;
         std::string_view getResourcesConfigurationFilename() const noexcept;
     private:
-        std::string   m_current_language{};
-        std::string   m_player_file_configuration_path{};
-        std::string   m_locales_file_configuration_path{};
-        std::string   m_resources_file_configuration_path{};
+        std::string m_current_language{};
+        std::string m_player_file_configuration_path{};
+        std::string m_locales_file_configuration_path{};
+        std::string m_resources_file_configuration_path{};
     };
 
 }

@@ -16,16 +16,18 @@
 
 #pragma once
 
-namespace Game::ID 
+#include <string_view>
+
+namespace Game::ID
 {
 
-    inline const char* g_base_vert_shader_id = "base_shader_vert";
-    inline const char* g_font_vert_shader_id = "font_shader_vert";
-    inline const char* g_test_vert_shader_id = "test_shader_vert";
+    inline const std::string_view g_base_vert_shader_id = "base_shader_vert";
+    inline const std::string_view g_font_vert_shader_id = "font_shader_vert";
+    inline const std::string_view g_test_vert_shader_id = "test_shader_vert";
 
-    inline const char* g_base_frag_shader_id = "base_shader_frag";
-    inline const char* g_font_frag_shader_id = "font_shader_frag";
-    inline const char* g_test_frag_shader_id = "test_shader_frag";
+    inline const std::string_view g_base_frag_shader_id = "base_shader_frag";
+    inline const std::string_view g_font_frag_shader_id = "font_shader_frag";
+    inline const std::string_view g_test_frag_shader_id = "test_shader_frag";
 
     inline const char* g_background_sound = "background";
 

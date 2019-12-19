@@ -18,7 +18,7 @@
 
 #include <glm/vec3.hpp>
 
-namespace Core::Resources::SceneGraph 
+namespace Core::Graphics::SceneGraph 
 {
 
     class Light
@@ -27,16 +27,19 @@ namespace Core::Resources::SceneGraph
         Light() noexcept = default;
         Light(const glm::vec3& position, const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular) noexcept
             : m_position(position), m_ambient_color(ambient), m_diffuse_color(diffuse), m_specular_color(specular) {}
-        void move(const glm::vec3& alignment) noexcept;
+        void setPosition(glm::vec3&& position) noexcept;
+        void setAmbientColor(glm::vec3&& color) noexcept;
+        void setDiffuseColor(glm::vec3&& color) noexcept;
+        void setSpecularColor(glm::vec3&& color) noexcept;
         const glm::vec3& getPosition() const noexcept;
         const glm::vec3& getAmbientColor() const noexcept;
         const glm::vec3& getDiffuseColor() const noexcept;
         const glm::vec3& getSpecularColor() const noexcept;
     private:
         glm::vec3 m_position{};
-        glm::vec3 m_ambient_color{};
-        glm::vec3 m_diffuse_color{};
-        glm::vec3 m_specular_color{};
+        glm::vec3 m_ambient_color{ 1.0f, 1.0f, 1.0f };
+        glm::vec3 m_diffuse_color{ 1.0f, 1.0f, 1.0f };
+        glm::vec3 m_specular_color{ 1.0f, 1.0f, 1.0f };
     };
 
 }
