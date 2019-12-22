@@ -24,9 +24,9 @@ std::string_view Core::Resources::Text::getData() const noexcept
     return m_text_data;
 }
 
-bool Core::Resources::Text::load(std::string_view shader_path) noexcept
+bool Core::Resources::Text::load(std::string_view text_path) noexcept
 {
-    return Loaders::TextLoader::load(*this, shader_path);
+    return Loaders::TextLoader::load(*this, text_path);
 }
 
 void Core::Resources::Text::setData(std::string&& data) noexcept

@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <optional>
 #include <boost/property_tree/ptree.hpp>
 
 #include "IManager.hpp"
@@ -39,6 +40,8 @@ namespace Core::Managers
         void initialize();
         template<typename T>
         std::shared_ptr<T> getResource(const std::string& resource_id) const noexcept;
+        template<typename T>
+        std::optional<T> loadResource(const std::string& resource_path) const;
         template<typename T>
         void loadResource(const std::string& resource_id, std::shared_ptr<T> resource) noexcept;
         template<typename T>
@@ -69,6 +72,20 @@ namespace Core::Managers
         }
 
         return nullptr;
+    }
+
+    template<typename T>
+    std::optional<T> ResourceManager::loadResource(const std::string& resource_path) const
+    {
+        std::optional<T> resource = T{};
+        const bool sucessfull_result = resource->load(resource_path);
+        if (!sucessfull_result)
+        {
+            LOG_WARNING("Resource {'" + STR(resource_path) + "'} was not loaded.");
+            return std::nullopt;
+        }
+
+        return resource;
     }
 
     template<typename T>

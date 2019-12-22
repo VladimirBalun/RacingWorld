@@ -35,7 +35,7 @@ namespace Core::Resources
         void setData(std::string&& data) noexcept;
         std::string_view getData() const noexcept;
     public:
-        bool load(std::string_view shader_path) noexcept override;
+        bool load(std::string_view text_path) noexcept override;
     private:
         std::string m_text_data{};
     };

@@ -20,8 +20,21 @@
 
 int main(int argc, char** argv)
 {
-    Core::Managers::initialize();
-    Game::Application application(860, 600, "RacingWorld");
-    application.start();
-    return EXIT_SUCCESS;
+    try
+    {
+        Core::Managers::initialize();
+        Game::Application application(860, 600, "RacingWorld");
+        application.start();
+        return EXIT_SUCCESS;
+    }
+    catch (std::exception& e)
+    {
+        LOG_ERROR(STR("Caught exception: ") + e.what());
+        return EXIT_FAILURE;
+    }
+    catch (...)
+    {
+        LOG_ERROR("Caught unknown exception.");
+        return EXIT_FAILURE;
+    }
 }

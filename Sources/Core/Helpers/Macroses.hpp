@@ -19,21 +19,6 @@
 #include <memory>
 #include <string>
 
-template<typename In, typename Out, typename>
-constexpr Out TO_TYPE(const In& value) noexcept;
-
-template<typename In, typename Out, typename = std::enable_if_t<(sizeof(void*) <= sizeof(In))>>
-constexpr Out TO_TYPE(In value) noexcept
-{
-    return static_cast<Out>(value);
-}
-
-template<typename In, typename Out, typename = std::enable_if_t<(sizeof(void*) > sizeof(In))>>
-constexpr Out TO_TYPE(const In& value) noexcept
-{
-    return static_cast<Out>(value);
-}
-
 #define STR(__value__) std::string(__value__)
 #define TO_STR(__value__) std::to_string(__value__)
 #define TO_SIZE_T(__value__) static_cast<std::size_t>(__value__)

@@ -24,10 +24,6 @@ namespace Core::Helpers::Holders
     template<class T>
     struct Polymorphic
     {
-        Polymorphic() noexcept = default;
-        explicit Polymorphic(const Polymorphic& other) = delete;
-        Polymorphic& operator = (const Polymorphic& other) = delete;
-
         std::shared_ptr<T> createSharedCopy() const;
         std::unique_ptr<T> createUniqueCopy() const;
     };

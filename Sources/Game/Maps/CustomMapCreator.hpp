@@ -16,20 +16,22 @@
 
 #pragma once
 
-#include <cstdio>
-#include <cstdint>
-#include <cstdlib>
+#include "IMapCreator.hpp"
 
-#include <array>
-#include <deque>
-#include <atomic>
-#include <thread>
-#include <chrono>
-#include <string>
-#include <vector>
-#include <filesystem>
-#include <functional>
-#include <unordered_map>
+namespace Core::Resources
+{
+    class Text;
+}
 
-#include <boost/geometry.hpp>
-#include <boost/polygon/polygon.hpp>
+namespace Game::Maps
+{
+
+    class CustomMapCreator : public IMapCreator<CustomMapCreator> 
+    {
+    public:
+        Map createImpl(const std::string& map_id);
+    private:
+        Core::Resources::Text readMapData(const std::string& map_filename);
+    };
+
+}
