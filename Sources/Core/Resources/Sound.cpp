@@ -29,28 +29,7 @@ audiere::OutputStreamPtr Core::Resources::Sound::getAudioStream() const noexcept
 
 bool Core::Resources::Sound::load(std::string_view sound_path) noexcept
 {
-    using SoundLoader = std::function<bool(Sound&, std::string_view, bool)>;
-    static const std::unordered_map<std::string_view, SoundLoader> available_loaders = {
-        { ".wav", std::bind(&Loaders::WAVLoader::load, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) },
-        { ".mp3", std::bind(&Loaders::MP3Loader::load, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) },
-        { ".ogg", std::bind(&Loaders::OGGLoader::load, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3) }
-    };
-
-    const std::string extension = boost::filesystem::extension(sound_path.data());
-    const auto& it = available_loaders.find(extension);
-    if (it != end(available_loaders))
-    {
-        if (const SoundLoader& sound_loader = it->second)
-        {
-            return sound_loader(*this, sound_path, false);
-        }
-    }
-    else
-    {
-        LOG_WARNING("Unsupported extension for sound loaders: " + STR(sound_path));
-    }
-
-    return false;
+    return Loaders::SoundLoader::load(*this, sound_path, false);
 }
 
 void Core::Resources::Sound::setAudioStream(audiere::OutputStreamPtr&& audio_stream) noexcept

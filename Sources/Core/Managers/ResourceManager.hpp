@@ -31,11 +31,12 @@
     #define g_resource_manager Core::Managers::ResourceManager::getInstance()
 #endif // g_resource_manager
 
-namespace Core::Managers 
+namespace Core::Managers
 {
 
     class ResourceManager : public IManager<ResourceManager>, public Helpers::Holders::Singleton<ResourceManager>
     {
+        using resources_map_t = std::unordered_map<std::string, Resources::IResourceSPtr>;
     public:
         void initialize();
         template<typename T>
@@ -52,7 +53,6 @@ namespace Core::Managers
         template<typename T>
         void loadResource(const std::string& resource_id, std::string_view resource_path) noexcept;
     private:
-        using resources_map_t = std::unordered_map<std::string, Resources::IResourceSPtr>;
         std::array<resources_map_t, TO_SIZE_T(Resources::ResourceType::COUNT_TYPES)> m_resources{};
     };
 

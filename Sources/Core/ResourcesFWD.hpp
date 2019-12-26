@@ -23,6 +23,7 @@ namespace Core::Resources
 
     struct IResource;
 
+    class Map;
     class Text;
     class Model;
     class Sound;
@@ -34,6 +35,7 @@ namespace Core::Resources
 
     DECL_SMART_PTRS(IResource)
 
+    DECL_SMART_PTRS(Map)
     DECL_SMART_PTRS(Text)
     DECL_SMART_PTRS(Model)
     DECL_SMART_PTRS(Sound)

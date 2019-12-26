@@ -55,27 +55,7 @@ const unsigned char* Core::Resources::Image::getData() const noexcept
 
 bool Core::Resources::Image::load(std::string_view image_path) noexcept
 {
-    using ImageLoader = std::function<bool(Image&, std::string_view)>;
-    static const std::unordered_map<std::string_view, ImageLoader> available_loaders = {
-        { ".png", std::bind(&Loaders::PNGLoader::load, std::placeholders::_1, std::placeholders::_2) },
-        { ".jpg", std::bind(&Loaders::JPGLoader::load, std::placeholders::_1, std::placeholders::_2) }
-    };
-
-    const std::string extension = boost::filesystem::extension(image_path.data());
-    const auto& it = available_loaders.find(extension);
-    if (it != end(available_loaders))
-    {
-        if (const ImageLoader& image_loader = it->second)
-        {
-            return image_loader(*this, image_path);
-        }
-    }
-    else
-    {
-        LOG_WARNING("Unsupported extension for image loaders: " + STR(image_path));
-    }
-
-    return false;
+    return Loaders::ImageLoader::load(*this, image_path);
 }
 
 Core::Resources::Image::~Image()

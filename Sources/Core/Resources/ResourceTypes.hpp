@@ -29,6 +29,7 @@ namespace Core::Resources
         MODEL_TYPE,
         IMAGE_TYPE,
         TEXT_TYPE,
+        MAP_TYPE,
 
         // Must be last
         COUNT_TYPES
@@ -47,6 +48,8 @@ namespace Core::Resources
             return ResourceType::IMAGE_TYPE;
         if (std::is_same<T, Text>::value)
             return ResourceType::TEXT_TYPE;
+        if (std::is_same<T, Map>::value)
+            return ResourceType::MAP_TYPE;
 
         return ResourceType::UNKNOWN;
     }

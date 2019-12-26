@@ -19,6 +19,8 @@
 #include <boost/geometry.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/polygon/polygon.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 namespace boost::geometry
 {
@@ -56,3 +58,4 @@ namespace boost::geometry
 namespace bp = boost::polygon;
 namespace bg = boost::geometry;
 namespace bf = boost::filesystem;
+namespace bpt = boost::property_tree;

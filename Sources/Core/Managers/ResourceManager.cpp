@@ -39,6 +39,7 @@ void Core::Managers::ResourceManager::initialize()
     {
         boost::property_tree::ptree ini_configuration{};
         read_ini(resources_config_file_full_path, ini_configuration);
+        loadSection<Resources::Map>(ini_configuration.get_child("Maps"));
         loadSection<Resources::Model>(ini_configuration.get_child("Models"));
         loadSection<Resources::Sound>(ini_configuration.get_child("Sounds"));
         loadSection<Resources::Image>(ini_configuration.get_child("Textures"));

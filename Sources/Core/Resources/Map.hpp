@@ -16,13 +16,36 @@
 
 #pragma once
 
-#include "MapObject.hpp"
+#include "Aliases.hpp"
+#include "IResource.hpp"
+#include "../Helpers/Holders/Polymorphic.hpp"
 
-namespace Game::Maps
+namespace Core::Resources
 {
 
-    class Map
+    class Map : public IResource, public Helpers::Holders::Polymorphic<Map>
     {
+    public:
+        class MapObject
+        {
+        public:
+            void setScale(float scale) noexcept;
+            void setXRotation(float rotation) noexcept;
+            void setYRotation(float rotation) noexcept;
+            void setZRotation(float rotation) noexcept;
+            void setPosition(const bg::point3f_t& position) noexcept;
+            float getScale() const noexcept;
+            float getXRotation() const noexcept;
+            float getYRotation() const noexcept;
+            float getZRotation() const noexcept;
+            const bg::point3f_t& getPosition() const noexcept;
+        private:
+            bg::point3f_t m_position{};
+            float m_scale = 1.0f;
+            float m_x_rotation = 1.0f;
+            float m_y_rotation = 1.0f;
+            float m_z_rotation = 1.0f;
+        };
     public:
         void setDimensions(const bg::box2f_t& dimensions) noexcept;
         void setTreeModelsName(const std::string& model_name);
@@ -38,6 +61,8 @@ namespace Game::Maps
         const std::vector<MapObject>& getTreeObjects() const noexcept;
         const std::vector<MapObject>& getHouseObjects() const noexcept;
         const std::vector<MapObject>& getGroundObjects() const noexcept;
+    public:
+        bool load(std::string_view map_path) noexcept override;
     private:
         std::string m_tree_models_name{};
         std::string m_house_models_name{};

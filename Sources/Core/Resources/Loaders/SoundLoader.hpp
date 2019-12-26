@@ -16,8 +16,8 @@
 
 #pragma once
 
-namespace Core::Resources 
-{ 
+namespace Core::Resources
+{
 
     class Sound;
 
@@ -29,10 +29,6 @@ namespace Core::Resources
         public:
             static bool load(Sound& sound, std::string_view sound_file_path, bool streaming = false) noexcept;
         };
-
-        using WAVLoader = SoundLoader;
-        using MP3Loader = SoundLoader;
-        using OGGLoader = SoundLoader;
 
     }
 

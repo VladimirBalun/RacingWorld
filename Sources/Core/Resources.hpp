@@ -18,6 +18,7 @@
 
 #include "Resources/IResource.hpp"
 
+#include "Resources/Map.hpp"
 #include "Resources/Text.hpp"
 #include "Resources/Model.hpp"
 #include "Resources/Sound.hpp"

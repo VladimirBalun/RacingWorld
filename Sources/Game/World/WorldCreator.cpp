@@ -14,26 +14,5 @@
  * limitations under the License.
  */
 
-#pragma once
-
-#include <string>
-
-#include "Map.hpp"
-
-namespace Game::Maps
-{
-
-    template<class DerivedType>
-    struct IMapCreator
-    {
-        Map create(const std::string& map_id);
-    };
-
-    template<class DerivedType>
-    Map IMapCreator<DerivedType>::create(const std::string& map_filename)
-    {
-        DerivedType* derived = static_cast<DerivedType*>(this);
-        return derived->createImpl(map_filename);
-    }
-
-}
+#include "PrecompiledHeader.hpp"
+#include "WorldCreator.hpp"

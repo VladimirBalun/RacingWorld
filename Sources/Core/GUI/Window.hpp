@@ -20,7 +20,7 @@
 
 typedef struct GLFWwindow GLFWwindow;
 
-namespace Core::GUI 
+namespace Core::GUI
 {
  
     class Window

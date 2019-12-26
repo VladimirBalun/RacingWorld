@@ -27,7 +27,7 @@
     #define g_sound_manager Core::Managers::SoundManager::getInstance()
 #endif // g_sound_manager
 
-namespace Core::Managers 
+namespace Core::Managers
 {
 
     class SoundManager : public IManager<SoundManager>, public Helpers::Holders::Singleton<SoundManager>

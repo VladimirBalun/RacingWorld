@@ -18,14 +18,12 @@
 
 #include <string>
 
-namespace objl 
+namespace objl
 {
-
     struct Material;
-
 }
 
-namespace Core::Resources 
+namespace Core::Resources
 {
 
     class Model;

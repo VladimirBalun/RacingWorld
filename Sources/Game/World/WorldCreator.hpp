@@ -15,28 +15,3 @@
  */
 
 #pragma once
-
-#include <string>
-
-#include "IManager.hpp"
-#include "../Helpers/Holders/Singleton.hpp"
-
-#ifndef g_player_manager
-    #define g_player_manager Core::Managers::PlayerManager::getInstance()
-#endif // g_player_manager
-
-namespace Core::Managers
-{
-
-    class PlayerManager : public IManager<PlayerManager>, public Helpers::Holders::Singleton<PlayerManager>
-    {
-    public:
-        void initialize();
-        std::string getEmail() const noexcept;
-        std::string getPassword() const noexcept;
-    private:
-        std::string m_email{};
-        std::string m_password{};
-    };
-
-}

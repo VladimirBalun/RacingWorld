@@ -16,8 +16,8 @@
 
 #pragma once
 
-namespace Core::Resources 
-{ 
+namespace Core::Resources
+{
 
     class Image;
 
@@ -29,9 +29,6 @@ namespace Core::Resources
         public:
             static bool load(Image& image, std::string_view image_path) noexcept;
         };
-
-        using PNGLoader = ImageLoader;
-        using JPGLoader = ImageLoader;
 
     }
 

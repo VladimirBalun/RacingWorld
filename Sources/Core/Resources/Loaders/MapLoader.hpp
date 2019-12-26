@@ -16,22 +16,31 @@
 
 #pragma once
 
-#include "IMapCreator.hpp"
+#include <string>
+
+
+#include "Aliases.hpp"
+#include "../Map.hpp"
 
 namespace Core::Resources
 {
+
     class Text;
-}
 
-namespace Game::Maps
-{
-
-    class CustomMapCreator : public IMapCreator<CustomMapCreator> 
+    namespace Loaders
     {
-    public:
-        Map createImpl(const std::string& map_id);
-    private:
-        Core::Resources::Text readMapData(const std::string& map_filename);
-    };
+
+        class MapLoader
+        {
+        public:
+            static bool load(Map& map, std::string_view map_file_path) noexcept;
+        private:
+            static void loadDimensions(Map& map, const bpt::ptree::value_type& xml_value);
+            static void loadObjectModelsIdentifiers(Map& map, const bpt::ptree& xml_models);
+            static Map::MapObject getMapObjectFromXML(const bpt::ptree::value_type& xml_value);
+            static std::vector<Map::MapObject> getSetMapObjectsFromXML(const bpt::ptree& xml_object);
+        };
+
+    }
 
 }
